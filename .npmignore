@@ -1,0 +1,10 @@
+docs
+.vscode
+lib/test
+es/test
+src
+.prettierrc
+.editorconfig
+Foyfile.ts
+tslint.json
+.travis.yml

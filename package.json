@@ -1,0 +1,64 @@
+{
+  "name": "foy",
+  "version": "0.0.0",
+  "description": "A simple, light-weight and modern task runner for general purpose.",
+  "main": "./lib/index.js",
+  "typings": "./lib/index",
+  "types": "./lib/index",
+  "sideEffects": false,
+  "scripts": {
+    "foy": "ts-node ./src/cli.ts",
+    "build": "npm run foy -- build",
+    "test": "npm run foy -- test",
+    "watch": "npm run foy -- watch",
+    "preversion": "npm run foy -- preversion",
+    "postversion": "npm run foy -- postversion"
+  },
+  "bin": {
+    "foy": "./lib/cli.js"
+  },
+  "pre-commit": [
+    "test"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zaaack/foy.git"
+  },
+  "keywords": [
+    "make",
+    "build",
+    "tools"
+  ],
+  "author": "Zack Young",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zaaack/foy/issues"
+  },
+  "homepage": "https://github.com/zaaack/foy#readme",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/ejs": "^2.6.1",
+    "@types/execa": "^0.9.0",
+    "@types/marked": "^0.5.0",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.10",
+    "axios": "^0.18.0",
+    "ejs": "^2.6.1",
+    "marked": "^0.5.2",
+    "mocha": "^5.2.0",
+    "ts-node": "^7.0.1",
+    "tsconfig-paths": "^3.4.0",
+    "tslint": "^5.11.0",
+    "tslint-config-standard": "^8.0.1",
+    "typedoc": "^0.13.0",
+    "typescript": "^3.2.1"
+  },
+  "dependencies": {
+    "cac": "^6.3.9",
+    "chalk": "^2.4.1",
+    "execa": "^1.0.0",
+    "ora": "^3.0.0",
+    "tslib": "^1.8.1"
+  },
+  "peerDependencies": {}
+}

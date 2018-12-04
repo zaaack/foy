@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title><%= name %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/cayman.css">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name"><%= name %></h1>
+      <h2 class="project-tagline"><%= desc %></h2>
+      <a href="<%= githubUrl %>" class="btn">View on GitHub</a>
+      <a href="<%= apiUrl %>" class="btn">Manual</a>
+    </section>
+
+    <section class="main-content">
+      <%- content %>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="<%= githubUrl %>"><%= name %></a> is maintained by <a href="<%= authorUrl %>"><%= author %></a>.</span>
+      </footer>
+    </section>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.13.1/build/styles/androidstudio.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.13.1/build/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.13.1/build/languages/typescript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.13.1/build/languages/shell.min.js"></script>
+
+    <script>
+
+  document.querySelectorAll('pre code').forEach(function(block) {
+    if (block.classList.contains('language-ts')){
+      block.className = ('typescript')
+    }
+    if (block.className === 'language-sh') {
+      block.className = 'bash'
+    }
+    hljs.highlightBlock(block);
+  });
+    </script>
+  </body>
+</html>

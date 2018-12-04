@@ -1,0 +1,9 @@
+Task: aa
+[debug] {}
+[info] {}
+[warn] {}
+[error] {}
+Task: bb
+[debug] { test: 123 }
+Task: cc
+[debug] { '--': [], c: 123 }

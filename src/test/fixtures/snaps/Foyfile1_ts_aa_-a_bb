@@ -1,0 +1,5 @@
+Task: aa
+[debug] { '--': [], a: 'bb' }
+[info] { '--': [], a: 'bb' }
+[warn] { '--': [], a: 'bb' }
+[error] { '--': [], a: 'bb' }

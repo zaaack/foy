@@ -1,0 +1,20 @@
+cli.ts
+
+Usage:
+  $ cli.ts <command> [options]
+
+Commands:
+  aa  AA
+  bb  
+  cc  CC
+  dd  
+
+For more info, run any command with the `--help` flag:
+  $ cli.ts aa --help
+  $ cli.ts bb --help
+  $ cli.ts cc --help
+  $ cli.ts dd --help
+
+Options:
+  --config, -c file  The Foyfile.js 
+  -h, --help         Display this message 
