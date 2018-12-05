@@ -4,8 +4,10 @@ import * as marked from 'marked'
 import * as ejs from 'ejs'
 task('build', async ctx => {
   await fs.rmrf('./lib')
-  await ctx.exec('tsc')
-  await ctx.exec('chmod +x ./lib/cli.js')
+  await ctx.exec([
+    'tsc',
+    'chmod +x ./lib/cli.js',
+  ])
 })
 
 task('doc', async ctx => {

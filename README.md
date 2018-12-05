@@ -1,6 +1,6 @@
 # Foy
 
-[![Build Status](https://travis-ci.org/zaaack/foy.svg?branch=master)](https://travis-ci.org/zaaack/foy) [![npm](https://img.shields.io/npm/v/foy.svg)](https://www.npmjs.com/package/foy) [![npm](https://img.shields.io/npm/dm/foy.svg)](https://www.npmjs.com/package/foy)
+[![Build Status](https://travis-ci.org/zaaack/foy.svg?branch=master)](https://travis-ci.org/zaaack/foy) [![npm](https://img.shields.io/npm/v/foy.svg)](https://www.npmjs.com/package/foy) [![npm](https://img.shields.io/npm/dm/foy.svg)](https://www.npmjs.com/package/foy) [![install size](https://packagephobia.now.sh/badge?p=foy)](https://packagephobia.now.sh/result?p=foy)
 
 A simple, light-weight and modern task runner for general purpose.
 
@@ -9,6 +9,10 @@ A simple, light-weight and modern task runner for general purpose.
 * Promise-based tasks and built-in utilities.
 * <a href="https://github.com/shelljs/shelljs" target="_blank">shelljs</a> like commands
 * Easy to learn, stop spending hours for build tools.
+* Small install size
+  * foy: [![install size](https://packagephobia.now.sh/badge?p=foy)](https://packagephobia.now.sh/result?p=foy)
+  * gulp: [![install size](https://packagephobia.now.sh/badge?p=gulp)](https://packagephobia.now.sh/result?p=gulp)
+  * grunt: [![install size](https://packagephobia.now.sh/badge?p=grunt)](https://packagephobia.now.sh/result?p=grunt)
 
 ![](https://github.com/zaaack/foy/blob/master/docs/capture.gif?raw=true)
 
@@ -52,7 +56,7 @@ import { task, desc, option, strict } from 'foy'
 
 desc('Build ts files with tsc')
 option('-w, --watch', 'watch file changes')
-strict() // This will throw an error if you passed some options thats doesn't defined via `option()`
+strict() // This will throw an error if you passed some options that doesn't defined via `option()`
 task('build', async ctx => {
   await ctx.exec(`tsc ${ctx.options.watch ? '-w' : ''}`)
 })

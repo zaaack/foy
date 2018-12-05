@@ -1,4 +1,5 @@
 docs
+docs-src
 .vscode
 lib/test
 es/test

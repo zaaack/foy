@@ -35,4 +35,5 @@ describe('task', function () {
   test(`Foyfile1.ts bb`)
   test(`Foyfile1.ts cc`)
   test(`Foyfile1.ts dd`)
+  test(`Foyfile1.ts ee`)
 })

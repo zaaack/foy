@@ -21,11 +21,17 @@ task('cc', [{...bb, options: { test: 123 } }, 'aa'], async ctx => {
   logger.debug(ctx.options)
 })
 
-
 task('dd', async ctx => {
   ctx.cd('./src')
   let p = await ctx.exec('pwd', {
     stdio: 'pipe'
   })
   logger.debug(p.stdout.trim().endsWith('src'))
+})
+
+task('ee', async ctx => {
+  await ctx.exec([
+    'echo aa',
+    'echo bb'
+  ])
 })

@@ -54,7 +54,18 @@ async function copy(
 export const fs = {
   ..._fs,
   access: util.promisify(_fs.access),
-  copyFile: util.promisify(_fs.copyFile),
+  copyFile: _fs.copyFile ? util.promisify(_fs.copyFile) : async (src: _fs.PathLike, dist: _fs.PathLike) => {
+    await fs.stat(src)
+    return new Promise(
+      (res, rej) => {
+        fs
+          .createReadStream(src, { highWaterMark: 512 * 1024 })
+          .pipe(fs.createWriteStream(dist))
+          .on('error', rej)
+          .on('close', res)
+      }
+    )
+  },
   open: util.promisify(_fs.open),
   rename: util.promisify(_fs.rename),
   truncate: util.promisify(_fs.truncate),
@@ -68,8 +79,6 @@ export const fs = {
   link: util.promisify(_fs.link),
   unlink: util.promisify(_fs.unlink),
   chmod: util.promisify(_fs.chmod),
-  lchmod: util.promisify(_fs.lchmod),
-  lchown: util.promisify(_fs.lchown),
   chown: util.promisify(_fs.chown),
   utimes: util.promisify(_fs.utimes),
   realpath: util.promisify(_fs.realpath),
