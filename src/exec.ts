@@ -11,7 +11,7 @@ export async function exec(commands: string | string[], options?: execa.Options)
   }
 
   let rets: execa.ExecaReturns[] = []
-  for(let cmd of commands) {
+  for (let cmd of commands) {
     rets.push(await execa.shell(cmd, options))
   }
   return rets
@@ -21,11 +21,12 @@ export const spawn = execa
 export class ShellContext {
   private _cwd = process.cwd()
   private _env = { ...process.env }
-  cwd() {
-    return this._cwd
+  cwd(cwd = this._cwd) {
+    return (this._cwd = cwd)
   }
   cd(path: string) {
     this._cwd = pathLib.resolve(this._cwd, path)
+    return this
   }
   exec(command: string, options?: execa.Options): execa.ExecaChildProcess
   exec(commands: string[], options?: execa.Options): Promise<execa.ExecaReturns[]>
@@ -53,9 +54,14 @@ export class ShellContext {
       throw err
     }) as any
   }
-  env(key: string, val: string) {
+  env(key: string): string
+  env(key: string, val: string): this
+  env(key: string, val?: string): string | this {
+    if (typeof val === 'undefined') {
+      return this._env[key]
+    }
     this._env[key] = val
-    return this._env
+    return this
   }
 }
 

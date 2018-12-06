@@ -54,18 +54,6 @@ async function copy(
 export const fs = {
   ..._fs,
   access: util.promisify(_fs.access),
-  copyFile: _fs.copyFile ? util.promisify(_fs.copyFile) : async (src: _fs.PathLike, dist: _fs.PathLike) => {
-    await fs.stat(src)
-    return new Promise(
-      (res, rej) => {
-        fs
-          .createReadStream(src, { highWaterMark: 512 * 1024 })
-          .pipe(fs.createWriteStream(dist))
-          .on('error', rej)
-          .on('close', res)
-      }
-    )
-  },
   open: util.promisify(_fs.open),
   rename: util.promisify(_fs.rename),
   truncate: util.promisify(_fs.truncate),
@@ -91,6 +79,18 @@ export const fs = {
   createWriteStream: _fs.createWriteStream,
   constants: _fs.constants,
   copy,
+  copyFile: _fs.copyFile ? util.promisify(_fs.copyFile) : async (src: _fs.PathLike, dist: _fs.PathLike) => {
+    await fs.stat(src)
+    return new Promise(
+      (res, rej) => {
+        fs
+          .createReadStream(src, { highWaterMark: 512 * 1024 })
+          .pipe(fs.createWriteStream(dist))
+          .on('error', rej)
+          .on('close', res)
+      }
+    )
+  },
   /**
    * Make directory with parents, like `mkdir -p`
    * @param dir
@@ -159,5 +159,21 @@ export const fs = {
       data = data.toString('utf8')
     }
     return JSON.parse(data)
+  },
+  async iter(dir: string, filter: (path: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void) {
+    let children = await fs.readdir(dir)
+    await Promise.all(
+      children.map(
+        async child => {
+          let path = pathLib.join(dir, child)
+          let stat = await fs.stat(path)
+          let skip = await filter(path, stat)
+          if (skip) return
+          if (stat.isDirectory()) {
+            await fs.iter(path, filter)
+          }
+        }
+      )
+    )
   }
 }
