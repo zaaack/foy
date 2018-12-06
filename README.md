@@ -12,7 +12,7 @@ A simple, light-weight and modern task runner for general purpose.
 * Small install size
   * foy: [![install size](https://packagephobia.now.sh/badge?p=foy)](https://packagephobia.now.sh/result?p=foy)
   * gulp: [![install size](https://packagephobia.now.sh/badge?p=gulp)](https://packagephobia.now.sh/result?p=gulp)
-  * grunt: [![install size](https://packagephobia.now.sh/badge?p=gulpgrunt)](https://packagephobia.now.sh/result?p=grunt)
+  * grunt: [![install size](https://packagephobia.now.sh/badge?p=grunt)](https://packagephobia.now.sh/result?p=grunt)
 
 ![](https://github.com/zaaack/foy/blob/master/docs/capture.gif?raw=true)
 
@@ -98,7 +98,7 @@ task('build', async ctx => {
 
 ```sh
 
-# Write Foyfile in ts, enabled via default
+# Write Foyfile in ts, enabled by default
 foy -r ts-node/register -c ./some/Foyfile.ts build
 
 # Write Foyfile in coffee

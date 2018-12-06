@@ -22,8 +22,7 @@
     "test"
   ],
   "files": [
-    "lib",
-    "yarn.lock"
+    "lib"
   ],
   "repository": {
     "type": "git",

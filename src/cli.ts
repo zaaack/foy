@@ -4,6 +4,7 @@ import * as cac from 'cac'
 import { fs } from './fs'
 import { TaskManager, getGlobalTaskManager } from './task'
 import * as pathLib from 'path'
+import { logger } from './logger';
 
 const defaultCli = cac()
 
@@ -57,9 +58,12 @@ function arrify(arr: any | any[]) {
 if (foyFiles.length) {
   foyFiles = foyFiles.map(c => pathLib.resolve(process.cwd(), c))
 } else {
-  foyFiles = [pathLib.join(process.cwd(), 'Foyfile.js')]
-  if (!fs.existsSync(foyFiles[0])) {
-    foyFiles = [pathLib.join(process.cwd(), 'Foyfile.ts')]
+  let cwdFoyfiles = fs.readdirSync(process.cwd()).filter(f => f.startsWith('Foyfile.'))
+  if (cwdFoyfiles.length) {
+    if (cwdFoyfiles.length > 1) {
+      logger.warn(`Find more than 1 Foyfile in current directory, only first one will be used: \n${cwdFoyfiles.join('\n')}`)
+    }
+    foyFiles = [pathLib.join(process.cwd(), cwdFoyfiles[0])]
   }
 }
 
