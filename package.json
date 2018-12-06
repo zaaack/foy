@@ -10,6 +10,7 @@
     "foy": "ts-node ./src/cli.ts",
     "build": "npm run foy -- build",
     "test": "npm run foy -- test",
+    "test:update-snap": "npm run foy -- test:update-snap",
     "watch": "npm run foy -- watch",
     "preversion": "npm run foy -- preversion",
     "postversion": "npm run foy -- postversion"
@@ -19,6 +20,10 @@
   },
   "pre-commit": [
     "test"
+  ],
+  "files": [
+    "lib",
+    "yarn.lock"
   ],
   "repository": {
     "type": "git",

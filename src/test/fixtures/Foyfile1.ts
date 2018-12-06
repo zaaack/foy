@@ -4,7 +4,8 @@ import { strict, setGlobalOptions } from '../../task';
 setGlobalOptions({ strict: true, loading: false })
 
 desc('AA')
-option('-a <val>', 'aa', {  default: 12 })
+option('-a <val>', 'aa', { default: 12 })
+strict()
 task<{ a: boolean }>('aa', async ctx => {
   logger.debug(ctx.options)
   logger.info(ctx.options)
@@ -35,3 +36,32 @@ task('ee', async ctx => {
     'echo bb'
   ])
 })
+
+task('ff', [
+  { name: 'aa', options: { aa: 1 } },
+  { name: 'aa', options: { aa: 2 } },
+])
+
+const noop = f => f
+task('notForce', [
+  { name: 'aa', options: noop, force: false },
+  { name: 'aa', options: noop, force: false },
+])
+task('force', [
+  { name: 'aa', options: noop, force: true },
+  { name: 'aa', options: noop, force: true },
+])
+
+task<{ t: number }>('wait', async ctx => {
+  await new Promise(res => setTimeout(res, ctx.options.t))
+  console.log('wait', ctx.options.t)
+})
+task('sync', [
+  { name: 'wait', options: { t: 10 } },
+  { name: 'wait', options: { t: 1 } },
+])
+
+task('async', [
+  { name: 'wait', async: true, options: { t: 10 } },
+  { name: 'wait', async: true, options: { t: 1 } },
+])

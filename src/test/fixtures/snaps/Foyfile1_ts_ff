@@ -1,0 +1,11 @@
+Task: aa
+[debug] { aa: 1 }
+[info] { aa: 1 }
+[warn] { aa: 1 }
+[error] { aa: 1 }
+Task: aa
+[debug] { aa: 2 }
+[info] { aa: 2 }
+[warn] { aa: 2 }
+[error] { aa: 2 }
+Task: ff

@@ -1,0 +1,5 @@
+Task: wait
+wait 10
+Task: wait
+wait 1
+Task: sync

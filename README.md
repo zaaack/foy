@@ -12,7 +12,7 @@ A simple, light-weight and modern task runner for general purpose.
 * Small install size
   * foy: [![install size](https://packagephobia.now.sh/badge?p=foy)](https://packagephobia.now.sh/result?p=foy)
   * gulp: [![install size](https://packagephobia.now.sh/badge?p=gulp)](https://packagephobia.now.sh/result?p=gulp)
-  * grunt: [![install size](https://packagephobia.now.sh/badge?p=grunt)](https://packagephobia.now.sh/result?p=grunt)
+  * grunt: [![install size](https://packagephobia.now.sh/badge?p=gulpgrunt)](https://packagephobia.now.sh/result?p=grunt)
 
 ![](https://github.com/zaaack/foy/blob/master/docs/capture.gif?raw=true)
 
@@ -66,7 +66,7 @@ task('build', async ctx => {
 foy build -w
 ```
 
-## Using built-in promised-based API
+## Using with built-in promised-based API
 
 ```ts
 import { fs, task } from 'foy'
@@ -92,6 +92,18 @@ task('build', async ctx => {
   let res = await axios.get('https://your.server/data.json')
   console.log(res.data)
 })
+```
+
+## Using with custom compiler
+
+```sh
+
+# Write Foyfile in ts, enabled via default
+foy -r ts-node/register -c ./some/Foyfile.ts build
+
+# Write Foyfile in coffee
+foy -r coffeescript/register -c ./some/Foyfile.coffee build
+
 ```
 
 ## API documentation

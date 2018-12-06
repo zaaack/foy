@@ -4,7 +4,5 @@ Usage:
   $ cli.ts aa
 
 Options:
-  -a <val>           aa (default: 12)
-  -h, --help         helps 
-  --config, -c file  The Foyfile.js 
-  -h, --help         Display this message 
+  -a <val>                  aa (default: 12)
+  -h, --help                Display this message 

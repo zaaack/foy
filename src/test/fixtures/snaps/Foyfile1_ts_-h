@@ -4,11 +4,17 @@ Usage:
   $ cli.ts <command> [options]
 
 Commands:
-  aa  AA
-  bb  
-  cc  CC
-  dd  
-  ee  
+  aa        AA
+  bb        
+  cc        CC
+  dd        
+  ee        
+  ff        
+  notForce  
+  force     
+  wait      
+  sync      
+  async     
 
 For more info, run any command with the `--help` flag:
   $ cli.ts aa --help
@@ -16,7 +22,14 @@ For more info, run any command with the `--help` flag:
   $ cli.ts cc --help
   $ cli.ts dd --help
   $ cli.ts ee --help
+  $ cli.ts ff --help
+  $ cli.ts notForce --help
+  $ cli.ts force --help
+  $ cli.ts wait --help
+  $ cli.ts sync --help
+  $ cli.ts async --help
 
 Options:
-  --config, -c file  The Foyfile.js 
-  -h, --help         Display this message 
+  --config, -c <...files>   The Foyfiles 
+  --require, -r <...names>  Require the given modules 
+  -h, --help                Display this message 

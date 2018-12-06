@@ -2,6 +2,8 @@ const ora = require('ora')
 import chalk from 'chalk'
 import { OptionConfig } from 'cac/types/Option'
 import { ShellContext } from './exec'
+import { hashAny } from './utils';
+
 export interface GlobalOptions {
   /**
    * @default true
@@ -22,29 +24,29 @@ export interface GlobalOptions {
 export type OptionDef = [string, string, OptionConfig | undefined]
 
 export type TaskFn<O> = (ctx: TaskContext<O>) => void | Promise<void>
-export type Dependency = Task | string
-export interface Task<O = any> {
+export interface TaskDep<O = any> {
   name: string
-  /** @internal */
-  optionDefs?: OptionDef[]
-  desc?: string
-  dependencies?: Task[]
-  fn?: (ctx: TaskContext<O>) => (void | Promise<void>)
   /**
    * Dependences are executed serially by default.
-   * If order doesn't matters and you want better performance via parallel, you can mark it as asynchronized.
+   * If order doesn't matter and you want better performance via parallel, you can mark it as asynchronized.
    */
   async?: boolean
   /**
    * Whether rerun it when it occured in dependences tree more then once.
    */
   force?: boolean
-  /** @internal */
-  did?: boolean
   /**
    * Parsed options
    */
-  options: O
+  options?: O
+}
+export type Dependency = TaskDep | string
+export interface Task<O = any> extends TaskDep<O> {
+  /** @internal */
+  optionDefs?: OptionDef[]
+  dependencies?: TaskDep[]
+  desc?: string
+  fn?: (ctx: TaskContext<O>) => (void | Promise<void>)
   /**
    * Raw arg strings
    */
@@ -54,6 +56,7 @@ export interface Task<O = any> {
    * @default false
    */
   strict?: boolean
+  options: O
 }
 
 export class TaskContext<O = any> extends ShellContext {
@@ -70,6 +73,7 @@ export class TaskContext<O = any> extends ShellContext {
 
 export class TaskManager {
   private _tasks: {[k: string]: Task} = {}
+  private _didSet: Set<string> = new Set()
   public globalOptions: GlobalOptions = {
     logLevel: 'debug',
     loading: true,
@@ -85,20 +89,32 @@ export class TaskManager {
     this._tasks[task.name] = task
     return task
   }
-  async run(name = 'default', {
+  async run(name: string | Task = 'default', {
     options = null,
     args = [] as string[]
-  }) {
+  } = {}) {
     this._tasks.all = this._tasks.all || task('all', Object.keys(this._tasks))
     this._tasks.default = this._tasks.default || this._tasks.all
-    const t = this._tasks[name]
+    const t = typeof name === 'string'
+      ? this._tasks[name]
+      : name
     if (!t) {
       throw new TypeError(`Cannot find task with name [${name}]`)
     }
     if (t.dependencies) {
       let asyncDeps: Task[] = []
       let syncDeps: Task[] = []
-      t.dependencies.forEach(t => {
+      t.dependencies.forEach(taskDep => {
+        let fullTask = this._tasks[taskDep.name]
+        const t = {
+          ...fullTask,
+          async: taskDep.async,
+          force: taskDep.force,
+          options: {
+            ...fullTask.options,
+            ...taskDep.options,
+          }
+        }
         if (t.async) {
           asyncDeps.push(t)
         } else {
@@ -108,22 +124,26 @@ export class TaskManager {
       await Promise.all([
         (async () => {
           for (const t of syncDeps) {
-            await this.run(t.name, { options: t.options })
+            await this.run(t)
           }
         })(),
-        Promise.all(asyncDeps.map(t => this.run(t.name, { options: t.options }))),
+        Promise.all(asyncDeps.map(t => this.run(t))),
       ])
     }
     let ld
     let text = `${t.name}`
-    t.options = options
+    t.options = {
+      ...t.options,
+      ...options,
+    }
     t.args = args
     let ctx = new TaskContext(t, this.globalOptions)
-    if (t.did && !t.force) return
+    let taskHash = hashAny(t)
+    if (this._didSet.has(taskHash) && !t.force) return
     if (!ctx.globalOptions.loading) {
       console.log(chalk.yellow('Task: ') + t.name)
       let ret = t.fn && await t.fn(ctx)
-      t.did = true
+      this._didSet.add(taskHash)
       return ret
     }
     ld = ora({
@@ -132,7 +152,7 @@ export class TaskManager {
     try {
       let ret = await (t.fn && t.fn(ctx))
       ld.succeed(text)
-      t.did = true
+      this._didSet.add(taskHash)
       return ret
     } catch (error) {
       ld.fail(chalk.redBright(text))
@@ -214,9 +234,8 @@ export function task<O>(
     strict: TaskOptions.last.strict,
     dependencies: (dependencies || []).map(d => {
       if (typeof d === 'string') {
-        return { name: d, options: {} } as Task
+        return { name: d } as Task
       }
-      d.options = d.options || {}
       return d
     }),
     fn,
