@@ -1,6 +1,6 @@
-import * as assert from 'assert';
-import * as os from 'os';
-import * as pathLib from 'path';
+import * as assert from 'assert'
+import * as os from 'os'
+import * as pathLib from 'path'
 
 import { fs } from '../fs'
 

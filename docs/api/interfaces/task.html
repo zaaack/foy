@@ -76,7 +76,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Task</span>
+						<a href="taskdep.html" class="tsd-signature-type">TaskDep</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol">&gt;</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">Task</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -88,15 +93,14 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="task.html#args" class="tsd-kind-icon">args</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="task.html#async" class="tsd-kind-icon">async</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="task.html#async" class="tsd-kind-icon">async</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="task.html#dependencies" class="tsd-kind-icon">dependencies</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="task.html#desc" class="tsd-kind-icon">desc</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="task.html#did" class="tsd-kind-icon">did</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="task.html#fn" class="tsd-kind-icon">fn</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="task.html#force" class="tsd-kind-icon">force</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="task.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="task.html#force" class="tsd-kind-icon">force</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="task.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="task.html#optiondefs" class="tsd-kind-icon">option<wbr>Defs</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="task.html#options" class="tsd-kind-icon">options</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="task.html#options" class="tsd-kind-icon">options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="task.html#strict" class="tsd-kind-icon">strict</a></li>
 							</ul>
 						</section>
@@ -111,7 +115,7 @@
 					<div class="tsd-signature tsd-kind-icon">args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L51">task.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L53">task.ts:53</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -120,29 +124,30 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="async" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> async</h3>
 					<div class="tsd-signature tsd-kind-icon">async<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="taskdep.html">TaskDep</a>.<a href="taskdep.html#async">async</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L37">task.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L33">task.ts:33</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Dependences are executed serially by default.
-							If order doesn&#39;t matters and you want better performance via parallel, you can mark it as asynchronized.</p>
+							If order doesn&#39;t matter and you want better performance via parallel, you can mark it as asynchronized.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="dependencies" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> dependencies</h3>
-					<div class="tsd-signature tsd-kind-icon">dependencies<span class="tsd-signature-symbol">:</span> <a href="task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">dependencies<span class="tsd-signature-symbol">:</span> <a href="taskdep.html" class="tsd-signature-type">TaskDep</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L31">task.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L47">task.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -152,25 +157,9 @@
 					<div class="tsd-signature tsd-kind-icon">desc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L30">task.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L48">task.ts:48</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="did" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> did</h3>
-					<div class="tsd-signature tsd-kind-icon">did<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L43">task.ts:43</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>internal</dt>
-							<dd></dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="fn" class="tsd-anchor"></a>
@@ -178,7 +167,7 @@
 					<div class="tsd-signature tsd-kind-icon">fn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L32">task.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L49">task.ts:49</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -206,13 +195,14 @@
 						</ul>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="force" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> force</h3>
 					<div class="tsd-signature tsd-kind-icon">force<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="taskdep.html">TaskDep</a>.<a href="taskdep.html#force">force</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L41">task.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L37">task.ts:37</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -221,13 +211,14 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="name" class="tsd-anchor"></a>
 					<h3>name</h3>
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="taskdep.html">TaskDep</a>.<a href="taskdep.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L27">task.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L28">task.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -237,7 +228,7 @@
 					<div class="tsd-signature tsd-kind-icon">option<wbr>Defs<span class="tsd-signature-symbol">:</span> <a href="../globals.html#optiondef" class="tsd-signature-type">OptionDef</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L29">task.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L46">task.ts:46</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -247,20 +238,16 @@
 						</dl>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
 					<a name="options" class="tsd-anchor"></a>
 					<h3>options</h3>
 					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">O</span></div>
 					<aside class="tsd-sources">
+						<p>Overrides <a href="taskdep.html">TaskDep</a>.<a href="taskdep.html#options">options</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L47">task.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L59">task.ts:59</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Parsed options</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="strict" class="tsd-anchor"></a>
@@ -268,7 +255,7 @@
 					<div class="tsd-signature tsd-kind-icon">strict<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L56">task.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L58">task.ts:58</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -314,7 +301,7 @@
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="task.html#args" class="tsd-kind-icon">args</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="task.html#async" class="tsd-kind-icon">async</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -324,21 +311,18 @@
 								<a href="task.html#desc" class="tsd-kind-icon">desc</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="task.html#did" class="tsd-kind-icon">did</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="task.html#fn" class="tsd-kind-icon">fn</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="task.html#force" class="tsd-kind-icon">force</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="task.html#name" class="tsd-kind-icon">name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="task.html#optiondefs" class="tsd-kind-icon">option<wbr>Defs</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
 								<a href="task.html#options" class="tsd-kind-icon">options</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -348,6 +332,9 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="taskdep.html" class="tsd-kind-icon">Task<wbr>Dep</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="../globals.html#dependency" class="tsd-kind-icon">Dependency</a>
 					</li>
@@ -358,16 +345,22 @@
 						<a href="../globals.html#taskfn" class="tsd-kind-icon">Task<wbr>Fn</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
-						<a href="../globals.html#exec" class="tsd-kind-icon">exec</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="../globals.html#spawn" class="tsd-kind-icon">spawn</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="../globals.html#desc" class="tsd-kind-icon">desc</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="../globals.html#exec" class="tsd-kind-icon">exec</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="../globals.html#getglobaltaskmanager" class="tsd-kind-icon">get<wbr>Global<wbr>Task<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="../globals.html#gettype" class="tsd-kind-icon">get<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="../globals.html#hashany" class="tsd-kind-icon">hash<wbr>Any</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="../globals.html#option" class="tsd-kind-icon">option</a>

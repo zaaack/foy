@@ -19,7 +19,6 @@
     "foy": "./lib/cli.js"
   },
   "pre-commit": [
-    "test"
   ],
   "files": [
     "lib"
@@ -31,7 +30,8 @@
   "keywords": [
     "make",
     "build",
-    "tools"
+    "tools",
+    "cli"
   ],
   "author": "Zack Young",
   "license": "MIT",

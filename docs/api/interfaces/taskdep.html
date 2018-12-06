@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TaskManager | foy</title>
+	<title>TaskDep | foy</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,21 +54,34 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="taskmanager.html">TaskManager</a>
+					<a href="taskdep.html">TaskDep</a>
 				</li>
 			</ul>
-			<h1>Class TaskManager</h1>
+			<h1>Interface TaskDep&lt;O&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>O</h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">TaskManager</span>
+						<span class="target">TaskDep</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<a href="task.html" class="tsd-signature-type">Task</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -77,124 +90,74 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-external">
-							<h3>Methods</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="taskmanager.html#addtask" class="tsd-kind-icon">add<wbr>Task</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="taskmanager.html#gettasks" class="tsd-kind-icon">get<wbr>Tasks</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="taskmanager.html#run" class="tsd-kind-icon">run</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section tsd-is-external">
-							<h3>Object literals</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-external"><a href="taskmanager.html#globaloptions" class="tsd-kind-icon">global<wbr>Options</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="taskdep.html#async" class="tsd-kind-icon">async</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="taskdep.html#force" class="tsd-kind-icon">force</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="taskdep.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="taskdep.html#options" class="tsd-kind-icon">options</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="addtask" class="tsd-anchor"></a>
-					<h3>add<wbr>Task</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Task<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../interfaces/task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L85">task.ts:85</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>task: <a href="../interfaces/task.html" class="tsd-signature-type">Task</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="gettasks" class="tsd-anchor"></a>
-					<h3>get<wbr>Tasks</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Tasks<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L81">task.ts:81</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="run" class="tsd-anchor"></a>
-					<h3>run</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/task.html" class="tsd-signature-type">Task</a>, __namedParameters<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L92">task.ts:92</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol"> =&nbsp;&quot;default&quot;</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> __namedParameters: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
-									<ul class="tsd-parameters">
-									</ul>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-external">
-				<h2>Object literals</h2>
-				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-class tsd-is-external">
-					<a name="globaloptions" class="tsd-anchor"></a>
-					<h3>global<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">global<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="async" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> async</h3>
+					<div class="tsd-signature tsd-kind-icon">async<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L77">task.ts:77</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L33">task.ts:33</a></li>
 						</ul>
 					</aside>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-external">
-						<a name="globaloptions.loading" class="tsd-anchor"></a>
-						<h3>loading</h3>
-						<div class="tsd-signature tsd-kind-icon">loading<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L79">task.ts:79</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-external">
-						<a name="globaloptions.loglevel" class="tsd-anchor"></a>
-						<h3>log<wbr>Level</h3>
-						<div class="tsd-signature tsd-kind-icon">log<wbr>Level<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"debug"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;debug&quot;</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L78">task.ts:78</a></li>
-							</ul>
-						</aside>
-					</section>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Dependences are executed serially by default.
+							If order doesn&#39;t matter and you want better performance via parallel, you can mark it as asynchronized.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="force" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> force</h3>
+					<div class="tsd-signature tsd-kind-icon">force<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L37">task.ts:37</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Whether rerun it when it occured in dependences tree more then once.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L28">task.ts:28</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="options" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> options</h3>
+					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">O</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L41">task.ts:41</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Parsed options</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -209,41 +172,41 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-is-external">
-						<a href="shellcontext.html" class="tsd-kind-icon">Shell<wbr>Context</a>
+						<a href="../classes/shellcontext.html" class="tsd-kind-icon">Shell<wbr>Context</a>
 					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter tsd-is-external">
-						<a href="taskcontext.html" class="tsd-kind-icon">Task<wbr>Context</a>
+						<a href="../classes/taskcontext.html" class="tsd-kind-icon">Task<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-external">
+						<a href="../classes/taskmanager.html" class="tsd-kind-icon">Task<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="globaloptions.html" class="tsd-kind-icon">Global<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="task.html" class="tsd-kind-icon">Task</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-is-external">
-						<a href="taskmanager.html" class="tsd-kind-icon">Task<wbr>Manager</a>
+					<li class="current tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="taskdep.html" class="tsd-kind-icon">Task<wbr>Dep</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="taskmanager.html#addtask" class="tsd-kind-icon">add<wbr>Task</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="taskdep.html#async" class="tsd-kind-icon">async</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="taskmanager.html#gettasks" class="tsd-kind-icon">get<wbr>Tasks</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="taskdep.html#force" class="tsd-kind-icon">force</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="taskmanager.html#run" class="tsd-kind-icon">run</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="taskdep.html#name" class="tsd-kind-icon">name</a>
 							</li>
-							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-external">
-								<a href="taskmanager.html#globaloptions" class="tsd-kind-icon">global<wbr>Options</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="taskdep.html#options" class="tsd-kind-icon">options</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/globaloptions.html" class="tsd-kind-icon">Global<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="../interfaces/task.html" class="tsd-kind-icon">Task</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="../interfaces/taskdep.html" class="tsd-kind-icon">Task<wbr>Dep</a>
-					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="../globals.html#dependency" class="tsd-kind-icon">Dependency</a>
 					</li>

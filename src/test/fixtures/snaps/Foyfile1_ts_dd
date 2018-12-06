@@ -1,2 +1,3 @@
 Task: dd
+[debug] p.stdout.trim() === ctx.cwd() true
 [debug] true

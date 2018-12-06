@@ -3,7 +3,7 @@ import { fs } from '../fs'
 import { exec } from '../exec'
 import * as path from 'path'
 import * as assert from 'assert'
-import { hashAny } from '../utils';
+import { hashAny } from '../utils'
 
 describe('utils', function () {
   it('hashAny', () => {
@@ -11,7 +11,7 @@ describe('utils', function () {
     assert.equal(hashAny(1), '1')
     assert.equal(hashAny(null), 'null')
     assert.equal(hashAny(undefined), 'undefined')
-    let fn = () => {}
+    let fn = f => f
     assert.equal(hashAny(fn), hashAny(fn))
     assert.equal(hashAny(fn), '⭕️1')
     assert.notEqual(hashAny(fn), hashAny(f => f))

@@ -78,6 +78,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-interface tsd-is-external"><a href="interfaces/globaloptions.html" class="tsd-kind-icon">Global<wbr>Options</a></li>
 								<li class="tsd-kind-interface tsd-has-type-parameter tsd-is-external"><a href="interfaces/task.html" class="tsd-kind-icon">Task</a></li>
+								<li class="tsd-kind-interface tsd-has-type-parameter tsd-is-external"><a href="interfaces/taskdep.html" class="tsd-kind-icon">Task<wbr>Dep</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external">
@@ -91,7 +92,6 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-is-external"><a href="globals.html#exec" class="tsd-kind-icon">exec</a></li>
 								<li class="tsd-kind-variable tsd-is-external"><a href="globals.html#spawn" class="tsd-kind-icon">spawn</a></li>
 							</ul>
 						</section>
@@ -99,7 +99,10 @@
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#desc" class="tsd-kind-icon">desc</a></li>
+								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#exec" class="tsd-kind-icon">exec</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#getglobaltaskmanager" class="tsd-kind-icon">get<wbr>Global<wbr>Task<wbr>Manager</a></li>
+								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#gettype" class="tsd-kind-icon">get<wbr>Type</a></li>
+								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#hashany" class="tsd-kind-icon">hash<wbr>Any</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#option" class="tsd-kind-icon">option</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#setglobaloptions" class="tsd-kind-icon">set<wbr>Global<wbr>Options</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#setoption" class="tsd-kind-icon">set<wbr>Option</a></li>
@@ -123,10 +126,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-is-external">
 					<a name="dependency" class="tsd-anchor"></a>
 					<h3>Dependency</h3>
-					<div class="tsd-signature tsd-kind-icon">Dependency<span class="tsd-signature-symbol">:</span> <a href="interfaces/task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<div class="tsd-signature tsd-kind-icon">Dependency<span class="tsd-signature-symbol">:</span> <a href="interfaces/taskdep.html" class="tsd-signature-type">TaskDep</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L25">task.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L43">task.ts:43</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -136,7 +139,7 @@
 					<div class="tsd-signature tsd-kind-icon">Option<wbr>Def<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">OptionConfig</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L22">task.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L24">task.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -146,7 +149,7 @@
 					<div class="tsd-signature tsd-kind-icon">Task<wbr>Fn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L24">task.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L26">task.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -178,22 +181,12 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-external">
-					<a name="exec" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> exec</h3>
-					<div class="tsd-signature tsd-kind-icon">exec<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">shell</span><span class="tsd-signature-symbol"> =&nbsp;execa.shell</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/exec.ts#L5">exec.ts:5</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-external">
 					<a name="spawn" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> spawn</h3>
 					<div class="tsd-signature tsd-kind-icon">spawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ExecaStatic</span><span class="tsd-signature-symbol"> =&nbsp;execa</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/exec.ts#L6">exec.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/exec.ts#L19">exec.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -210,7 +203,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L169">task.ts:169</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L189">task.ts:189</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -224,6 +217,50 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-external">
+					<a name="exec" class="tsd-anchor"></a>
+					<h3>exec</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">exec<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">execa.ExecaChildProcess</span></li>
+						<li class="tsd-signature tsd-kind-icon">exec<span class="tsd-signature-symbol">(</span>commands<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ExecaReturns</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/exec.ts#L6">exec.ts:6</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>command: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Options</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">execa.ExecaChildProcess</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/exec.ts#L7">exec.ts:7</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>commands: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Options</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ExecaReturns</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-external">
 					<a name="getglobaltaskmanager" class="tsd-anchor"></a>
 					<h3>get<wbr>Global<wbr>Task<wbr>Manager</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-is-external">
@@ -233,10 +270,68 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L146">task.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L166">task.ts:166</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="classes/taskmanager.html" class="tsd-signature-type">TaskManager</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-external">
+					<a name="gettype" class="tsd-anchor"></a>
+					<h3>get<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Type<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/utils.ts#L4">utils.ts:4</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>internal</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>key: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-external">
+					<a name="hashany" class="tsd-anchor"></a>
+					<h3>hash<wbr>Any</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">hash<wbr>Any<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/utils.ts#L9">utils.ts:9</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>internal</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>key: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -250,7 +345,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L172">task.ts:172</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L192">task.ts:192</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -279,7 +374,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L154">task.ts:154</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L174">task.ts:174</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -309,7 +404,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L182">task.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L202">task.ts:202</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -341,7 +436,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/exec.ts#L47">exec.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/exec.ts#L68">exec.ts:68</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -382,7 +477,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L175">task.ts:175</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L195">task.ts:195</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -400,7 +495,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L185">task.ts:185</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L205">task.ts:205</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -432,7 +527,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/task.ts#L189">task.ts:189</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/task.ts#L209">task.ts:209</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -475,7 +570,7 @@
 					<div class="tsd-signature tsd-kind-icon">fs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L54">fs.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L54">fs.ts:54</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-external">
@@ -484,7 +579,7 @@
 						<div class="tsd-signature tsd-kind-icon">access<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.access)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L56">fs.ts:56</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L56">fs.ts:56</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -494,7 +589,7 @@
 						<div class="tsd-signature tsd-kind-icon">append<wbr>File<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.appendFile)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L78">fs.ts:78</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L75">fs.ts:75</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -504,7 +599,7 @@
 						<div class="tsd-signature tsd-kind-icon">chmod<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.chmod)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L70">fs.ts:70</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L69">fs.ts:69</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -514,7 +609,7 @@
 						<div class="tsd-signature tsd-kind-icon">chown<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.chown)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L73">fs.ts:73</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L70">fs.ts:70</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -524,7 +619,7 @@
 						<div class="tsd-signature tsd-kind-icon">constants<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">constants</span><span class="tsd-signature-symbol"> =&nbsp;_fs.constants</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L83">fs.ts:83</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L80">fs.ts:80</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -534,17 +629,17 @@
 						<div class="tsd-signature tsd-kind-icon">copy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">copy</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L84">fs.ts:84</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L81">fs.ts:81</a></li>
 							</ul>
 						</aside>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-external">
 						<a name="fs.copyfile" class="tsd-anchor"></a>
 						<h3>copy<wbr>File</h3>
-						<div class="tsd-signature tsd-kind-icon">copy<wbr>File<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.copyFile)</span></div>
+						<div class="tsd-signature tsd-kind-icon">copy<wbr>File<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;_fs.copyFile ? util.promisify(_fs.copyFile) : async (src: _fs.PathLike, dist: _fs.PathLike) &#x3D;&gt; {await fs.stat(src)return new Promise((res, rej) &#x3D;&gt; {fs.createReadStream(src, { highWaterMark: 512 * 1024 }).pipe(fs.createWriteStream(dist)).on(&#x27;error&#x27;, rej).on(&#x27;close&#x27;, res)})}</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L57">fs.ts:57</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L82">fs.ts:82</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -554,7 +649,7 @@
 						<div class="tsd-signature tsd-kind-icon">create<wbr>Read<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">createReadStream</span><span class="tsd-signature-symbol"> =&nbsp;_fs.createReadStream</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L81">fs.ts:81</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L78">fs.ts:78</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -564,7 +659,7 @@
 						<div class="tsd-signature tsd-kind-icon">create<wbr>Write<wbr>Stream<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">createWriteStream</span><span class="tsd-signature-symbol"> =&nbsp;_fs.createWriteStream</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L82">fs.ts:82</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L79">fs.ts:79</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -574,27 +669,7 @@
 						<div class="tsd-signature tsd-kind-icon">exists<wbr>Sync<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">existsSync</span><span class="tsd-signature-symbol"> =&nbsp;_fs.existsSync</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L80">fs.ts:80</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-external">
-						<a name="fs.lchmod" class="tsd-anchor"></a>
-						<h3>lchmod</h3>
-						<div class="tsd-signature tsd-kind-icon">lchmod<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.lchmod)</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L71">fs.ts:71</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-external">
-						<a name="fs.lchown" class="tsd-anchor"></a>
-						<h3>lchown</h3>
-						<div class="tsd-signature tsd-kind-icon">lchown<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.lchown)</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L72">fs.ts:72</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L77">fs.ts:77</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -604,7 +679,7 @@
 						<div class="tsd-signature tsd-kind-icon">link<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.link)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L68">fs.ts:68</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L67">fs.ts:67</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-type-declaration">
@@ -638,7 +713,7 @@
 						<div class="tsd-signature tsd-kind-icon">lstat<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.lstat)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L66">fs.ts:66</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L65">fs.ts:65</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -648,7 +723,7 @@
 						<div class="tsd-signature tsd-kind-icon">mkdir<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.mkdir)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L62">fs.ts:62</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L61">fs.ts:61</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -658,7 +733,7 @@
 						<div class="tsd-signature tsd-kind-icon">mkdtemp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.mkdtemp)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L76">fs.ts:76</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L73">fs.ts:73</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -668,7 +743,7 @@
 						<div class="tsd-signature tsd-kind-icon">open<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.open)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L58">fs.ts:58</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L57">fs.ts:57</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -678,7 +753,7 @@
 						<div class="tsd-signature tsd-kind-icon">read<wbr>File<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.readFile)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L79">fs.ts:79</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L76">fs.ts:76</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -688,7 +763,7 @@
 						<div class="tsd-signature tsd-kind-icon">readdir<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.readdir)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L63">fs.ts:63</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L62">fs.ts:62</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -698,7 +773,7 @@
 						<div class="tsd-signature tsd-kind-icon">readlink<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.readlink)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L64">fs.ts:64</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L63">fs.ts:63</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -708,7 +783,7 @@
 						<div class="tsd-signature tsd-kind-icon">realpath<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.realpath)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L75">fs.ts:75</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L72">fs.ts:72</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -718,7 +793,7 @@
 						<div class="tsd-signature tsd-kind-icon">rename<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.rename)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L59">fs.ts:59</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L58">fs.ts:58</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -728,7 +803,7 @@
 						<div class="tsd-signature tsd-kind-icon">rmdir<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.rmdir)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L61">fs.ts:61</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L60">fs.ts:60</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -738,7 +813,7 @@
 						<div class="tsd-signature tsd-kind-icon">stat<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.stat)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L67">fs.ts:67</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L66">fs.ts:66</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -748,7 +823,7 @@
 						<div class="tsd-signature tsd-kind-icon">symlink<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.symlink)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L65">fs.ts:65</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L64">fs.ts:64</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -758,7 +833,7 @@
 						<div class="tsd-signature tsd-kind-icon">truncate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.truncate)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L60">fs.ts:60</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L59">fs.ts:59</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -768,7 +843,7 @@
 						<div class="tsd-signature tsd-kind-icon">unlink<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.unlink)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L69">fs.ts:69</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L68">fs.ts:68</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -778,7 +853,7 @@
 						<div class="tsd-signature tsd-kind-icon">utimes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.utimes)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L74">fs.ts:74</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L71">fs.ts:71</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -788,9 +863,61 @@
 						<div class="tsd-signature tsd-kind-icon">write<wbr>File<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">__promisify__</span><span class="tsd-signature-symbol"> =&nbsp;util.promisify(_fs.writeFile)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L77">fs.ts:77</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L74">fs.ts:74</a></li>
 							</ul>
 						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal tsd-is-external">
+						<a name="fs.iter" class="tsd-anchor"></a>
+						<h3>iter</h3>
+						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-object-literal tsd-is-external">
+							<li class="tsd-signature tsd-kind-icon">iter<span class="tsd-signature-symbol">(</span>dir<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, filter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						</ul>
+						<ul class="tsd-descriptions">
+							<li class="tsd-description">
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L163">fs.ts:163</a></li>
+									</ul>
+								</aside>
+								<h4 class="tsd-parameters-title">Parameters</h4>
+								<ul class="tsd-parameters">
+									<li>
+										<h5>dir: <span class="tsd-signature-type">string</span></h5>
+									</li>
+									<li>
+										<h5>filter: <span class="tsd-signature-type">function</span></h5>
+										<ul class="tsd-parameters">
+											<li class="tsd-parameter-siganture">
+												<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+													<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, stat<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Stats</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></li>
+												</ul>
+												<ul class="tsd-descriptions">
+													<li class="tsd-description">
+														<h4 class="tsd-parameters-title">Parameters</h4>
+														<ul class="tsd-parameters">
+															<li>
+																<h5>path: <span class="tsd-signature-type">string</span></h5>
+															</li>
+															<li>
+																<h5>stat: <span class="tsd-signature-type">Stats</span></h5>
+															</li>
+														</ul>
+														<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span>
+															<span class="tsd-signature-symbol"> | </span>
+															<span class="tsd-signature-type">boolean</span>
+															<span class="tsd-signature-symbol"> | </span>
+															<span class="tsd-signature-type">void</span>
+														</h4>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul>
+								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							</li>
+						</ul>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal tsd-is-external">
 						<a name="fs.mkdirp" class="tsd-anchor"></a>
@@ -802,7 +929,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L89">fs.ts:89</a></li>
+										<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L98">fs.ts:98</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -832,7 +959,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L124">fs.ts:124</a></li>
+										<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L133">fs.ts:133</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-parameters-title">Parameters</h4>
@@ -861,7 +988,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L129">fs.ts:129</a></li>
+										<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L138">fs.ts:138</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-parameters-title">Parameters</h4>
@@ -890,7 +1017,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L134">fs.ts:134</a></li>
+										<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L143">fs.ts:143</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-parameters-title">Parameters</h4>
@@ -919,7 +1046,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L137">fs.ts:137</a></li>
+										<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L146">fs.ts:146</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-parameters-title">Parameters</h4>
@@ -948,7 +1075,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L140">fs.ts:140</a></li>
+										<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L149">fs.ts:149</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-parameters-title">Parameters</h4>
@@ -974,7 +1101,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L147">fs.ts:147</a></li>
+										<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L156">fs.ts:156</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1000,7 +1127,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/fs.ts#L109">fs.ts:109</a></li>
+										<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/fs.ts#L118">fs.ts:118</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -1025,7 +1152,7 @@
 					<div class="tsd-signature tsd-kind-icon">logger<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/logger.ts#L21">logger.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/logger.ts#L21">logger.ts:21</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-external">
@@ -1034,7 +1161,7 @@
 						<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;makeLogger(&#x27;debug&#x27;, chalk.blueBright)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/logger.ts#L22">logger.ts:22</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/logger.ts#L22">logger.ts:22</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1044,7 +1171,7 @@
 						<div class="tsd-signature tsd-kind-icon">error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;makeLogger(&#x27;error&#x27;, chalk.red)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/logger.ts#L25">logger.ts:25</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/logger.ts#L25">logger.ts:25</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1054,7 +1181,7 @@
 						<div class="tsd-signature tsd-kind-icon">info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;makeLogger(&#x27;info&#x27;, chalk.green)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/logger.ts#L23">logger.ts:23</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/logger.ts#L23">logger.ts:23</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1064,7 +1191,7 @@
 						<div class="tsd-signature tsd-kind-icon">warn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> =&nbsp;makeLogger(&#x27;warn&#x27;, chalk.yellow)</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/zaaack/foy/blob/07a928d/src/logger.ts#L24">logger.ts:24</a></li>
+								<li>Defined in <a href="https://github.com/zaaack/foy/blob/ca14864/src/logger.ts#L24">logger.ts:24</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1096,6 +1223,9 @@
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/task.html" class="tsd-kind-icon">Task</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/taskdep.html" class="tsd-kind-icon">Task<wbr>Dep</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="globals.html#dependency" class="tsd-kind-icon">Dependency</a>
 					</li>
@@ -1106,16 +1236,22 @@
 						<a href="globals.html#taskfn" class="tsd-kind-icon">Task<wbr>Fn</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
-						<a href="globals.html#exec" class="tsd-kind-icon">exec</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#spawn" class="tsd-kind-icon">spawn</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#desc" class="tsd-kind-icon">desc</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#exec" class="tsd-kind-icon">exec</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#getglobaltaskmanager" class="tsd-kind-icon">get<wbr>Global<wbr>Task<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#gettype" class="tsd-kind-icon">get<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#hashany" class="tsd-kind-icon">hash<wbr>Any</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#option" class="tsd-kind-icon">option</a>

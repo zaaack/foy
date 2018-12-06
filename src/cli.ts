@@ -4,7 +4,7 @@ import * as cac from 'cac'
 import { fs } from './fs'
 import { TaskManager, getGlobalTaskManager } from './task'
 import * as pathLib from 'path'
-import { logger } from './logger';
+import { logger } from './logger'
 
 const defaultCli = cac()
 

@@ -63,13 +63,19 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<h1 id="foy">Foy</h1>
-				<p><a href="https://travis-ci.org/zaaack/foy"><img src="https://travis-ci.org/zaaack/foy.svg?branch=master" alt="Build Status"></a> <a href="https://www.npmjs.com/package/foy"><img src="https://img.shields.io/npm/v/foy.svg" alt="npm"></a> <a href="https://www.npmjs.com/package/foy"><img src="https://img.shields.io/npm/dm/foy.svg" alt="npm"></a></p>
+				<p><a href="https://travis-ci.org/zaaack/foy"><img src="https://travis-ci.org/zaaack/foy.svg?branch=master" alt="Build Status"></a> <a href="https://www.npmjs.com/package/foy"><img src="https://img.shields.io/npm/v/foy.svg" alt="npm"></a> <a href="https://www.npmjs.com/package/foy"><img src="https://img.shields.io/npm/dm/foy.svg" alt="npm"></a> <a href="https://packagephobia.now.sh/result?p=foy"><img src="https://packagephobia.now.sh/badge?p=foy" alt="install size"></a></p>
 				<p>A simple, light-weight and modern task runner for general purpose.</p>
 				<h2 id="features">Features</h2>
 				<ul>
 					<li>Promise-based tasks and built-in utilities.</li>
 					<li><a href="https://github.com/shelljs/shelljs" target="_blank">shelljs</a> like commands</li>
 					<li>Easy to learn, stop spending hours for build tools.</li>
+					<li>Small install size<ul>
+							<li>foy: <a href="https://packagephobia.now.sh/result?p=foy"><img src="https://packagephobia.now.sh/badge?p=foy" alt="install size"></a></li>
+							<li>gulp: <a href="https://packagephobia.now.sh/result?p=gulp"><img src="https://packagephobia.now.sh/badge?p=gulp" alt="install size"></a></li>
+							<li>grunt: <a href="https://packagephobia.now.sh/result?p=grunt"><img src="https://packagephobia.now.sh/badge?p=grunt" alt="install size"></a></li>
+						</ul>
+					</li>
 				</ul>
 				<p><img src="https://github.com/zaaack/foy/blob/master/docs/capture.gif?raw=true" alt=""></p>
 				<h2 id="install">Install</h2>
@@ -92,12 +98,12 @@ task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async<
 
 desc(<span class="hljs-string">'Build ts files with tsc'</span>)
 option(<span class="hljs-string">'-w, --watch'</span>, <span class="hljs-string">'watch file changes'</span>)
-strict() <span class="hljs-comment">// This will throw an error if you passed some options thats doesn't defined via `option()`</span>
+strict() <span class="hljs-comment">// This will throw an error if you passed some options that doesn't defined via `option()`</span>
 task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
   <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">`tsc <span class="hljs-subst">${ctx.options.watch ? '-w' : ''}</span>`</span>)
 })</code></pre>
 				<pre><code class="language-sh">foy build -w</code></pre>
-				<h2 id="using-built-in-promised-based-api">Using built-in promised-based API</h2>
+				<h2 id="using-with-built-in-promised-based-api">Using with built-in promised-based API</h2>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { fs, task } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
 
 task(<span class="hljs-string">'some task'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
@@ -117,6 +123,14 @@ task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async<
   <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> axios.get(<span class="hljs-string">'https://your.server/data.json'</span>)
   <span class="hljs-built_in">console</span>.log(res.data)
 })</code></pre>
+				<h2 id="using-with-custom-compiler">Using with custom compiler</h2>
+				<pre><code class="language-sh">
+<span class="hljs-comment"># Write Foyfile in ts, enabled by default</span>
+foy -r ts-node/register -c ./some/Foyfile.ts build
+
+<span class="hljs-comment"># Write Foyfile in coffee</span>
+foy -r coffeescript/register -c ./some/Foyfile.coffee build
+</code></pre>
 				<h2 id="api-documentation">API documentation</h2>
 				<p><a href="https://zaaack.github.io/foy/api">https://zaaack.github.io/foy/api</a></p>
 				<h2 id="license">License</h2>
@@ -148,6 +162,9 @@ task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async<
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/task.html" class="tsd-kind-icon">Task</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/taskdep.html" class="tsd-kind-icon">Task<wbr>Dep</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="globals.html#dependency" class="tsd-kind-icon">Dependency</a>
 					</li>
@@ -158,16 +175,22 @@ task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async<
 						<a href="globals.html#taskfn" class="tsd-kind-icon">Task<wbr>Fn</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
-						<a href="globals.html#exec" class="tsd-kind-icon">exec</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#spawn" class="tsd-kind-icon">spawn</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#desc" class="tsd-kind-icon">desc</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#exec" class="tsd-kind-icon">exec</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#getglobaltaskmanager" class="tsd-kind-icon">get<wbr>Global<wbr>Task<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#gettype" class="tsd-kind-icon">get<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#hashany" class="tsd-kind-icon">hash<wbr>Any</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#option" class="tsd-kind-icon">option</a>

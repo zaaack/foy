@@ -2,7 +2,7 @@ const ora = require('ora')
 import chalk from 'chalk'
 import { OptionConfig } from 'cac/types/Option'
 import { ShellContext } from './exec'
-import { hashAny } from './utils';
+import { hashAny } from './utils'
 
 export interface GlobalOptions {
   /**
