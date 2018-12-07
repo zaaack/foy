@@ -1,5 +1,4 @@
-import { task, desc, option, logger, fs } from './src/'
-import { strict, setGlobalOptions } from './src/task'
+import { task, desc, option, logger, fs, strict, setGlobalOptions } from './src/'
 import * as marked from 'marked'
 import * as ejs from 'ejs'
 task('build', async ctx => {
