@@ -1,4 +1,4 @@
 export * from './exec'
 export * from './fs'
 export * from './logger'
-export { task, desc, option } from './task'
+export { task, desc, option, strict, setOption, setGlobalOptions, Dependency, Task, TaskFn, TaskDep, GlobalOptions } from './task'
