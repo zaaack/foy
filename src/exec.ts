@@ -1,6 +1,8 @@
 import * as execa from 'execa'
 import * as pathLib from 'path'
 import { logger as _logger } from './logger'
+import { Dependency, RunTaskOptions, TaskManager } from './task';
+import { sleep } from './utils';
 export { execa }
 
 export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess
@@ -21,12 +23,21 @@ export const spawn = execa
 export class ShellContext {
   private _cwd = process.cwd()
   private _env = { ...process.env }
+  sleep = sleep
   cwd(cwd = this._cwd) {
     return (this._cwd = cwd)
   }
   cd(path: string) {
     this._cwd = pathLib.resolve(this._cwd, path)
     return this
+  }
+  run(task: Dependency, options?: RunTaskOptions) {
+    let taskManager: TaskManager = require('./task').getGlobalTaskManager()
+    let name = typeof task === 'string' ? task : task.name
+    return taskManager.run(name, {
+      force: true,
+      ...options,
+    })
   }
   exec(command: string, options?: execa.Options): execa.ExecaChildProcess
   exec(commands: string[], options?: execa.Options): Promise<execa.ExecaReturns[]>

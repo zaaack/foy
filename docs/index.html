@@ -19,23 +19,29 @@
 
     <section class="main-content">
       <h1 id="foy">Foy</h1>
-<p><a href="https://travis-ci.org/foy/foy"><img src="https://travis-ci.org/foy/foy.svg?branch=master" alt="Build Status"></a> <a href="https://www.npmjs.com/package/foy"><img src="https://img.shields.io/npm/v/foy.svg" alt="npm"></a> <a href="https://www.npmjs.com/package/foy"><img src="https://img.shields.io/npm/dm/foy.svg" alt="npm"></a></p>
+<p><a href="https://travis-ci.org/zaaack/foy"><img src="https://travis-ci.org/zaaack/foy.svg?branch=master" alt="Build Status"></a> <a href="https://www.npmjs.com/package/foy"><img src="https://img.shields.io/npm/v/foy.svg" alt="npm"></a> <a href="https://www.npmjs.com/package/foy"><img src="https://img.shields.io/npm/dm/foy.svg" alt="npm"></a> <a href="https://packagephobia.now.sh/result?p=foy"><img src="https://packagephobia.now.sh/badge?p=foy" alt="install size"></a></p>
 <p>A simple, light-weight and modern task runner for general purpose.</p>
 <h2 id="features">Features</h2>
 <ul>
 <li>Promise-based tasks and built-in utilities.</li>
 <li><a href="https://github.com/shelljs/shelljs" target="_blank">shelljs</a> like commands</li>
 <li>Easy to learn, stop spending hours for build tools.</li>
+<li>Small install size<ul>
+<li>foy: <a href="https://packagephobia.now.sh/result?p=foy"><img src="https://packagephobia.now.sh/badge?p=foy" alt="install size"></a></li>
+<li>gulp: <a href="https://packagephobia.now.sh/result?p=gulp"><img src="https://packagephobia.now.sh/badge?p=gulp" alt="install size"></a></li>
+<li>grunt: <a href="https://packagephobia.now.sh/result?p=grunt"><img src="https://packagephobia.now.sh/badge?p=grunt" alt="install size"></a></li>
+</ul>
+</li>
 </ul>
 <p><img src="https://github.com/zaaack/foy/blob/master/docs/capture.gif?raw=true" alt=""></p>
 <h2 id="install">Install</h2>
 <pre><code class="language-sh">yarn add -D foy # or npm i -D foy</code></pre>
 <p>Or Install globally with</p>
 <pre><code class="language-sh">yarn add -g foy # or npm i -g foy</code></pre>
-<h2 id="write-a-foyfile">Write a foyfile</h2>
-<p>You need to add a foyfile.js(or foyfile.ts with <a href="https://github.com/TypeStrong/ts-node">ts-node</a> installed) in your project root.</p>
+<h2 id="write-a-foyfile">Write a Foyfile</h2>
+<p>You need to add a Foyfile.js(or Foyfile.ts with <a href="https://github.com/TypeStrong/ts-node">ts-node</a> installed) in your project root.</p>
 <p>Here is an minimal example</p>
-<pre><code class="language-ts">// foyfile.js
+<pre><code class="language-ts">// Foyfile.js
 import { task } from &#39;foy&#39;
 
 task(&#39;build&#39;, async ctx =&gt; {
@@ -48,12 +54,12 @@ task(&#39;build&#39;, async ctx =&gt; {
 
 desc(&#39;Build ts files with tsc&#39;)
 option(&#39;-w, --watch&#39;, &#39;watch file changes&#39;)
-strict() // This will throw an error if you passed some options thats doesn&#39;t defined via `option()`
+strict() // This will throw an error if you passed some options that doesn&#39;t defined via `option()`
 task(&#39;build&#39;, async ctx =&gt; {
   await ctx.exec(`tsc ${ctx.options.watch ? &#39;-w&#39; : &#39;&#39;}`)
 })</code></pre>
 <pre><code class="language-sh">foy build -w</code></pre>
-<h2 id="using-built-in-promised-based-api">Using built-in promised-based API</h2>
+<h2 id="using-with-built-in-promised-based-api">Using with built-in promised-based API</h2>
 <pre><code class="language-ts">import { fs, task } from &#39;foy&#39;
 
 task(&#39;some task&#39;, async ctx =&gt; {
@@ -73,6 +79,73 @@ task(&#39;build&#39;, async ctx =&gt; {
   let res = await axios.get(&#39;https://your.server/data.json&#39;)
   console.log(res.data)
 })</code></pre>
+<h2 id="using-dependencies">Using dependencies</h2>
+<pre><code class="language-ts">
+import { task } from &#39;foy&#39;
+import * as axios from &#39;axios&#39;
+
+task(&#39;test&#39;, async ctx =&gt; {
+  await ctx.exec(&#39;mocha&#39;)
+})
+
+task(&#39;build&#39;, async ctx =&gt; {
+  let res = await axios.get(&#39;https://your.server/data.json&#39;)
+  console.log(res.data)
+  await ctx.exec(&#39;build my awesome project&#39;)
+})
+task(
+  &#39;publish:patch&#39;,
+  [&#39;test&#39;, &#39;build&#39;], // Run test and build before publish
+  async ctx =&gt; {
+    await ctx.exec(&#39;npm version patch&#39;)
+    await ctx.exec(&#39;npm publish&#39;)
+  }
+)</code></pre>
+<p>Or, you can pass options to customize the execution of dependences:</p>
+<pre><code class="language-ts">task(
+  &#39;publish:patch&#39;,
+  [{
+    name: &#39;test&#39;,
+    async: true, // run test parallelly
+    force: true, // force rerun test whether it is executed before or not,
+  }, {
+    name: &#39;build&#39;,
+    async: true,
+    force: true,
+  },],
+  async ctx =&gt; {
+    await ctx.exec(&#39;npm version patch&#39;)
+    await ctx.exec(&#39;npm publish&#39;)
+  }
+)</code></pre>
+<p>You can also pass options to dependences:</p>
+<pre><code class="language-ts">task(&#39;task1&#39;, async ctx =&gt; {
+  console.log(ctx.options) // &quot;{ forceRebuild: true, lazyOptions: 1 }&quot;
+  console.log(ctx.global.options) // options from command line &quot;{ a: 1 }&quot;
+})
+
+
+task(&#39;task2&#39;, [{
+  name: &#39;task1&#39;,
+  options: {
+    forceRebuild: true,
+  },
+  // Some options that rely on ctx or asynchronization,
+  // it will be merged to options.
+  resolveOptions: async ctx =&gt; {
+    return { lazyOptions: 1 }
+  }
+}])
+
+// foy task2 -a 1</code></pre>
+<h2 id="using-with-custom-compiler">Using with custom compiler</h2>
+<pre><code class="language-sh">
+# Write Foyfile in ts, enabled by default
+foy -r ts-node/register -c ./some/Foyfile.ts build
+
+# Write Foyfile in coffee
+foy -r coffeescript/register -c ./some/Foyfile.coffee build
+</code></pre>
 <h2 id="api-documentation">API documentation</h2>
 <p><a href="https://zaaack.github.io/foy/api">https://zaaack.github.io/foy/api</a></p>
 <h2 id="license">License</h2>

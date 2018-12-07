@@ -164,13 +164,24 @@ task(
 )</code></pre>
 				<p>You can also pass options to dependences:</p>
 				<pre><code class="language-ts">task(<span class="hljs-string">'task1'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
-  <span class="hljs-built_in">console</span>.log(ctx.options) <span class="hljs-comment">// "{ forceRebuild: true }"</span>
+  <span class="hljs-built_in">console</span>.log(ctx.options) <span class="hljs-comment">// "{ forceRebuild: true, lazyOptions: 1 }"</span>
+  <span class="hljs-built_in">console</span>.log(ctx.global.options) <span class="hljs-comment">// options from command line "{ a: 1 }"</span>
 })
+
 
 task(<span class="hljs-string">'task2'</span>, [{
   name: <span class="hljs-string">'task1'</span>,
-  options: { forceRebuild: <span class="hljs-literal">true</span> }
-}])</code></pre>
+  options: {
+    forceRebuild: <span class="hljs-literal">true</span>,
+  },
+  <span class="hljs-comment">// Some options that rely on ctx or asynchronization,</span>
+  <span class="hljs-comment">// it will be merged to options.</span>
+  resolveOptions: <span class="hljs-keyword">async</span> ctx =&gt; {
+    <span class="hljs-keyword">return</span> { lazyOptions: <span class="hljs-number">1</span> }
+  }
+}])
+
+<span class="hljs-comment">// foy task2 -a 1</span></code></pre>
 				<h2 id="using-with-custom-compiler">Using with custom compiler</h2>
 				<pre><code class="language-sh">
 <span class="hljs-comment"># Write Foyfile in ts, enabled by default</span>
@@ -207,6 +218,9 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/globaloptions.html" class="tsd-kind-icon">Global<wbr>Options</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/runtaskoptions.html" class="tsd-kind-icon">Run<wbr>Task<wbr>Options</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/task.html" class="tsd-kind-icon">Task</a>
 					</li>
@@ -221,6 +235,12 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#taskfn" class="tsd-kind-icon">Task<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#watchdirhandler" class="tsd-kind-icon">Watch<wbr>Dir<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#watchdiroptions" class="tsd-kind-icon">Watch<wbr>Dir<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#spawn" class="tsd-kind-icon">spawn</a>
@@ -253,10 +273,16 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 						<a href="globals.html#shell" class="tsd-kind-icon">shell</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#sleep" class="tsd-kind-icon">sleep</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#strict" class="tsd-kind-icon">strict</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#task" class="tsd-kind-icon">task</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#throttle" class="tsd-kind-icon">throttle</a>
 					</li>
 					<li class=" tsd-kind-object-literal tsd-is-external">
 						<a href="globals.html#fs" class="tsd-kind-icon">fs</a>

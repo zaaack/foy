@@ -45,12 +45,11 @@ task('postversion', async ctx => {
   await ctx.exec(`git push origin master --tags`)
 })
 
-task('site', async ctx => {
+task('site:home', async ctx => {
   let pkg = await fs.readJson('./package.json')
   let desc = pkg.description
   let md = await fs.readFile('./README.md', 'utf8')
-  let content = marked(md, {
-  })
+  let content = marked(md)
 
   let data = {
     name: 'Foy',
@@ -64,3 +63,11 @@ task('site', async ctx => {
   let html = await ejs.renderFile<string>('./docs-src/index.html', data)
   await fs.outputFile('./docs/index.html', html)
 })
+task('site:watch', async ctx => {
+  let watcher = fs.watchDir('./docs-src', (evt, file) => {
+    console.log(evt, file)
+    ctx.run('site:home')
+  })
+})
+
+task('site', ['doc'])

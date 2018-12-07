@@ -98,7 +98,8 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="taskcontext.html#globaloptions" class="tsd-kind-icon">global<wbr>Options</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="taskcontext.html#global" class="tsd-kind-icon">global</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="taskcontext.html#sleep" class="tsd-kind-icon">sleep</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="taskcontext.html#task" class="tsd-kind-icon">task</a></li>
 							</ul>
 						</section>
@@ -115,6 +116,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="taskcontext.html#cwd" class="tsd-kind-icon">cwd</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="taskcontext.html#env" class="tsd-kind-icon">env</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="taskcontext.html#exec" class="tsd-kind-icon">exec</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="taskcontext.html#run" class="tsd-kind-icon">run</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="taskcontext.html#spawn" class="tsd-kind-icon">spawn</a></li>
 							</ul>
 						</section>
@@ -127,13 +129,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Task<wbr>Context<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../interfaces/task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol">&gt;</span>, globalOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/globaloptions.html" class="tsd-signature-type">GlobalOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="taskcontext.html" class="tsd-signature-type">TaskContext</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Task<wbr>Context<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../interfaces/task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol">&gt;</span>, global<span class="tsd-signature-symbol">: </span><a href="../interfaces/globaloptions.html" class="tsd-signature-type">GlobalOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="taskcontext.html" class="tsd-signature-type">TaskContext</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bc8cb9b/src/task.ts#L62">task.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/9ea708f/src/task.ts#L66">task.ts:66</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -142,7 +144,7 @@
 									<h5>task: <a href="../interfaces/task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
-									<h5>globalOptions: <a href="../interfaces/globaloptions.html" class="tsd-signature-type">GlobalOptions</a></h5>
+									<h5>global: <a href="../interfaces/globaloptions.html" class="tsd-signature-type">GlobalOptions</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="taskcontext.html" class="tsd-signature-type">TaskContext</a></h4>
@@ -153,12 +155,23 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="globaloptions" class="tsd-anchor"></a>
-					<h3>global<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">global<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/globaloptions.html" class="tsd-signature-type">GlobalOptions</a></div>
+					<a name="global" class="tsd-anchor"></a>
+					<h3>global</h3>
+					<div class="tsd-signature tsd-kind-icon">global<span class="tsd-signature-symbol">:</span> <a href="../interfaces/globaloptions.html" class="tsd-signature-type">GlobalOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/bc8cb9b/src/task.ts#L65">task.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/9ea708f/src/task.ts#L69">task.ts:69</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="sleep" class="tsd-anchor"></a>
+					<h3>sleep</h3>
+					<div class="tsd-signature tsd-kind-icon">sleep<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">sleep</a><span class="tsd-signature-symbol"> =&nbsp;sleep</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="shellcontext.html">ShellContext</a>.<a href="shellcontext.html#sleep">sleep</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/9ea708f/src/exec.ts#L26">exec.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -168,7 +181,7 @@
 					<div class="tsd-signature tsd-kind-icon">task<span class="tsd-signature-symbol">:</span> <a href="../interfaces/task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">O</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/bc8cb9b/src/task.ts#L64">task.ts:64</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/9ea708f/src/task.ts#L68">task.ts:68</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -185,7 +198,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bc8cb9b/src/task.ts#L69">task.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/9ea708f/src/task.ts#L73">task.ts:73</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">O</span></h4>
@@ -206,7 +219,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="shellcontext.html">ShellContext</a>.<a href="shellcontext.html#cd">cd</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bc8cb9b/src/exec.ts#L27">exec.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/9ea708f/src/exec.ts#L30">exec.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -230,7 +243,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="shellcontext.html">ShellContext</a>.<a href="shellcontext.html#cwd">cwd</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bc8cb9b/src/exec.ts#L24">exec.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/9ea708f/src/exec.ts#L27">exec.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -255,7 +268,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="shellcontext.html">ShellContext</a>.<a href="shellcontext.html#env">env</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bc8cb9b/src/exec.ts#L57">exec.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/9ea708f/src/exec.ts#L68">exec.ts:68</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -270,7 +283,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="shellcontext.html">ShellContext</a>.<a href="shellcontext.html#env">env</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bc8cb9b/src/exec.ts#L58">exec.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/9ea708f/src/exec.ts#L69">exec.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -298,7 +311,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="shellcontext.html">ShellContext</a>.<a href="shellcontext.html#exec">exec</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bc8cb9b/src/exec.ts#L31">exec.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/9ea708f/src/exec.ts#L42">exec.ts:42</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -316,7 +329,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="shellcontext.html">ShellContext</a>.<a href="shellcontext.html#exec">exec</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bc8cb9b/src/exec.ts#L32">exec.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/9ea708f/src/exec.ts#L43">exec.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -333,6 +346,33 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="run" class="tsd-anchor"></a>
+					<h3>run</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="../globals.html#dependency" class="tsd-signature-type">Dependency</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/runtaskoptions.html" class="tsd-signature-type">RunTaskOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="shellcontext.html">ShellContext</a>.<a href="shellcontext.html#run">run</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/9ea708f/src/exec.ts#L34">exec.ts:34</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>task: <a href="../globals.html#dependency" class="tsd-signature-type">Dependency</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/runtaskoptions.html" class="tsd-signature-type">RunTaskOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="spawn" class="tsd-anchor"></a>
 					<h3>spawn</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -343,7 +383,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="shellcontext.html">ShellContext</a>.<a href="shellcontext.html#spawn">spawn</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bc8cb9b/src/exec.ts#L45">exec.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/9ea708f/src/exec.ts#L56">exec.ts:56</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -386,7 +426,10 @@
 								<a href="taskcontext.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="taskcontext.html#globaloptions" class="tsd-kind-icon">global<wbr>Options</a>
+								<a href="taskcontext.html#global" class="tsd-kind-icon">global</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="taskcontext.html#sleep" class="tsd-kind-icon">sleep</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
 								<a href="taskcontext.html#task" class="tsd-kind-icon">task</a>
@@ -407,6 +450,9 @@
 								<a href="taskcontext.html#exec" class="tsd-kind-icon">exec</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="taskcontext.html#run" class="tsd-kind-icon">run</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="taskcontext.html#spawn" class="tsd-kind-icon">spawn</a>
 							</li>
 						</ul>
@@ -418,6 +464,9 @@
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="../interfaces/globaloptions.html" class="tsd-kind-icon">Global<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="../interfaces/runtaskoptions.html" class="tsd-kind-icon">Run<wbr>Task<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="../interfaces/task.html" class="tsd-kind-icon">Task</a>
@@ -433,6 +482,12 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
 						<a href="../globals.html#taskfn" class="tsd-kind-icon">Task<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="../globals.html#watchdirhandler" class="tsd-kind-icon">Watch<wbr>Dir<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="../globals.html#watchdiroptions" class="tsd-kind-icon">Watch<wbr>Dir<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="../globals.html#spawn" class="tsd-kind-icon">spawn</a>
@@ -465,10 +520,16 @@
 						<a href="../globals.html#shell" class="tsd-kind-icon">shell</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="../globals.html#sleep" class="tsd-kind-icon">sleep</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="../globals.html#strict" class="tsd-kind-icon">strict</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="../globals.html#task" class="tsd-kind-icon">task</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="../globals.html#throttle" class="tsd-kind-icon">throttle</a>
 					</li>
 					<li class=" tsd-kind-object-literal tsd-is-external">
 						<a href="../globals.html#fs" class="tsd-kind-icon">fs</a>

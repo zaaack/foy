@@ -37,3 +37,16 @@ export function hashAny(key: any) {
       return '⭕️' + uid
   }
 }
+
+export const sleep = (ms: number) => {
+  return new Promise(res => setTimeout(res, ms * 1000))
+}
+
+export function throttle<T extends (...args: any[]) => void>(cb: T, ms: number): T {
+  let timer
+  let newCb = (...args) => {
+    timer && clearTimeout(timer)
+    timer = setTimeout(cb, ms, ...args)
+  }
+  return newCb as any
+}

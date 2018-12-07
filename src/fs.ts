@@ -1,6 +1,7 @@
 import * as _fs from 'fs'
 import * as util from 'util'
 import * as pathLib from 'path';
+import { throttle } from './utils';
 async function copy(
   src: string,
   dist: string,
@@ -51,6 +52,51 @@ async function copy(
     await fs.copyFile(src, dist)
   }
 }
+
+export type WatchDirHandler = (event: string, filename: string) => void
+export type WatchDirOptions = {
+  persistent?: boolean
+  /** ms, default 300 */
+  throttle?: number
+}
+
+function watchDir(
+  dir: string,
+  cb: WatchDirHandler,
+)
+function watchDir(
+  dir: string,
+  options: WatchDirOptions,
+  cb: WatchDirHandler,
+)
+function watchDir(
+  dir: string,
+  options?: WatchDirOptions | WatchDirHandler,
+  cb?: WatchDirHandler,
+) {
+  if (typeof options === 'function') {
+    cb = options as any
+    options = void 0
+  }
+  options = {
+    persistent: true,
+    throttle: 300,
+    ...options,
+  } as WatchDirOptions
+  if (options.throttle) {
+    cb = throttle(cb, options.throttle)
+  }
+  if (process.platform === 'linux') {
+    fs.iter(dir, (path) => {
+      fs.watch(path, {
+        recursive: false,
+        persistent: (options as WatchDirOptions).persistent,
+      }, cb)
+    })
+  } else {
+    fs.watch(dir, { recursive: true, persistent: options.persistent }, cb)
+  }
+}
 export const fs = {
   ..._fs,
   access: util.promisify(_fs.access),
@@ -78,6 +124,7 @@ export const fs = {
   createReadString: _fs.createReadStream,
   createWriteStream: _fs.createWriteStream,
   constants: _fs.constants,
+  watchDir,
   copy,
   copyFile: _fs.copyFile ? util.promisify(_fs.copyFile) : async (src: _fs.PathLike, dist: _fs.PathLike) => {
     await fs.stat(src)
@@ -175,5 +222,5 @@ export const fs = {
         }
       )
     )
-  }
+  },
 }

@@ -75,6 +75,12 @@ export class TaskContext<O = any> extends ShellContext {
   }
 }
 
+export interface RunTaskOptions {
+  options?: any
+  rawArgs?: string[]
+  parentCtx?: TaskContext | null
+  force?: boolean
+}
 export class TaskManager {
   private _tasks: {[k: string]: Task} = {}
   private _didSet: Set<string> = new Set()
@@ -94,27 +100,42 @@ export class TaskManager {
     this._tasks[task.name] = task
     return task
   }
-  async run(name: string | Task = 'default', {
-    options = null,
-    rawArgs = [] as string[],
-    parentCtx = null as TaskContext | null,
-  } = {}) {
+  async run(name: string | Task = 'default', props?: RunTaskOptions) {
+    props = {
+      options: null,
+      parentCtx: null,
+      rawArgs: [],
+      force: false,
+      ...props,
+    }
     this._tasks.all = this._tasks.all || task('all', Object.keys(this._tasks))
     this._tasks.default = this._tasks.default || this._tasks.all
+    if (!this._tasks[
+      typeof name === 'string'
+        ? name
+        : name.name
+    ]) {
+      throw new TypeError(`Cannot find task with name [${name}]`)
+    }
     const t = {
       ...(typeof name === 'string'
       ? this._tasks[name]
-      : name)
+      : name),
+      force: props.force,
+    }
+    t.options = {
+      ...(t.options || null),
+      ...(props.options || null),
     }
     let ctx = new TaskContext(t, this.globalOptions)
-    if (!t) {
-      throw new TypeError(`Cannot find task with name [${name}]`)
-    }
     if (t.dependencies) {
       let asyncDeps: Task[] = []
       let syncDeps: Task[] = []
       t.dependencies.forEach(taskDep => {
         let fullTask = this._tasks[taskDep.name]
+        if (!fullTask) {
+          throw new TypeError(`Cannot find task with name [${fullTask.name}]`)
+        }
         const t = {
           ...fullTask,
           async: taskDep.async,
@@ -145,13 +166,9 @@ export class TaskManager {
     }
     let ld
     let text = `${t.name}`
-    t.options = {
-      ...t.options,
-      ...options,
-    }
-    t.rawArgs = rawArgs
-    if (t.resolveOptions && parentCtx) {
-      let lazyOptions = await t.resolveOptions(parentCtx)
+    t.rawArgs = props.rawArgs
+    if (t.resolveOptions && props.parentCtx) {
+      let lazyOptions = await t.resolveOptions(props.parentCtx)
       t.options = {
         ...t.options,
         ...lazyOptions,
@@ -254,7 +271,7 @@ export function task<O>(
     strict: TaskOptions.last.strict,
     dependencies: (dependencies || []).map(d => {
       if (typeof d === 'string') {
-        return { name: d } as Task
+        return { name: d, options: {} } as Task
       }
       return d
     }),

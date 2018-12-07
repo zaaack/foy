@@ -2,7 +2,7 @@
 
 import * as cac from 'cac'
 import { fs } from './fs'
-import { TaskManager, getGlobalTaskManager, option } from './task'
+import { getGlobalTaskManager } from './task'
 import * as pathLib from 'path'
 import { logger } from './logger'
 
@@ -36,7 +36,6 @@ let taskArgv: string[] = []
 defaultArgv = process.argv.slice(0, 2).concat(defaultArgv)
 taskArgv = process.argv.slice(0, 2).concat(taskArgv)
 
-const DefaultOptionsCount = 3
 function addDefaultOptions(cli: ReturnType<typeof cac>) {
   return cli
     .option(`--config, -c <...files>`, 'The Foyfiles')
@@ -103,7 +102,10 @@ taskManager.getTasks().forEach(t => {
     let options = args.pop()
     taskManager.globalOptions.rawArgs = taskCli.rawArgs
     taskManager.globalOptions.options = options
-    taskManager.run(t.name, { options, rawArgs: taskCli.rawArgs.slice(3) })
+    taskManager.run(t.name, {
+      options,
+      rawArgs: taskCli.rawArgs.slice(3),
+    })
   })
 })
 
