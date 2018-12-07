@@ -4,17 +4,19 @@ Usage:
   $ cli.ts <command> [options]
 
 Commands:
-  aa        AA
-  bb        
-  cc        CC
-  dd        
-  ee        
-  ff        
-  notForce  
-  force     
-  wait      
-  sync      
-  async     
+  aa              AA
+  bb              
+  cc              CC
+  dd              
+  ee              
+  ff              
+  notForce        
+  force           
+  wait            
+  sync            
+  async           
+  logOptions      
+  resolveOptions  
 
 For more info, run any command with the `--help` flag:
   $ cli.ts aa --help
@@ -28,8 +30,10 @@ For more info, run any command with the `--help` flag:
   $ cli.ts wait --help
   $ cli.ts sync --help
   $ cli.ts async --help
+  $ cli.ts logOptions --help
+  $ cli.ts resolveOptions --help
 
 Options:
-  --config, -c <...files>   The Foyfiles 
-  --require, -r <...names>  Require the given modules 
-  -h, --help                Display this message 
+  -h, --help  Display this message 
+  --config, -c <...files>   The Foyfiles
+  --require, -r <...names>  Require the given modules

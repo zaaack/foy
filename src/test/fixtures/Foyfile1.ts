@@ -14,7 +14,7 @@ task<{ a: boolean }>('aa', async ctx => {
 })
 
 let bb = task<{test: number}>('bb', ['aa'], async ctx => {
-  logger.debug(ctx.options)
+  logger.debug(ctx.options, ctx.global.options)
 })
 desc('CC')
 option('-c <num>', 'cc', { default: 123 })
@@ -69,3 +69,13 @@ task('async', [
   { name: 'wait', async: true, options: { t: 10 } },
   { name: 'wait', async: true, options: { t: 1 } },
 ])
+task('logOptions', async ctx => {
+  logger.debug('logOptions', ctx.options, ctx.global.options)
+})
+
+option('-c <val>', 'cc', { default: 1 })
+task('resolveOptions', [{
+  name: 'logOptions',
+  options: { aa: 1 },
+  resolveOptions: async ctx => ctx.options,
+}])

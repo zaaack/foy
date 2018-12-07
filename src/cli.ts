@@ -2,7 +2,7 @@
 
 import * as cac from 'cac'
 import { fs } from './fs'
-import { TaskManager, getGlobalTaskManager } from './task'
+import { TaskManager, getGlobalTaskManager, option } from './task'
 import * as pathLib from 'path'
 import { logger } from './logger'
 
@@ -91,8 +91,6 @@ for (const file of foyFiles) {
 
 const taskCli = cac()
 
-addDefaultOptions(taskCli)
-
 let taskManager = getGlobalTaskManager()
 taskManager.getTasks().forEach(t => {
   let strict = taskManager.globalOptions.strict || t.strict
@@ -101,23 +99,30 @@ taskManager.getTasks().forEach(t => {
   if (t.optionDefs) {
     t.optionDefs.forEach(def => cmd.option(...def))
   }
-  cmd.option('-h, --help', 'Display this message')
   cmd.action((...args) => {
     let options = args.pop()
-    taskManager.run(t.name, { options, args: taskCli.rawArgs.slice(3) })
+    taskManager.globalOptions.rawArgs = taskCli.rawArgs
+    taskManager.globalOptions.options = options
+    taskManager.run(t.name, { options, rawArgs: taskCli.rawArgs.slice(3) })
   })
 })
 
 taskCli.on('command:*', () => {
-  console.error(`error: Unknown command \`${taskCli.args.join(' ')}\``)
+  console.error(`error: Unknown command \`${taskCli.args.join(' ')}\`\n\n`)
   taskCli.outputHelp()
   process.exit(1)
 })
 
 taskCli.help(sections => {
-  if (taskCli.matchedCommand) {
+  if (!taskCli.matchedCommand) {
     let last = sections[sections.length - 1]
-    last.body = last.body.split('\n').slice(0, -DefaultOptionsCount).join('\n')
+    let lines = last.body.split('\n')
+    last.body =
+      lines.concat(
+        '  --config, -c <...files>   The Foyfiles',
+        '  --require, -r <...names>  Require the given modules',
+      )
+      .join('\n')
   }
   console.log(sections
     .map(section => {

@@ -19,6 +19,8 @@ export interface GlobalOptions {
    * @default 'debug'
    */
   logLevel?: 'debug' | 'info' | 'warn' | 'error'
+  options?: any
+  rawArgs?: string[]
 }
 
 export type OptionDef = [string, string, OptionConfig | undefined]
@@ -39,6 +41,8 @@ export interface TaskDep<O = any> {
    * Parsed options
    */
   options?: O
+  resolveOptions?: (ctx: TaskContext) => Promise<O> | O
+  [k: string]: any
 }
 export type Dependency = TaskDep | string
 export interface Task<O = any> extends TaskDep<O> {
@@ -50,7 +54,7 @@ export interface Task<O = any> extends TaskDep<O> {
   /**
    * Raw arg strings
    */
-  args?: string[]
+  rawArgs?: string[]
   /**
    * @description Whether task options only allow defined options, default false
    * @default false
@@ -62,7 +66,7 @@ export interface Task<O = any> extends TaskDep<O> {
 export class TaskContext<O = any> extends ShellContext {
   constructor(
     public task: Task<O>,
-    public globalOptions: GlobalOptions
+    public global: GlobalOptions
   ) {
     super()
   }
@@ -77,6 +81,7 @@ export class TaskManager {
   public globalOptions: GlobalOptions = {
     logLevel: 'debug',
     loading: true,
+    options: {},
   }
   getTasks() {
     return Object.keys(this._tasks)
@@ -91,13 +96,17 @@ export class TaskManager {
   }
   async run(name: string | Task = 'default', {
     options = null,
-    args = [] as string[]
+    rawArgs = [] as string[],
+    parentCtx = null as TaskContext | null,
   } = {}) {
     this._tasks.all = this._tasks.all || task('all', Object.keys(this._tasks))
     this._tasks.default = this._tasks.default || this._tasks.all
-    const t = typeof name === 'string'
+    const t = {
+      ...(typeof name === 'string'
       ? this._tasks[name]
-      : name
+      : name)
+    }
+    let ctx = new TaskContext(t, this.globalOptions)
     if (!t) {
       throw new TypeError(`Cannot find task with name [${name}]`)
     }
@@ -124,10 +133,14 @@ export class TaskManager {
       await Promise.all([
         (async () => {
           for (const t of syncDeps) {
-            await this.run(t)
+            await this.run(t, { parentCtx: ctx })
           }
         })(),
-        Promise.all(asyncDeps.map(t => this.run(t))),
+        Promise.all(
+          asyncDeps.map(
+            t => this.run(t, { parentCtx: ctx })
+          )
+        ),
       ])
     }
     let ld
@@ -136,11 +149,17 @@ export class TaskManager {
       ...t.options,
       ...options,
     }
-    t.args = args
-    let ctx = new TaskContext(t, this.globalOptions)
+    t.rawArgs = rawArgs
+    if (t.resolveOptions && parentCtx) {
+      let lazyOptions = await t.resolveOptions(parentCtx)
+      t.options = {
+        ...t.options,
+        ...lazyOptions,
+      }
+    }
     let taskHash = hashAny(t)
     if (this._didSet.has(taskHash) && !t.force) return
-    if (!ctx.globalOptions.loading) {
+    if (!ctx.global.loading) {
       console.log(chalk.yellow('Task: ') + t.name)
       let ret = t.fn && await t.fn(ctx)
       this._didSet.add(taskHash)

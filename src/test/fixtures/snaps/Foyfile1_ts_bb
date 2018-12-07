@@ -4,4 +4,4 @@ Task: aa
 [warn] {}
 [error] {}
 Task: bb
-[debug] { '--': [] }
+[debug] { '--': [] } { '--': [] }

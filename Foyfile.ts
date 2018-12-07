@@ -17,7 +17,7 @@ task('doc', async ctx => {
 const MochaCli = `mocha --exit -r tsconfig-paths/register -r ts-node/register`
 
 task<{ args: string, env: NodeJS.ProcessEnv }>('test', async ctx => {
-  await ctx.exec(`${MochaCli} "src/test/*.test.ts" ${ctx.options.args || ''} ${ctx.task.args.map(a => `"${a}"`).join(' ')}`, { env: ctx.options.env || process.env })
+  await ctx.exec(`${MochaCli} "src/test/*.test.ts" ${ctx.options.args || ''} ${ctx.task.rawArgs.map(a => `"${a}"`).join(' ')}`, { env: ctx.options.env || process.env })
 })
 
 task('test:update-snap', [{
@@ -51,6 +51,7 @@ task('site', async ctx => {
   let md = await fs.readFile('./README.md', 'utf8')
   let content = marked(md, {
   })
+
   let data = {
     name: 'Foy',
     desc,

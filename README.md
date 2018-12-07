@@ -145,13 +145,24 @@ You can also pass options to dependences:
 
 ```ts
 task('task1', async ctx => {
-  console.log(ctx.options) // "{ forceRebuild: true }"
+  console.log(ctx.options) // "{ forceRebuild: true, lazyOptions: 1 }"
+  console.log(ctx.global.options) // options from command line "{ a: 1 }"
 })
+
 
 task('task2', [{
   name: 'task1',
-  options: { forceRebuild: true }
+  options: {
+    forceRebuild: true,
+  },
+  // Some options that rely on ctx or asynchronization,
+  // it will be merged to options.
+  resolveOptions: async ctx => {
+    return { lazyOptions: 1 }
+  }
 }])
+
+// foy task2 -a 1
 ```
 
 

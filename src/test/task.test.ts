@@ -41,4 +41,6 @@ describe('task', function () {
   test(`Foyfile1.ts notForce`)
   test(`Foyfile1.ts sync`)
   test(`Foyfile1.ts async`)
+  test(`Foyfile1.ts resolveOptions -c 123`)
+  test(`Foyfile1.ts resolveOptions`)
 })

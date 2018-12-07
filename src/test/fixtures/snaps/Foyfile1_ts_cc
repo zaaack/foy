@@ -4,6 +4,6 @@ Task: aa
 [warn] {}
 [error] {}
 Task: bb
-[debug] { test: 123 }
+[debug] { test: 123 } { '--': [], c: 123 }
 Task: cc
 [debug] { '--': [], c: 123 }

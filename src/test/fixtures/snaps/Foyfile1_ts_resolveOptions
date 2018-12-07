@@ -1,0 +1,3 @@
+Task: logOptions
+[debug] logOptions { aa: 1 } { '--': [], c: 1 }
+Task: resolveOptions
