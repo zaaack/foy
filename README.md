@@ -94,6 +94,67 @@ task('build', async ctx => {
 })
 ```
 
+## Using dependencies
+
+```ts
+
+import { task } from 'foy'
+import * as axios from 'axios'
+
+task('test', async ctx => {
+  await ctx.exec('mocha')
+})
+
+task('build', async ctx => {
+  let res = await axios.get('https://your.server/data.json')
+  console.log(res.data)
+  await ctx.exec('build my awesome project')
+})
+task(
+  'publish:patch',
+  ['test', 'build'], // Run test and build before publish
+  async ctx => {
+    await ctx.exec('npm version patch')
+    await ctx.exec('npm publish')
+  }
+)
+```
+
+Or, you can pass options to customize the execution of dependences:
+
+```ts
+task(
+  'publish:patch',
+  [{
+    name: 'test',
+    async: true, // run test parallelly
+    force: true, // force rerun test whether it is executed before or not,
+  }, {
+    name: 'build',
+    async: true,
+    force: true,
+  },],
+  async ctx => {
+    await ctx.exec('npm version patch')
+    await ctx.exec('npm publish')
+  }
+)
+```
+
+You can also pass options to dependences:
+
+```ts
+task('task1', async ctx => {
+  console.log(ctx.options) // "{ forceRebuild: true }"
+})
+
+task('task2', [{
+  name: 'task1',
+  options: { forceRebuild: true }
+}])
+```
+
+
 ## Using with custom compiler
 
 ```sh

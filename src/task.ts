@@ -163,6 +163,7 @@ export class TaskManager {
 
 const taskManager = new TaskManager()
 const TMKey = '@foyjs/taskManager'
+/** @internal */
 export function getGlobalTaskManager(): TaskManager {
   return (global as any)[TMKey] as any
 }

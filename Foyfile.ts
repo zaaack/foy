@@ -37,6 +37,7 @@ task('watch', [{
 }])
 
 task('preversion', ['test', 'build'], async ctx => {
+  await fs.rmrf('./lib/test')
   await ctx.exec(`git add -A`)
 })
 

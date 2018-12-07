@@ -123,6 +123,54 @@ task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async<
   <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> axios.get(<span class="hljs-string">'https://your.server/data.json'</span>)
   <span class="hljs-built_in">console</span>.log(res.data)
 })</code></pre>
+				<h2 id="using-dependencies">Using dependencies</h2>
+				<pre><code class="language-ts">
+<span class="hljs-keyword">import</span> { task } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">'axios'</span>
+
+task(<span class="hljs-string">'test'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'mocha'</span>)
+})
+
+task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> axios.get(<span class="hljs-string">'https://your.server/data.json'</span>)
+  <span class="hljs-built_in">console</span>.log(res.data)
+  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'build my awesome project'</span>)
+})
+task(
+  <span class="hljs-string">'publish:patch'</span>,
+  [<span class="hljs-string">'test'</span>, <span class="hljs-string">'build'</span>], <span class="hljs-comment">// Run test and build before publish</span>
+  <span class="hljs-keyword">async</span> ctx =&gt; {
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm version patch'</span>)
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm publish'</span>)
+  }
+)</code></pre>
+				<p>Or, you can pass options to customize the execution of dependences:</p>
+				<pre><code class="language-ts">task(
+  <span class="hljs-string">'publish:patch'</span>,
+  [{
+    name: <span class="hljs-string">'test'</span>,
+    <span class="hljs-keyword">async</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// run test parallelly</span>
+    force: <span class="hljs-literal">true</span>, <span class="hljs-comment">// force rerun test whether it is executed before or not,</span>
+  }, {
+    name: <span class="hljs-string">'build'</span>,
+    <span class="hljs-keyword">async</span>: <span class="hljs-literal">true</span>,
+    force: <span class="hljs-literal">true</span>,
+  },],
+  <span class="hljs-keyword">async</span> ctx =&gt; {
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm version patch'</span>)
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm publish'</span>)
+  }
+)</code></pre>
+				<p>You can also pass options to dependences:</p>
+				<pre><code class="language-ts">task(<span class="hljs-string">'task1'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-built_in">console</span>.log(ctx.options) <span class="hljs-comment">// "{ forceRebuild: true }"</span>
+})
+
+task(<span class="hljs-string">'task2'</span>, [{
+  name: <span class="hljs-string">'task1'</span>,
+  options: { forceRebuild: <span class="hljs-literal">true</span> }
+}])</code></pre>
 				<h2 id="using-with-custom-compiler">Using with custom compiler</h2>
 				<pre><code class="language-sh">
 <span class="hljs-comment"># Write Foyfile in ts, enabled by default</span>
