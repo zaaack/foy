@@ -63,17 +63,17 @@ export type WatchDirOptions = {
 function watchDir(
   dir: string,
   cb: WatchDirHandler,
-)
+): void
 function watchDir(
   dir: string,
   options: WatchDirOptions,
   cb: WatchDirHandler,
-)
+): void
 function watchDir(
   dir: string,
   options?: WatchDirOptions | WatchDirHandler,
   cb?: WatchDirHandler,
-) {
+): void {
   if (typeof options === 'function') {
     cb = options as any
     options = void 0

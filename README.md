@@ -165,6 +165,19 @@ task('task2', [{
 // foy task2 -a 1
 ```
 
+## Watch and build
+
+```ts
+
+task('build', async ctx => { /* build your project */ })
+task('run', async ctx => { /* start your project */ })
+task('watch', async ctx => {
+  ctx.fs.watchDir('./src', async (evt, file) => {
+    await ctx.run('build')
+    await ctx.run('run')
+  })
+})
+```
 
 ## Using with custom compiler
 

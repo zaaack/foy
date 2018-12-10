@@ -138,6 +138,16 @@ task(&#39;task2&#39;, [{
 }])
 
 // foy task2 -a 1</code></pre>
+<h2 id="watch-and-build">Watch and build</h2>
+<pre><code class="language-ts">
+task(&#39;build&#39;, async ctx =&gt; { /* build your project */ })
+task(&#39;run&#39;, async ctx =&gt; { /* start your project */ })
+task(&#39;watch&#39;, async ctx =&gt; {
+  ctx.fs.watchDir(&#39;./src&#39;, async (evt, file) =&gt; {
+    await ctx.run(&#39;build&#39;)
+    await ctx.run(&#39;run&#39;)
+  })
+})</code></pre>
 <h2 id="using-with-custom-compiler">Using with custom compiler</h2>
 <pre><code class="language-sh">
 # Write Foyfile in ts, enabled by default

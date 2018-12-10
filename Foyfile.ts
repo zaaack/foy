@@ -46,9 +46,9 @@ task('postversion', async ctx => {
 })
 
 task('site:home', async ctx => {
-  let pkg = await fs.readJson('./package.json')
+  let pkg = await ctx.fs.readJson('./package.json')
   let desc = pkg.description
-  let md = await fs.readFile('./README.md', 'utf8')
+  let md = await ctx.fs.readFile('./README.md', 'utf8')
   let content = marked(md)
 
   let data = {
@@ -61,12 +61,13 @@ task('site:home', async ctx => {
     apiUrl: 'http://zaaack.github.io/foy/api',
   }
   let html = await ejs.renderFile<string>('./docs-src/index.html', data)
-  await fs.outputFile('./docs/index.html', html)
+  await ctx.fs.outputFile('./docs/index.html', html)
 })
 task('site:watch', async ctx => {
-  let watcher = fs.watchDir('./docs-src', (evt, file) => {
+  ctx.fs.watchDir('./docs-src', async (evt, file) => {
     console.log(evt, file)
-    ctx.run('site:home')
+    await ctx.run('site:home')
+    console.log('build')
   })
 })
 
