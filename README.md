@@ -171,10 +171,13 @@ task('task2', [{
 
 task('build', async ctx => { /* build your project */ })
 task('run', async ctx => { /* start your project */ })
+
+let p = null
 task('watch', async ctx => {
   ctx.fs.watchDir('./src', async (evt, file) => {
     await ctx.run('build')
-    await ctx.run('run')
+    p && p.kill()
+    p = await ctx.run('run')
   })
 })
 ```
