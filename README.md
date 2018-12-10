@@ -176,7 +176,7 @@ let p = null
 task('watch', async ctx => {
   ctx.fs.watchDir('./src', async (evt, file) => {
     await ctx.run('build')
-    p && p.kill()
+    p && !p.killed && p.kill()
     p = await ctx.run('run')
   })
 })

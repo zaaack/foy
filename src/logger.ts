@@ -21,6 +21,7 @@ function makeLogger(level: keyof (typeof Levels), color: (s: string) => string) 
 export const logger = {
   debug: makeLogger('debug', chalk.blueBright),
   info: makeLogger('info', chalk.green),
+  log: makeLogger('info', chalk.green),
   warn: makeLogger('warn', chalk.yellow),
   error: makeLogger('error', chalk.red),
 }

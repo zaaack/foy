@@ -4,6 +4,7 @@ import { OptionConfig } from 'cac/types/Option'
 import { ShellContext } from './exec'
 import { hashAny } from './utils'
 import { fs } from './fs';
+import { logger } from './logger';
 
 export interface GlobalOptions {
   /**
@@ -66,6 +67,11 @@ export interface Task<O = any> extends TaskDep<O> {
 
 export class TaskContext<O = any> extends ShellContext {
   fs = fs
+  debug = logger.debug
+  info = logger.info
+  log = logger.log
+  warn = logger.warn
+  error = logger.error
   constructor(
     public task: Task<O>,
     public global: GlobalOptions
