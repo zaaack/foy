@@ -5,13 +5,13 @@ import { throttle } from './utils';
 async function copy(
   src: string,
   dist: string,
-  opts?: { filter?: (stat: _fs.Stats) => boolean, override?: boolean },
+  opts?: { filter?: (file: string, stat: _fs.Stats) => boolean, override?: boolean },
 ) {
   let srcStat = await fs.stat(src)
   let isFiltered = true
   let isOverrided = false
   if (opts) {
-    if (opts.filter) isFiltered = opts.filter(srcStat)
+    if (opts.filter) isFiltered = opts.filter(src, srcStat)
     if (opts.override) isOverrided = opts.override
   }
   if (!isFiltered) return
