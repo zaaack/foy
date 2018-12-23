@@ -146,16 +146,26 @@ export const fs = {
     if (dir === '/') return
     let parent = pathLib.dirname(dir)
     if (parent && parent !== '/') {
-      try {
-        await fs.stat(parent)
-      } catch (error) {
-        await fs.mkdirp(parent)
-      }
+      await fs.mkdirp(parent)
     }
     try {
       await fs.stat(dir)
     } catch (error) {
       return fs.mkdir(dir)
+    }
+  },
+  /**
+   * Make directory with parents, like `mkdir -p`
+   * @param dir
+   */
+  mkdirpSync(dir: string) {
+    if (dir === '/') return
+    let parent = pathLib.dirname(dir)
+    if (parent && parent !== '/') {
+      fs.mkdirpSync(parent)
+    }
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir)
     }
   },
   /**
@@ -182,30 +192,30 @@ export const fs = {
     await fs.mkdirp(dir)
     return fs.writeFile(path, data, options)
   },
-  async outputFileSync(path: string, data: any, options?: { encoding?: string | null, mode?: string | number, flag?: string } | string | null) {
+  outputFileSync(path: string, data: any, options?: { encoding?: string | null, mode?: string | number, flag?: string } | string | null) {
     let dir = pathLib.dirname(path)
-    await fs.mkdirp(dir)
+    fs.mkdirpSync(dir)
     return fs.writeFileSync(path, data, options)
   },
   async outputJson(path: string, data: object, options?: { encoding?: string | null, mode?: string | number, flag?: string } | string | null) {
     return fs.outputFile(path, JSON.stringify(data), options)
   },
-  async outputJsonSync(path: string, data: object, options?: { encoding?: string | null, mode?: string | number, flag?: string } | string | null) {
+  outputJsonSync(path: string, data: any, options?: { encoding?: string | null, mode?: string | number, flag?: string } | string | null) {
     return fs.outputFileSync(path, JSON.stringify(data), options)
   },
-  async readJson(path: string, options?: { encoding?: null, flag?: string } | null) {
+  async readJson<T = any>(path: string, options?: { encoding?: null, flag?: string } | null) {
     let data: Buffer | string = await fs.readFile(path, options)
     if (typeof data !== 'string') {
       data = data.toString('utf8')
     }
-    return JSON.parse(data)
+    return JSON.parse(data) as T
   },
-  async readJsonSync(path: string, options?: { encoding?: null, flag?: string } | null) {
+  readJsonSync<T = any>(path: string, options?: { encoding?: null, flag?: string } | null) {
     let data: Buffer | string = fs.readFileSync(path, options)
     if (typeof data !== 'string') {
       data = data.toString('utf8')
     }
-    return JSON.parse(data)
+    return JSON.parse(data) as T
   },
   async iter(dir: string, filter: (path: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void) {
     let children = await fs.readdir(dir)

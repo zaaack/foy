@@ -12,8 +12,23 @@ describe('fs', () => {
     let s = await fs.readFile(`${baseDir}/test`)
     assert.equal(s, 'aaa')
   })
+  it('json', async () => {
+    let o1 = { aa: 1 }
+    fs.outputJsonSync(`${baseDir}/json/dir/1`, o1)
+    assert.deepEqual(
+      fs.readJsonSync(`${baseDir}/json/dir/1`),
+      o1,
+    )
+
+    let o2 = { aa: 2 }
+    await fs.outputJson(`${baseDir}/json/dir/2`, o2)
+    assert.deepEqual(
+      await fs.readJson(`${baseDir}/json/dir/2`),
+      o2,
+    )
+  })
   it('copy dir', async () => {
-    await fs.outputFile(`${baseDir}/dir1/dir2/test`, 'aaa')
+    fs.outputFileSync(`${baseDir}/dir1/dir2/test`, 'aaa')
     let s = await fs.readFile(`${baseDir}/dir1/dir2/test`)
     assert.equal(s, 'aaa')
     await fs.copy(`${baseDir}/dir1`, `${baseDir}/dir2`)
@@ -42,10 +57,10 @@ describe('fs', () => {
     await fs.iter(`${baseDir}/dir1`, (file, stat) => {
       paths.push(pathLib.relative(baseDir, file))
     })
-    assert.deepEqual(paths, [
+    assert.deepEqual(paths.sort(), [
       'dir1/dir2',
-      'dir1/test',
       'dir1/dir2/test',
+      'dir1/test',
     ])
     paths = []
     await fs.iter(`${baseDir}/dir1`, (file, stat) => {
@@ -53,7 +68,7 @@ describe('fs', () => {
       paths.push(file)
       if (file === 'dir1/dir2') return true
     })
-    assert.deepEqual(paths, [
+    assert.deepEqual(paths.sort(), [
       'dir1/dir2',
       'dir1/test',
     ])
