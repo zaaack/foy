@@ -182,6 +182,19 @@ task(<span class="hljs-string">'task2'</span>, [{
 }])
 
 <span class="hljs-comment">// foy task2 -a 1</span></code></pre>
+				<h2 id="watch-and-build">Watch and build</h2>
+				<pre><code class="language-ts">
+task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* build your project */</span> })
+task(<span class="hljs-string">'run'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* start your project */</span> })
+
+<span class="hljs-keyword">let</span> p = <span class="hljs-literal">null</span>
+task(<span class="hljs-string">'watch'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  ctx.fs.watchDir(<span class="hljs-string">'./src'</span>, <span class="hljs-keyword">async</span> (evt, file) =&gt; {
+    <span class="hljs-keyword">await</span> ctx.run(<span class="hljs-string">'build'</span>)
+    p &amp;&amp; !p.killed &amp;&amp; p.kill()
+    p = <span class="hljs-keyword">await</span> ctx.run(<span class="hljs-string">'run'</span>)
+  })
+})</code></pre>
 				<h2 id="using-with-custom-compiler">Using with custom compiler</h2>
 				<pre><code class="language-sh">
 <span class="hljs-comment"># Write Foyfile in ts, enabled by default</span>
