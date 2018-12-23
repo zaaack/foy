@@ -45,6 +45,12 @@ task('postversion', async ctx => {
   await ctx.exec(`git push origin master --tags`)
 })
 
+task('publish', async ctx => {
+  await ctx.exec([
+    `npm version ${ctx.task.rawArgs[0] || 'patch'}`
+  ])
+})
+
 task('site:home', async ctx => {
   let pkg = await ctx.fs.readJson('./package.json')
   let desc = pkg.description
