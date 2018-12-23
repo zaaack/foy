@@ -75,9 +75,10 @@ task('some task', async ctx => {
   await fs.rmrf('/some/dir/or/file') // Remove directory or file
   await fs.copy('/src', '/dist') // Copy folder or file
   let json = await fs.readJson('./xx.json')
-  await ctx.env('NODE_ENV', 'production')
-  await ctx.cd('./src')
-  await ctx.exec('some command') // Execute an command
+  await ctx
+    .env('NODE_ENV', 'production')
+    .cd('./src')
+    .exec('some command') // Execute an command
   let { stdout } = await ctx.exec('ls', { stdio: 'pipe' }) // Get the stdout, default is empty because it's redirected to current process via `stdio: 'inherit'`.
 })
 ```

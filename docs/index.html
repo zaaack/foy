@@ -66,9 +66,10 @@ task(&#39;some task&#39;, async ctx =&gt; {
   await fs.rmrf(&#39;/some/dir/or/file&#39;) // Remove directory or file
   await fs.copy(&#39;/src&#39;, &#39;/dist&#39;) // Copy folder or file
   let json = await fs.readJson(&#39;./xx.json&#39;)
-  await ctx.env(&#39;NODE_ENV&#39;, &#39;production&#39;)
-  await ctx.cd(&#39;./src&#39;)
-  await ctx.exec(&#39;some command&#39;) // Execute an command
+  await ctx
+    .env(&#39;NODE_ENV&#39;, &#39;production&#39;)
+    .cd(&#39;./src&#39;)
+    .exec(&#39;some command&#39;) // Execute an command
   let { stdout } = await ctx.exec(&#39;ls&#39;, { stdio: &#39;pipe&#39; }) // Get the stdout, default is empty because it&#39;s redirected to current process via `stdio: &#39;inherit&#39;`.
 })</code></pre>
 <h2 id="using-with-other-packages">Using with other packages</h2>
@@ -142,10 +143,13 @@ task(&#39;task2&#39;, [{
 <pre><code class="language-ts">
 task(&#39;build&#39;, async ctx =&gt; { /* build your project */ })
 task(&#39;run&#39;, async ctx =&gt; { /* start your project */ })
+
+let p = null
 task(&#39;watch&#39;, async ctx =&gt; {
   ctx.fs.watchDir(&#39;./src&#39;, async (evt, file) =&gt; {
     await ctx.run(&#39;build&#39;)
-    await ctx.run(&#39;run&#39;)
+    p &amp;&amp; !p.killed &amp;&amp; p.kill()
+    p = await ctx.run(&#39;run&#39;)
   })
 })</code></pre>
 <h2 id="using-with-custom-compiler">Using with custom compiler</h2>

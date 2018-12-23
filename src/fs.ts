@@ -145,7 +145,9 @@ export const fs = {
   async mkdirp(dir: string) {
     if (dir === '/') return
     let parent = pathLib.dirname(dir)
-    if (parent && parent !== '/') {
+    try {
+      await fs.stat(parent)
+    } catch (error) {
       await fs.mkdirp(parent)
     }
     try {
@@ -161,7 +163,7 @@ export const fs = {
   mkdirpSync(dir: string) {
     if (dir === '/') return
     let parent = pathLib.dirname(dir)
-    if (parent && parent !== '/') {
+    if (!fs.existsSync(parent)) {
       fs.mkdirpSync(parent)
     }
     if (!fs.existsSync(dir)) {

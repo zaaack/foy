@@ -47,7 +47,8 @@ task('postversion', async ctx => {
 
 task('publish', async ctx => {
   await ctx.exec([
-    `npm version ${ctx.task.rawArgs[0] || 'patch'}`
+    `npm version ${ctx.task.rawArgs[0] || 'patch'}`,
+    `npm --registry https://registry.npmjs.org/ publish`
   ])
 })
 
