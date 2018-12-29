@@ -50,3 +50,9 @@ export function throttle<T extends (...args: any[]) => void>(cb: T, ms: number):
   }
   return newCb as any
 }
+
+export const Is = {
+  defed<T>(v: T | null | undefined): v is T {
+    return typeof v !== 'undefined' && v !== null
+  }
+}

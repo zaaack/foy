@@ -9,7 +9,7 @@ const snapsDir = `${fixturesDir}/snaps`
 const UpdateSnap = process.env.UPDATE_SNAP === '1'
 
 function test(cmd: string) {
-  let out = ''
+  let out = 'Not initialized'
   let snap = ''
   return {
     name: cmd,

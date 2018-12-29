@@ -2,7 +2,7 @@ const ora = require('ora')
 import chalk from 'chalk'
 import { OptionConfig } from 'cac/types/Option'
 import { ShellContext } from './exec'
-import { hashAny } from './utils'
+import { hashAny, Is } from './utils'
 import { fs } from './fs';
 import { logger } from './logger';
 
@@ -63,6 +63,7 @@ export interface Task<O = any> extends TaskDep<O> {
    */
   strict?: boolean
   options: O
+  loading?: boolean
 }
 
 export class TaskContext<O = any> extends ShellContext {
@@ -186,10 +187,14 @@ export class TaskManager {
     }
     let taskHash = hashAny(t)
     if (this._didSet.has(taskHash) && !t.force) return
-    let loading =
-      typeof props.loading !== 'undefined'
-        ? props.loading
-        : ctx.global.loading
+    let loading = true
+    if (Is.defed(props.loading)) {
+      loading = props.loading
+    } else if (Is.defed(t.loading)) {
+      loading = t.loading
+    } else if (Is.defed(ctx.global.loading)) {
+      loading = ctx.global.loading
+    }
     if (!loading) {
       console.log(chalk.yellow('Task: ') + t.name)
       let ret = t.fn && await t.fn(ctx)
@@ -233,6 +238,7 @@ namespace TaskOptions {
       desc: undefined as undefined | string,
       optionDefs: [] as OptionDef[],
       strict: getGlobalTaskManager().globalOptions.strict,
+      loading: undefined as undefined | boolean,
     }
   }
 }
@@ -250,7 +256,7 @@ export function strict() {
  * Set options for next task.
  * @param options
  */
-export function setOption(options: typeof TaskOptions.last) {
+export function setOption(options: Partial<typeof TaskOptions.last>) {
   Object.assign(TaskOptions.last, options)
 }
 export function task<O>(
@@ -283,6 +289,7 @@ export function task<O>(
     optionDefs: TaskOptions.last.optionDefs,
     desc: TaskOptions.last.desc,
     strict: TaskOptions.last.strict,
+    loading: TaskOptions.last.loading,
     dependencies: (dependencies || []).map(d => {
       if (typeof d === 'string') {
         return { name: d, options: {} } as Task

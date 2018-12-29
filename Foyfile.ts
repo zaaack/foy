@@ -1,4 +1,4 @@
-import { task, desc, option, logger, fs, strict, setGlobalOptions } from './src/'
+import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption } from './src/'
 import * as marked from 'marked'
 import * as ejs from 'ejs'
 task('build', async ctx => {
@@ -36,11 +36,13 @@ task('watch', [{
 
 }])
 
+setOption({ loading: false })
 task('preversion', ['test', 'build'], async ctx => {
   await fs.rmrf('./lib/test')
   await ctx.exec(`git add -A`)
 })
 
+setOption({ loading: false })
 task('postversion', async ctx => {
   await ctx.exec(`git push origin master --tags`)
 })
