@@ -38,10 +38,15 @@ task('watch', [{
 }])
 // npm_package_version:
 setOption({ loading: false })
-task<{ version: string }>('preversion', ['test', 'build'], async ctx => {
-  await fs.rmrf('./lib/test')
+task<{ version: string }>('preversion', async ctx => {
+  await Promise.all([
+    fs.rmrf('./lib/test'),
+    ctx.run('test'),
+    ctx.run('build'),
+    ctx.run('site'),
+  ])
   await ctx.exec([
-    `changelog --${ctx.options.version}`,
+    `changelog --${ctx.options.version} -X chore`,
     `git add -A`,
     `git commit -m 'updated CHANGELOG.md'`,
   ])
