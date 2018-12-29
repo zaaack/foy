@@ -84,14 +84,18 @@
 				<pre><code class="language-sh">yarn add -g foy <span class="hljs-comment"># or npm i -g foy</span></code></pre>
 				<h2 id="write-a-foyfile">Write a Foyfile</h2>
 				<p>You need to add a Foyfile.js(or Foyfile.ts with <a href="https://github.com/TypeStrong/ts-node">ts-node</a> installed) in your project root.</p>
-				<p>Here is an minimal example</p>
-				<pre><code class="language-ts"><span class="hljs-comment">// Foyfile.js</span>
-<span class="hljs-keyword">import</span> { task } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+				<p>Also, you can simply generate a Foyfile.js via:</p>
+				<pre><code class="language-sh">foy --init</code></pre>
+				<p>Then it will put a simple <code>Foyfile.js</code> in current folder:</p>
+				<pre><code class="language-js"><span class="hljs-comment">// Foyfile.js</span>
+<span class="hljs-keyword">const</span> { task } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'foy'</span>)
 
 task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
   <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'tsc'</span>)
 })</code></pre>
-				<p>We added a build command to execute, then we can run <code>foy build</code> to execute this task.</p>
+				<p>You can also generate a <code>Foyfile.ts</code> via</p>
+				<pre><code class="language-sh">foy --init ts</code></pre>
+				<p>Then we can run <code>foy build</code> to execute the <code>build</code> task.</p>
 				<pre><code class="language-sh">foy build</code></pre>
 				<p>You can also add some options and description to task:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, desc, option, strict } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
@@ -110,9 +114,10 @@ task(<span class="hljs-string">'some task'</span>, <span class="hljs-keyword">as
   <span class="hljs-keyword">await</span> fs.rmrf(<span class="hljs-string">'/some/dir/or/file'</span>) <span class="hljs-comment">// Remove directory or file</span>
   <span class="hljs-keyword">await</span> fs.copy(<span class="hljs-string">'/src'</span>, <span class="hljs-string">'/dist'</span>) <span class="hljs-comment">// Copy folder or file</span>
   <span class="hljs-keyword">let</span> json = <span class="hljs-keyword">await</span> fs.readJson(<span class="hljs-string">'./xx.json'</span>)
-  <span class="hljs-keyword">await</span> ctx.env(<span class="hljs-string">'NODE_ENV'</span>, <span class="hljs-string">'production'</span>)
-  <span class="hljs-keyword">await</span> ctx.cd(<span class="hljs-string">'./src'</span>)
-  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'some command'</span>) <span class="hljs-comment">// Execute an command</span>
+  <span class="hljs-keyword">await</span> ctx
+    .env(<span class="hljs-string">'NODE_ENV'</span>, <span class="hljs-string">'production'</span>)
+    .cd(<span class="hljs-string">'./src'</span>)
+    .exec(<span class="hljs-string">'some command'</span>) <span class="hljs-comment">// Execute an command</span>
   <span class="hljs-keyword">let</span> { stdout } = <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'ls'</span>, { stdio: <span class="hljs-string">'pipe'</span> }) <span class="hljs-comment">// Get the stdout, default is empty because it's redirected to current process via `stdio: 'inherit'`.</span>
 })</code></pre>
 				<h2 id="using-with-other-packages">Using with other packages</h2>

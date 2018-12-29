@@ -32,18 +32,30 @@ yarn add -g foy # or npm i -g foy
 
 You need to add a Foyfile.js(or Foyfile.ts with [ts-node](https://github.com/TypeStrong/ts-node) installed) in your project root.
 
-Here is an minimal example
+Also, you can simply generate a Foyfile.js via:
 
-```ts
+```sh
+foy --init
+```
+
+Then it will put a simple `Foyfile.js` in current folder:
+
+```js
 // Foyfile.js
-import { task } from 'foy'
+const { task } = require('foy')
 
 task('build', async ctx => {
   await ctx.exec('tsc')
 })
 ```
 
-We added a build command to execute, then we can run `foy build` to execute this task.
+You can also generate a `Foyfile.ts` via
+
+```sh
+foy --init ts
+```
+
+Then we can run `foy build` to execute the `build` task.
 
 ```sh
 foy build

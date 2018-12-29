@@ -34,6 +34,7 @@ For more info, run any command with the `--help` flag:
   $ cli.ts resolveOptions --help
 
 Options:
-  -h, --help  Display this message 
+  -h, --help                Display this message
+  --init, -i [ext]          Generate the Foyfile, <ext> can be "ts" | "js", default is "js"
   --config, -c <...files>   The Foyfiles
   --require, -r <...names>  Require the given modules

@@ -36,6 +36,7 @@ export class ShellContext {
     let name = typeof task === 'string' ? task : task.name
     return taskManager.run(name, {
       force: true,
+      loading: false,
       ...options,
     })
   }

@@ -88,6 +88,8 @@ export interface RunTaskOptions {
   rawArgs?: string[]
   parentCtx?: TaskContext | null
   force?: boolean
+  /** default is false */
+  loading?: boolean
 }
 export class TaskManager {
   private _tasks: {[k: string]: Task} = {}
@@ -184,7 +186,11 @@ export class TaskManager {
     }
     let taskHash = hashAny(t)
     if (this._didSet.has(taskHash) && !t.force) return
-    if (!ctx.global.loading) {
+    let loading =
+      typeof props.loading !== 'undefined'
+        ? props.loading
+        : ctx.global.loading
+    if (!loading) {
       console.log(chalk.yellow('Task: ') + t.name)
       let ret = t.fn && await t.fn(ctx)
       this._didSet.add(taskHash)

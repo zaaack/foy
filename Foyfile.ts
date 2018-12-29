@@ -78,4 +78,4 @@ task('site:watch', async ctx => {
   })
 })
 
-task('site', ['doc'])
+task('site', ['doc', 'site:home'])

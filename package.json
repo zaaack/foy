@@ -57,7 +57,7 @@
     "typescript": "^3.2.1"
   },
   "dependencies": {
-    "cac": "^6.3.9",
+    "cac": "^6.3.12",
     "chalk": "^2.4.1",
     "execa": "^1.0.0",
     "ora": "^3.0.0",

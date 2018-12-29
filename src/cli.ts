@@ -13,11 +13,13 @@ let taskArgv: string[] = []
 
 {
   const argv = process.argv.slice(2)
-  const defaultOptions = new Map([
+  const defaultOptions = new Map<string, number>([
     ['--config', 1],
     ['-c', 1],
     ['--require', 1],
     ['-r', 1],
+    ['--init', 1],
+    ['-i', 1],
   ])
   let i = 0
   for (i = 0; i < argv.length; i++) {
@@ -40,10 +42,34 @@ function addDefaultOptions(cli: ReturnType<typeof cac>) {
   return cli
     .option(`--config, -c <...files>`, 'The Foyfiles')
     .option(`--require, -r <...names>`, 'Require the given modules')
+    .option(`--init, -i [ext]`, 'Generate the Foyfile, [ext] can be "ts" | "js", default is "js"')
 }
 
 addDefaultOptions(defaultCli)
 .parse(defaultArgv)
+
+if (defaultCli.options.init) {
+  let ext = defaultCli.options.init
+  if (typeof ext !== 'string') {
+    ext = 'js'
+  }
+  ext = ext.replace(/^\./, '')
+  const file = `./Foyfile.${ext}`
+  if (fs.existsSync(file)) {
+    throw new Error(`Foyfile already exists: ${pathLib.resolve(file)}`)
+  }
+  fs.writeFileSync(file, `${ ext === 'js'
+  ? `const { task, desc, option } = require('foy')`
+  : `import { task, desc, option } from 'foy'` }
+
+task('build', async ctx => {
+  // Your build tasks
+  await ctx.exec('tsc')
+})
+
+`)
+  process.exit()
+}
 
 let foyFiles: string[] = arrify(defaultCli.options.config)
 let registers: string[] = arrify(defaultCli.options.require)
@@ -119,8 +145,11 @@ taskCli.help(sections => {
   if (!taskCli.matchedCommand) {
     let last = sections[sections.length - 1]
     let lines = last.body.split('\n')
+    lines.pop()
     last.body =
       lines.concat(
+        '  -h, --help                Display this message',
+        '  --init, -i [ext]          Generate the Foyfile, <ext> can be "ts" | "js", default is "js"',
         '  --config, -c <...files>   The Foyfiles',
         '  --require, -r <...names>  Require the given modules',
       )
