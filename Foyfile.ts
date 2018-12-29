@@ -1,6 +1,7 @@
 import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption } from './src/'
 import * as marked from 'marked'
 import * as ejs from 'ejs'
+
 task('build', async ctx => {
   await fs.rmrf('./lib')
   await ctx.exec([
@@ -35,23 +36,27 @@ task('watch', [{
   options: { args: `-w --watch-extensions ts,tsx` },
 
 }])
-
+// npm_package_version:
 setOption({ loading: false })
-task('preversion', ['test', 'build'], async ctx => {
+task<{ version: string }>('preversion', ['test', 'build'], async ctx => {
   await fs.rmrf('./lib/test')
-  await ctx.exec(`git add -A`)
+  await ctx.exec([
+    `changelog --${ctx.options.version}`,
+    `git add -A`,
+    `git commit -m 'updated CHANGELOG.md'`,
+  ])
 })
 
-setOption({ loading: false })
 task('postversion', async ctx => {
   await ctx.exec(`git push origin master --tags`)
 })
 
 task('publish', async ctx => {
-  await ctx.exec([
-    `npm version ${ctx.task.rawArgs[0] || 'patch'}`,
-    `npm --registry https://registry.npmjs.org/ publish`
-  ])
+  const version = ctx.task.rawArgs[0] || 'patch'
+  await ctx.run('preversion', { options: { version } })
+  await ctx.exec(`npm version ${version}`)
+  await ctx.exec(`git push origin master --tags`)
+  await ctx.exec(`npm --registry https://registry.npmjs.org/ publish`)
 })
 
 task('site:home', async ctx => {
