@@ -41,6 +41,7 @@ setOption({ loading: false })
 task<{ version: string }>('preversion', async ctx => {
   await Promise.all([
     fs.rmrf('./lib/test'),
+    ctx.exec('yarn'),
     ctx.run('test'),
     ctx.run('build'),
     ctx.run('site'),
@@ -48,7 +49,7 @@ task<{ version: string }>('preversion', async ctx => {
   await ctx.exec([
     `changelog --${ctx.options.version} -x chore`,
     `git add -A`,
-    `git commit -m 'updated CHANGELOG.md'`,
+    `git commit -m 'Update CHANGELOG.md & doc'`,
   ])
 })
 
