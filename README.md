@@ -4,6 +4,21 @@
 
 A simple, light-weight and modern task runner for general purpose.
 
+## Contents
+
+- [Foy](#foy)
+  - [Contents](#contents)
+  - [Features](#features)
+  - [Install](#install)
+  - [Write a Foyfile](#write-a-foyfile)
+  - [Using with built-in promised-based API](#using-with-built-in-promised-based-api)
+  - [Using with other packages](#using-with-other-packages)
+  - [Using dependencies](#using-dependencies)
+  - [Watch and build](#watch-and-build)
+  - [Using with custom compiler](#using-with-custom-compiler)
+  - [API documentation](#api-documentation)
+  - [License](#license)
+
 ## Features
 
 * Promise-based tasks and built-in utilities.
