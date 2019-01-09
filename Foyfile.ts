@@ -46,7 +46,7 @@ task<{ version: string }>('preversion', async ctx => {
     ctx.run('site'),
   ])
   await ctx.exec([
-    `changelog --${ctx.options.version} -X chore`,
+    `changelog --${ctx.options.version} -x chore`,
     `git add -A`,
     `git commit -m 'updated CHANGELOG.md'`,
   ])
