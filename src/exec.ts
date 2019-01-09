@@ -67,9 +67,9 @@ export class ShellContext {
     }) as any
   }
   env(key: string): string
-  env(key: string, val: string): this
+  env(key: string, val: string | undefined): this
   env(key: string, val?: string): string | this {
-    if (typeof val === 'undefined') {
+    if (arguments.length === 1) {
       return this._env[key]
     }
     this._env[key] = val

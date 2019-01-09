@@ -3,8 +3,8 @@ import chalk from 'chalk'
 import { OptionConfig } from 'cac/types/Option'
 import { ShellContext } from './exec'
 import { hashAny, Is } from './utils'
-import { fs } from './fs';
-import { logger } from './logger';
+import { fs } from './fs'
+import { logger } from './logger'
 
 export interface GlobalOptions {
   /**
