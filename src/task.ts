@@ -79,7 +79,7 @@ export interface Task<O = any> extends TaskDep<O> {
    * @default globalOptions.logCommand
    */
   logCommand?: boolean,
-  logCommand?: boolean
+  logTask?: boolean
 }
 
 export class TaskContext<O = any> extends ShellContext {
