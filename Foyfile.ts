@@ -61,7 +61,8 @@ task('publish', async ctx => {
   const version = ctx.task.rawArgs[0] || 'patch'
   await ctx.run('preversion', { options: { version } })
   await ctx.exec(`npm version ${version}`)
-  await ctx.exec(`git push origin master --tags`)
+  await ctx.exec(`git push origin master`)
+  await ctx.exec(`git push origin master --tags -f`)
   await ctx.exec(`npm --registry https://registry.npmjs.org/ publish`)
 })
 
