@@ -13,7 +13,11 @@ function test(cmd: string) {
   let snap = ''
   return {
     name: cmd,
-    fn: () => assert.equal(out.trim(), snap.trim()),
+    it() {
+      it(cmd, () => {
+        assert.equal(out.trim(), snap.trim())
+      })
+    },
     async init() {
       let p = await exec(`ts-node ./src/cli.ts --config ${fixturesDir}/${cmd}`).catch(er => er)
       out = p.stdout + p.stderr
@@ -54,10 +58,5 @@ describe('task', function () {
     }
     await Promise.all(tests.map(t => t.init()))
   })
-  for (const cb of tests) {
-    if (!cb) continue
-    it(cb.name, () => {
-      cb.fn()
-    })
-  }
+  tests.forEach(t => t.it())
 })

@@ -1,3 +1,4 @@
 Task: dd
+[info] Exec:  pwd
 [debug] p.stdout.trim() === ctx.cwd() true
 [debug] true

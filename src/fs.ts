@@ -265,11 +265,37 @@ export const fs = {
     fs.mkdirpSync(dir)
     return fs.writeFileSync(path, data, options)
   },
-  async outputJson(path: string, data: object, options?: { encoding?: string | null, mode?: string | number, flag?: string } | string | null) {
-    return fs.outputFile(path, JSON.stringify(data), options)
+  async outputJson(
+    path: string,
+    data: object,
+    options?: {
+      encoding?: string | null,
+      mode?: string | number,
+      flag?: string,
+      space?: number,
+      replacer?: (key: string, value: any) => any,
+    } | string | null
+  ) {
+    const [replacer, space] = options && typeof options === 'object'
+      ? [options.replacer, options.space]
+      : [void 0, void 0]
+    return fs.outputFile(path, JSON.stringify(data, replacer, space), options)
   },
-  outputJsonSync(path: string, data: any, options?: { encoding?: string | null, mode?: string | number, flag?: string } | string | null) {
-    return fs.outputFileSync(path, JSON.stringify(data), options)
+  outputJsonSync(
+    path: string,
+    data: any,
+    options?: {
+      encoding?: string | null,
+      mode?: string | number,
+      flag?: string
+      space?: number,
+      replacer?: (key: string, value: any) => any,
+    } | string | null,
+  ) {
+    const [replacer, space] = options && typeof options === 'object'
+      ? [options.replacer, options.space]
+      : [void 0, void 0]
+    return fs.outputFileSync(path, JSON.stringify(data, replacer, space), options)
   },
   async readJson<T = any>(path: string, options?: { encoding?: null, flag?: string } | null) {
     let data: Buffer | string = await fs.readFile(path, options)

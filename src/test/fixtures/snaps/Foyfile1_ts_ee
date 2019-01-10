@@ -1,3 +1,4 @@
 Task: ee
+[info] Exec:  [ 'echo aa', 'echo bb' ]
 aa
 bb
