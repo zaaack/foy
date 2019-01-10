@@ -57,7 +57,7 @@ export interface Task<O = any> extends TaskDep<O> {
   optionDefs?: OptionDef[]
   dependencies?: TaskDep[]
   desc?: string
-  fn?: (ctx: TaskContext<O>) => (void | Promise<void>)
+  fn?: (ctx: TaskContext<O>) => void | Promise<void>
   /**
    * Raw arg strings
    */
@@ -87,15 +87,12 @@ export class TaskContext<O = any> extends ShellContext {
   log = logger.log
   warn = logger.warn
   error = logger.error
-  constructor(
-    public task: Task<O>,
-    public global: GlobalOptions
-  ) {
+  constructor(public task: Task<O>, public global: GlobalOptions) {
     super()
     this.logCommand = defaults(task.logCommand, global.logCommand)
   }
   get options() {
-    return this.task.options || {} as O
+    return this.task.options || ({} as O)
   }
 }
 
@@ -108,7 +105,7 @@ export interface RunTaskOptions {
   loading?: boolean
 }
 export class TaskManager {
-  private _tasks: {[k: string]: Task} = {}
+  private _tasks: { [k: string]: Task } = {}
   private _didSet: Set<string> = new Set()
   public globalOptions: GlobalOptions = {
     logLevel: 'debug',
@@ -117,12 +114,13 @@ export class TaskManager {
     logCommand: true,
   }
   getTasks() {
-    return Object.keys(this._tasks)
-      .map(k => this._tasks[k])
+    return Object.keys(this._tasks).map(k => this._tasks[k])
   }
   addTask(task: Task) {
     if (this._tasks[task.name]) {
-      throw new TypeError(`Task name [${task.name}] already exists, please choose another task name!`)
+      throw new TypeError(
+        `Task name [${task.name}] already exists, please choose another task name!`,
+      )
     }
     this._tasks[task.name] = task
     return task
@@ -137,17 +135,11 @@ export class TaskManager {
     }
     this._tasks.all = this._tasks.all || task('all', Object.keys(this._tasks))
     this._tasks.default = this._tasks.default || this._tasks.all
-    if (!this._tasks[
-      typeof name === 'string'
-        ? name
-        : name.name
-    ]) {
+    if (!this._tasks[typeof name === 'string' ? name : name.name]) {
       throw new TypeError(`Cannot find task with name [${name}]`)
     }
     const t = {
-      ...(typeof name === 'string'
-      ? this._tasks[name]
-      : name),
+      ...(typeof name === 'string' ? this._tasks[name] : name),
       force: props.force,
     }
     t.options = {
@@ -170,7 +162,7 @@ export class TaskManager {
           options: {
             ...fullTask.options,
             ...taskDep.options,
-          }
+          },
         }
         if (t.async) {
           asyncDeps.push(t)
@@ -184,11 +176,7 @@ export class TaskManager {
             await this.run(t, { parentCtx: ctx })
           }
         })(),
-        Promise.all(
-          asyncDeps.map(
-            t => this.run(t, { parentCtx: ctx })
-          )
-        ),
+        Promise.all(asyncDeps.map(t => this.run(t, { parentCtx: ctx }))),
       ])
     }
     let ld
@@ -212,9 +200,13 @@ export class TaskManager {
       loading = ctx.global.loading
     }
     if (!loading) {
-      console.log(chalk.yellow('Task: ') + t.name)
-      let ret = t.fn && await t.fn(ctx)
+      let child_text = `  ${t.name}`
+      let cs = ora({
+        text: chalk.gray(child_text),
+      }).start()
+      let ret = t.fn && (await t.fn(ctx))
       this._didSet.add(taskHash)
+      cs.succeed(child_text)
       return ret
     }
     ld = ora({
@@ -238,7 +230,7 @@ const TMKey = '@foyjs/taskManager'
 export function getGlobalTaskManager(): TaskManager {
   return (global as any)[TMKey] as any
 }
-(global as any)[TMKey] = taskManager
+;(global as any)[TMKey] = taskManager
 /**
  * Set global options for all tasks.
  * @param options
@@ -275,15 +267,8 @@ export function strict() {
 export function setOption(options: Partial<typeof TaskOptions.last>) {
   Object.assign(TaskOptions.last, options)
 }
-export function task<O>(
-  name: string,
-  fn: TaskFn<O>,
-): Task<O>
-export function task<O>(
-  name: string,
-  dependencies: Dependency[],
-  fn?: TaskFn<O>,
-): Task<O>
+export function task<O>(name: string, fn: TaskFn<O>): Task<O>
+export function task<O>(name: string, dependencies: Dependency[], fn?: TaskFn<O>): Task<O>
 /**
  * Define a task
  * @param name
@@ -292,7 +277,7 @@ export function task<O>(
  */
 export function task<O>(
   name: string,
-  dependencies?: (Dependency[] | TaskFn<any>),
+  dependencies?: Dependency[] | TaskFn<any>,
   fn?: TaskFn<O>,
 ): Task<O> {
   if (typeof dependencies === 'function') {
