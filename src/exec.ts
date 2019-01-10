@@ -23,6 +23,7 @@ export const spawn = execa
 export class ShellContext {
   private _cwd = process.cwd()
   private _env = { ...process.env }
+  logCommand = false
   sleep = sleep
   cwd(cwd = this._cwd) {
     return (this._cwd = cwd)
@@ -43,26 +44,33 @@ export class ShellContext {
   exec(command: string, options?: execa.Options): execa.ExecaChildProcess
   exec(commands: string[], options?: execa.Options): Promise<execa.ExecaReturns[]>
   exec(commands: string | string[], options?: execa.Options): any {
+    let logger: typeof _logger = require('./logger').logger
+    if (this.logCommand) {
+      logger.info('Exec: ', commands)
+    }
     return exec(commands as any, {
       cwd: this._cwd,
       env: this._env,
       stdio: 'inherit',
       ...options,
     }).catch(err => {
-      let logger: typeof _logger = require('./logger').logger
       logger.error('Exec failed: ', commands)
       throw err
     })
   }
   spawn(file: string, args?: string[], options?: execa.Options): execa.ExecaChildProcess {
+    let logger: typeof _logger = require('./logger').logger
+    const command = file + ' ' + args.map(a => `"${a.replace(/"/g, '\\"')}"`).join(' ')
+    if (this.logCommand) {
+      logger.info('Exec: ', command)
+    }
     return spawn(file, args, {
       cwd: this._cwd,
       env: this._env,
       stdio: 'inherit',
       ...options,
     }).catch(err => {
-      let logger: typeof _logger = require('./logger').logger
-      logger.error('Spawn failed: ', file, args.map(a => `"${a.replace(/"/g, '\\"')}"`).join(' '))
+      logger.error('Spawn failed: ', command)
       throw err
     }) as any
   }

@@ -56,3 +56,7 @@ export const Is = {
     return typeof v !== 'undefined' && v !== null
   }
 }
+
+export function defaults<T>(val: T | undefined, defaults: T): T {
+  return Is.defed(val) ? val : defaults
+}

@@ -2,7 +2,7 @@ const ora = require('ora')
 import chalk from 'chalk'
 import { OptionConfig } from 'cac/types/Option'
 import { ShellContext } from './exec'
-import { hashAny, Is } from './utils'
+import { hashAny, Is, defaults } from './utils'
 import { fs } from './fs'
 import { logger } from './logger'
 
@@ -21,6 +21,11 @@ export interface GlobalOptions {
    * @default 'debug'
    */
   logLevel?: 'debug' | 'info' | 'warn' | 'error'
+  /**
+   * @description whether log command when execute command
+   * @default true
+   */
+  logCommand?: boolean
   options?: any
   rawArgs?: string[]
 }
@@ -63,7 +68,16 @@ export interface Task<O = any> extends TaskDep<O> {
    */
   strict?: boolean
   options: O
+  /**
+   * @description whether show loading
+   * @default globalOptions.loading
+   */
   loading?: boolean
+  /**
+   * @description whether log executed command
+   * @default globalOptions.logCommand
+   */
+  logCommand?: boolean
 }
 
 export class TaskContext<O = any> extends ShellContext {
@@ -78,6 +92,7 @@ export class TaskContext<O = any> extends ShellContext {
     public global: GlobalOptions
   ) {
     super()
+    this.logCommand = defaults(task.logCommand, global.logCommand)
   }
   get options() {
     return this.task.options || {} as O
@@ -99,6 +114,7 @@ export class TaskManager {
     logLevel: 'debug',
     loading: true,
     options: {},
+    logCommand: true,
   }
   getTasks() {
     return Object.keys(this._tasks)
