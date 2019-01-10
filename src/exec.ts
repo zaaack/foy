@@ -32,15 +32,6 @@ export class ShellContext {
     this._cwd = pathLib.resolve(this._cwd, path)
     return this
   }
-  run(task: Dependency, options?: RunTaskOptions) {
-    let taskManager: TaskManager = require('./task').getGlobalTaskManager()
-    let name = typeof task === 'string' ? task : task.name
-    return taskManager.run(name, {
-      force: true,
-      loading: false,
-      ...options,
-    })
-  }
   exec(command: string, options?: execa.Options): execa.ExecaChildProcess
   exec(commands: string[], options?: execa.Options): Promise<execa.ExecaReturns[]>
   exec(commands: string | string[], options?: execa.Options): any {

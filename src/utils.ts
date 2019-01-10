@@ -57,6 +57,12 @@ export const Is = {
   }
 }
 
-export function defaults<T>(val: T | undefined, defaults: T): T {
-  return Is.defed(val) ? val : defaults
+export function defaults<T>(val: T | undefined, defaultVal: T): T
+export function defaults<T>(val: T | undefined, val1: T | undefined, defaultVal: T): T
+export function defaults<T>(val: T | undefined, val1: T | undefined, val2: T | undefined, defaultVal: T): T
+export function defaults<T>(val: T | undefined, val1: T | undefined, val2: T | undefined, val3: T | undefined, defaultVal: T): T
+export function defaults<T>(val: T | undefined, val1: T | undefined, val2: T | undefined, val3: T | undefined, val4: T | undefined, defaultVal: T): T
+export function defaults<T>(...args: (T | undefined)[]): T {
+  let [val, ...defaultVals] = args
+  return Is.defed(val) ? val : (defaults as any)(...defaultVals)
 }
