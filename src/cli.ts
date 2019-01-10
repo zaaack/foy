@@ -117,7 +117,9 @@ if (registers.length) {
 }
 
 try {
-  require('ts-node/register')
+  if (!require.extensions['.ts']) {
+    require('ts-node/register')
+  }
 } catch (error) {
   // ignore
 }
