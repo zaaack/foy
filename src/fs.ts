@@ -2,18 +2,24 @@ import * as _fs from 'fs'
 import * as util from 'util'
 import * as pathLib from 'path';
 import { throttle } from './utils';
+
+const ENOENT = 'ENOENT' // not found
+
 async function copy(
   src: string,
   dist: string,
-  opts?: { filter?: (file: string, stat: _fs.Stats) => boolean, override?: boolean },
+  opts?: {
+    /** Copy files only filter return true */
+    filter?: (file: string, stat: _fs.Stats) => boolean,
+    override?: boolean,
+  },
 ) {
-  let srcStat = await fs.stat(src)
-  let isFiltered = true
-  let isOverrided = false
-  if (opts) {
-    if (opts.filter) isFiltered = opts.filter(src, srcStat)
-    if (opts.override) isOverrided = opts.override
+  opts = {
+    override: false,
+    ...opts
   }
+  const srcStat = await fs.stat(src)
+  const isFiltered = opts.filter ? opts.filter(src, srcStat) : true
   if (!isFiltered) return
   if (srcStat.isDirectory()) {
     await fs.mkdirp(dist)
@@ -30,16 +36,13 @@ async function copy(
   } else if (
     srcStat.isFile() || srcStat.isSymbolicLink()
   ) {
-    try {
-      let stat = await fs.stat(dist)
-      if (isOverrided) {
-        if (stat.isFile() || stat.isSymbolicLink()) {
-          await fs.unlink(dist)
-        } else if (stat.isDirectory()) {
-          await fs.rmdir(dist)
-        }
-      } else return
-    } catch (error) {
+    if (await fs.lexists(dist)) {
+      if (opts.override) {
+        await fs.rmrf(dist)
+      } else {
+        return
+      }
+    } else {
       let lastChar = dist[dist.length - 1]
       if (lastChar === '/' || lastChar === '\\') {
         await fs.mkdirp(dist)
@@ -126,12 +129,70 @@ export const fs = {
   constants: _fs.constants,
   watchDir,
   copy,
+  async exists(path: _fs.PathLike) {
+    try {
+      await fs.stat(path)
+    } catch (error) {
+      if (error.code === ENOENT) {
+        return false
+      } else {
+        throw error
+      }
+    }
+    return true
+  },
+  /** exists via lstat, if a symbolic link's target file doesn't exists, `fs.exists` will return false, but `fs.lexists` will return true. */
+  async lexists(path: _fs.PathLike) {
+    try {
+      await fs.lstat(path)
+    } catch (error) {
+      if (error.code === ENOENT) {
+        return false
+      } else {
+        throw error
+      }
+    }
+    return true
+  },
+  async isFile(path: _fs.PathLike) {
+    try {
+      return (await fs.lstat(path)).isFile()
+    } catch (error) {
+      if (error.code === ENOENT) {
+        return false
+      } else {
+        throw error
+      }
+    }
+  },
+  async isDirectory(path: _fs.PathLike) {
+    try {
+      return (await fs.lstat(path)).isDirectory()
+    } catch (error) {
+      if (error.code === ENOENT) {
+        return false
+      } else {
+        throw error
+      }
+    }
+  },
+  async isSymbolicLink(path: _fs.PathLike) {
+    try {
+      return (await fs.lstat(path)).isSymbolicLink()
+    } catch (error) {
+      if (error.code === ENOENT) {
+        return false
+      } else {
+        throw error
+      }
+    }
+  },
   copyFile: _fs.copyFile ? util.promisify(_fs.copyFile) : async (src: _fs.PathLike, dist: _fs.PathLike) => {
     await fs.stat(src)
     return new Promise(
       (res, rej) => {
         fs
-          .createReadStream(src, { highWaterMark: 512 * 1024 })
+          .createReadStream(src, { highWaterMark: 2 * 1024 * 1024 })
           .pipe(fs.createWriteStream(dist))
           .on('error', rej)
           .on('close', res)
@@ -145,14 +206,10 @@ export const fs = {
   async mkdirp(dir: string) {
     if (dir === '/') return
     let parent = pathLib.dirname(dir)
-    try {
-      await fs.stat(parent)
-    } catch (error) {
+    if (!await fs.exists(parent)) {
       await fs.mkdirp(parent)
     }
-    try {
-      await fs.stat(dir)
-    } catch (error) {
+    if (!await fs.exists(dir)) {
       return fs.mkdir(dir)
     }
   },
@@ -172,12 +229,21 @@ export const fs = {
   },
   /**
    * Remove file or directory recursively, like `rm -rf`
-   * @param di
+   * @param path The path to remove
+   * @param opts Options
    */
-  async rmrf(path: string) {
-    if (!fs.existsSync(path)) return
-
-    let stat = await fs.stat(path)
+  async rmrf(
+    path: string,
+  ) {
+    let stat: _fs.Stats
+    try {
+      stat = await fs.lstat(path)
+    } catch (error) {
+      if (error.code === ENOENT) {
+        return
+      }
+      throw error
+    }
     if (stat.isDirectory()) {
       const children = await fs.readdir(path)
       await Promise.all(
@@ -219,7 +285,10 @@ export const fs = {
     }
     return JSON.parse(data) as T
   },
-  async iter(dir: string, filter: (path: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void) {
+  async iter(
+    dir: string,
+    filter: (path: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void,
+  ) {
     let children = await fs.readdir(dir)
     await Promise.all(
       children.map(
