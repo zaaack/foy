@@ -1,3 +1,13 @@
+#### 0.1.8 (2019-01-10)
+
+##### New Features
+
+* **fs:**
+  *  Naming, filter => skip ([cb01de60](https://github.com/zaaack/foy/commit/cb01de609fe04e8d4f51c944358904e68850dcd7))
+  *  Add json options for fs.outputJson ([0c60df36](https://github.com/zaaack/foy/commit/0c60df36ea451c044756f91f9b2f763df7ccfc97))
+* **exec & task:**  Add log command options ([2f7a782b](https://github.com/zaaack/foy/commit/2f7a782b5ddd2c5e64fbb114a318199855a38aac))
+* **cli:**  Search Foyfiles in parent directories ([0bdfc802](https://github.com/zaaack/foy/commit/0bdfc8029931fd03db31f990708574ed5e0f40f4))
+
 #### 0.1.7 (2019-01-09)
 
 ##### New Features
