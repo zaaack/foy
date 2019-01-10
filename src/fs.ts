@@ -9,8 +9,8 @@ async function copy(
   src: string,
   dist: string,
   opts?: {
-    /** Copy files only filter return true */
-    filter?: (file: string, stat: _fs.Stats) => boolean,
+    /** return true will skip */
+    skip?: (file: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void,
     override?: boolean,
   },
 ) {
@@ -19,8 +19,8 @@ async function copy(
     ...opts
   }
   const srcStat = await fs.stat(src)
-  const isFiltered = opts.filter ? opts.filter(src, srcStat) : true
-  if (!isFiltered) return
+  const isSkiped = opts.skip ? await opts.skip(src, srcStat) : false
+  if (isSkiped) return
   if (srcStat.isDirectory()) {
     await fs.mkdirp(dist)
     let childs = await fs.readdir(src)
@@ -313,7 +313,8 @@ export const fs = {
   },
   async iter(
     dir: string,
-    filter: (path: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void,
+    /** return true will skip */
+    skip: (path: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void,
   ) {
     let children = await fs.readdir(dir)
     await Promise.all(
@@ -321,10 +322,10 @@ export const fs = {
         async child => {
           let path = pathLib.join(dir, child)
           let stat = await fs.stat(path)
-          let skip = await filter(path, stat)
-          if (skip) return
+          let isSkipped = await skip(path, stat)
+          if (isSkipped) return
           if (stat.isDirectory()) {
-            await fs.iter(path, filter)
+            await fs.iter(path, skip)
           }
         }
       )
