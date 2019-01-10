@@ -25,7 +25,8 @@ export interface GlobalOptions {
    * @description whether log command when execute command
    * @default true
    */
-  logCommand?: boolean
+  logCommand?: boolean,
+  logTask?: boolean
   options?: any
   rawArgs?: string[]
 }
@@ -77,6 +78,7 @@ export interface Task<O = any> extends TaskDep<O> {
    * @description whether log executed command
    * @default globalOptions.logCommand
    */
+  logCommand?: boolean,
   logCommand?: boolean
 }
 
@@ -93,6 +95,7 @@ export class TaskContext<O = any> extends ShellContext {
   ) {
     super()
     this.logCommand = defaults(task.logCommand, global.logCommand)
+    this.logTask = defaults(task.logTask, global.logTask)
   }
   get options() {
     return this.task.options || {} as O
@@ -115,6 +118,7 @@ export class TaskManager {
     loading: true,
     options: {},
     logCommand: true,
+    logTask: true,
   }
   getTasks() {
     return Object.keys(this._tasks)
@@ -211,8 +215,18 @@ export class TaskManager {
     } else if (Is.defed(ctx.global.loading)) {
       loading = ctx.global.loading
     }
+    let logTask = true
+    if (Is.defed(props.logTask)) {
+      logTask = props.logTask
+    } else if (Is.defed(t.logTask)) {
+      logTask = t.logTask
+    } else if (Is.defed(ctx.global.logTask)) {
+      logTask = ctx.global.logTask
+    }
     if (!loading) {
-      console.log(chalk.yellow('Task: ') + t.name)
+      if(logTask){
+        console.log(chalk.yellow('Task: ') + t.name)
+      }
       let ret = t.fn && await t.fn(ctx)
       this._didSet.add(taskHash)
       return ret
