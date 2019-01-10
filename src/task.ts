@@ -25,7 +25,8 @@ export interface GlobalOptions {
    * @description whether log command when execute command
    * @default true
    */
-  logCommand?: boolean
+  logCommand?: boolean,
+  logTask?: boolean
   options?: any
   rawArgs?: string[]
 }
@@ -77,7 +78,8 @@ export interface Task<O = any> extends TaskDep<O> {
    * @description whether log executed command
    * @default globalOptions.logCommand
    */
-  logCommand?: boolean
+  logCommand?: boolean,
+  logTask?: boolean
 }
 
 export class TaskContext<O = any> extends ShellContext {
@@ -94,6 +96,15 @@ export class TaskContext<O = any> extends ShellContext {
   get options() {
     return this.task.options || ({} as O)
   }
+
+  run(task: Dependency, options?: RunTaskOptions) {
+    let name = typeof task === 'string' ? task : task.name
+    return taskManager.run(name, {
+      force: true,
+      loading: false,
+      ...options,
+    })
+  }
 }
 
 export interface RunTaskOptions {
@@ -103,6 +114,8 @@ export interface RunTaskOptions {
   force?: boolean
   /** default is false */
   loading?: boolean
+  /** default is true */
+  logTask?: boolean
 }
 export class TaskManager {
   private _tasks: { [k: string]: Task } = {}
@@ -112,6 +125,7 @@ export class TaskManager {
     loading: true,
     options: {},
     logCommand: true,
+    logTask: true,
   }
   getTasks() {
     return Object.keys(this._tasks).map(k => this._tasks[k])
@@ -191,16 +205,11 @@ export class TaskManager {
     }
     let taskHash = hashAny(t)
     if (this._didSet.has(taskHash) && !t.force) return
-    let loading = true
-    if (Is.defed(props.loading)) {
-      loading = props.loading
-    } else if (Is.defed(t.loading)) {
-      loading = t.loading
-    } else if (Is.defed(ctx.global.loading)) {
-      loading = ctx.global.loading
-    }
+    let loading = defaults(props.loading, t.loading, ctx.global.loading, true)
+    let logTask = defaults(props.logTask, t.logTask, ctx.global.logTask, true)
+
     if (!loading) {
-      let child_text = `  ${t.name}`
+      let child_text = `${t.name}`
       let cs = ora({
         text: chalk.gray(child_text),
       }).start()
@@ -213,7 +222,7 @@ export class TaskManager {
       text: chalk.gray(text),
     }).start()
     try {
-      let ret = await (t.fn && t.fn(ctx))
+      let ret = t.fn && await t.fn(ctx)
       ld.succeed(text)
       this._didSet.add(taskHash)
       return ret
