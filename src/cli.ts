@@ -124,6 +124,21 @@ try {
   // ignore
 }
 
+{// Add global installed foy to module.paths
+  const Module = require('module')
+  const nodeModulePaths = Module._nodeModulePaths
+  const globalFoyPath = pathLib.join(__dirname, '..', '..')
+  if (nodeModulePaths) {
+    Module._nodeModulePaths = (...args) => {
+      let paths = nodeModulePaths.apply(Module, args)
+      if (Array.isArray(paths)) {
+        paths.push(globalFoyPath)
+      }
+      return paths
+    }
+  }
+}
+
 for (const file of foyFiles) {
   require(file)
 }
