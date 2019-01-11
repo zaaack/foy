@@ -37,7 +37,7 @@ export class ShellContext {
   exec(commands: string | string[], options?: execa.Options): any {
     let logger: typeof _logger = require('./logger').logger
     if (this.logCommand) {
-      logger.info('$ ', commands)
+      logger.info('$', commands)
     }
     return exec(commands as any, {
       cwd: this._cwd,

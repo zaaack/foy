@@ -204,7 +204,6 @@ export const fs = {
    * @param dir
    */
   async mkdirp(dir: string) {
-    if (dir === '/') return
     let parent = pathLib.dirname(dir)
     if (!await fs.exists(parent)) {
       await fs.mkdirp(parent)
