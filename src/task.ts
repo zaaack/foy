@@ -249,7 +249,7 @@ const TMKey = '@foyjs/taskManager'
 export function getGlobalTaskManager(): TaskManager {
   return (global as any)[TMKey] as any
 }
-(global as any)[TMKey] = taskManager
+(global as any)[TMKey] = (global as any)[TMKey] || taskManager
 /**
  * Set global options for all tasks.
  * @param options
@@ -326,6 +326,6 @@ export function task<O>(
     fn,
   }
   TaskOptions.last = TaskOptions.empty()
-  taskManager.addTask(t)
+  getGlobalTaskManager().addTask(t)
   return t
 }
