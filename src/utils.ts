@@ -76,5 +76,9 @@ export function defaults<T>(val: T | undefined, val1: T | undefined, val2: T | u
 export function defaults<T>(val: T | undefined, val1: T | undefined, val2: T | undefined, val3: T | undefined, val4: T | undefined, defaultVal: T): T
 export function defaults<T>(...args: (T | undefined)[]): T {
   let [val, ...defaultVals] = args
-  return Is.defed(val) ? val : (defaults as any)(...defaultVals)
+  if (Is.defed(val)) return val
+  if (defaultVals.length === 0) {
+    return val as any
+  }
+  return (defaults as any)(...defaultVals)
 }
