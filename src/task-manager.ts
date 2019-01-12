@@ -105,7 +105,7 @@ export class TaskManager {
     loading: true,
     options: {},
     logCommand: true,
-    indent: 4,
+    indent: 3,
   }
   getTasks() {
     return Object.keys(this._tasks)
@@ -264,7 +264,10 @@ export class TaskManager {
     let depsTree = this.resolveDependencyTree(t)
     let loading = this.isLoading(t, props)
     // await this.renderDepsTree(depsTree, props)
-    let cliLoading = new CliLoading({ depsTree })
+    let cliLoading = new CliLoading({
+      depsTree,
+      indent: defaults(props.indent, this.globalOptions.indent),
+    })
     if (loading) {
       cliLoading.start()
     } else {
