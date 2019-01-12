@@ -1,3 +1,12 @@
+
+DependencyGraph for task [cc]:
+
+─ cc
+   ─ bb
+      ─ aa
+   ─ aa
+
+
 Task: aa
 [debug] {}
 [info] {}
@@ -5,5 +14,6 @@ Task: aa
 [error] {}
 Task: bb
 [debug] { test: 123 } { '--': [], c: 123 }
+Skip task: aa
 Task: cc
 [debug] { '--': [], c: 123 }

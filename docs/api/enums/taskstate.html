@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>GlobalOptions | foy</title>
+	<title>TaskState | foy</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,162 +54,95 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="globaloptions.html">GlobalOptions</a>
+					<a href="taskstate.html">TaskState</a>
 				</li>
 			</ul>
-			<h1>Interface GlobalOptions</h1>
+			<h1>Enumeration TaskState</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">GlobalOptions</span>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-external">
-							<h3>Properties</h3>
+							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="globaloptions.html#indent" class="tsd-kind-icon">indent</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="globaloptions.html#loading" class="tsd-kind-icon">loading</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="globaloptions.html#logcommand" class="tsd-kind-icon">log<wbr>Command</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="globaloptions.html#loglevel" class="tsd-kind-icon">log<wbr>Level</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="globaloptions.html#options" class="tsd-kind-icon">options</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="globaloptions.html#rawargs" class="tsd-kind-icon">raw<wbr>Args</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="globaloptions.html#redirectlog" class="tsd-kind-icon">redirect<wbr>Log</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="globaloptions.html#strict" class="tsd-kind-icon">strict</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="taskstate.html#failed" class="tsd-kind-icon">failed</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="taskstate.html#loading" class="tsd-kind-icon">loading</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="taskstate.html#pending" class="tsd-kind-icon">pending</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="taskstate.html#skipped" class="tsd-kind-icon">skipped</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="taskstate.html#succeeded" class="tsd-kind-icon">succeeded</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="taskstate.html#waiting" class="tsd-kind-icon">waiting</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="indent" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> indent</h3>
-					<div class="tsd-signature tsd-kind-icon">indent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+				<h2>Enumeration members</h2>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="failed" class="tsd-anchor"></a>
+					<h3>failed</h3>
+					<div class="tsd-signature tsd-kind-icon">failed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;failed&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L17">task-manager.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L59">task-manager.ts:59</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
 					<a name="loading" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> loading</h3>
-					<div class="tsd-signature tsd-kind-icon">loading<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<h3>loading</h3>
+					<div class="tsd-signature tsd-kind-icon">loading<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;loading&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L16">task-manager.ts:16</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>default</dt>
-							<dd><p>true</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="logcommand" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> log<wbr>Command</h3>
-					<div class="tsd-signature tsd-kind-icon">log<wbr>Command<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L32">task-manager.ts:32</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>description</dt>
-							<dd><p>whether log command when execute command</p>
-							</dd>
-							<dt>default</dt>
-							<dd><p>true</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="loglevel" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> log<wbr>Level</h3>
-					<div class="tsd-signature tsd-kind-icon">log<wbr>Level<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"debug"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"info"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"warn"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"error"</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L27">task-manager.ts:27</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>description</dt>
-							<dd><p>log level</p>
-							</dd>
-							<dt>default</dt>
-							<dd><p>&#39;debug&#39;</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="options" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> options</h3>
-					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L33">task-manager.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L57">task-manager.ts:57</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="rawargs" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> raw<wbr>Args</h3>
-					<div class="tsd-signature tsd-kind-icon">raw<wbr>Args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="pending" class="tsd-anchor"></a>
+					<h3>pending</h3>
+					<div class="tsd-signature tsd-kind-icon">pending<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;pending&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L34">task-manager.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L55">task-manager.ts:55</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="redirectlog" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> redirect<wbr>Log</h3>
-					<div class="tsd-signature tsd-kind-icon">redirect<wbr>Log<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Writable</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="skipped" class="tsd-anchor"></a>
+					<h3>skipped</h3>
+					<div class="tsd-signature tsd-kind-icon">skipped<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;skipped&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L35">task-manager.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L56">task-manager.ts:56</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="strict" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> strict</h3>
-					<div class="tsd-signature tsd-kind-icon">strict<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="succeeded" class="tsd-anchor"></a>
+					<h3>succeeded</h3>
+					<div class="tsd-signature tsd-kind-icon">succeeded<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;succeeded&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L22">task-manager.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L58">task-manager.ts:58</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>description</dt>
-							<dd><p>Whether task options only allow defined options, default false</p>
-							</dd>
-							<dt>default</dt>
-							<dd><p>false</p>
-							</dd>
-						</dl>
-					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="waiting" class="tsd-anchor"></a>
+					<h3>waiting</h3>
+					<div class="tsd-signature tsd-kind-icon">waiting<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;waiting&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/task-manager.ts#L54">task-manager.ts:54</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -223,9 +156,33 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="../enums/taskstate.html" class="tsd-kind-icon">Task<wbr>State</a>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-enum tsd-is-external">
+						<a href="taskstate.html" class="tsd-kind-icon">Task<wbr>State</a>
+						<ul>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="taskstate.html#failed" class="tsd-kind-icon">failed</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="taskstate.html#loading" class="tsd-kind-icon">loading</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="taskstate.html#pending" class="tsd-kind-icon">pending</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="taskstate.html#skipped" class="tsd-kind-icon">skipped</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="taskstate.html#succeeded" class="tsd-kind-icon">succeeded</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="taskstate.html#waiting" class="tsd-kind-icon">waiting</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-is-external">
 						<a href="../classes/cliloading.html" class="tsd-kind-icon">Cli<wbr>Loading</a>
 					</li>
@@ -242,55 +199,25 @@
 						<a href="../classes/taskmanager.html" class="tsd-kind-icon">Task<wbr>Manager</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="depstree.html" class="tsd-kind-icon">Deps<wbr>Tree</a>
-					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-is-external">
-						<a href="globaloptions.html" class="tsd-kind-icon">Global<wbr>Options</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="globaloptions.html#indent" class="tsd-kind-icon">indent</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="globaloptions.html#loading" class="tsd-kind-icon">loading</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="globaloptions.html#logcommand" class="tsd-kind-icon">log<wbr>Command</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="globaloptions.html#loglevel" class="tsd-kind-icon">log<wbr>Level</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="globaloptions.html#options" class="tsd-kind-icon">options</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="globaloptions.html#rawargs" class="tsd-kind-icon">raw<wbr>Args</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="globaloptions.html#redirectlog" class="tsd-kind-icon">redirect<wbr>Log</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="globaloptions.html#strict" class="tsd-kind-icon">strict</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="props.html" class="tsd-kind-icon">Props</a>
+						<a href="../interfaces/depstree.html" class="tsd-kind-icon">Deps<wbr>Tree</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="rundepoptions.html" class="tsd-kind-icon">Run<wbr>Dep<wbr>Options</a>
+						<a href="../interfaces/globaloptions.html" class="tsd-kind-icon">Global<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="runtaskoptions.html" class="tsd-kind-icon">Run<wbr>Task<wbr>Options</a>
+						<a href="../interfaces/props.html" class="tsd-kind-icon">Props</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="../interfaces/rundepoptions.html" class="tsd-kind-icon">Run<wbr>Dep<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="../interfaces/runtaskoptions.html" class="tsd-kind-icon">Run<wbr>Task<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="task.html" class="tsd-kind-icon">Task</a>
+						<a href="../interfaces/task.html" class="tsd-kind-icon">Task</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="taskdep.html" class="tsd-kind-icon">Task<wbr>Dep</a>
+						<a href="../interfaces/taskdep.html" class="tsd-kind-icon">Task<wbr>Dep</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="../globals.html#dependency" class="tsd-kind-icon">Dependency</a>

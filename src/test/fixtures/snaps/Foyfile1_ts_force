@@ -1,3 +1,16 @@
+
+DependencyGraph for task [force]:
+
+─ force
+   ─ aa
+   ─ aa
+
+
+Task: aa
+[debug] {}
+[info] {}
+[warn] {}
+[error] {}
 Task: aa
 [debug] {}
 [info] {}

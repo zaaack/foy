@@ -19,10 +19,10 @@
     // "isolatedModules": true,               /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
 
     /* Strict Type-Checking Options */
-    "strict": false,                            /* Enable all strict type-checking options. */
+    "strict": true,                            /* Enable all strict type-checking options. */
     "noImplicitAny": false,                 /* Raise error on expressions and declarations with an implied 'any' type. */
-    "strictNullChecks": false,              /* Enable strict null checks. */
-    "noImplicitThis": false,                /* Raise error on 'this' expressions with an implied 'any' type. */
+    "strictNullChecks": true,              /* Enable strict null checks. */
+    "noImplicitThis": true,                /* Raise error on 'this' expressions with an implied 'any' type. */
     "alwaysStrict": false,                  /* Parse in strict mode and emit "use strict" for each source file. */
     /* Additional Checks */
     // "noUnusedLocals": true,                /* Report errors on unused locals. */

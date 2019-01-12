@@ -70,12 +70,19 @@ task('async', [
   { name: 'wait', async: true, options: { t: 1 } },
 ])
 task('logOptions', async ctx => {
-  logger.debug('logOptions', ctx.options, ctx.global.options)
+  logger.debug('logOptions', ctx.options, ctx.global.options, ctx.task.rawArgs)
 })
 
 option('-c <val>', 'cc', { default: 1 })
 task('resolveOptions', [{
   name: 'logOptions',
   options: { aa: 1 },
-  resolveOptions: async ctx => ctx.options,
-}])
+  resolveOptions: async ctx => {
+    return {
+      ...ctx.options,
+      rawArgs: ctx.task.rawArgs,
+    }
+  },
+}], async ctx => {
+  console.log('rawArgs', ctx.task.rawArgs)
+})

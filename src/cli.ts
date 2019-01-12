@@ -2,10 +2,11 @@
 
 import * as cac from 'cac'
 import { fs } from './fs'
-import { getGlobalTaskManager } from './task'
 import * as pathLib from 'path'
 import * as os from 'os'
 import { logger } from './logger'
+import { Is } from './utils';
+import { getGlobalTaskManager } from './task-manager';
 
 const defaultCli = cac()
 
@@ -25,8 +26,8 @@ let taskArgv: string[] = []
   let i = 0
   for (i = 0; i < argv.length; i++) {
     const arg = argv[i]
-    if (defaultOptions.has(arg)) {
-      let valLen = defaultOptions.get(arg)
+    let valLen = defaultOptions.get(arg)
+    if (Is.defed(valLen)) {
       let end = i + valLen
       defaultArgv.push(...argv.slice(i, end + 1))
       i = end
@@ -51,7 +52,7 @@ addDefaultOptions(defaultCli)
 
 if (defaultCli.options.init) {
   let ext = defaultCli.options.init
-  if (typeof ext !== 'string') {
+  if (!Is.str(ext)) {
     ext = 'js'
   }
   ext = ext.replace(/^\./, '')
@@ -166,7 +167,6 @@ taskManager.getTasks().forEach(t => {
 
 taskCli.on('command:*', () => {
   console.error(`error: Unknown command \`${taskCli.args.join(' ')}\`\n\n`)
-  taskCli.outputHelp()
   process.exit(1)
 })
 

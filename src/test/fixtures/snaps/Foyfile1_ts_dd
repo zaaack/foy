@@ -1,4 +1,10 @@
+
+DependencyGraph for task [dd]:
+
+─ dd
+
+
 Task: dd
-[info] Exec:  pwd
+[info] $ pwd
 [debug] p.stdout.trim() === ctx.cwd() true
 [debug] true

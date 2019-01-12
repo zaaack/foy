@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ShellContext | foy</title>
+	<title>CliLoading | foy</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="shellcontext.html">ShellContext</a>
+					<a href="cliloading.html">CliLoading</a>
 				</li>
 			</ul>
-			<h1>Class ShellContext</h1>
+			<h1>Class CliLoading</h1>
 		</div>
 	</div>
 </header>
@@ -68,12 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ShellContext</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<a href="taskcontext.html" class="tsd-signature-type">TaskContext</a>
-							</li>
-						</ul>
+						<span class="target">CliLoading</span>
 					</li>
 				</ul>
 			</section>
@@ -82,44 +77,87 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-external">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="shellcontext.html#logcommand" class="tsd-kind-icon">log<wbr>Command</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="shellcontext.html#sleep" class="tsd-kind-icon">sleep</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#_loadingframemap" class="tsd-kind-icon">_loading<wbr>Frame<wbr>Map</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#props" class="tsd-kind-icon">props</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="shellcontext.html#cd" class="tsd-kind-icon">cd</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="shellcontext.html#cwd" class="tsd-kind-icon">cwd</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="shellcontext.html#env" class="tsd-kind-icon">env</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="shellcontext.html#exec" class="tsd-kind-icon">exec</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="shellcontext.html#spawn" class="tsd-kind-icon">spawn</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#count" class="tsd-kind-icon">count</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#render" class="tsd-kind-icon">render</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#renderdepstree" class="tsd-kind-icon">render<wbr>Deps<wbr>Tree</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#start" class="tsd-kind-icon">start</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#stop" class="tsd-kind-icon">stop</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Cli<wbr>Loading<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><a href="../interfaces/props.html" class="tsd-signature-type">Props</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="cliloading.html" class="tsd-signature-type">CliLoading</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/cli-loading.ts#L18">cli-loading.ts:18</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>props: <a href="../interfaces/props.html" class="tsd-signature-type">Props</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="cliloading.html" class="tsd-signature-type">CliLoading</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="logcommand" class="tsd-anchor"></a>
-					<h3>log<wbr>Command</h3>
-					<div class="tsd-signature tsd-kind-icon">log<wbr>Command<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<a name="_loadingframemap" class="tsd-anchor"></a>
+					<h3>_loading<wbr>Frame<wbr>Map</h3>
+					<div class="tsd-signature tsd-kind-icon">_loading<wbr>Frame<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;string, number&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/exec.ts#L25">exec.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/cli-loading.ts#L17">cli-loading.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="sleep" class="tsd-anchor"></a>
-					<h3>sleep</h3>
-					<div class="tsd-signature tsd-kind-icon">sleep<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">sleep</a><span class="tsd-signature-symbol"> =&nbsp;sleep</span></div>
+					<a name="id" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">NodeJS.Timer</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/exec.ts#L26">exec.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/cli-loading.ts#L18">cli-loading.ts:18</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
+					<a name="props" class="tsd-anchor"></a>
+					<h3>props</h3>
+					<div class="tsd-signature tsd-kind-icon">props<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Required</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/props.html" class="tsd-signature-type">Props</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/cli-loading.ts#L16">cli-loading.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -127,165 +165,102 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="cd" class="tsd-anchor"></a>
-					<h3>cd</h3>
+					<a name="count" class="tsd-anchor"></a>
+					<h3>count</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">cd<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">count<span class="tsd-signature-symbol">(</span>uid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/exec.ts#L30">exec.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/cli-loading.ts#L27">cli-loading.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>path: <span class="tsd-signature-type">string</span></h5>
+									<h5>uid: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="cwd" class="tsd-anchor"></a>
-					<h3>cwd</h3>
+					<a name="render" class="tsd-anchor"></a>
+					<h3>render</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">cwd<span class="tsd-signature-symbol">(</span>cwd<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">render<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/exec.ts#L27">exec.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/cli-loading.ts#L67">cli-loading.ts:67</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> cwd: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;this._cwd</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="env" class="tsd-anchor"></a>
-					<h3>env</h3>
+					<a name="renderdepstree" class="tsd-anchor"></a>
+					<h3>render<wbr>Deps<wbr>Tree</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">env<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
-						<li class="tsd-signature tsd-kind-icon">env<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">render<wbr>Deps<wbr>Tree<span class="tsd-signature-symbol">(</span>depsTree<span class="tsd-signature-symbol">: </span><a href="../interfaces/depstree.html" class="tsd-signature-type">DepsTree</a>, output<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/exec.ts#L67">exec.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/cli-loading.ts#L32">cli-loading.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>key: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">undefined</span>
-							</h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/exec.ts#L68">exec.ts:68</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>key: <span class="tsd-signature-type">string</span></h5>
+									<h5>depsTree: <a href="../interfaces/depstree.html" class="tsd-signature-type">DepsTree</a></h5>
 								</li>
 								<li>
-									<h5>val: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> output: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="exec" class="tsd-anchor"></a>
-					<h3>exec</h3>
+					<a name="start" class="tsd-anchor"></a>
+					<h3>start</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">exec<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">execa.Options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">execa.ExecaChildProcess</span></li>
-						<li class="tsd-signature tsd-kind-icon">exec<span class="tsd-signature-symbol">(</span>commands<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">execa.Options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ExecaReturns</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/exec.ts#L34">exec.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/cli-loading.ts#L71">cli-loading.ts:71</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>command: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">execa.Options</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">execa.ExecaChildProcess</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/exec.ts#L35">exec.ts:35</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>commands: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">execa.Options</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ExecaReturns</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
-					<a name="spawn" class="tsd-anchor"></a>
-					<h3>spawn</h3>
+					<a name="stop" class="tsd-anchor"></a>
+					<h3>stop</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">spawn<span class="tsd-signature-symbol">(</span>file<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">execa.Options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">execa.ExecaChildProcess</span></li>
+						<li class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/exec.ts#L51">exec.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/0b95104/src/cli-loading.ts#L77">cli-loading.ts:77</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>file: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> args: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">execa.Options</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">execa.ExecaChildProcess</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -304,42 +279,48 @@
 					<li class=" tsd-kind-enum tsd-is-external">
 						<a href="../enums/taskstate.html" class="tsd-kind-icon">Task<wbr>State</a>
 					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="cliloading.html" class="tsd-kind-icon">Cli<wbr>Loading</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter tsd-is-external">
-						<a href="depbuilder.html" class="tsd-kind-icon">Dep<wbr>Builder</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-is-external">
-						<a href="shellcontext.html" class="tsd-kind-icon">Shell<wbr>Context</a>
+						<a href="cliloading.html" class="tsd-kind-icon">Cli<wbr>Loading</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="shellcontext.html#logcommand" class="tsd-kind-icon">log<wbr>Command</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
+								<a href="cliloading.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="shellcontext.html#sleep" class="tsd-kind-icon">sleep</a>
+								<a href="cliloading.html#_loadingframemap" class="tsd-kind-icon">_loading<wbr>Frame<wbr>Map</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
+								<a href="cliloading.html#id" class="tsd-kind-icon">id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
+								<a href="cliloading.html#props" class="tsd-kind-icon">props</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="shellcontext.html#cd" class="tsd-kind-icon">cd</a>
+								<a href="cliloading.html#count" class="tsd-kind-icon">count</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="shellcontext.html#cwd" class="tsd-kind-icon">cwd</a>
+								<a href="cliloading.html#render" class="tsd-kind-icon">render</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="shellcontext.html#env" class="tsd-kind-icon">env</a>
+								<a href="cliloading.html#renderdepstree" class="tsd-kind-icon">render<wbr>Deps<wbr>Tree</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="shellcontext.html#exec" class="tsd-kind-icon">exec</a>
+								<a href="cliloading.html#start" class="tsd-kind-icon">start</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
-								<a href="shellcontext.html#spawn" class="tsd-kind-icon">spawn</a>
+								<a href="cliloading.html#stop" class="tsd-kind-icon">stop</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-has-type-parameter tsd-is-external">
+						<a href="depbuilder.html" class="tsd-kind-icon">Dep<wbr>Builder</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-external">
+						<a href="shellcontext.html" class="tsd-kind-icon">Shell<wbr>Context</a>
+					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter tsd-is-external">
 						<a href="taskcontext.html" class="tsd-kind-icon">Task<wbr>Context</a>
 					</li>

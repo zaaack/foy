@@ -1,35 +1,12 @@
-const ora = require('ora')
 import chalk from 'chalk'
 import { OptionConfig } from 'cac/types/Option'
 import { ShellContext } from './exec'
 import { hashAny, Is, defaults } from './utils'
 import { fs } from './fs'
 import { logger } from './logger'
-
-export interface GlobalOptions {
-  /**
-   * @default true
-   */
-  loading?: boolean
-  /**
-   * @description Whether task options only allow defined options, default false
-   * @default false
-   */
-  strict?: boolean
-  /**
-   * @description log level
-   * @default 'debug'
-   */
-  logLevel?: 'debug' | 'info' | 'warn' | 'error'
-  /**
-   * @description whether log command when execute command
-   * @default true
-   */
-  logCommand?: boolean,
-  logTask?: boolean
-  options?: any
-  rawArgs?: string[]
-}
+import { CliLoading } from './cli-loading';
+import { DepBuilder } from './dep-builder';
+import { GlobalOptions, RunTaskOptions, getGlobalTaskManager, TaskContext } from './task-manager'
 
 export type OptionDef = [string, string, OptionConfig | undefined]
 
@@ -52,7 +29,7 @@ export interface TaskDep<O = any> {
   resolveOptions?: (ctx: TaskContext) => Promise<O> | O
   [k: string]: any
 }
-export type Dependency = TaskDep | string
+export type Dependency = TaskDep | string | DepBuilder
 export interface Task<O = any> extends TaskDep<O> {
   /** @internal */
   optionDefs?: OptionDef[]
@@ -62,7 +39,7 @@ export interface Task<O = any> extends TaskDep<O> {
   /**
    * Raw arg strings
    */
-  rawArgs?: string[]
+  rawArgs: string[]
   /**
    * @description Whether task options only allow defined options, default false
    * @default false
@@ -79,177 +56,8 @@ export interface Task<O = any> extends TaskDep<O> {
    * @default globalOptions.logCommand
    */
   logCommand?: boolean,
-  logTask?: boolean
 }
 
-export class TaskContext<O = any> extends ShellContext {
-  fs = fs
-  debug = logger.debug
-  info = logger.info
-  log = logger.log
-  warn = logger.warn
-  error = logger.error
-  constructor(
-    public task: Task<O>,
-    public global: GlobalOptions
-  ) {
-    super()
-    this.logCommand = defaults(task.logCommand, global.logCommand)
-  }
-  get options() {
-    return this.task.options || {} as O
-  }
-
-  run(task: Dependency, options?: RunTaskOptions) {
-    let name = typeof task === 'string' ? task : task.name
-    return taskManager.run(name, {
-      force: true,
-      loading: false,
-      ...options,
-    })
-  }
-}
-
-export interface RunTaskOptions {
-  options?: any
-  rawArgs?: string[]
-  parentCtx?: TaskContext | null
-  force?: boolean
-  /** default is false */
-  loading?: boolean
-  /** default is true */
-  logTask?: boolean
-}
-export class TaskManager {
-  private _tasks: {[k: string]: Task} = {}
-  private _didSet: Set<string> = new Set()
-  public globalOptions: GlobalOptions = {
-    logLevel: 'debug',
-    loading: true,
-    options: {},
-    logCommand: true,
-    logTask: true,
-  }
-  getTasks() {
-    return Object.keys(this._tasks)
-      .map(k => this._tasks[k])
-  }
-  addTask(task: Task) {
-    if (this._tasks[task.name]) {
-      throw new TypeError(`Task name [${task.name}] already exists, please choose another task name!`)
-    }
-    this._tasks[task.name] = task
-    return task
-  }
-  async run(name: string | Task = 'default', props?: RunTaskOptions) {
-    props = {
-      options: null,
-      parentCtx: null,
-      rawArgs: [],
-      force: false,
-      ...props,
-    }
-    this._tasks.all = this._tasks.all || task('all', Object.keys(this._tasks))
-    this._tasks.default = this._tasks.default || this._tasks.all
-    if (!this._tasks[
-      typeof name === 'string'
-        ? name
-        : name.name
-    ]) {
-      throw new TypeError(`Cannot find task with name [${name}]`)
-    }
-    const t = {
-      ...(typeof name === 'string'
-      ? this._tasks[name]
-      : name),
-      force: props.force,
-    }
-    t.options = {
-      ...(t.options || null),
-      ...(props.options || null),
-    }
-    let ctx = new TaskContext(t, this.globalOptions)
-    if (t.dependencies) {
-      let asyncDeps: Task[] = []
-      let syncDeps: Task[] = []
-      t.dependencies.forEach(taskDep => {
-        let fullTask = this._tasks[taskDep.name]
-        if (!fullTask) {
-          throw new TypeError(`Cannot find task with name [${fullTask.name}]`)
-        }
-        const t = {
-          ...fullTask,
-          async: taskDep.async,
-          force: taskDep.force,
-          options: {
-            ...fullTask.options,
-            ...taskDep.options,
-          }
-        }
-        if (t.async) {
-          asyncDeps.push(t)
-        } else {
-          syncDeps.push(t)
-        }
-      })
-      await Promise.all([
-        (async () => {
-          for (const t of syncDeps) {
-            await this.run(t, { parentCtx: ctx })
-          }
-        })(),
-        Promise.all(
-          asyncDeps.map(
-            t => this.run(t, { parentCtx: ctx })
-          )
-        ),
-      ])
-    }
-    let ld
-    let text = `${t.name}`
-    t.rawArgs = props.rawArgs
-    if (t.resolveOptions && props.parentCtx) {
-      let lazyOptions = await t.resolveOptions(props.parentCtx)
-      t.options = {
-        ...t.options,
-        ...lazyOptions,
-      }
-    }
-    let taskHash = hashAny(t)
-    if (this._didSet.has(taskHash) && !t.force) return
-    let loading = defaults(props.loading, t.loading, ctx.global.loading, true)
-    let logTask = defaults(props.logTask, t.logTask, ctx.global.logTask, true)
-
-    if (!loading) {
-      if (logTask) {
-        console.log(chalk.yellow('Task: ') + t.name)
-      }
-      let ret = t.fn && await t.fn(ctx)
-      this._didSet.add(taskHash)
-      return ret
-    }
-    ld = ora({
-      text: chalk.gray(text),
-    }).start()
-    try {
-      let ret = t.fn && await t.fn(ctx)
-      ld.succeed(text)
-      this._didSet.add(taskHash)
-      return ret
-    } catch (error) {
-      ld.fail(chalk.redBright(text))
-      throw error
-    }
-  }
-}
-
-const taskManager = new TaskManager()
-const TMKey = '@foyjs/taskManager'
-/** @internal */
-export function getGlobalTaskManager(): TaskManager {
-  return (global as any)[TMKey] as any
-}
-(global as any)[TMKey] = (global as any)[TMKey] || taskManager
 /**
  * Set global options for all tasks.
  * @param options
@@ -303,10 +111,10 @@ export function task<O>(
  */
 export function task<O>(
   name: string,
-  dependencies?: (Dependency[] | TaskFn<any>),
+  dependencies: (Dependency[] | TaskFn<any>) = [],
   fn?: TaskFn<O>,
 ): Task<O> {
-  if (typeof dependencies === 'function') {
+  if (Is.fn(dependencies)) {
     fn = dependencies
     dependencies = []
   }
@@ -317,9 +125,12 @@ export function task<O>(
     desc: TaskOptions.last.desc,
     strict: TaskOptions.last.strict,
     loading: TaskOptions.last.loading,
-    dependencies: (dependencies || []).map(d => {
-      if (typeof d === 'string') {
+    rawArgs: [],
+    dependencies: dependencies.map(d => {
+      if (Is.str(d)) {
         return { name: d, options: {} } as Task
+      } else if (d instanceof DepBuilder) {
+        return d.toTaskDep()
       }
       return d
     }),
