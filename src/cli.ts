@@ -61,8 +61,8 @@ if (defaultCli.options.init) {
     throw new Error(`Foyfile already exists: ${pathLib.resolve(file)}`)
   }
   fs.writeFileSync(file, `${ ext === 'js'
-  ? `const { task, desc, option } = require('foy')`
-  : `import { task, desc, option } from 'foy'` }
+  ? `const { task, desc, option, fs } = require('foy')`
+  : `import { task, desc, option, fs } from 'foy'` }
 
 task('build', async ctx => {
   // Your build tasks
