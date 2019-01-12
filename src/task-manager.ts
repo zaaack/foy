@@ -270,8 +270,8 @@ export class TaskManager {
     } else {
       cliLoading.props.symbolMap = { [TaskState.waiting]: figures.line }
       cliLoading.props.grayState = []
-      console.log('\n' + chalk.yellow(`DependencyGraph for task [${t.name}]:\n`))
-      console.log(cliLoading.renderDepsTree(depsTree).join('\n') + '\n\n')
+      console.log(chalk.yellow(`DependencyGraph for task [${t.name}]:`))
+      console.log(cliLoading.renderDepsTree(depsTree).join('\n') + '\n')
     }
     try {
       let ret = await this.runDepsTree(depsTree, props)
