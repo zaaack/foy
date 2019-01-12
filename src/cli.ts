@@ -194,3 +194,7 @@ taskCli.help(sections => {
   process.exit(0)
 })
 taskCli.parse(taskArgv)
+
+if (process.argv.length === 2) {
+  taskCli.outputHelp()
+}
