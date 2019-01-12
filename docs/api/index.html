@@ -183,6 +183,16 @@ task(
     <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm version patch'</span>)
     <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm publish'</span>)
   }
+)
+
+<span class="hljs-comment">/* Sugar version */</span>
+task(
+  <span class="hljs-string">'publish:patch'</span>,
+  [<span class="hljs-string">'test'</span>.async().force(), ]
+  <span class="hljs-keyword">async</span> ctx =&gt; {
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm version patch'</span>)
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm publish'</span>)
+  }
 )</code></pre>
 				<p>You can also pass options to dependences:</p>
 				<pre><code class="language-ts">task(<span class="hljs-string">'task1'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
@@ -241,6 +251,15 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-is-external">
+						<a href="enums/taskstate.html" class="tsd-kind-icon">Task<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-external">
+						<a href="classes/cliloading.html" class="tsd-kind-icon">Cli<wbr>Loading</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter tsd-is-external">
+						<a href="classes/depbuilder.html" class="tsd-kind-icon">Dep<wbr>Builder</a>
+					</li>
 					<li class=" tsd-kind-class tsd-is-external">
 						<a href="classes/shellcontext.html" class="tsd-kind-icon">Shell<wbr>Context</a>
 					</li>
@@ -251,7 +270,16 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 						<a href="classes/taskmanager.html" class="tsd-kind-icon">Task<wbr>Manager</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/depstree.html" class="tsd-kind-icon">Deps<wbr>Tree</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/globaloptions.html" class="tsd-kind-icon">Global<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/props.html" class="tsd-kind-icon">Props</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/rundepoptions.html" class="tsd-kind-icon">Run<wbr>Dep<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/runtaskoptions.html" class="tsd-kind-icon">Run<wbr>Task<wbr>Options</a>
@@ -282,6 +310,9 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#defaults" class="tsd-kind-icon">defaults</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#dep" class="tsd-kind-icon">dep</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#desc" class="tsd-kind-icon">desc</a>

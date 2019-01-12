@@ -167,6 +167,16 @@ task(
     await ctx.exec('npm publish')
   }
 )
+
+/* Sugar version */
+task(
+  'publish:patch',
+  ['test'.async().force(), ]
+  async ctx => {
+    await ctx.exec('npm version patch')
+    await ctx.exec('npm publish')
+  }
+)
 ```
 
 You can also pass options to dependences:

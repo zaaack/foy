@@ -1,14 +1,13 @@
 import * as execa from 'execa'
 import * as pathLib from 'path'
 import { logger as _logger } from './logger'
-import { Dependency, RunTaskOptions, TaskManager } from './task';
-import { sleep } from './utils';
+import { sleep, Is } from './utils';
 export { execa }
 
 export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess
 export function exec(commands: string[], options?: execa.Options): Promise<execa.ExecaReturns[]>
 export async function exec(commands: string | string[], options?: execa.Options) {
-  if (typeof commands === 'string') {
+  if (Is.str(commands)) {
     return execa.shell(commands, options)
   }
 
@@ -49,7 +48,7 @@ export class ShellContext {
       throw err
     })
   }
-  spawn(file: string, args?: string[], options?: execa.Options): execa.ExecaChildProcess {
+  spawn(file: string, args: string[] = [], options?: execa.Options): execa.ExecaChildProcess {
     let logger: typeof _logger = require('./logger').logger
     const command = file + ' ' + args.map(a => `"${a.replace(/"/g, '\\"')}"`).join(' ')
     if (this.logCommand) {
@@ -65,9 +64,9 @@ export class ShellContext {
       throw err
     }) as any
   }
-  env(key: string): string
+  env(key: string): string | undefined
   env(key: string, val: string | undefined): this
-  env(key: string, val?: string): string | this {
+  env(key: string, val?: string): string | undefined | this {
     if (arguments.length === 1) {
       return this._env[key]
     }

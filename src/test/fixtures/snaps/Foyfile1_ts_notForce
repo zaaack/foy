@@ -1,6 +1,15 @@
+
+DependencyGraph for task [notForce]:
+
+─ notForce
+   ─ aa
+   ─ aa
+
+
 Task: aa
 [debug] {}
 [info] {}
 [warn] {}
 [error] {}
+Skip task: aa
 Task: notForce

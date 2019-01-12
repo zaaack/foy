@@ -1,7 +1,7 @@
 import * as _fs from 'fs'
 import * as util from 'util'
 import * as pathLib from 'path';
-import { throttle } from './utils';
+import { throttle, Is } from './utils';
 
 const ENOENT = 'ENOENT' // not found
 
@@ -77,7 +77,7 @@ function watchDir(
   options?: WatchDirOptions | WatchDirHandler,
   cb?: WatchDirHandler,
 ): void {
-  if (typeof options === 'function') {
+  if (Is.fn(options)) {
     cb = options as any
     options = void 0
   }
@@ -87,7 +87,7 @@ function watchDir(
     ...options,
   } as WatchDirOptions
   if (options.throttle) {
-    cb = throttle(cb, options.throttle)
+    cb = cb && throttle(cb, options.throttle)
   }
   if (process.platform === 'linux') {
     fs.iter(dir, (path) => {
@@ -275,7 +275,7 @@ export const fs = {
       replacer?: (key: string, value: any) => any,
     } | string | null
   ) {
-    const [replacer, space] = options && typeof options === 'object'
+    const [replacer, space] = Is.obj(options)
       ? [options.replacer, options.space]
       : [void 0, void 0]
     return fs.outputFile(path, JSON.stringify(data, replacer, space), options)
@@ -291,21 +291,21 @@ export const fs = {
       replacer?: (key: string, value: any) => any,
     } | string | null,
   ) {
-    const [replacer, space] = options && typeof options === 'object'
+    const [replacer, space] = Is.obj(options)
       ? [options.replacer, options.space]
       : [void 0, void 0]
     return fs.outputFileSync(path, JSON.stringify(data, replacer, space), options)
   },
   async readJson<T = any>(path: string, options?: { encoding?: null, flag?: string } | null) {
     let data: Buffer | string = await fs.readFile(path, options)
-    if (typeof data !== 'string') {
+    if (!Is.str(data)) {
       data = data.toString('utf8')
     }
     return JSON.parse(data) as T
   },
   readJsonSync<T = any>(path: string, options?: { encoding?: null, flag?: string } | null) {
     let data: Buffer | string = fs.readFileSync(path, options)
-    if (typeof data !== 'string') {
+    if (!Is.str(data)) {
       data = data.toString('utf8')
     }
     return JSON.parse(data) as T

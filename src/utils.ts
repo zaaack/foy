@@ -39,7 +39,7 @@ export function hashAny(key: any) {
 }
 
 export const sleep = (ms: number) => {
-  return new Promise(res => setTimeout(res, ms))
+  return new Promise<void>(res => setTimeout(res, ms))
 }
 
 export function throttle<T extends (...args: any[]) => void>(cb: T, ms: number): T {
@@ -54,6 +54,18 @@ export function throttle<T extends (...args: any[]) => void>(cb: T, ms: number):
 export const Is = {
   defed<T>(v: T | null | undefined): v is T {
     return typeof v !== 'undefined' && v !== null
+  },
+  str(v: any): v is string {
+    return typeof v === 'string'
+  },
+  bool(v: any): v is boolean {
+    return typeof v === 'boolean'
+  },
+  fn(v: any): v is Function {
+    return typeof v === 'function'
+  },
+  obj(v: any): v is object {
+    return v && typeof v === 'object'
   }
 }
 

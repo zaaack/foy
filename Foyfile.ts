@@ -1,7 +1,10 @@
-import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption } from './src/'
+import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep } from './src/'
 import * as marked from 'marked'
 import * as ejs from 'ejs'
 
+setGlobalOptions({ redirectLog: false, loading: true })
+
+desc('build whole project')
 task('build', async ctx => {
   await fs.rmrf('./lib')
   await ctx.exec([
@@ -10,6 +13,7 @@ task('build', async ctx => {
   ])
 })
 
+desc('generate doc')
 task('doc', async ctx => {
   await ctx.exec(`typedoc --theme default --mode file   --excludeNotExported --excludePrivate --out ./docs/api ./src/index.ts`)
   await ctx.exec(`touch ./docs/.nojekyll`)
@@ -18,7 +22,7 @@ task('doc', async ctx => {
 const MochaCli = `mocha --exit -r tsconfig-paths/register -r ts-node/register`
 
 task<{ args: string, env: NodeJS.ProcessEnv }>('test', async ctx => {
-  await ctx.exec(`${MochaCli} "src/test/*.test.ts" ${ctx.options.args || ''} ${ctx.task.rawArgs.map(a => `"${a}"`).join(' ')}`, { env: ctx.options.env || process.env })
+  await ctx.exec(`${MochaCli} "src/test/*.test.ts" ${ctx.options.args || ''} ${(ctx.task.rawArgs).map(a => `"${a}"`).join(' ')}`, { env: ctx.options.env || process.env })
 })
 
 task('test:update-snap', [{
@@ -33,19 +37,19 @@ task('test:update-snap', [{
 
 task('watch', [{
   name: 'test',
-  options: { args: `-w --watch-extensions ts,tsx` },
+  option: { args: `-w --watch-extensions ts,tsx` },
 
 }])
 // npm_package_version:
 setOption({ loading: false })
 task<{ version: string }>('preversion', async ctx => {
+  await ctx.exec('yarn')
   await Promise.all([
-    fs.rmrf('./lib/test'),
-    ctx.exec('yarn'),
     ctx.run('test'),
     ctx.run('build'),
     ctx.run('site'),
   ])
+  await fs.rmrf('./lib/test')
   await ctx.exec([
     `changelog --${ctx.options.version} -x chore`,
     `git add -A`,
@@ -57,13 +61,13 @@ task('postversion', async ctx => {
   await ctx.exec(`git push origin master --tags`)
 })
 
-task('publish', async ctx => {
-  const version = ctx.task.rawArgs[0] || 'patch'
-  await ctx.run('preversion', { options: { version } })
-  await ctx.exec(`npm version ${version}`)
-  await ctx.exec(`git push origin master`)
-  await ctx.exec(`git push origin master --tags -f`)
-  await ctx.exec(`npm --registry https://registry.npmjs.org/ publish`)
+task('publish', ['preversion'.options(ctx => ({ version: ctx.task.rawArgs[0] }))], async ctx => {
+  await ctx.exec([
+    `npm version ${ctx.task.rawArgs[0]}`,
+    `git push origin master`,
+    `git push origin master --tags -f`,
+    `npm --registry https://registry.npmjs.org/ publish`,
+  ])
 })
 
 task('site:home', async ctx => {
@@ -92,4 +96,14 @@ task('site:watch', async ctx => {
   })
 })
 
-task('site', ['doc', 'site:home'])
+task('site', ['doc'.async(), 'site:home'.async()])
+
+task('demo1', async ctx => {
+  console.log('demo1')
+  ctx.log('demo1demo2')
+  await sleep(3000)
+})
+task('demo2', async ctx => sleep(3000))
+task('demo3', ['demo2', 'demo1'], async ctx => sleep(3000))
+
+task('demo', ['demo1','demo2'.async(), 'demo3'.async()])
