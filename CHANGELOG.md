@@ -1,3 +1,27 @@
+#### 0.1.9 (2019-01-12)
+
+##### New Features
+
+* **cli:**
+  *  Try load global installed foy if cannot find in local ([216510d2](https://github.com/zaaack/foy/commit/216510d278019d595f772f6b40c3e4b9c5aa6aff))
+  *  Search Foyfiles in parent directories ([0bdfc802](https://github.com/zaaack/foy/commit/0bdfc8029931fd03db31f990708574ed5e0f40f4))
+* **fs:**
+  *  Naming, filter => skip ([cb01de60](https://github.com/zaaack/foy/commit/cb01de609fe04e8d4f51c944358904e68850dcd7))
+  *  Add json options for fs.outputJson ([0c60df36](https://github.com/zaaack/foy/commit/0c60df36ea451c044756f91f9b2f763df7ccfc97))
+* **exec & task:**  Add log command options ([2f7a782b](https://github.com/zaaack/foy/commit/2f7a782b5ddd2c5e64fbb114a318199855a38aac))
+
+##### Bug Fixes
+
+* **task:**
+  *  Add dependency graph loading & dependency sugar ([f98c2d39](https://github.com/zaaack/foy/commit/f98c2d390c2dab9ad125ee1fb5370491b7cc3518))
+  *  Make taskManager singleton ([f797af2a](https://github.com/zaaack/foy/commit/f797af2ab8037b6b66baaf600bf66856ead8c38a))
+* **exec:**  Fix .env() only return env value when passing one parameter ([52af9510](https://github.com/zaaack/foy/commit/52af9510abb883cd6b457ea787439cc089f2a7a8))
+* **util:**  Fix sleep ms ([6511cc11](https://github.com/zaaack/foy/commit/6511cc11bd8f436fd565873ba636e44586ecfdac))
+
+##### Refactors
+
+* **utils:**  Refactor defaults ([71841674](https://github.com/zaaack/foy/commit/718416742f3ac8e2286c250528d51ba6c786f5b5))
+
 #### 0.1.8 (2019-01-10)
 
 ##### New Features
