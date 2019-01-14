@@ -1,3 +1,13 @@
+#### 0.1.10 (2019-01-14)
+
+##### Bug Fixes
+
+* **cli:**
+  *  Fix loading when resize terminal (fix: [#7](https://github.com/zaaack/foy/pull/7)) ([09a0d505](https://github.com/zaaack/foy/commit/09a0d505473f87b66c284d4ebb0b84b6bd4c3832))
+  *  Output help when no argv ([1019fb35](https://github.com/zaaack/foy/commit/1019fb354b18b8590e8668f7182284e8db0259ad))
+  *  Fix indent option ([0e9b8db5](https://github.com/zaaack/foy/commit/0e9b8db5afae446e30d50a55e7af883afa085d21))
+  *  Less break line ([1855aa0d](https://github.com/zaaack/foy/commit/1855aa0dcf1e7d45bfbc3c33c0f09d2655523903))
+
 #### 0.1.9 (2019-01-12)
 
 ##### New Features
