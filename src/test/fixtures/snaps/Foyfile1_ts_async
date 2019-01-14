@@ -1,10 +1,7 @@
-
 DependencyGraph for task [async]:
-
 ─ async
    ─ wait
    ─ wait
-
 
 Task: wait
 Task: wait

@@ -98,12 +98,12 @@ task('site:watch', async ctx => {
 
 task('site', ['doc'.async(), 'site:home'.async()])
 
-task('demo1', async ctx => {
-  console.log('demo1')
+task('demodemodemodemodemodemodemo1', async ctx => {
+  console.log('demodemodemodemodemodemodemo1')
   ctx.log('demo1demo2')
   await sleep(3000)
 })
 task('demo2', async ctx => sleep(3000))
-task('demo3', ['demo2', 'demo1'], async ctx => sleep(3000))
+task('demo3', ['demo2', 'demodemodemodemodemodemodemo1'], async ctx => sleep(3000))
 
-task('demo', ['demo1','demo2'.async(), 'demo3'.async()])
+task('demo', ['demodemodemodemodemodemodemo1','demo2'.async(), 'demo3'.async()])
