@@ -14,6 +14,7 @@ A simple, light-weight and modern task runner for general purpose.
   - [Using with built-in promised-based API](#using-with-built-in-promised-based-api)
   - [Using with other packages](#using-with-other-packages)
   - [Using dependencies](#using-dependencies)
+  - [Using namespaces](#using-namespaces)
   - [Watch and build](#watch-and-build)
   - [Using with custom compiler](#using-with-custom-compiler)
   - [API documentation](#api-documentation)
@@ -201,6 +202,41 @@ task('task2', [{
 }])
 
 // foy task2 -a 1
+```
+
+## Using namespaces
+
+If you have lots of tasks, naming might be a big problem, what foy do is make you easier, but more anxious. So we provide a `namespacify` function to generate task names with namespaces.
+
+```ts
+import { namespacify, task } from 'foy'
+
+// namespacify(names: object, ns = '', sep = ':')
+const ns = namespacify({
+  client: {
+    build: '',
+    start: '',
+    watch: '',
+  },
+  server: {
+    build: '',
+    start: '',
+    watch: '',
+  },
+  start: '',
+})
+
+task(ns.client.build, async ctx => { /* ... */ }) // client:build
+task(ns.client.start, async ctx => { /* ... */ }) // client:start
+task(ns.client.watch, async ctx => { /* ... */ }) // client:watch
+
+task(ns.server.build, async ctx => { /* ... */ }) // server:build
+task(ns.server.start, async ctx => { /* ... */ }) // server:start
+task(ns.server.watch, async ctx => { /* ... */ }) // server:watch
+
+task(ns.start, [ns.client.start.async(), ns.server.start.async()]) // start
+
+// foy start
 ```
 
 ## Watch and build
