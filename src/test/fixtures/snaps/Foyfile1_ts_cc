@@ -1,11 +1,8 @@
-
 DependencyGraph for task [cc]:
-
 ─ cc
    ─ bb
       ─ aa
    ─ aa
-
 
 Task: aa
 [debug] {}

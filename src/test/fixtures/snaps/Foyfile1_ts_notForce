@@ -1,10 +1,7 @@
-
 DependencyGraph for task [notForce]:
-
 ─ notForce
    ─ aa
    ─ aa
-
 
 Task: aa
 [debug] {}

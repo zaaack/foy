@@ -1,8 +1,5 @@
-
 DependencyGraph for task [aa]:
-
 ─ aa
-
 
 Task: aa
 [debug] { '--': [], a: 'bb' }

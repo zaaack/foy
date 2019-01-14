@@ -87,12 +87,14 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#_loadingframemap" class="tsd-kind-icon">_loading<wbr>Frame<wbr>Map</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#linestoclear" class="tsd-kind-icon">lines<wbr>ToClear</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#props" class="tsd-kind-icon">props</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#clear" class="tsd-kind-icon">clear</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#count" class="tsd-kind-icon">count</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#render" class="tsd-kind-icon">render</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="cliloading.html#renderdepstree" class="tsd-kind-icon">render<wbr>Deps<wbr>Tree</a></li>
@@ -115,7 +117,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/f98c2d3/src/cli-loading.ts#L18">cli-loading.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bb98b7f/src/cli-loading.ts#L31">cli-loading.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -137,7 +139,7 @@
 					<div class="tsd-signature tsd-kind-icon">_loading<wbr>Frame<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;string, number&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/f98c2d3/src/cli-loading.ts#L17">cli-loading.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/bb98b7f/src/cli-loading.ts#L29">cli-loading.ts:29</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -147,7 +149,17 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">NodeJS.Timer</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/f98c2d3/src/cli-loading.ts#L18">cli-loading.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/bb98b7f/src/cli-loading.ts#L30">cli-loading.ts:30</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
+					<a name="linestoclear" class="tsd-anchor"></a>
+					<h3>lines<wbr>ToClear</h3>
+					<div class="tsd-signature tsd-kind-icon">lines<wbr>ToClear<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/bb98b7f/src/cli-loading.ts#L31">cli-loading.ts:31</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -157,13 +169,30 @@
 					<div class="tsd-signature tsd-kind-icon">props<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Required</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/props.html" class="tsd-signature-type">Props</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/f98c2d3/src/cli-loading.ts#L16">cli-loading.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/bb98b7f/src/cli-loading.ts#L28">cli-loading.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
+					<a name="clear" class="tsd-anchor"></a>
+					<h3>clear</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">clear<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bb98b7f/src/cli-loading.ts#L94">cli-loading.ts:94</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
 					<a name="count" class="tsd-anchor"></a>
 					<h3>count</h3>
@@ -174,7 +203,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/f98c2d3/src/cli-loading.ts#L27">cli-loading.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bb98b7f/src/cli-loading.ts#L41">cli-loading.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -197,7 +226,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/f98c2d3/src/cli-loading.ts#L67">cli-loading.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bb98b7f/src/cli-loading.ts#L73">cli-loading.ts:73</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -214,7 +243,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/f98c2d3/src/cli-loading.ts#L32">cli-loading.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bb98b7f/src/cli-loading.ts#L46">cli-loading.ts:46</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -240,7 +269,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/f98c2d3/src/cli-loading.ts#L71">cli-loading.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bb98b7f/src/cli-loading.ts#L110">cli-loading.ts:110</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -257,7 +286,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/zaaack/foy/blob/f98c2d3/src/cli-loading.ts#L77">cli-loading.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/zaaack/foy/blob/bb98b7f/src/cli-loading.ts#L116">cli-loading.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -294,7 +323,13 @@
 								<a href="cliloading.html#id" class="tsd-kind-icon">id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
+								<a href="cliloading.html#linestoclear" class="tsd-kind-icon">lines<wbr>ToClear</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
 								<a href="cliloading.html#props" class="tsd-kind-icon">props</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
+								<a href="cliloading.html#clear" class="tsd-kind-icon">clear</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
 								<a href="cliloading.html#count" class="tsd-kind-icon">count</a>
