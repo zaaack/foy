@@ -82,3 +82,39 @@ export function defaults<T>(...args: (T | undefined)[]): T {
   }
   return (defaults as any)(...defaultVals)
 }
+
+export type Stringify<T> = {
+  [k in keyof T]: T[k] extends (string | null | undefined | 0 | false) ? string : Stringify<T[k]>
+}
+
+/**
+ * Generate unique task names with namespaces via object tree.
+ * @param obj
+ * @param ns Namespace
+ * @param sep Separator for namespaces
+ * @example
+ *  ```ts
+ * /** N.aa.bb => 'aa:bb' *\/
+ * const N = namespacify({
+ *   aa: { bb: { cc: '' } },
+ *   cc: '',
+ *   ff: ''
+ * })
+ *
+ * /* =>
+ *    { aa: { bb: { cc: 'aa:bb:cc' } },
+ *      cc: 'cc',
+ *      ff: 'ff' } *\/
+ *  ```
+ */
+export function namespacify<T>(obj: T, ns = '', sep = ':'): Stringify<T> {
+  for (const key in obj) {
+    const val = obj[key] || key
+    if (Is.str(val)) {
+      obj[key] = `${ns}${ns && sep}${val}` as any
+    } else if (Is.obj(val)) {
+      namespacify(val, `${ns}${ns && sep}${key}`, sep)
+    }
+  }
+  return obj as any
+}
