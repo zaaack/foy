@@ -1,3 +1,14 @@
+#### 0.1.11 (2019-01-15)
+
+##### New Features
+
+* **exec:**  Add redirectLog option to redirect external command executaion's log to file or stream ([4433d252](https://github.com/zaaack/foy/commit/4433d2525ec5582d362855ae8869e57d5c0b143a))
+* **utils:**  Add namespacify ([9c752f02](https://github.com/zaaack/foy/commit/9c752f0295ad6e22748472ff4faf77223c3bd8b0))
+
+##### Bug Fixes
+
+* **cli:**  Fix loading ([debf8379](https://github.com/zaaack/foy/commit/debf8379090b163b10d041dcd2e5f3ee4f197a52))
+
 #### 0.1.10 (2019-01-14)
 
 ##### Bug Fixes
