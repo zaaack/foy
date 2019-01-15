@@ -42,18 +42,18 @@ task('ee', async ctx => {
 })
 
 task('ff', [
-  { name: 'aa', options: { aa: 1 } },
-  { name: 'aa', options: { aa: 2 } },
+  'aa'.options({ aa: 1 }),
+  'aa'.options({ aa: 2 }),
 ])
 
 const noop = f => f
 task('notForce', [
-  { name: 'aa', options: noop, force: false },
-  { name: 'aa', options: noop, force: false },
+  'aa'.options({ noop }),
+  'aa'.options({ noop }),
 ])
 task('force', [
-  { name: 'aa', options: noop, force: true },
-  { name: 'aa', options: noop, force: true },
+  'aa'.options({ noop }).force(),
+  'aa'.options({ noop }).force(),
 ])
 
 task<{ t: number }>('wait', async ctx => {
@@ -61,13 +61,13 @@ task<{ t: number }>('wait', async ctx => {
   console.log('wait', ctx.options.t)
 })
 task('sync', [
-  { name: 'wait', options: { t: 10 } },
-  { name: 'wait', options: { t: 1 } },
+  'wait'.options({ t: 10 }),
+  'wait'.options({ t: 1 }),
 ])
 
 task('async', [
-  { name: 'wait', async: true, options: { t: 10 } },
-  { name: 'wait', async: true, options: { t: 1 } },
+  'wait'.async().options({ t: 10 }),
+  'wait'.async().options({ t: 1 }),
 ])
 task('logOptions', async ctx => {
   logger.debug('logOptions', ctx.options, ctx.global.options, ctx.task.rawArgs)

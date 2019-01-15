@@ -4,13 +4,13 @@ DependencyGraph for task [force]:
    ─ aa
 
 Task: aa
-[debug] {}
-[info] {}
-[warn] {}
-[error] {}
+[debug] { noop: [Function: noop] }
+[info] { noop: [Function: noop] }
+[warn] { noop: [Function: noop] }
+[error] { noop: [Function: noop] }
 Task: aa
-[debug] {}
-[info] {}
-[warn] {}
-[error] {}
+[debug] { noop: [Function: noop] }
+[info] { noop: [Function: noop] }
+[warn] { noop: [Function: noop] }
+[error] { noop: [Function: noop] }
 Task: force
