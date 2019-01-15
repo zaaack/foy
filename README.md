@@ -206,7 +206,7 @@ task('task2', [{
 
 ## Using namespaces
 
-If you have lots of tasks, naming might be a big problem, what foy do is make you easier, but more anxious. So we provide a `namespacify` function to generate task names with namespaces.
+If you have lots of tasks, naming might be a problem, what foy do is to making life easier, but more anxious. So we provide a `namespacify` function to generate task names with namespaces.
 
 ```ts
 import { namespacify, task } from 'foy'
@@ -237,6 +237,7 @@ task(ns.server.watch, async ctx => { /* ... */ }) // server:watch
 task(ns.start, [ns.client.start.async(), ns.server.start.async()]) // start
 
 // foy start
+// foy client:build
 ```
 
 ## Watch and build
