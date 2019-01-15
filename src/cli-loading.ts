@@ -74,11 +74,11 @@ export class CliLoading {
     let columns = this.props.stream.columns || 80
     let rows = this.props.stream.rows || Infinity
     let output = this.renderDepsTree(this.props.depsTree)
+    let isFirstRendering = this.linesToClear === 0
     output.push('')
     let outputLineCounts = output.map(
       line => Math.max(1, Math.ceil(wcwidth(stripAnsi(line)) / columns))
     )
-
     this.clear()
     this.linesToClear = 0
     for (let i = outputLineCounts.length - 1; i >= 0; i--) {
@@ -86,7 +86,9 @@ export class CliLoading {
       this.linesToClear += count
       if (this.linesToClear > rows) {
         this.linesToClear -= count
-        output = output.slice(i + 1)
+        if (!isFirstRendering) {
+          output = output.slice(i + 1)
+        }
         break
       }
     }

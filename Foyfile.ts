@@ -2,7 +2,7 @@ import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sl
 import * as marked from 'marked'
 import * as ejs from 'ejs'
 
-setGlobalOptions({ redirectLog: true, loading: true })
+setGlobalOptions({ loading: true })
 
 desc('build whole project')
 task('build', async ctx => {
