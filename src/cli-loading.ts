@@ -74,6 +74,7 @@ export class CliLoading {
     let columns = this.props.stream.columns || 80
     let rows = this.props.stream.rows || Infinity
     let output = this.renderDepsTree(this.props.depsTree)
+    output.push('')
     let outputLineCounts = output.map(
       line => Math.max(1, Math.ceil(wcwidth(stripAnsi(line)) / columns))
     )
@@ -85,7 +86,7 @@ export class CliLoading {
       this.linesToClear += count
       if (this.linesToClear > rows) {
         this.linesToClear -= count
-        output = output.slice(output.length - i)
+        output = output.slice(i + 1)
         break
       }
     }

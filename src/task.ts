@@ -4,9 +4,10 @@ import { ShellContext } from './exec'
 import { hashAny, Is, defaults } from './utils'
 import { fs } from './fs'
 import { logger } from './logger'
-import { CliLoading } from './cli-loading';
-import { DepBuilder } from './dep-builder';
+import { CliLoading } from './cli-loading'
+import { DepBuilder } from './dep-builder'
 import { GlobalOptions, RunTaskOptions, getGlobalTaskManager, TaskContext } from './task-manager'
+import { Writable } from 'stream'
 
 export type OptionDef = [string, string, OptionConfig | undefined]
 
@@ -35,7 +36,7 @@ export interface Task<O = any> extends TaskDep<O> {
   optionDefs?: OptionDef[]
   dependencies?: TaskDep[]
   desc?: string
-  fn?: (ctx: TaskContext<O>) => (void | Promise<void>)
+  fn?: (ctx: TaskContext<O>) => void | Promise<void>
   /**
    * Raw arg strings
    */
@@ -55,7 +56,12 @@ export interface Task<O = any> extends TaskDep<O> {
    * @description whether log executed command
    * @default globalOptions.logCommand
    */
-  logCommand?: boolean,
+  logCommand?: boolean
+  /**
+   * @description whether redirect all ctx.exec & ctx.spawn's output to file
+   * @default globalOptions.redirectLog
+   */
+  redirectLog?: boolean | string | Writable
 }
 
 /**
@@ -94,15 +100,8 @@ export function strict() {
 export function setOption(options: Partial<typeof TaskOptions.last>) {
   Object.assign(TaskOptions.last, options)
 }
-export function task<O>(
-  name: string,
-  fn: TaskFn<O>,
-): Task<O>
-export function task<O>(
-  name: string,
-  dependencies: Dependency[],
-  fn?: TaskFn<O>,
-): Task<O>
+export function task<O>(name: string, fn: TaskFn<O>): Task<O>
+export function task<O>(name: string, dependencies: Dependency[], fn?: TaskFn<O>): Task<O>
 /**
  * Define a task
  * @param name
@@ -111,7 +110,7 @@ export function task<O>(
  */
 export function task<O>(
   name: string,
-  dependencies: (Dependency[] | TaskFn<any>) = [],
+  dependencies: Dependency[] | TaskFn<any> = [],
   fn?: TaskFn<O>,
 ): Task<O> {
   if (Is.fn(dependencies)) {
