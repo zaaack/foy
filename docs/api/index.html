@@ -75,6 +75,7 @@
 							<li><a href="#using-with-built-in-promised-based-api">Using with built-in promised-based API</a></li>
 							<li><a href="#using-with-other-packages">Using with other packages</a></li>
 							<li><a href="#using-dependencies">Using dependencies</a></li>
+							<li><a href="#using-namespaces">Using namespaces</a></li>
 							<li><a href="#watch-and-build">Watch and build</a></li>
 							<li><a href="#using-with-custom-compiler">Using with custom compiler</a></li>
 							<li><a href="#api-documentation">API documentation</a></li>
@@ -214,6 +215,36 @@ task(<span class="hljs-string">'task2'</span>, [{
 }])
 
 <span class="hljs-comment">// foy task2 -a 1</span></code></pre>
+				<h2 id="using-namespaces">Using namespaces</h2>
+				<p>If you have lots of tasks, naming might be a big problem, what foy do is make you easier, but more anxious. So we provide a <code>namespacify</code> function to generate task names with namespaces.</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { namespacify, task } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+
+<span class="hljs-comment">// namespacify(names: object, ns = '', sep = ':')</span>
+<span class="hljs-keyword">const</span> ns = namespacify({
+  client: {
+    build: <span class="hljs-string">''</span>,
+    start: <span class="hljs-string">''</span>,
+    watch: <span class="hljs-string">''</span>,
+  },
+  server: {
+    build: <span class="hljs-string">''</span>,
+    start: <span class="hljs-string">''</span>,
+    watch: <span class="hljs-string">''</span>,
+  },
+  start: <span class="hljs-string">''</span>,
+})
+
+task(ns.client.build, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:build</span>
+task(ns.client.start, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:start</span>
+task(ns.client.watch, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:watch</span>
+
+task(ns.server.build, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:build</span>
+task(ns.server.start, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:start</span>
+task(ns.server.watch, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:watch</span>
+
+task(ns.start, [ns.client.start.async(), ns.server.start.async()]) <span class="hljs-comment">// start</span>
+
+<span class="hljs-comment">// foy start</span></code></pre>
 				<h2 id="watch-and-build">Watch and build</h2>
 				<pre><code class="language-ts">
 task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* build your project */</span> })
@@ -297,6 +328,9 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 						<a href="globals.html#optiondef" class="tsd-kind-icon">Option<wbr>Def</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#stringify" class="tsd-kind-icon">Stringify</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#taskfn" class="tsd-kind-icon">Task<wbr>Fn</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
@@ -304,6 +338,9 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="globals.html#watchdiroptions" class="tsd-kind-icon">Watch<wbr>Dir<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#defaultlogfile" class="tsd-kind-icon">Default<wbr>Log<wbr>File</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#spawn" class="tsd-kind-icon">spawn</a>
@@ -328,6 +365,9 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#hashany" class="tsd-kind-icon">hash<wbr>Any</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#namespacify" class="tsd-kind-icon">namespacify</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#option" class="tsd-kind-icon">option</a>

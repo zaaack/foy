@@ -1,3 +1,5 @@
+import { join } from 'path';
+
 let objUid = 0
 let objUidMap = new WeakMap<object, number>()
 /** @internal */
@@ -66,6 +68,9 @@ export const Is = {
   },
   obj(v: any): v is object {
     return v && typeof v === 'object'
+  },
+  num(v: any): v is number {
+    return typeof v === 'number'
   }
 }
 
@@ -118,3 +123,5 @@ export function namespacify<T>(obj: T, ns = '', sep = ':'): Stringify<T> {
   }
   return obj as any
 }
+
+export const DefaultLogFile = join(process.cwd(), 'foy.log')

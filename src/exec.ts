@@ -1,7 +1,9 @@
 import * as execa from 'execa'
 import * as pathLib from 'path'
 import { logger as _logger } from './logger'
-import { sleep, Is } from './utils';
+import { sleep, Is, DefaultLogFile } from './utils';
+import { fs } from './fs';
+import { Stream, Writable } from 'stream';
 export { execa }
 
 export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess
@@ -24,6 +26,7 @@ export class ShellContext {
   private _env = { ...process.env }
   logCommand = false
   sleep = sleep
+  redirectLog?: boolean | string | Writable
   cwd(cwd = this._cwd) {
     return (this._cwd = cwd)
   }
@@ -38,15 +41,26 @@ export class ShellContext {
     if (this.logCommand) {
       logger.info('$', commands)
     }
-    return exec(commands as any, {
+    let p = exec(commands as any, {
       cwd: this._cwd,
       env: this._env,
-      stdio: 'inherit',
+      stdio: this.redirectLog ? 'pipe' : 'inherit',
       ...options,
-    }).catch(err => {
+    })
+    let redirectLogStream = this._getRedirectLogFile()
+    if (redirectLogStream) {
+      p.then(p => {
+        p.stdout && redirectLogStream!.write(p.stdout)
+        p.stderr && redirectLogStream!.write(p.stderr)
+        redirectLogStream!.end()
+      })
+    }
+    p.catch(err => {
       logger.error('Exec failed: ', commands)
+      redirectLogStream!.end()
       throw err
     })
+    return p
   }
   spawn(file: string, args: string[] = [], options?: execa.Options): execa.ExecaChildProcess {
     let logger: typeof _logger = require('./logger').logger
@@ -54,15 +68,26 @@ export class ShellContext {
     if (this.logCommand) {
       logger.info('Exec: ', command)
     }
-    return spawn(file, args, {
+    let p = spawn(file, args, {
       cwd: this._cwd,
       env: this._env,
-      stdio: 'inherit',
+      stdio: this.redirectLog ? 'pipe' : 'inherit',
       ...options,
-    }).catch(err => {
-      logger.error('Spawn failed: ', command)
+    })
+    let redirectLogStream = this._getRedirectLogFile()
+    if (redirectLogStream) {
+      p.then(p => {
+        p.stdout && redirectLogStream!.write(p.stdout)
+        p.stderr && redirectLogStream!.write(p.stderr)
+        redirectLogStream!.end()
+      })
+    }
+    p.catch(err => {
+      logger.error('Exec failed: ', command)
+      redirectLogStream!.end()
       throw err
-    }) as any
+    })
+    return p
   }
   env(key: string): string | undefined
   env(key: string, val: string | undefined): this
@@ -72,6 +97,15 @@ export class ShellContext {
     }
     this._env[key] = val
     return this
+  }
+  private _getRedirectLogFile() {
+    if (!this.redirectLog) return null
+    let stream: Writable
+    if (this.redirectLog instanceof Writable) {
+      return this.redirectLog
+    }
+    let logFile = Is.str(this.redirectLog) ? this.redirectLog : DefaultLogFile
+    return fs.createWriteStream(logFile, { mode: fs.constants.O_APPEND })
   }
 }
 

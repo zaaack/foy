@@ -1,4 +1,4 @@
-import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep } from './src/'
+import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespacify } from './src/'
 import * as marked from 'marked'
 import * as ejs from 'ejs'
 
@@ -38,10 +38,8 @@ task('test:update-snap', [{
 task('watch', [{
   name: 'test',
   option: { args: `-w --watch-extensions ts,tsx` },
-
 }])
 // npm_package_version:
-setOption({ loading: false })
 task<{ version: string }>('preversion', async ctx => {
   await ctx.exec('yarn')
   await Promise.all([
@@ -107,3 +105,27 @@ task('demo2', async ctx => sleep(3000))
 task('demo3', ['demo2', 'demodemodemodemodemodemodemo1'], async ctx => sleep(3000))
 
 task('demo', ['demodemodemodemodemodemodemo1','demo2'.async(), 'demo3'.async()])
+
+const ns = namespacify({
+  client: {
+    build: '',
+    start: '',
+    watch: '',
+  },
+  server: {
+    build: '',
+    start: '',
+    watch: '',
+  },
+  start: '',
+})
+
+task(ns.client.build, async ctx => { /* ... */ }) // client:build
+task(ns.client.start, async ctx => { /* ... */ }) // client:start
+task(ns.client.watch, async ctx => { /* ... */ }) // client:watch
+
+task(ns.server.build, async ctx => { /* ... */ }) // server:build
+task(ns.server.start, async ctx => { /* ... */ }) // server:start
+task(ns.server.watch, async ctx => { /* ... */ }) // server:watch
+
+task(ns.start, [ns.client.start.async(), ns.server.start.async()]) // start

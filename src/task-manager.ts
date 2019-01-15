@@ -1,13 +1,13 @@
-import { CliLoading } from './cli-loading';
-import { Task } from './task';
-import chalk from 'chalk';
-import { hashAny, defaults, Is } from './utils';
-import { Writable } from 'stream';
-import { fs } from './fs';
-import { ShellContext } from './exec';
-import { logger } from './logger';
+import { CliLoading } from './cli-loading'
+import { Task } from './task'
+import chalk from 'chalk'
+import { hashAny, defaults, Is, DefaultLogFile } from './utils'
+import { Writable, Stream } from 'stream'
+import { fs } from './fs'
+import { ShellContext } from './exec'
+import { logger } from './logger'
 import stripAnsi = require('strip-ansi')
-import figures = require('figures');
+import figures = require('figures')
 
 export interface GlobalOptions {
   /**
@@ -29,9 +29,13 @@ export interface GlobalOptions {
    * @description whether log command when execute command
    * @default true
    */
-  logCommand?: boolean,
+  logCommand?: boolean
   options?: any
   rawArgs?: string[]
+  /**
+   * @description whether redirect all ctx.exec & ctx.spawn's output to file
+   * @default false Default will write to process.stdout & process.stderr
+   */
   redirectLog?: boolean | string | Writable
 }
 
@@ -68,7 +72,6 @@ export interface DepsTree {
   depth: number
 }
 
-
 export class TaskContext<O = any> extends ShellContext {
   fs = fs
   debug = logger.debug
@@ -76,15 +79,13 @@ export class TaskContext<O = any> extends ShellContext {
   log = logger.log
   warn = logger.warn
   error = logger.error
-  constructor(
-    public task: Task<O>,
-    public global: GlobalOptions
-  ) {
+  constructor(public task: Task<O>, public global: GlobalOptions) {
     super()
     this.logCommand = defaults(task.logCommand, global.logCommand, true)
+    this.redirectLog = defaults(task.redirectLog, global.redirectLog, false)
   }
   get options() {
-    return this.task.options || {} as O
+    return this.task.options || ({} as O)
   }
 
   run(task: string | Task, options?: RunTaskOptions) {
@@ -96,9 +97,8 @@ export class TaskContext<O = any> extends ShellContext {
   }
 }
 
-
 export class TaskManager {
-  private _tasks: {[k: string]: Task} = {}
+  private _tasks: { [k: string]: Task } = {}
   private _didSet: Set<string> = new Set()
   public globalOptions: GlobalOptions = {
     logLevel: 'debug',
@@ -108,17 +108,17 @@ export class TaskManager {
     indent: 3,
   }
   getTasks() {
-    return Object.keys(this._tasks)
-      .map(k => this._tasks[k])
+    return Object.keys(this._tasks).map(k => this._tasks[k])
   }
   addTask(task: Task) {
     if (this._tasks[task.name]) {
-      throw new TypeError(`Task name [${task.name}] already exists, please choose another task name!`)
+      throw new TypeError(
+        `Task name [${task.name}] already exists, please choose another task name!`,
+      )
     }
     this._tasks[task.name] = task
     return task
   }
-  // emiter: mitt.Emitter = mitt.call(null)
   resolveDependencyTree(t: Task, depth = 0): DepsTree {
     let asyncDeps: DepsTree[] = []
     let syncDeps: DepsTree[] = []
@@ -134,26 +134,27 @@ export class TaskManager {
           options: {
             ...fullTask.options,
             ...taskDep.options,
-          }
+          },
         }
-        ;(t.async ? asyncDeps : syncDeps).push(
-          this.resolveDependencyTree(t, depth + 1)
-        )
+        ;(t.async ? asyncDeps : syncDeps).push(this.resolveDependencyTree(t, depth + 1))
       })
     }
     return {
-      uid: Date.now().toString(36) + Math.random().toString(36).slice(2),
+      uid:
+        Date.now().toString(36) +
+        Math.random()
+          .toString(36)
+          .slice(2),
       task: t,
       asyncDeps,
       syncDeps,
       state: TaskState.waiting,
-      depth
+      depth,
     }
   }
 
   isLoading(t: Task, props: RunTaskOptions) {
-    let loading = defaults(props.loading, t.loading, this.globalOptions.loading, true)
-    return loading
+    return defaults(props.loading, t.loading, this.globalOptions.loading, true)
   }
   async runDepsTree(depsTree: DepsTree, props: RunTaskOptions) {
     let t = depsTree.task
@@ -173,9 +174,7 @@ export class TaskManager {
         }
       })(),
       Promise.all(
-        depsTree.asyncDeps.map(
-          t => this.runDepsTree(t, { ...depProps, parentCtx: ctx })
-        )
+        depsTree.asyncDeps.map(t => this.runDepsTree(t, { ...depProps, parentCtx: ctx })),
       ),
     ])
 
@@ -201,12 +200,12 @@ export class TaskManager {
 
     if (!loading) {
       console.log(chalk.yellow('Task: ') + t.name)
-      let ret = t.fn && await t.fn(ctx)
+      let ret = t.fn && (await t.fn(ctx))
       this._didSet.add(taskHash)
       return ret
     }
     try {
-      let ret = t.fn && await t.fn(ctx)
+      let ret = t.fn && (await t.fn(ctx))
       depsTree.state = TaskState.succeeded
       this._didSet.add(taskHash)
       return ret
@@ -216,22 +215,21 @@ export class TaskManager {
     }
   }
   async run(name: string | Task = 'default', props?: RunTaskOptions) {
-    const { redirectLog } = this.globalOptions
+    let { redirectLog } = this.globalOptions
+    let redirectStream: Writable | undefined = undefined
     if (redirectLog) {
-      let stream: Writable
-      if (Is.str(redirectLog)) {
-        stream = fs.createWriteStream(redirectLog)
-      } else if (Is.bool(redirectLog)) {
-        stream = fs.createWriteStream(`foy.log`)
+      if (redirectLog instanceof Stream) {
+        redirectStream = redirectLog
       } else {
-        stream = redirectLog
+        redirectLog = Is.str(redirectLog) ? redirectLog : DefaultLogFile
+        redirectStream = fs.createWriteStream(redirectLog, { mode: fs.constants.O_APPEND })
       }
       process.stdout.write = (buf: string | Buffer, encoding, ...args) => {
         if (buf instanceof Buffer) {
           buf = buf.toString(Is.str(encoding) ? encoding : 'utf-8')
         }
         buf = stripAnsi(buf)
-        return stream.write(buf, encoding, ...args)
+        return redirectStream!.write(buf, encoding, ...args)
       }
     }
     props = {
@@ -241,20 +239,15 @@ export class TaskManager {
       force: false,
       ...props,
     }
-    this._tasks.all = this._tasks.all || await import('./task').then(e => e.task('all', Object.keys(this._tasks)))
+    this._tasks.all =
+      this._tasks.all || (await import('./task').then(e => e.task('all', Object.keys(this._tasks))))
     this._tasks.default = this._tasks.default || this._tasks.all
 
-    if (!this._tasks[
-      Is.str(name)
-        ? name
-        : name.name
-    ]) {
+    if (!this._tasks[Is.str(name) ? name : name.name]) {
       throw new TypeError(`Cannot find task with name [${name}]`)
     }
     const t = {
-      ...(Is.str(name)
-      ? this._tasks[name]
-      : name),
+      ...(Is.str(name) ? this._tasks[name] : name),
       force: props.force,
     }
     t.options = {
@@ -263,7 +256,6 @@ export class TaskManager {
     }
     let depsTree = this.resolveDependencyTree(t)
     let loading = this.isLoading(t, props)
-    // await this.renderDepsTree(depsTree, props)
     let cliLoading = new CliLoading({
       depsTree,
       indent: defaults(props.indent, this.globalOptions.indent),
@@ -283,6 +275,9 @@ export class TaskManager {
       if (loading) {
         cliLoading.stop()
       }
+      if (redirectStream) {
+        redirectStream.end()
+      }
     }
   }
 }
@@ -290,6 +285,6 @@ export class TaskManager {
 const TMKey = '@foyjs/taskManager'
 /** @internal */
 export function getGlobalTaskManager() {
-  let taskManager: TaskManager = global[TMKey] = global[TMKey] || new TaskManager()
+  let taskManager: TaskManager = (global[TMKey] = global[TMKey] || new TaskManager())
   return taskManager
 }
