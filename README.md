@@ -172,7 +172,8 @@ task(
 /* Sugar version */
 task(
   'publish:patch',
-  ['test'.async().force(), ]
+  [ 'test'.async().force(),
+    'build'.async().force() ],
   async ctx => {
     await ctx.exec('npm version patch')
     await ctx.exec('npm publish')
