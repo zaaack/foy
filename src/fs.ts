@@ -251,6 +251,7 @@ export const fs = {
         .map(child => pathLib.join(path, child))
         .map(fs.rmrf)
       )
+      await fs.rmdir(path)
     } else {
       await fs.unlink(path)
     }
