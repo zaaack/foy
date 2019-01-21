@@ -11,11 +11,12 @@ async function copy(
   opts?: {
     /** return true will skip */
     skip?: (file: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void,
+    /** override if exists, default is true */
     override?: boolean,
   },
 ) {
   opts = {
-    override: false,
+    override: true,
     ...opts
   }
   const srcStat = await fs.stat(src)
