@@ -189,7 +189,8 @@ task(
 <span class="hljs-comment">/* Sugar version */</span>
 task(
   <span class="hljs-string">'publish:patch'</span>,
-  [<span class="hljs-string">'test'</span>.async().force(), ]
+  [ <span class="hljs-string">'test'</span>.async().force(),
+    <span class="hljs-string">'build'</span>.async().force() ],
   <span class="hljs-keyword">async</span> ctx =&gt; {
     <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm version patch'</span>)
     <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm publish'</span>)
@@ -216,7 +217,7 @@ task(<span class="hljs-string">'task2'</span>, [{
 
 <span class="hljs-comment">// foy task2 -a 1</span></code></pre>
 				<h2 id="using-namespaces">Using namespaces</h2>
-				<p>If you have lots of tasks, naming might be a big problem, what foy do is make you easier, but more anxious. So we provide a <code>namespacify</code> function to generate task names with namespaces.</p>
+				<p>If you have lots of tasks, naming might be a problem, what foy do is to making life easier, but more anxious. So we provide a <code>namespacify</code> function to generate task names with namespaces.</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { namespacify, task } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
 
 <span class="hljs-comment">// namespacify(names: object, ns = '', sep = ':')</span>
@@ -244,7 +245,8 @@ task(ns.server.watch, <span class="hljs-keyword">async</span> ctx =&gt; { <span 
 
 task(ns.start, [ns.client.start.async(), ns.server.start.async()]) <span class="hljs-comment">// start</span>
 
-<span class="hljs-comment">// foy start</span></code></pre>
+<span class="hljs-comment">// foy start</span>
+<span class="hljs-comment">// foy client:build</span></code></pre>
 				<h2 id="watch-and-build">Watch and build</h2>
 				<pre><code class="language-ts">
 task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* build your project */</span> })

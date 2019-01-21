@@ -1,3 +1,9 @@
+#### 0.1.12 (2019-01-21)
+
+##### Bug Fixes
+
+* **fs:**  copy should override existed files by default ([e510d0d9](https://github.com/zaaack/foy/commit/e510d0d9d0beb918969daa0b62050c698f17653e))
+
 #### 0.1.11 (2019-01-15)
 
 ##### New Features
