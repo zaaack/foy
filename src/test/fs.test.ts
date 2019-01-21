@@ -10,6 +10,7 @@ describe('fs', () => {
     if (fs.existsSync(baseDir)) {
       await fs.rmrf(baseDir)
     }
+    assert(!fs.existsSync(baseDir))
     console.log('baseDir', baseDir)
   })
   it('copy file', async () => {
