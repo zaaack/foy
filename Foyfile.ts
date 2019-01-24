@@ -99,6 +99,7 @@ task('site', ['doc'.async(), 'site:home'.async()])
 task('demodemodemodemodemodemodemo1', async ctx => {
   console.log('demodemodemodemodemodemodemo1')
   ctx.log('demo1demo2')
+  await ctx.exec('ls')
   await sleep(3000)
 })
 task('demo2', async ctx => sleep(3000))
