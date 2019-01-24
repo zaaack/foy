@@ -94,6 +94,7 @@ export class CliLoading {
     }
     this.props.stream.write(output.join('\n'))
   }
+  // Adopted from https://github.com/sindresorhus/ora/blob/bbc82a44884b23f1787d91f95b2d3f93afe653e3/index.js#L74
   clear() {
     if (!this.props.stream.isTTY) {
       return this
