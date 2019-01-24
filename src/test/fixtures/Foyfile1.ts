@@ -1,5 +1,6 @@
 import { task, desc, option, logger } from '../../'
 import { strict, setGlobalOptions } from '../../task'
+import { resolve } from 'path';
 
 setGlobalOptions({ strict: true, loading: false })
 
@@ -29,7 +30,7 @@ task('dd', async ctx => {
   })
   logger.debug(
     'p.stdout.trim() === ctx.cwd()',
-    p.stdout.trim() === ctx.cwd(),
+    p.stdout.trim() === ctx.cwd,
   )
   logger.debug(p.stdout.trim().endsWith('src'))
 })
@@ -61,12 +62,12 @@ task<{ t: number }>('wait', async ctx => {
   console.log('wait', ctx.options.t)
 })
 task('sync', [
-  'wait'.options({ t: 10 }),
+  'wait'.options({ t: 100 }),
   'wait'.options({ t: 1 }),
 ])
 
 task('async', [
-  'wait'.async().options({ t: 10 }),
+  'wait'.async().options({ t: 100 }),
   'wait'.async().options({ t: 1 }),
 ])
 task('logOptions', async ctx => {
@@ -85,4 +86,21 @@ task('resolveOptions', [{
   },
 }], async ctx => {
   console.log('rawArgs', ctx.task.rawArgs)
+})
+
+task('pushpopd', async ctx => {
+  let pwd = (await ctx.exec('pwd', { stdio: 'pipe' })).stdout
+  ctx.log(`pwd equals ctx.cwd`, ctx.cwd === pwd)
+  ctx.pushd('./aaa')
+  ctx.log(`pushd works`, ctx.cwd === resolve(pwd, './aaa'))
+  ctx.pushd('./bbb')
+  ctx.log(`pushd 2 works`, ctx.cwd === resolve(pwd, './aaa', './bbb'))
+
+  ctx.cd('./ccc')
+  ctx.log(`cd works`, ctx.cwd === resolve(pwd, './aaa', './bbb', './ccc'))
+
+  ctx.popd()
+  ctx.log(`popd works`, ctx.cwd === resolve(pwd, './aaa'))
+  ctx.popd()
+  ctx.log(`popd 2 works`, ctx.cwd === resolve(pwd))
 })

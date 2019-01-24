@@ -51,6 +51,7 @@ describe('task', function () {
     test(`Foyfile1.ts async`),
     test(`Foyfile1.ts resolveOptions -c 123`),
     test(`Foyfile1.ts resolveOptions`),
+    test(`Foyfile1.ts pushpopd`),
   ]
   before(async () => {
     if (UpdateSnap) {

@@ -44,7 +44,7 @@ declare global {
   interface String {
     async(): DepBuilder
     force(): DepBuilder
-    options<O>(opts: O | Exclude<TaskDep['resolveOptions'], undefined>): DepBuilder
+    options<O>(opts: O | NonNullable<TaskDep['resolveOptions']>): DepBuilder
   }
 }
 

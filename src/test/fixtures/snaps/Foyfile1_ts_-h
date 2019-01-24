@@ -17,6 +17,7 @@ Commands:
   async           
   logOptions      
   resolveOptions  
+  pushpopd        
 
 For more info, run any command with the `--help` flag:
   $ cli.ts aa --help
@@ -32,6 +33,7 @@ For more info, run any command with the `--help` flag:
   $ cli.ts async --help
   $ cli.ts logOptions --help
   $ cli.ts resolveOptions --help
+  $ cli.ts pushpopd --help
 
 Options:
   -h, --help                Display this message

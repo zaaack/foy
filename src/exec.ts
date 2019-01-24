@@ -22,16 +22,24 @@ export async function exec(commands: string | string[], options?: execa.Options)
 export const spawn = execa
 
 export class ShellContext {
-  private _cwd = process.cwd()
+  private _cwdStack = [process.cwd()]
   private _env = { ...process.env }
   logCommand = false
   sleep = sleep
   redirectLog?: boolean | string | Writable
-  cwd(cwd = this._cwd) {
-    return (this._cwd = cwd)
+  get cwd() {
+    return this._cwdStack[this._cwdStack.length - 1]
   }
-  cd(path: string) {
-    this._cwd = pathLib.resolve(this._cwd, path)
+  cd(dir: string) {
+    this._cwdStack[this._cwdStack.length - 1] = pathLib.resolve(this._cwdStack[this._cwdStack.length - 1], dir)
+    return this
+  }
+  pushd(dir: string) {
+    this._cwdStack.push(pathLib.resolve(this._cwdStack[this._cwdStack.length - 1], dir))
+    return this
+  }
+  popd() {
+    this._cwdStack.pop()
     return this
   }
   exec(command: string, options?: execa.Options): execa.ExecaChildProcess
@@ -42,7 +50,7 @@ export class ShellContext {
       logger.info('$', commands)
     }
     let p = exec(commands as any, {
-      cwd: this._cwd,
+      cwd: this.cwd,
       env: this._env,
       stdio: this.redirectLog ? 'pipe' : 'inherit',
       ...options,
@@ -69,7 +77,7 @@ export class ShellContext {
       logger.info('Exec: ', command)
     }
     let p = spawn(file, args, {
-      cwd: this._cwd,
+      cwd: this.cwd,
       env: this._env,
       stdio: this.redirectLog ? 'pipe' : 'inherit',
       ...options,

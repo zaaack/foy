@@ -6,5 +6,5 @@ DependencyGraph for task [async]:
 Task: wait
 Task: wait
 wait 1
-wait 10
+wait 100
 Task: async
