@@ -15,6 +15,7 @@ A simple, light-weight and modern task runner for general purpose.
   - [Using with other packages](#using-with-other-packages)
   - [Using dependencies](#using-dependencies)
   - [Using namespaces](#using-namespaces)
+  - [Using in CI servers](#using-in-ci-servers)
   - [Watch and build](#watch-and-build)
   - [Using with custom compiler](#using-with-custom-compiler)
   - [API documentation](#api-documentation)
@@ -22,15 +23,15 @@ A simple, light-weight and modern task runner for general purpose.
 
 ## Features
 
-* Promise-based tasks and built-in utilities.
-* <a href="https://github.com/shelljs/shelljs" target="_blank">shelljs</a> like commands
-* Easy to learn, stop spending hours for build tools.
-* Small install size
-  * foy: [![install size](https://packagephobia.now.sh/badge?p=foy)](https://packagephobia.now.sh/result?p=foy)
-  * gulp: [![install size](https://packagephobia.now.sh/badge?p=gulp)](https://packagephobia.now.sh/result?p=gulp)
-  * grunt: [![install size](https://packagephobia.now.sh/badge?p=grunt)](https://packagephobia.now.sh/result?p=grunt)
+- Promise-based tasks and built-in utilities.
+- <a href="https://github.com/shelljs/shelljs" target="_blank">shelljs</a> like commands
+- Easy to learn, stop spending hours for build tools.
+- Small install size
+  - foy: [![install size](https://packagephobia.now.sh/badge?p=foy)](https://packagephobia.now.sh/result?p=foy)
+  - gulp: [![install size](https://packagephobia.now.sh/badge?p=gulp)](https://packagephobia.now.sh/result?p=gulp)
+  - grunt: [![install size](https://packagephobia.now.sh/badge?p=grunt)](https://packagephobia.now.sh/result?p=grunt)
 
-![](https://github.com/zaaack/foy/blob/master/docs/capture.gif?raw=true)
+![GIF](https://github.com/zaaack/foy/blob/master/docs/capture.gif?raw=true)
 
 ## Install
 
@@ -239,6 +240,26 @@ task(ns.start, [ns.client.start.async(), ns.server.start.async()]) // start
 
 // foy start
 // foy client:build
+```
+
+## Using in CI servers
+
+If you use Foy in CI servers, you might won't want the loading because most CI servers will log the stdout and stderr to files, the loading will be logged as frames. Luckily, Foy has already considered this use case, you can simple disable the loading behavior like this:
+
+```ts
+import { task, setGlobalOptions } from 'foy'
+
+setGlobalOptions({ loading: false }) // disable loading animations
+
+task('test', async cyx => { /* ... */ })
+/*
+$ foy test
+DependencyGraph for task [test]:
+─ test
+
+Task: test
+...
+*/
 ```
 
 ## Watch and build
