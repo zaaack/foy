@@ -11,7 +11,7 @@ import { Writable } from 'stream'
 
 export type OptionDef = [string, string, OptionConfig | undefined]
 
-export type TaskFn<O> = (ctx: TaskContext<O>) => void | Promise<void>
+export type TaskFn<O, T = any> = (ctx: TaskContext<O>) => T | Promise<T>
 export interface TaskDep<O = any> {
   name: string
   /**

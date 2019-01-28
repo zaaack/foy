@@ -1,6 +1,7 @@
 import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespacify } from './src/'
 import * as marked from 'marked'
 import * as ejs from 'ejs'
+import { namespace } from './src/utils';
 
 setGlobalOptions({ loading: true })
 
@@ -121,12 +122,15 @@ const ns = namespacify({
   start: '',
 })
 
-task(ns.client.build, async ctx => { /* ... */ }) // client:build
-task(ns.client.start, async ctx => { /* ... */ }) // client:start
-task(ns.client.watch, async ctx => { /* ... */ }) // client:watch
-
-task(ns.server.build, async ctx => { /* ... */ }) // server:build
-task(ns.server.start, async ctx => { /* ... */ }) // server:start
-task(ns.server.watch, async ctx => { /* ... */ }) // server:watch
+namespace(ns.client, ns => {
+  task(ns.build, async ctx => { /* ... */ }) // client:build
+  task(ns.start, async ctx => { /* ... */ }) // client:start
+  task(ns.watch, async ctx => { /* ... */ }) // client:watch
+})
+namespace(ns.server, ns => {
+  task(ns.build, async ctx => { /* ... */ }) // server:build
+  task(ns.start, async ctx => { /* ... */ }) // server:start
+  task(ns.watch, async ctx => { /* ... */ }) // server:watch
+})
 
 task(ns.start, [ns.client.start.async(), ns.server.start.async()]) // start
