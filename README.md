@@ -211,7 +211,7 @@ task('task2', [{
 If you have lots of tasks, naming might be a problem, what foy do is to making life easier, but more anxious. So we provide a `namespacify` function to generate task names with namespaces.
 
 ```ts
-import { namespacify, task } from 'foy'
+import { namespacify, task, namespace } from 'foy'
 
 // namespacify(names: object, ns = '', sep = ':')
 const ns = namespacify({
@@ -228,13 +228,17 @@ const ns = namespacify({
   start: '',
 })
 
-task(ns.client.build, async ctx => { /* ... */ }) // client:build
-task(ns.client.start, async ctx => { /* ... */ }) // client:start
-task(ns.client.watch, async ctx => { /* ... */ }) // client:watch
+namespace(ns.client, ns => {
+  task(ns.build, async ctx => { /* ... */ }) // client:build
+  task(ns.start, async ctx => { /* ... */ }) // client:start
+  task(ns.watch, async ctx => { /* ... */ }) // client:watch
+})
 
-task(ns.server.build, async ctx => { /* ... */ }) // server:build
-task(ns.server.start, async ctx => { /* ... */ }) // server:start
-task(ns.server.watch, async ctx => { /* ... */ }) // server:watch
+namespace(ns.server, ns => {
+  task(ns.build, async ctx => { /* ... */ }) // server:build
+  task(ns.start, async ctx => { /* ... */ }) // server:start
+  task(ns.watch, async ctx => { /* ... */ }) // server:watch
+})
 
 task(ns.start, [ns.client.start.async(), ns.server.start.async()]) // start
 

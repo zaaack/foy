@@ -92,6 +92,8 @@ export type Stringify<T> = {
   [k in keyof T]: T[k] extends (string | null | undefined | 0 | false) ? string : Stringify<T[k]>
 }
 
+const nsSet = new Set()
+
 /**
  * Generate unique task names with namespaces via object tree.
  * @param obj
@@ -113,6 +115,7 @@ export type Stringify<T> = {
  *  ```
  */
 export function namespacify<T>(obj: T, ns = '', sep = ':'): Stringify<T> {
+  if (nsSet.has(obj)) return obj as any
   for (const key in obj) {
     const val = obj[key] || key
     if (Is.str(val)) {
@@ -121,7 +124,12 @@ export function namespacify<T>(obj: T, ns = '', sep = ':'): Stringify<T> {
       namespacify(val, `${ns}${ns && sep}${key}`, sep)
     }
   }
+  nsSet.add(obj)
   return obj as any
+}
+
+export function namespace<T>(ns: T, fn: (ns: Stringify<T>) => void) {
+  fn(namespacify(ns))
 }
 
 export const DefaultLogFile = join(process.cwd(), 'foy.log')
