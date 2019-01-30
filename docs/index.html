@@ -32,6 +32,7 @@
 <li><a href="#using-with-other-packages">Using with other packages</a></li>
 <li><a href="#using-dependencies">Using dependencies</a></li>
 <li><a href="#using-namespaces">Using namespaces</a></li>
+<li><a href="#using-in-ci-servers">Using in CI servers</a></li>
 <li><a href="#watch-and-build">Watch and build</a></li>
 <li><a href="#using-with-custom-compiler">Using with custom compiler</a></li>
 <li><a href="#api-documentation">API documentation</a></li>
@@ -51,7 +52,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="https://github.com/zaaack/foy/blob/master/docs/capture.gif?raw=true" alt=""></p>
+<p><img src="https://github.com/zaaack/foy/blob/master/docs/capture.gif?raw=true" alt="GIF"></p>
 <h2 id="install">Install</h2>
 <pre><code class="language-sh">yarn add -D foy # or npm i -D foy</code></pre>
 <p>Or Install globally with</p>
@@ -174,7 +175,7 @@ task(&#39;task2&#39;, [{
 // foy task2 -a 1</code></pre>
 <h2 id="using-namespaces">Using namespaces</h2>
 <p>If you have lots of tasks, naming might be a problem, what foy do is to making life easier, but more anxious. So we provide a <code>namespacify</code> function to generate task names with namespaces.</p>
-<pre><code class="language-ts">import { namespacify, task } from &#39;foy&#39;
+<pre><code class="language-ts">import { namespacify, task, namespace } from &#39;foy&#39;
 
 // namespacify(names: object, ns = &#39;&#39;, sep = &#39;:&#39;)
 const ns = namespacify({
@@ -191,18 +192,37 @@ const ns = namespacify({
   start: &#39;&#39;,
 })
 
-task(ns.client.build, async ctx =&gt; { /* ... */ }) // client:build
-task(ns.client.start, async ctx =&gt; { /* ... */ }) // client:start
-task(ns.client.watch, async ctx =&gt; { /* ... */ }) // client:watch
+namespace(ns.client, ns =&gt; {
+  task(ns.build, async ctx =&gt; { /* ... */ }) // client:build
+  task(ns.start, async ctx =&gt; { /* ... */ }) // client:start
+  task(ns.watch, async ctx =&gt; { /* ... */ }) // client:watch
+})
 
-task(ns.server.build, async ctx =&gt; { /* ... */ }) // server:build
-task(ns.server.start, async ctx =&gt; { /* ... */ }) // server:start
-task(ns.server.watch, async ctx =&gt; { /* ... */ }) // server:watch
+namespace(ns.server, ns =&gt; {
+  task(ns.build, async ctx =&gt; { /* ... */ }) // server:build
+  task(ns.start, async ctx =&gt; { /* ... */ }) // server:start
+  task(ns.watch, async ctx =&gt; { /* ... */ }) // server:watch
+})
 
 task(ns.start, [ns.client.start.async(), ns.server.start.async()]) // start
 
 // foy start
 // foy client:build</code></pre>
+<h2 id="using-in-ci-servers">Using in CI servers</h2>
+<p>If you use Foy in CI servers, you might won&#39;t want the loading because most CI servers will log the stdout and stderr to files, the loading will be logged as frames. Luckily, Foy has already considered this use case, you can simple disable the loading behavior like this:</p>
+<pre><code class="language-ts">import { task, setGlobalOptions } from &#39;foy&#39;
+
+setGlobalOptions({ loading: false }) // disable loading animations
+
+task(&#39;test&#39;, async cyx =&gt; { /* ... */ })
+/*
+$ foy test
+DependencyGraph for task [test]:
+─ test
+
+Task: test
+...
+*/</code></pre>
 <h2 id="watch-and-build">Watch and build</h2>
 <pre><code class="language-ts">
 task(&#39;build&#39;, async ctx =&gt; { /* build your project */ })

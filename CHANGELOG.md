@@ -1,3 +1,19 @@
+#### 0.1.13 (2019-01-30)
+
+##### Documentation Changes
+
+* **readme:**  Add Using in CI servers ([00e01792](https://github.com/zaaack/foy/commit/00e017925886bc8f7120223dfbf8be5bf0c55218))
+
+##### New Features
+
+* **util:**  Add namespace function ([c7acd50e](https://github.com/zaaack/foy/commit/c7acd50e24af944737e6d310b97c56473cf661ea))
+* **exec:**  Add pushd/popd, ctx.cwd() => cwd.cwd ([a61273df](https://github.com/zaaack/foy/commit/a61273df5327131546a18d897ba5d24c9a63322c))
+
+##### Bug Fixes
+
+* **exec:**  Fix redirectStream is null ([dbfb65c4](https://github.com/zaaack/foy/commit/dbfb65c4d731cdd0bc92bcef795dfb9b122d9f81))
+* **fs:**  fix rmrf directory ([46cfd8b4](https://github.com/zaaack/foy/commit/46cfd8b4303a0649742f2f565403ebcbe26664bc))
+
 #### 0.1.12 (2019-01-21)
 
 ##### Bug Fixes
