@@ -65,7 +65,9 @@ export class ShellContext {
     }
     p.catch(err => {
       logger.error('Exec failed: ', commands)
-      redirectLogStream!.end()
+      if (redirectLogStream) {
+        redirectLogStream.end()
+      }
       throw err
     })
     return p
@@ -92,7 +94,9 @@ export class ShellContext {
     }
     p.catch(err => {
       logger.error('Exec failed: ', command)
-      redirectLogStream!.end()
+      if (redirectLogStream) {
+        redirectLogStream.end()
+      }
       throw err
     })
     return p
