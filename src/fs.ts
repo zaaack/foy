@@ -4,6 +4,7 @@ import * as pathLib from 'path';
 import { throttle, Is } from './utils';
 
 const ENOENT = 'ENOENT' // not found
+const EEXIST = 'EEXIST'
 
 async function copy(
   src: string,
@@ -91,8 +92,8 @@ function watchDir(
     cb = cb && throttle(cb, options.throttle)
   }
   if (process.platform === 'linux') {
-    fs.iter(dir, (path) => {
-      fs.watch(path, {
+    fs.iter(dir, (file) => {
+      fs.watch(file, {
         recursive: false,
         persistent: (options as WatchDirOptions).persistent,
       }, cb)
@@ -205,12 +206,19 @@ export const fs = {
    * @param dir
    */
   async mkdirp(dir: string) {
-    let parent = pathLib.dirname(dir)
-    if (!await fs.exists(parent)) {
-      await fs.mkdirp(parent)
-    }
-    if (!await fs.exists(dir)) {
-      return fs.mkdir(dir)
+    try {
+      let parent = pathLib.dirname(dir)
+      if (!await fs.exists(parent)) {
+        await fs.mkdirp(parent)
+      }
+      if (!await fs.exists(dir)) {
+        return fs.mkdir(dir)
+      }
+    } catch (error) {
+      if (error.code === EEXIST) {
+        return
+      }
+      throw error
     }
   },
   /**
@@ -315,7 +323,7 @@ export const fs = {
   async iter(
     dir: string,
     /** return true will skip */
-    skip: (path: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void,
+    skip: (file: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void,
   ) {
     let children = await fs.readdir(dir)
     await Promise.all(
