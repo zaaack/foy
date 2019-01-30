@@ -1,3 +1,9 @@
+#### 0.1.15 (2019-01-30)
+
+##### Bug Fixes
+
+* **fs:**  Fix mkdirp parallel conflicts ([6de5e98c](https://github.com/zaaack/foy/commit/6de5e98c18508905f12f7ccaffbde317025a718c))
+
 #### 0.1.14 (2019-01-30)
 
 ##### Bug Fixes
