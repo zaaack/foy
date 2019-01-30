@@ -206,20 +206,15 @@ export const fs = {
    * @param dir
    */
   async mkdirp(dir: string) {
-    try {
-      let parent = pathLib.dirname(dir)
-      if (!await fs.exists(parent)) {
-        await fs.mkdirp(parent)
-      }
-      if (!await fs.exists(dir)) {
-        return fs.mkdir(dir)
-      }
-    } catch (error) {
-      if (error.code === EEXIST) {
-        return
-      }
-      throw error
+    let parent = pathLib.dirname(dir)
+    if (!await fs.exists(parent)) {
+      await fs.mkdirp(parent)
     }
+    return fs.mkdir(dir).catch(error => {
+      if (error.code !== EEXIST) {
+        throw error
+      }
+    })
   },
   /**
    * Make directory with parents, like `mkdir -p`
