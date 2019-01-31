@@ -152,6 +152,17 @@ task(
     await ctx.exec(&#39;npm version patch&#39;)
     await ctx.exec(&#39;npm publish&#39;)
   }
+)
+
+/* Priority for async tasks */
+task(
+  &#39;publish:patch&#39;,
+  [ &#39;test&#39;.async(0).force(), // default is 0, bigger is formmer, then we will run `build` before `test`.
+    &#39;build&#39;.async(1).force() ],
+  async ctx =&gt; {
+    await ctx.exec(&#39;npm version patch&#39;)
+    await ctx.exec(&#39;npm publish&#39;)
+  }
 )</code></pre>
 <p>You can also pass options to dependences:</p>
 <pre><code class="language-ts">task(&#39;task1&#39;, async ctx =&gt; {

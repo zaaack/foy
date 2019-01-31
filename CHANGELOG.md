@@ -1,3 +1,13 @@
+#### 0.1.16 (2019-01-31)
+
+##### New Features
+
+* **task:**  Async deps support priority ([782c5695](https://github.com/zaaack/foy/commit/782c5695359db4feec89040c9ddab88550d591dc))
+
+##### Bug Fixes
+
+* **task:**  Fix skipped in parallel ([9a574767](https://github.com/zaaack/foy/commit/9a5747672f8be35cfbff0f051f35ecf4db537e2e))
+
 #### 0.1.15 (2019-01-30)
 
 ##### Bug Fixes

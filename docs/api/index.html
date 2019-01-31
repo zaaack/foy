@@ -196,6 +196,17 @@ task(
     <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm version patch'</span>)
     <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm publish'</span>)
   }
+)
+
+<span class="hljs-comment">/* Priority for async tasks */</span>
+task(
+  <span class="hljs-string">'publish:patch'</span>,
+  [ <span class="hljs-string">'test'</span>.async(<span class="hljs-number">0</span>).force(), <span class="hljs-comment">// default is 0, bigger is formmer, then we will run `build` before `test`.</span>
+    <span class="hljs-string">'build'</span>.async(<span class="hljs-number">1</span>).force() ],
+  <span class="hljs-keyword">async</span> ctx =&gt; {
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm version patch'</span>)
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm publish'</span>)
+  }
 )</code></pre>
 				<p>You can also pass options to dependences:</p>
 				<pre><code class="language-ts">task(<span class="hljs-string">'task1'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
