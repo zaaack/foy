@@ -1,0 +1,10 @@
+DependencyGraph for task [async:priority]:
+─ async:priority
+   ─ wait [priority: 1]
+   ─ wait
+
+Task: wait
+wait 100
+Task: wait
+wait 1
+Task: async:priority

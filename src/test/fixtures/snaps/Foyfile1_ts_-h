@@ -15,6 +15,7 @@ Commands:
   wait            
   sync            
   async           
+  async:priority  
   logOptions      
   resolveOptions  
   pushpopd        
@@ -31,6 +32,7 @@ For more info, run any command with the `--help` flag:
   $ cli.ts wait --help
   $ cli.ts sync --help
   $ cli.ts async --help
+  $ cli.ts async:priority --help
   $ cli.ts logOptions --help
   $ cli.ts resolveOptions --help
   $ cli.ts pushpopd --help

@@ -63,9 +63,12 @@ export class CliLoading {
         : f => f
     let skipped = depsTree.state === TaskState.skipped
     output.push(
-      `${indent}${symbol} ${color(depsTree.task.name)}${skipped ? chalk.gray(` [skipped]`) : ''}`,
+      `${indent}${symbol} ${color(depsTree.task.name)}${skipped ? chalk.gray(` [skipped]`) : ''}${depsTree.priority ? chalk.gray(` [priority: ${depsTree.priority}]`) : ''}`,
     )
-    for (const child of depsTree.asyncDeps.concat(depsTree.syncDeps)) {
+    let childDeps = ([] as DepsTree[])
+      .concat(...depsTree.asyncDeps)
+      .concat(depsTree.syncDeps)
+    for (const child of childDeps) {
       this.renderDepsTree(child, output)
     }
     return output

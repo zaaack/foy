@@ -12,8 +12,8 @@ export class DepBuilder<O = any> {
     }
     this._dep = name
   }
-  async() {
-    this._dep.async = true
+  async(async: number | boolean = true) {
+    this._dep.async = async
     return this
   }
   force() {
@@ -42,14 +42,14 @@ export function dep(dep: Dependency) {
 
 declare global {
   interface String {
-    async(): DepBuilder
+    async(async?: number | boolean): DepBuilder
     force(): DepBuilder
     options<O>(opts: O | NonNullable<TaskDep['resolveOptions']>): DepBuilder
   }
 }
 
-String.prototype.async = function () {
-  return dep(this as string).async()
+String.prototype.async = function (async?: number | boolean) {
+  return dep(this as string).async(async)
 }
 
 String.prototype.force = function () {

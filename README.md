@@ -180,6 +180,17 @@ task(
     await ctx.exec('npm publish')
   }
 )
+
+/* Priority for async tasks */
+task(
+  'publish:patch',
+  [ 'test'.async(0).force(), // default is 0, bigger is formmer, then we will run `build` before `test`.
+    'build'.async(1).force() ],
+  async ctx => {
+    await ctx.exec('npm version patch')
+    await ctx.exec('npm publish')
+  }
+)
 ```
 
 You can also pass options to dependences:
