@@ -8,6 +8,7 @@ import { ShellContext } from './exec'
 import { logger } from './logger'
 import stripAnsi = require('strip-ansi')
 import figures = require('figures')
+import { getPriority } from 'os';
 
 export interface GlobalOptions {
   /**
@@ -66,10 +67,11 @@ export enum TaskState {
 export interface DepsTree {
   uid: string
   task: Task
-  asyncDeps: DepsTree[]
+  asyncDeps: DepsTree[][]
   syncDeps: DepsTree[]
   state: TaskState
   depth: number
+  priority: number
 }
 
 export class TaskContext<O = any> extends ShellContext {
@@ -120,8 +122,12 @@ export class TaskManager {
     return task
   }
   resolveDependencyTree(t: Task, depth = 0): DepsTree {
-    let asyncDeps: DepsTree[] = []
+    let asyncDeps: DepsTree[][] = []
     let syncDeps: DepsTree[] = []
+    let asyncDepsMap: {[k: number]: DepsTree[]} = {}
+    if (t.async === true) {
+      t.async = 0
+    }
     if (t.dependencies) {
       t.dependencies.forEach(taskDep => {
         let fullTask = this._tasks[taskDep.name]
@@ -136,8 +142,20 @@ export class TaskManager {
             ...taskDep.options,
           },
         }
-        ;(t.async ? asyncDeps : syncDeps).push(this.resolveDependencyTree(t, depth + 1))
+        let depTask = this.resolveDependencyTree(t, depth + 1)
+        if (t.async === false || !Is.defed(t.async)) { // sync tasks
+          syncDeps.push(depTask)
+        } else {
+          let idx = t.async === true ? 0 : t.async
+          let deps = asyncDepsMap[idx] = asyncDepsMap[idx] || []
+          deps.push(depTask)
+        }
       })
+      asyncDeps = []
+      Object.keys(asyncDepsMap)  // Sort async deps via priority, bigger is former
+      .map(Number)
+      .sort((a, b) => b - a)
+      .map(k => (asyncDeps.push(asyncDepsMap[k])))
     }
     return {
       uid:
@@ -150,6 +168,7 @@ export class TaskManager {
       syncDeps,
       state: TaskState.waiting,
       depth,
+      priority: Is.num(t.async) ? t.async : 0,
     }
   }
 
@@ -188,9 +207,13 @@ export class TaskManager {
           await this.runDepsTree(t, { ...depProps, parentCtx: ctx })
         }
       })(),
-      Promise.all(
-        depsTree.asyncDeps.map(t => this.runDepsTree(t, { ...depProps, parentCtx: ctx })),
-      ),
+      (async () => {
+        for (const deps of depsTree.asyncDeps) {
+          await Promise.all(
+            deps.map(t => this.runDepsTree(t, { ...depProps, parentCtx: ctx })),
+          )
+        }
+      })(),
     ])
 
     depsTree.state = TaskState.loading

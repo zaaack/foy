@@ -17,8 +17,10 @@ export interface TaskDep<O = any> {
   /**
    * Dependences are executed serially by default.
    * If order doesn't matter and you want better performance via parallel, you can mark it as asynchronized.
+   * Asynchronized will run immediately whether there are synchronized tasks before them or not.
+   * You can pass a number as the priority of asynchronized tasks, bigger is formmer.
    */
-  async?: boolean
+  async?: boolean | number
   /**
    * Whether rerun it when it occured in dependences tree more then once.
    */

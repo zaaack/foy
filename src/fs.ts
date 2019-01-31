@@ -318,7 +318,7 @@ export const fs = {
   async iter(
     dir: string,
     /** return true will skip */
-    skip: (file: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void,
+    skip: (path: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void,
   ) {
     let children = await fs.readdir(dir)
     await Promise.all(

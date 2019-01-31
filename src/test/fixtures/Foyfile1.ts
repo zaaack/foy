@@ -70,6 +70,11 @@ task('async', [
   'wait'.async().options({ t: 100 }),
   'wait'.async().options({ t: 1 }),
 ])
+task('async:priority', [
+  'wait'.async().options({ t: 1 }),
+  'wait'.async(1).options({ t: 100 }),
+])
+
 task('logOptions', async ctx => {
   logger.debug('logOptions', ctx.options, ctx.global.options, ctx.task.rawArgs)
 })
