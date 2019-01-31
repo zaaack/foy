@@ -99,7 +99,7 @@ export class TaskContext<O = any> extends ShellContext {
 
 export class TaskManager {
   private _tasks: { [k: string]: Task } = {}
-  private _didSet: Set<string> = new Set()
+  private _didMap: Map<string, Promise<any>> = new Map()
   public globalOptions: GlobalOptions = {
     logLevel: 'debug',
     loading: true,
@@ -158,6 +158,20 @@ export class TaskManager {
   }
   async runDepsTree(depsTree: DepsTree, props: RunTaskOptions) {
     let t = depsTree.task
+    let taskHash = hashAny(t)
+    let loading = this.isLoading(t, props)
+
+    let didResolved = null as (() => void) | null
+    if (this._didMap.has(taskHash) && !t.force) {
+      depsTree.state = TaskState.skipped
+      await this._didMap.get(taskHash)
+      if (!loading) {
+        console.log(chalk.yellow(`Skip task: `) + t.name)
+      }
+      return
+    }
+    this._didMap.set(taskHash, new Promise(res => (didResolved = res)))
+
     t.rawArgs = props.rawArgs || []
     const ctx = new TaskContext(t, this.globalOptions)
     const depProps: RunDepOptions = {
@@ -166,6 +180,7 @@ export class TaskManager {
       loading: props.loading,
       parentCtx: ctx,
     }
+
     depsTree.state = TaskState.pending
     await Promise.all([
       (async () => {
@@ -187,27 +202,18 @@ export class TaskManager {
         ...lazyOptions,
       }
     }
-    let loading = this.isLoading(t, props)
-
-    let taskHash = hashAny(t)
-    if (this._didSet.has(taskHash) && !t.force) {
-      depsTree.state = TaskState.skipped
-      if (!loading) {
-        console.log(chalk.yellow(`Skip task: `) + t.name)
-      }
-      return
-    }
 
     if (!loading) {
       console.log(chalk.yellow('Task: ') + t.name)
-      let ret = t.fn && (await t.fn(ctx))
-      this._didSet.add(taskHash)
-      return ret
+      let retPromise = t.fn && t.fn(ctx)
+      didResolved && didResolved()
+      return retPromise
     }
+
     try {
       let ret = t.fn && (await t.fn(ctx))
       depsTree.state = TaskState.succeeded
-      this._didSet.add(taskHash)
+      didResolved && didResolved()
       return ret
     } catch (error) {
       depsTree.state = TaskState.failed
