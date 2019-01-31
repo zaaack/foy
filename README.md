@@ -184,7 +184,7 @@ task(
 /* Priority for async tasks */
 task(
   'publish:patch',
-  [ 'test'.async(0).force(), // default is 0, bigger is formmer, then we will run `build` before `test`.
+  [ 'test'.async(0).force(), // default is 0, bigger is formmer, then we will run `build` before `test`. If you have multi async dependencies with same priority, they will be executed parallel.
     'build'.async(1).force() ],
   async ctx => {
     await ctx.exec('npm version patch')
