@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { getGlobalTaskManager } from './task-manager';
+import { getGlobalTaskManager } from './task-manager'
 
 const Levels = {
   debug: 0,

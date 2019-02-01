@@ -1,6 +1,6 @@
 import { task, desc, option, logger } from '../../'
 import { strict, setGlobalOptions } from '../../task'
-import { resolve } from 'path';
+import { resolve } from 'path'
 
 setGlobalOptions({ strict: true, loading: false })
 

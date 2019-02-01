@@ -6,7 +6,8 @@
     "jsRules": {},
     "rules": {
         "trailing-comma": true,
-        "space-before-function-paren": false
+        "space-before-function-paren": false,
+        "no-floating-promises": true
     },
     "rulesDirectory": []
 }

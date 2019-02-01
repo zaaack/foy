@@ -1,6 +1,6 @@
-import { Dependency, TaskDep } from './task';
-import { Is } from './utils';
-import { TaskContext } from './task-manager';
+import { Dependency, TaskDep } from './task'
+import { Is } from './utils'
+import { TaskContext } from './task-manager'
 
 export class DepBuilder<O = any> {
   private _dep: TaskDep<O>

@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from 'path'
 
 let objUid = 0
 let objUidMap = new WeakMap<object, number>()
