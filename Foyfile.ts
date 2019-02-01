@@ -3,7 +3,7 @@ import * as marked from 'marked'
 import * as ejs from 'ejs'
 import { namespace } from './src/utils';
 
-setGlobalOptions({ loading: true })
+setGlobalOptions({ loading: true, strict: true })
 
 desc('build whole project')
 task('build', async ctx => {
@@ -50,7 +50,7 @@ task<{ version: string }>('preversion', async ctx => {
   ])
   await fs.rmrf('./lib/test')
   await ctx.exec([
-    `changelog --${ctx.options.version} -x chore`,
+    `changelog --${ctx.options.version}`,
     `git add -A`,
     `git commit -m 'Update CHANGELOG.md & doc'`,
   ])
@@ -60,9 +60,10 @@ task('postversion', async ctx => {
   await ctx.exec(`git push origin master --tags`)
 })
 
-task('publish', ['preversion'.options(ctx => ({ version: ctx.task.rawArgs[0] }))], async ctx => {
+option('-v, --version <version>', 'patch | minor | major', { default: 'patch' })
+task<{ version: string }>('publish', ['preversion'.options(ctx => ({ version: ctx.options.version }))], async ctx => {
   await ctx.exec([
-    `npm version ${ctx.task.rawArgs[0]}`,
+    `npm version ${ctx.options.version}`,
     `git push origin master`,
     `git push origin master --tags -f`,
     `npm --registry https://registry.npmjs.org/ publish`,

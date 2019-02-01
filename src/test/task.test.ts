@@ -15,7 +15,7 @@ function test(cmd: string) {
     name: cmd,
     it() {
       it(cmd, () => {
-        assert.equal(out.trim(), snap.trim())
+        assert.strictEqual(out.trim(), snap.trim())
       })
     },
     async init() {
@@ -23,6 +23,7 @@ function test(cmd: string) {
       out = p.stdout + p.stderr
       let snapFile = snapsDir + '/' + cmd.replace(/[^\w-]/g, '_')
       if (UpdateSnap) {
+        // tslint:disable-next-line:no-floating-promises
         fs.outputFile(snapFile, out)
         out = snap = ''
         return null

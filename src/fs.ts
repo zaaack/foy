@@ -1,7 +1,7 @@
 import * as _fs from 'fs'
 import * as util from 'util'
-import * as pathLib from 'path';
-import { throttle, Is } from './utils';
+import * as pathLib from 'path'
+import { throttle, Is } from './utils'
 
 const ENOENT = 'ENOENT' // not found
 const EEXIST = 'EEXIST'
@@ -92,6 +92,7 @@ function watchDir(
     cb = cb && throttle(cb, options.throttle)
   }
   if (process.platform === 'linux') {
+    // tslint:disable-next-line:no-floating-promises
     fs.iter(dir, (file) => {
       fs.watch(file, {
         recursive: false,
@@ -227,7 +228,13 @@ export const fs = {
       fs.mkdirpSync(parent)
     }
     if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir)
+      try {
+        fs.mkdirSync(dir)
+      } catch (error) {
+        if (error.code !== EEXIST) {
+          throw error
+        }
+      }
     }
   },
   /**

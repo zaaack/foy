@@ -7,19 +7,19 @@ import { hashAny, namespacify } from '../utils'
 
 describe('utils', function() {
   it('hashAny', () => {
-    assert.equal(hashAny('aa'), '📝aa')
-    assert.equal(hashAny(1), '1')
-    assert.equal(hashAny(null), 'null')
-    assert.equal(hashAny(undefined), 'undefined')
+    assert.strictEqual(hashAny('aa'), '📝aa')
+    assert.strictEqual(hashAny(1), '1')
+    assert.strictEqual(hashAny(null), 'null')
+    assert.strictEqual(hashAny(undefined), 'undefined')
     let fn = f => f
-    assert.equal(hashAny(fn), hashAny(fn))
-    assert.equal(hashAny(fn), '⭕️1')
-    assert.notEqual(hashAny(fn), hashAny(f => f))
+    assert.strictEqual(hashAny(fn), hashAny(fn))
+    assert.strictEqual(hashAny(fn), '⭕️1')
+    assert.notStrictEqual(hashAny(fn), hashAny(f => f))
     class A {}
-    assert.equal(hashAny({ aa: fn, bb: new A() }), 'Object{"aa":"⭕️1","bb":"A{}"}')
-    assert.equal(hashAny({ aa: fn }), 'Object{"aa":"⭕️1"}')
-    assert.equal(hashAny({ aa: fn }), hashAny({ aa: fn }))
-    assert.notEqual(hashAny({ aa: fn }), hashAny({ aa: f => f }))
+    assert.strictEqual(hashAny({ aa: fn, bb: new A() }), 'Object{"aa":"⭕️1","bb":"A{}"}')
+    assert.strictEqual(hashAny({ aa: fn }), 'Object{"aa":"⭕️1"}')
+    assert.strictEqual(hashAny({ aa: fn }), hashAny({ aa: fn }))
+    assert.notStrictEqual(hashAny({ aa: fn }), hashAny({ aa: f => f }))
   })
 
   it('namespacify', async () => {
@@ -30,7 +30,7 @@ describe('utils', function() {
       dd: null,
     })
 
-    assert.deepEqual(a, {
+    assert.deepStrictEqual(a, {
       aa: {
         bb: {
           cc: 'aa:bb:123',
@@ -44,7 +44,7 @@ describe('utils', function() {
       dd: 'dd',
     })
 
-    assert.deepEqual(
+    assert.deepStrictEqual(
       namespacify({ aa: null, bb: { cc: null } }, 'prefix', '|'),
       { aa: 'prefix|aa', bb: { cc: 'prefix|bb|cc' } }
     )

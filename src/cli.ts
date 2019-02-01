@@ -5,8 +5,8 @@ import { fs } from './fs'
 import * as pathLib from 'path'
 import * as os from 'os'
 import { logger } from './logger'
-import { Is } from './utils';
-import { getGlobalTaskManager } from './task-manager';
+import { Is } from './utils'
+import { getGlobalTaskManager } from './task-manager'
 
 const defaultCli = cac()
 
@@ -158,6 +158,7 @@ taskManager.getTasks().forEach(t => {
     let options = args.pop()
     taskManager.globalOptions.rawArgs = taskCli.rawArgs
     taskManager.globalOptions.options = options
+    // tslint:disable-next-line:no-floating-promises
     taskManager.run(t.name, {
       options,
       rawArgs: taskCli.rawArgs.slice(3),

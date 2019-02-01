@@ -8,7 +8,7 @@ import { ShellContext } from './exec'
 import { logger } from './logger'
 import stripAnsi = require('strip-ansi')
 import figures = require('figures')
-import { getPriority } from 'os';
+import { getPriority } from 'os'
 
 export interface GlobalOptions {
   /**

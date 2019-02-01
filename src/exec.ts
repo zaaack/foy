@@ -1,9 +1,9 @@
 import * as execa from 'execa'
 import * as pathLib from 'path'
 import { logger as _logger } from './logger'
-import { sleep, Is, DefaultLogFile } from './utils';
-import { fs } from './fs';
-import { Stream, Writable } from 'stream';
+import { sleep, Is, DefaultLogFile } from './utils'
+import { fs } from './fs'
+import { Stream, Writable } from 'stream'
 export { execa }
 
 export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess
@@ -57,12 +57,14 @@ export class ShellContext {
     })
     let redirectLogStream = this._getRedirectLogFile()
     if (redirectLogStream) {
+      // tslint:disable-next-line:no-floating-promises
       p.then(p => {
         p.stdout && redirectLogStream!.write(p.stdout)
         p.stderr && redirectLogStream!.write(p.stderr)
         redirectLogStream!.end()
       })
     }
+    // tslint:disable-next-line:no-floating-promises
     p.catch(err => {
       logger.error('Exec failed: ', commands)
       if (redirectLogStream) {
@@ -86,12 +88,14 @@ export class ShellContext {
     })
     let redirectLogStream = this._getRedirectLogFile()
     if (redirectLogStream) {
+      // tslint:disable-next-line:no-floating-promises
       p.then(p => {
         p.stdout && redirectLogStream!.write(p.stdout)
         p.stderr && redirectLogStream!.write(p.stderr)
         redirectLogStream!.end()
       })
     }
+    // tslint:disable-next-line:no-floating-promises
     p.catch(err => {
       logger.error('Exec failed: ', command)
       if (redirectLogStream) {
