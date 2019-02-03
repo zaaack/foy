@@ -112,12 +112,14 @@ export function task<O>(name: string, dependencies: Dependency[], fn?: TaskFn<O>
  */
 export function task<O>(
   name: string,
-  dependencies: Dependency[] | TaskFn<any> = [],
+  dependencies: Dependency | Dependency[] | TaskFn<any> = [],
   fn?: TaskFn<O>,
 ): Task<O> {
   if (Is.fn(dependencies)) {
     fn = dependencies
     dependencies = []
+  } else if (!Is.arr(dependencies)) {
+    dependencies = [dependencies]
   }
   const t: Task = {
     name,

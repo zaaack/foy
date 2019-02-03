@@ -71,6 +71,9 @@ export const Is = {
   },
   num(v: any): v is number {
     return typeof v === 'number'
+  },
+  arr<T>(v: T | T[]): v is T[] {
+    return Array.isArray(v)
   }
 }
 
