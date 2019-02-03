@@ -2,7 +2,6 @@ import { task } from '../task'
 import { fs } from '../fs'
 import { exec } from '../exec'
 import * as path from 'path'
-import * as assert from 'assert'
 
 const fixturesDir = `${__dirname}/fixtures`
 const snapsDir = `${fixturesDir}/snaps`
@@ -15,7 +14,7 @@ function test(cmd: string) {
     name: cmd,
     it() {
       it(cmd, () => {
-        assert.strictEqual(out.trim(), snap.trim())
+        expect(out.trim()).toBe(snap.trim())
       })
     },
     async init() {
@@ -34,7 +33,6 @@ function test(cmd: string) {
 }
 
 describe('task', function () {
-  this.timeout(1000 * 60 * 10)
   let tests = [
     test(`Foyfile1.ts aa -a 1 -b 1 -d`),
     test(`Foyfile1.ts aa -h`),
@@ -55,11 +53,12 @@ describe('task', function () {
     test(`Foyfile1.ts resolveOptions`),
     test(`Foyfile1.ts pushpopd`),
   ]
-  before(async () => {
+  beforeAll(async () => {
     if (UpdateSnap) {
       await fs.rmrf(snapsDir)
     }
     await Promise.all(tests.map(t => t.init()))
-  })
+    console.log('init')
+  }, 60 * 1000)
   tests.forEach(t => t.it())
 })

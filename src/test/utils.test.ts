@@ -2,24 +2,23 @@ import { task } from '../task'
 import { fs } from '../fs'
 import { exec } from '../exec'
 import * as path from 'path'
-import * as assert from 'assert'
 import { hashAny, namespacify } from '../utils'
 
 describe('utils', function() {
   it('hashAny', () => {
-    assert.strictEqual(hashAny('aa'), '📝aa')
-    assert.strictEqual(hashAny(1), '1')
-    assert.strictEqual(hashAny(null), 'null')
-    assert.strictEqual(hashAny(undefined), 'undefined')
+    expect(hashAny('aa')).toEqual( '📝aa')
+    expect(hashAny(1)).toEqual( '1')
+    expect(hashAny(null)).toEqual( 'null')
+    expect(hashAny(undefined)).toEqual( 'undefined')
     let fn = f => f
-    assert.strictEqual(hashAny(fn), hashAny(fn))
-    assert.strictEqual(hashAny(fn), '⭕️1')
-    assert.notStrictEqual(hashAny(fn), hashAny(f => f))
+    expect(hashAny(fn)).toEqual( hashAny(fn))
+    expect(hashAny(fn)).toEqual( '⭕️1')
+    expect(hashAny(fn)).not.toEqual(hashAny(f => f))
     class A {}
-    assert.strictEqual(hashAny({ aa: fn, bb: new A() }), 'Object{"aa":"⭕️1","bb":"A{}"}')
-    assert.strictEqual(hashAny({ aa: fn }), 'Object{"aa":"⭕️1"}')
-    assert.strictEqual(hashAny({ aa: fn }), hashAny({ aa: fn }))
-    assert.notStrictEqual(hashAny({ aa: fn }), hashAny({ aa: f => f }))
+    expect(hashAny({ aa: fn, bb: new A() })).toEqual('Object{"aa":"⭕️1","bb":"A{}"}')
+    expect(hashAny({ aa: fn })).toEqual( 'Object{"aa":"⭕️1"}')
+    expect(hashAny({ aa: fn })).toEqual( hashAny({ aa: fn }))
+    expect(hashAny({ aa: fn })).not.toEqual(hashAny({ aa: f => f }))
   })
 
   it('namespacify', async () => {
@@ -30,7 +29,7 @@ describe('utils', function() {
       dd: null,
     })
 
-    assert.deepStrictEqual(a, {
+    expect(a).toEqual({
       aa: {
         bb: {
           cc: 'aa:bb:123',
@@ -44,8 +43,9 @@ describe('utils', function() {
       dd: 'dd',
     })
 
-    assert.deepStrictEqual(
-      namespacify({ aa: null, bb: { cc: null } }, 'prefix', '|'),
+    expect(
+      namespacify({ aa: null, bb: { cc: null } }, 'prefix', '|')
+    ).toEqual(
       { aa: 'prefix|aa', bb: { cc: 'prefix|bb|cc' } }
     )
   })
