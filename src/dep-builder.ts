@@ -12,8 +12,16 @@ export class DepBuilder<O = any> {
     }
     this._dep = name
   }
-  async(async: number | boolean = true) {
-    this._dep.async = async
+  /**
+   *
+   * Dependences are executed serially by default.
+   * If order doesn't matter and you want better performance via parallel, you can mark it as asynchronized.
+   * Asynchronized will run immediately whether there are synchronized tasks before them or not.
+   * You can pass a number as the priority of asynchronized tasks, bigger is formmer.
+   * @param priority
+   */
+  async(priority: number | boolean = true) {
+    this._dep.async = priority
     return this
   }
   force() {
@@ -42,14 +50,20 @@ export function dep(dep: Dependency) {
 
 declare global {
   interface String {
-    async(async?: number | boolean): DepBuilder
+    /**
+     * Dependences are executed serially by default.
+     * If order doesn't matter and you want better performance via parallel, you can mark it as asynchronized.
+     * Asynchronized will run immediately whether there are synchronized tasks before them or not.
+     * You can pass a number as the priority of asynchronized tasks, bigger is formmer.
+     */
+    async(priority?: number | boolean): DepBuilder
     force(): DepBuilder
     options<O>(opts: O | NonNullable<TaskDep['resolveOptions']>): DepBuilder
   }
 }
 
-String.prototype.async = function (async?: number | boolean) {
-  return dep(this as string).async(async)
+String.prototype.async = function (priority?: number | boolean) {
+  return dep(this as string).async(priority)
 }
 
 String.prototype.force = function () {
