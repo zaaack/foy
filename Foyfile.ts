@@ -3,7 +3,7 @@ import * as marked from 'marked'
 import * as ejs from 'ejs'
 import { namespace } from './src/utils';
 
-setGlobalOptions({ loading: true, strict: true })
+setGlobalOptions({ loading: false, strict: true })
 
 desc('build whole project')
 task('build', async ctx => {
@@ -20,10 +20,10 @@ task('doc', async ctx => {
   await ctx.exec(`touch ./docs/.nojekyll`)
 })
 
-const MochaCli = `mocha --exit -r tsconfig-paths/register -r ts-node/register`
+const JasmineCli = `jasmine --require=tsconfig-paths/register --require=ts-node/register`
 
 task<{ args: string, env: NodeJS.ProcessEnv }>('test', async ctx => {
-  await ctx.exec(`${MochaCli} "src/test/*.test.ts" ${ctx.options.args || ''} ${(ctx.task.rawArgs).map(a => `"${a}"`).join(' ')}`, { env: ctx.options.env || process.env })
+  await ctx.exec(`${JasmineCli} "src/test/*.test.ts" ${ctx.options.args || ''} ${(ctx.task.rawArgs).map(a => `"${a}"`).join(' ')}`, { env: ctx.options.env || process.env })
 })
 
 task('test:update-snap', [{
