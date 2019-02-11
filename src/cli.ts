@@ -7,6 +7,7 @@ import * as os from 'os'
 import { logger } from './logger'
 import { Is } from './utils'
 import { getGlobalTaskManager } from './task-manager'
+import * as pkg from '../package.json'
 
 const defaultCli = cac()
 
@@ -197,5 +198,6 @@ taskCli.help(sections => {
 taskCli.parse(taskArgv)
 
 if (process.argv.length === 2) {
+  taskCli.name = pkg.name
   taskCli.outputHelp()
 }
