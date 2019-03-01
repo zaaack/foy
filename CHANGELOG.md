@@ -1,3 +1,22 @@
+#### 0.1.17 (2019-03-01)
+
+##### Chores
+
+* **lint:**  Fix tslint ([87df7097](https://github.com/zaaack/foy/commit/87df70978f59de66819872a1d80db18848fb33b5))
+
+##### Documentation Changes
+
+* **api:**  Add more comments for async ([c561458d](https://github.com/zaaack/foy/commit/c561458df3d02ee93cc98b08363e0b0aa2649545))
+* **readme:**  Add more comments for async priority ([96311727](https://github.com/zaaack/foy/commit/963117276e11cde52e734703715b35e99801e1ed))
+
+##### New Features
+
+* **task:**  add before & after hooks ([0bdacfa1](https://github.com/zaaack/foy/commit/0bdacfa1b09f4a81053c820fd006d9236666c24c))
+
+##### Tests
+
+*  Migrate mocha to jasmine ([2a99772e](https://github.com/zaaack/foy/commit/2a99772ec3973a1b98bb184d434fb2da19cc415c))
+
 #### 0.1.16 (2019-01-31)
 
 ##### New Features
