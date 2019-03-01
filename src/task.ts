@@ -74,6 +74,28 @@ export function setGlobalOptions(options: GlobalOptions) {
   Object.assign(getGlobalTaskManager().globalOptions, options)
 }
 
+export function before(fn: () => void | Promise<void>) {
+  let options = getGlobalTaskManager().globalOptions
+  let oldFn = options.before
+  options.before = async () => {
+    if (oldFn) {
+      await oldFn()
+    }
+    return fn()
+  }
+}
+
+export function after(fn: () => void | Promise<void>) {
+  let options = getGlobalTaskManager().globalOptions
+  let oldFn = options.after
+  options.after = async () => {
+    if (oldFn) {
+      await oldFn()
+    }
+    return fn()
+  }
+}
+
 namespace TaskOptions {
   export let last = empty()
   export function empty() {

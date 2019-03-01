@@ -154,15 +154,21 @@ taskManager.getTasks().forEach(t => {
   if (t.optionDefs) {
     t.optionDefs.forEach(def => cmd.option(...def))
   }
-  cmd.action((...args) => {
+  cmd.action(async (...args) => {
     let options = args.pop()
-    taskManager.globalOptions.rawArgs = taskCli.rawArgs
-    taskManager.globalOptions.options = options
-    // tslint:disable-next-line:no-floating-promises
-    taskManager.run(t.name, {
+    let { globalOptions } = taskManager
+    globalOptions.rawArgs = taskCli.rawArgs
+    globalOptions.options = options
+    if (globalOptions.before) {
+      await globalOptions.before()
+    }
+    await taskManager.run(t.name, {
       options,
       rawArgs: taskCli.rawArgs.slice(3),
     })
+    if (globalOptions.after) {
+      await globalOptions.after()
+    }
   })
 })
 

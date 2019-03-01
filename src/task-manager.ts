@@ -12,6 +12,14 @@ import { getPriority } from 'os'
 
 export interface GlobalOptions {
   /**
+   * Before all tasks
+   */
+  before?: () => void | Promise<void>
+  /**
+   * After all tasks
+   */
+  after?: () => void | Promise<void>
+  /**
    * @default true
    */
   loading?: boolean
@@ -311,7 +319,7 @@ export class TaskManager {
   }
 }
 
-const TMKey = '@foyjs/taskManager'
+const TMKey = '@foy/taskManager'
 /** @internal */
 export function getGlobalTaskManager() {
   let taskManager: TaskManager = (global[TMKey] = global[TMKey] || new TaskManager())
