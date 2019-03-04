@@ -1,6 +1,6 @@
 {
   "name": "foy",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "A simple, light-weight and modern task runner for general purpose.",
   "main": "./lib/index.js",
   "typings": "./lib/index",
