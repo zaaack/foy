@@ -33,6 +33,7 @@
 <li><a href="#using-dependencies">Using dependencies</a></li>
 <li><a href="#using-namespaces">Using namespaces</a></li>
 <li><a href="#using-in-ci-servers">Using in CI servers</a></li>
+<li><a href="#using-lifecycle-hooks">Using lifecycle hooks</a></li>
 <li><a href="#watch-and-build">Watch and build</a></li>
 <li><a href="#using-with-custom-compiler">Using with custom compiler</a></li>
 <li><a href="#api-documentation">API documentation</a></li>
@@ -239,6 +240,18 @@ DependencyGraph for task [test]:
 Task: test
 ...
 */</code></pre>
+<h2 id="using-lifecycle-hooks">Using lifecycle hooks</h2>
+<p>You can use before/after/onerror to do something in lifecycles.</p>
+<pre><code class="language-ts">import { before, after, onerror } from &#39;foy&#39;
+before(() =&gt; { // do something before all tasks tree start
+  // ...
+})
+after(() =&gt; { // do something after all tasks tree start
+  // ...
+})
+onerror((err) =&gt; { // do something when error happens
+  // ...
+})</code></pre>
 <h2 id="watch-and-build">Watch and build</h2>
 <pre><code class="language-ts">
 task(&#39;build&#39;, async ctx =&gt; { /* build your project */ })
