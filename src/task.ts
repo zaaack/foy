@@ -73,28 +73,20 @@ export interface Task<O = any> extends TaskDep<O> {
 export function setGlobalOptions(options: GlobalOptions) {
   Object.assign(getGlobalTaskManager().globalOptions, options)
 }
-
-export function before(fn: () => void | Promise<void>) {
+function appendCallback<Fn extends ((...args) => void | Promise<void>)>(name: 'before' | 'after' | 'onerror', fn: Fn) {
   let options = getGlobalTaskManager().globalOptions
-  let oldFn = options.before
-  options.before = async () => {
+  let oldFn = options[name] as Fn
+  options[name] = async (...args: any[]) => {
     if (oldFn) {
-      await oldFn()
+      await oldFn(...args)
     }
     return fn()
   }
-}
 
-export function after(fn: () => void | Promise<void>) {
-  let options = getGlobalTaskManager().globalOptions
-  let oldFn = options.after
-  options.after = async () => {
-    if (oldFn) {
-      await oldFn()
-    }
-    return fn()
-  }
 }
+export const before = (fn: () => void | Promise<void>) => appendCallback('before', fn)
+export const after = (fn: () => void | Promise<void>) => appendCallback('after', fn)
+export const onerror = (fn: () => void | Promise<void>) => appendCallback('onerror', fn)
 
 namespace TaskOptions {
   export let last = empty()

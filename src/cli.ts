@@ -162,10 +162,17 @@ taskManager.getTasks().forEach(t => {
     if (globalOptions.before) {
       await globalOptions.before()
     }
-    await taskManager.run(t.name, {
-      options,
-      rawArgs: taskCli.rawArgs.slice(3),
-    })
+    try {
+      await taskManager.run(t.name, {
+        options,
+        rawArgs: taskCli.rawArgs.slice(3),
+      })
+    } catch (e) {
+      console.error(e)
+      if (globalOptions.onerror) {
+        await globalOptions.onerror(e)
+      }
+    }
     if (globalOptions.after) {
       await globalOptions.after()
     }

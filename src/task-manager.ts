@@ -20,6 +20,10 @@ export interface GlobalOptions {
    */
   after?: () => void | Promise<void>
   /**
+   * Handle error
+   */
+  onerror?: (err: Error) => void | Promise<void>
+  /**
    * @default true
    */
   loading?: boolean

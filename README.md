@@ -16,6 +16,7 @@ A simple, light-weight and modern task runner for general purpose.
   - [Using dependencies](#using-dependencies)
   - [Using namespaces](#using-namespaces)
   - [Using in CI servers](#using-in-ci-servers)
+  - [Using lifecycle hooks](#using-lifecycle-hooks)
   - [Watch and build](#watch-and-build)
   - [Using with custom compiler](#using-with-custom-compiler)
   - [API documentation](#api-documentation)
@@ -280,6 +281,23 @@ DependencyGraph for task [test]:
 Task: test
 ...
 */
+```
+
+## Using lifecycle hooks
+
+You can use before/after/onerror to do something in lifecycles.
+
+```ts
+import { before, after, onerror } from 'foy'
+before(() => { // do something before all tasks tree start
+  // ...
+})
+after(() => { // do something after all tasks tree start
+  // ...
+})
+onerror((err) => { // do something when error happens
+  // ...
+})
 ```
 
 ## Watch and build
