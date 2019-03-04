@@ -77,6 +77,7 @@
 							<li><a href="#using-dependencies">Using dependencies</a></li>
 							<li><a href="#using-namespaces">Using namespaces</a></li>
 							<li><a href="#using-in-ci-servers">Using in CI servers</a></li>
+							<li><a href="#using-lifecycle-hooks">Using lifecycle hooks</a></li>
 							<li><a href="#watch-and-build">Watch and build</a></li>
 							<li><a href="#using-with-custom-compiler">Using with custom compiler</a></li>
 							<li><a href="#api-documentation">API documentation</a></li>
@@ -283,6 +284,18 @@ DependencyGraph for task [test]:
 Task: test
 ...
 */</span></code></pre>
+				<h2 id="using-lifecycle-hooks">Using lifecycle hooks</h2>
+				<p>You can use before/after/onerror to do something in lifecycles.</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { before, after, onerror } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+before(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> { <span class="hljs-comment">// do something before all tasks tree start</span>
+  <span class="hljs-comment">// ...</span>
+})
+after(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> { <span class="hljs-comment">// do something after all tasks tree start</span>
+  <span class="hljs-comment">// ...</span>
+})
+onerror(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> { <span class="hljs-comment">// do something when error happens</span>
+  <span class="hljs-comment">// ...</span>
+})</code></pre>
 				<h2 id="watch-and-build">Watch and build</h2>
 				<pre><code class="language-ts">
 task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* build your project */</span> })
@@ -415,6 +428,9 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#namespacify" class="tsd-kind-icon">namespacify</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#onerror" class="tsd-kind-icon">onerror</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#option" class="tsd-kind-icon">option</a>

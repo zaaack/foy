@@ -1,3 +1,9 @@
+#### 0.1.18 (2019-03-04)
+
+##### New Features
+
+* **cli:**  add onerror hooks ([3d3dbd25](https://github.com/zaaack/foy/commit/3d3dbd258e7e99388c0f16d379cacd7c7de6ae1c))
+
 #### 0.1.17 (2019-03-01)
 
 ##### Chores
