@@ -1,3 +1,56 @@
+#### 0.1.19 (2019-03-09)
+
+##### Chores
+
+* **lint:**  Fix tslint ([87df7097](https://github.com/zaaack/foy/commit/87df70978f59de66819872a1d80db18848fb33b5))
+* **cli:**
+  *  Add more comment ([5de650b3](https://github.com/zaaack/foy/commit/5de650b356f3d011b500616c9fa347b1f43efc2b))
+  *  Add fs to template foyfile ([289dc195](https://github.com/zaaack/foy/commit/289dc195e0d646acb62b7cbcff3cd596c7e73bd7))
+* **docs:**
+  *  Fix readme ([0e452af9](https://github.com/zaaack/foy/commit/0e452af9e50252b1853b694630727a98be84ff21))
+  *  Update capture ([27418205](https://github.com/zaaack/foy/commit/27418205a375d41e9553c1f8966a9f5d7db94019))
+
+##### Documentation Changes
+
+* **api:**  Add more comments for async ([c561458d](https://github.com/zaaack/foy/commit/c561458df3d02ee93cc98b08363e0b0aa2649545))
+* **readme:**
+  *  Add more comments for async priority ([96311727](https://github.com/zaaack/foy/commit/963117276e11cde52e734703715b35e99801e1ed))
+  *  Add Using in CI servers ([00e01792](https://github.com/zaaack/foy/commit/00e017925886bc8f7120223dfbf8be5bf0c55218))
+
+##### New Features
+
+* **cli:**  add onerror hooks ([3d3dbd25](https://github.com/zaaack/foy/commit/3d3dbd258e7e99388c0f16d379cacd7c7de6ae1c))
+* **task:**
+  *  add before & after hooks ([0bdacfa1](https://github.com/zaaack/foy/commit/0bdacfa1b09f4a81053c820fd006d9236666c24c))
+  *  Async deps support priority ([782c5695](https://github.com/zaaack/foy/commit/782c5695359db4feec89040c9ddab88550d591dc))
+* **util:**  Add namespace function ([c7acd50e](https://github.com/zaaack/foy/commit/c7acd50e24af944737e6d310b97c56473cf661ea))
+* **exec:**
+  *  Add pushd/popd, ctx.cwd() => cwd.cwd ([a61273df](https://github.com/zaaack/foy/commit/a61273df5327131546a18d897ba5d24c9a63322c))
+  *  Add redirectLog option to redirect external command executaion's log to file or stream ([4433d252](https://github.com/zaaack/foy/commit/4433d2525ec5582d362855ae8869e57d5c0b143a))
+* **utils:**  Add namespacify ([9c752f02](https://github.com/zaaack/foy/commit/9c752f0295ad6e22748472ff4faf77223c3bd8b0))
+
+##### Bug Fixes
+
+* **cli:**
+  *  resolve relative registers ([3fc4077c](https://github.com/zaaack/foy/commit/3fc4077cfb299b66b77187d9328b33031880b238))
+  *  export onerror ([179731f8](https://github.com/zaaack/foy/commit/179731f8414cab192c1deb517bfddab9188c102b))
+  *  Fix loading ([debf8379](https://github.com/zaaack/foy/commit/debf8379090b163b10d041dcd2e5f3ee4f197a52))
+  *  Fix loading when resize terminal (fix: [#7](https://github.com/zaaack/foy/pull/7)) ([09a0d505](https://github.com/zaaack/foy/commit/09a0d505473f87b66c284d4ebb0b84b6bd4c3832))
+  *  Output help when no argv ([1019fb35](https://github.com/zaaack/foy/commit/1019fb354b18b8590e8668f7182284e8db0259ad))
+  *  Fix indent option ([0e9b8db5](https://github.com/zaaack/foy/commit/0e9b8db5afae446e30d50a55e7af883afa085d21))
+  *  Less break line ([1855aa0d](https://github.com/zaaack/foy/commit/1855aa0dcf1e7d45bfbc3c33c0f09d2655523903))
+* **task:**  Fix skipped in parallel ([9a574767](https://github.com/zaaack/foy/commit/9a5747672f8be35cfbff0f051f35ecf4db537e2e))
+* **fs:**
+  *  Fix mkdirp parallel conflicts ([6de5e98c](https://github.com/zaaack/foy/commit/6de5e98c18508905f12f7ccaffbde317025a718c))
+  *  Fix mkdirp parallel conflicts ([f54ef525](https://github.com/zaaack/foy/commit/f54ef5258b23c59fe55c3243526e513c3b8a00cd))
+  *  fix rmrf directory ([46cfd8b4](https://github.com/zaaack/foy/commit/46cfd8b4303a0649742f2f565403ebcbe26664bc))
+  *  copy should override existed files by default ([e510d0d9](https://github.com/zaaack/foy/commit/e510d0d9d0beb918969daa0b62050c698f17653e))
+* **exec:**  Fix redirectStream is null ([dbfb65c4](https://github.com/zaaack/foy/commit/dbfb65c4d731cdd0bc92bcef795dfb9b122d9f81))
+
+##### Tests
+
+*  Migrate mocha to jasmine ([2a99772e](https://github.com/zaaack/foy/commit/2a99772ec3973a1b98bb184d434fb2da19cc415c))
+
 #### 0.1.18 (2019-03-04)
 
 ##### New Features
