@@ -112,8 +112,12 @@ for (const file of foyFiles) {
 }
 
 if (registers.length) {
-  for (const mod of registers) {
-    require(mod)
+  for (let mod of registers) {
+    try {
+      require(mod)
+    } catch (error) {
+      require(pathLib.resolve(process.cwd(), mod))
+    }
   }
 }
 
