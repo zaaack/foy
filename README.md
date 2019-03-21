@@ -79,7 +79,7 @@ Then we can run `foy build` to execute the `build` task.
 foy build
 ```
 
-You can also add some options and description to task:
+You can also add some options and description to a single task:
 
 ```ts
 import { task, desc, option, strict } from 'foy'
@@ -94,6 +94,24 @@ task('build', async ctx => {
 
 ```sh
 foy build -w
+```
+
+Warning! If you want to set flags like strict to all tasks, please use `setGlobalOptions`, e.g.
+
+```ts
+import { setGlobalOptions } from 'foy'
+
+setGlobalOptions({ strict: true }) // all tasks' options will be strict.
+
+option('-aa') // strict via default
+task('dev', async ctx => {
+
+})
+option('-bb') // strict via default
+task('build', async ctx => {
+
+})
+
 ```
 
 ## Using with built-in promised-based API
