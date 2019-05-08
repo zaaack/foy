@@ -2,6 +2,7 @@ DependencyGraph for task [ee]:
 ─ ee
 
 Task: ee
-[info] $ [ 'echo aa', 'echo bb' ]
+[info] $ echo aa
+[info] $ echo bb
 aa
 bb

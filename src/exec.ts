@@ -23,12 +23,16 @@ export const spawn = execa
 
 export class ShellContext {
   private _cwdStack = [process.cwd()]
-  private _env = { ...process.env }
+  private _env: {[k: string]: string | undefined} = {}
   logCommand = false
   sleep = sleep
   redirectLog?: boolean | string | Writable
   get cwd() {
     return this._cwdStack[this._cwdStack.length - 1]
+  }
+  private get _logger() {
+    let logger: typeof _logger = require('./logger').logger
+    return logger
   }
   cd(dir: string) {
     this._cwdStack[this._cwdStack.length - 1] = pathLib.resolve(this._cwdStack[this._cwdStack.length - 1], dir)
@@ -45,13 +49,13 @@ export class ShellContext {
   exec(command: string, options?: execa.Options): execa.ExecaChildProcess
   exec(commands: string[], options?: execa.Options): Promise<execa.ExecaReturns[]>
   exec(commands: string | string[], options?: execa.Options): any {
-    let logger: typeof _logger = require('./logger').logger
-    if (this.logCommand) {
-      logger.info('$', commands)
-    }
+    this._logCmd(commands)
     let p = exec(commands as any, {
       cwd: this.cwd,
-      env: this._env,
+      env: {
+        ...process.env,
+        ...this._env
+      },
       stdio: this.redirectLog ? 'pipe' : 'inherit',
       ...options,
     })
@@ -66,7 +70,7 @@ export class ShellContext {
     }
     // tslint:disable-next-line:no-floating-promises
     p.catch(err => {
-      logger.error('Exec failed: ', commands)
+      this._logger.error('Exec failed: ', commands)
       if (redirectLogStream) {
         redirectLogStream.end()
       }
@@ -75,14 +79,14 @@ export class ShellContext {
     return p
   }
   spawn(file: string, args: string[] = [], options?: execa.Options): execa.ExecaChildProcess {
-    let logger: typeof _logger = require('./logger').logger
     const command = file + ' ' + args.map(a => `"${a.replace(/"/g, '\\"')}"`).join(' ')
-    if (this.logCommand) {
-      logger.info('Exec: ', command)
-    }
+    this._logCmd(command)
     let p = spawn(file, args, {
       cwd: this.cwd,
-      env: this._env,
+      env: {
+        ...process.env,
+        ...this._env,
+      },
       stdio: this.redirectLog ? 'pipe' : 'inherit',
       ...options,
     })
@@ -97,7 +101,7 @@ export class ShellContext {
     }
     // tslint:disable-next-line:no-floating-promises
     p.catch(err => {
-      logger.error('Exec failed: ', command)
+      this._logger.error('Exec failed: ', command)
       if (redirectLogStream) {
         redirectLogStream.end()
       }
@@ -114,14 +118,29 @@ export class ShellContext {
     this._env[key] = val
     return this
   }
+  resetEnv() {
+    this._env = {}
+    return this
+  }
   private _getRedirectLogFile() {
     if (!this.redirectLog) return null
-    let stream: Writable
     if (this.redirectLog instanceof Writable) {
       return this.redirectLog
     }
     let logFile = Is.str(this.redirectLog) ? this.redirectLog : DefaultLogFile
     return fs.createWriteStream(logFile, { mode: fs.constants.O_APPEND })
+  }
+  private _logCmd(cmd: string | string[]) {
+    if (this.logCommand) {
+      let env = Object.keys(this._env).map(k => `${k}=${this._env[k] || ''}`).join(' ')
+      if (env) {
+        env += ' '
+      }
+      cmd = Array.isArray(cmd) ? cmd : [cmd]
+      cmd.forEach(cmd => {
+        this._logger.info(`$ ${env}${cmd}`)
+      })
+    }
   }
 }
 
