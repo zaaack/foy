@@ -16,7 +16,7 @@ task('build', async ctx => {
 
 desc('generate doc')
 task('doc', async ctx => {
-  await ctx.exec(`typedoc --theme default --mode file   --excludeNotExported --excludePrivate --out ./docs/api ./src/index.ts`)
+  await ctx.exec(`typedoc --theme default --mode file --excludeNotExported --excludePrivate --out ./docs/api ./src/index.ts`)
   await ctx.exec(`touch ./docs/.nojekyll`)
 })
 

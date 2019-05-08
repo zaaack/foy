@@ -94,7 +94,7 @@ task('resolveOptions', [{
 })
 
 task('pushpopd', async ctx => {
-  let pwd = (await ctx.exec('pwd', { stdio: 'pipe' })).stdout
+  let pwd = (await ctx.env('NODE_ENV', 'TEST').env('SOME_ENV', 'SOME').exec('pwd', { stdio: 'pipe' })).stdout
   ctx.log(`pwd equals ctx.cwd`, ctx.cwd === pwd)
   ctx.pushd('./aaa')
   ctx.log(`pushd works`, ctx.cwd === resolve(pwd, './aaa'))
