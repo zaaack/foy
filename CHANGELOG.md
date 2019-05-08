@@ -1,3 +1,9 @@
+#### 0.1.20 (2019-05-08)
+
+##### New Features
+
+* **exec:**  log envs & add resetEnv ([8fe7ef1e](https://github.com/zaaack/foy/commit/8fe7ef1e6765fe26d792c82eab6cba059f4bee64))
+
 #### 0.1.19 (2019-03-09)
 
 ##### Chores

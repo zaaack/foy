@@ -117,7 +117,7 @@ task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async<
 				<pre><code class="language-sh">foy --init ts</code></pre>
 				<p>Then we can run <code>foy build</code> to execute the <code>build</code> task.</p>
 				<pre><code class="language-sh">foy build</code></pre>
-				<p>You can also add some options and description to task:</p>
+				<p>You can also add some options and description to a single task:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, desc, option, strict } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
 
 desc(<span class="hljs-string">'Build ts files with tsc'</span>)
@@ -127,6 +127,20 @@ task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async<
   <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">`tsc <span class="hljs-subst">${ctx.options.watch ? '-w' : ''}</span>`</span>)
 })</code></pre>
 				<pre><code class="language-sh">foy build -w</code></pre>
+				<p>Warning! If you want to set flags like strict to all tasks, please use <code>setGlobalOptions</code>, e.g.</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { setGlobalOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+
+setGlobalOptions({ strict: <span class="hljs-literal">true</span> }) <span class="hljs-comment">// all tasks' options will be strict.</span>
+
+option(<span class="hljs-string">'-aa'</span>) <span class="hljs-comment">// strict via default</span>
+task(<span class="hljs-string">'dev'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+
+})
+option(<span class="hljs-string">'-bb'</span>) <span class="hljs-comment">// strict via default</span>
+task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+
+})
+</code></pre>
 				<h2 id="using-with-built-in-promised-based-api">Using with built-in promised-based API</h2>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { fs, task } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
 
