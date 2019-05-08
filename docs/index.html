@@ -73,7 +73,7 @@ task(&#39;build&#39;, async ctx =&gt; {
 <pre><code class="language-sh">foy --init ts</code></pre>
 <p>Then we can run <code>foy build</code> to execute the <code>build</code> task.</p>
 <pre><code class="language-sh">foy build</code></pre>
-<p>You can also add some options and description to task:</p>
+<p>You can also add some options and description to a single task:</p>
 <pre><code class="language-ts">import { task, desc, option, strict } from &#39;foy&#39;
 
 desc(&#39;Build ts files with tsc&#39;)
@@ -83,6 +83,20 @@ task(&#39;build&#39;, async ctx =&gt; {
   await ctx.exec(`tsc ${ctx.options.watch ? &#39;-w&#39; : &#39;&#39;}`)
 })</code></pre>
 <pre><code class="language-sh">foy build -w</code></pre>
+<p>Warning! If you want to set flags like strict to all tasks, please use <code>setGlobalOptions</code>, e.g.</p>
+<pre><code class="language-ts">import { setGlobalOptions } from &#39;foy&#39;
+
+setGlobalOptions({ strict: true }) // all tasks&#39; options will be strict.
+
+option(&#39;-aa&#39;) // strict via default
+task(&#39;dev&#39;, async ctx =&gt; {
+
+})
+option(&#39;-bb&#39;) // strict via default
+task(&#39;build&#39;, async ctx =&gt; {
+
+})
+</code></pre>
 <h2 id="using-with-built-in-promised-based-api">Using with built-in promised-based API</h2>
 <pre><code class="language-ts">import { fs, task } from &#39;foy&#39;
 
