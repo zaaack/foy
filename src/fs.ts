@@ -23,6 +23,7 @@ async function copy(
   const srcStat = await fs.stat(src)
   const isSkiped = opts.skip ? await opts.skip(src, srcStat) : false
   if (isSkiped) return
+  // auto merge for directory
   if (srcStat.isDirectory()) {
     await fs.mkdirp(dist)
     let childs = await fs.readdir(src)
@@ -39,7 +40,10 @@ async function copy(
     srcStat.isFile() || srcStat.isSymbolicLink()
   ) {
     if (await fs.lexists(dist)) {
-      if (opts.override) {
+      let isDir = await fs.isDirectory(dist)
+      if (isDir) {
+        dist = pathLib.join(dist, pathLib.basename(src))
+      } else if (opts.override) {
         await fs.rmrf(dist)
       } else {
         return
