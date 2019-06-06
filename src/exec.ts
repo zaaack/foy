@@ -115,7 +115,11 @@ export class ShellContext {
     if (arguments.length === 1) {
       return this._env[key]
     }
-    this._env[key] = val
+    if (Is.defed(val)) {
+      this._env[key] = val
+    } else {
+      delete this._env[key]
+    }
     return this
   }
   resetEnv() {
