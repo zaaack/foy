@@ -1,3 +1,9 @@
+#### 0.1.22 (2019-06-06)
+
+##### Bug Fixes
+
+* **exec:**  env ([6a1db589](https://github.com/zaaack/foy/commit/6a1db58921f699fe0e5467b9f3194cede07f4cc3))
+
 #### 0.1.20 (2019-05-08)
 
 ##### New Features
