@@ -1,3 +1,9 @@
+#### 0.1.23 (2019-07-01)
+
+##### Bug Fixes
+
+*  ts-node/register module ([d2fd85ae](https://github.com/zaaack/foy/commit/d2fd85ae59fb1cb45f01c21d9b4460d1fa337b03))
+
 #### 0.1.22 (2019-06-06)
 
 ##### Bug Fixes
