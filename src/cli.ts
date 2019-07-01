@@ -47,8 +47,7 @@ function addDefaultOptions(cli: ReturnType<typeof cac>) {
     .option(`--init, -i [ext]`, 'Generate the Foyfile, [ext] can be "ts" | "js", default is "js"')
 }
 
-addDefaultOptions(defaultCli)
-.parse(defaultArgv)
+addDefaultOptions(defaultCli).parse(defaultArgv)
 
 if (defaultCli.options.init) {
   let ext = defaultCli.options.init
@@ -60,16 +59,21 @@ if (defaultCli.options.init) {
   if (fs.existsSync(file)) {
     throw new Error(`Foyfile already exists: ${pathLib.resolve(file)}`)
   }
-  fs.writeFileSync(file, `${ ext === 'js'
-  ? `const { task, desc, option, fs } = require('foy')`
-  : `import { task, desc, option, fs } from 'foy'` }
+  fs.writeFileSync(
+    file,
+    `${
+      ext === 'js'
+        ? `const { task, desc, option, fs } = require('foy')`
+        : `import { task, desc, option, fs } from 'foy'`
+    }
 
 task('build', async ctx => {
   // Your build tasks
   await ctx.exec('tsc')
 })
 
-`)
+`,
+  )
   process.exit()
 }
 
@@ -89,7 +93,11 @@ if (foyFiles.length) {
     let cwdFoyfiles = fs.readdirSync(baseDir).filter(f => f.startsWith('Foyfile.'))
     if (cwdFoyfiles.length) {
       if (cwdFoyfiles.length > 1) {
-        logger.warn(`Find more than 1 Foyfile in current directory, only first one will be used: \n${cwdFoyfiles.join('\n')}`)
+        logger.warn(
+          `Find more than 1 Foyfile in current directory, only first one will be used: \n${cwdFoyfiles.join(
+            '\n',
+          )}`,
+        )
       }
       foyFiles = [pathLib.join(baseDir, cwdFoyfiles[0])]
     }
@@ -123,13 +131,18 @@ if (registers.length) {
 
 try {
   if (!require.extensions['.ts']) {
-    require('ts-node/register')
+    require('ts-node').register({
+      compilerOptions: {
+        module: 'commonjs',
+      },
+    })
   }
 } catch (error) {
   // ignore
 }
 
-{// Add global installed foy to module.paths
+{
+  // Add global installed foy to module.paths
   const Module = require('module')
   const nodeModulePaths = Module._nodeModulePaths
   const globalFoyPath = pathLib.join(__dirname, '..', '..')
@@ -153,8 +166,7 @@ const taskCli = cac()
 let taskManager = getGlobalTaskManager()
 taskManager.getTasks().forEach(t => {
   let strict = taskManager.globalOptions.strict || t.strict
-  let cmd = taskCli
-    .command(t.name, t.desc, { allowUnknownOptions: !strict })
+  let cmd = taskCli.command(t.name, t.desc, { allowUnknownOptions: !strict })
   if (t.optionDefs) {
     t.optionDefs.forEach(def => cmd.option(...def))
   }
@@ -193,8 +205,8 @@ taskCli.help(sections => {
     let last = sections[sections.length - 1]
     let lines = last.body.split('\n')
     lines.pop()
-    last.body =
-      lines.concat(
+    last.body = lines
+      .concat(
         '  -h, --help                Display this message',
         '  --init, -i [ext]          Generate the Foyfile, <ext> can be "ts" | "js", default is "js"',
         '  --config, -c <...files>   The Foyfiles',
@@ -202,13 +214,13 @@ taskCli.help(sections => {
       )
       .join('\n')
   }
-  console.log(sections
-    .map(section => {
-      return section.title
-          ? `${section.title}:\n${section.body}`
-          : section.body
-    })
-    .join('\n\n'))
+  console.log(
+    sections
+      .map(section => {
+        return section.title ? `${section.title}:\n${section.body}` : section.body
+      })
+      .join('\n\n'),
+  )
   process.exit(0)
 })
 taskCli.parse(taskArgv)
