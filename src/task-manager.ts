@@ -5,10 +5,8 @@ import { hashAny, defaults, Is, DefaultLogFile } from './utils'
 import { Writable, Stream } from 'stream'
 import { fs } from './fs'
 import { ShellContext } from './exec'
-import { logger } from './logger'
-import stripAnsi = require('strip-ansi')
+import { logger, ILogInfo } from './logger'
 import figures = require('figures')
-import { getPriority } from 'os'
 
 export interface GlobalOptions {
   /**
@@ -43,13 +41,9 @@ export interface GlobalOptions {
    * @default true
    */
   logCommand?: boolean
+  onLog?: (info: ILogInfo) => void
   options?: any
   rawArgs?: string[]
-  /**
-   * @description whether redirect all ctx.exec & ctx.spawn's output to file
-   * @default false Default will write to process.stdout & process.stderr
-   */
-  redirectLog?: boolean | string | Writable
 }
 
 export interface RunDepOptions {
@@ -96,7 +90,6 @@ export class TaskContext<O = any> extends ShellContext {
   constructor(public task: Task<O>, public global: GlobalOptions) {
     super()
     this.logCommand = defaults(task.logCommand, global.logCommand, true)
-    this.redirectLog = defaults(task.redirectLog, global.redirectLog, false)
   }
   get options() {
     return this.task.options || ({} as O)
@@ -256,23 +249,7 @@ export class TaskManager {
     }
   }
   async run(name: string | Task = 'default', props?: RunTaskOptions) {
-    let { redirectLog } = this.globalOptions
-    let redirectStream: Writable | undefined = undefined
-    if (redirectLog) {
-      if (redirectLog instanceof Stream) {
-        redirectStream = redirectLog
-      } else {
-        redirectLog = Is.str(redirectLog) ? redirectLog : DefaultLogFile
-        redirectStream = fs.createWriteStream(redirectLog, { mode: fs.constants.O_APPEND })
-      }
-      process.stdout.write = (buf: string | Buffer, encoding, ...args) => {
-        if (buf instanceof Buffer) {
-          buf = buf.toString(Is.str(encoding) ? encoding : 'utf-8')
-        }
-        buf = stripAnsi(buf)
-        return redirectStream!.write(buf, encoding, ...args)
-      }
-    }
+    logger._props.onLog = this.globalOptions.onLog
     props = {
       options: null,
       parentCtx: null,
@@ -315,9 +292,6 @@ export class TaskManager {
     } finally {
       if (loading) {
         cliLoading.stop()
-      }
-      if (redirectStream) {
-        redirectStream.end()
       }
     }
   }
