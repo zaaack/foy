@@ -5,8 +5,24 @@ import { hashAny, defaults, Is, DefaultLogFile } from './utils'
 import { Writable, Stream } from 'stream'
 import { fs } from './fs'
 import { ShellContext } from './exec'
-import { logger, ILogInfo } from './logger'
+import { logger, ILogInfo, ILoggerProps, LogLevels } from './logger'
 import figures = require('figures')
+
+export interface LogOptions {
+  /**
+   * @description log level
+   * @default 'debug'
+   */
+  level?: LogLevels
+  /**
+   * @description whether log command when execute command
+   * @default true
+   */
+  logCommand?: boolean
+  onLog?: ILoggerProps['onLog']
+  format?: ILoggerProps['format']
+  hideConsole?: boolean
+}
 
 export interface GlobalOptions {
   /**
@@ -31,17 +47,7 @@ export interface GlobalOptions {
    * @default false
    */
   strict?: boolean
-  /**
-   * @description log level
-   * @default 'debug'
-   */
-  logLevel?: 'debug' | 'info' | 'warn' | 'error'
-  /**
-   * @description whether log command when execute command
-   * @default true
-   */
-  logCommand?: boolean
-  onLog?: (info: ILogInfo) => void
+  logger?: LogOptions
   options?: any
   rawArgs?: string[]
 }
@@ -89,7 +95,7 @@ export class TaskContext<O = any> extends ShellContext {
   error = logger.error
   constructor(public task: Task<O>, public global: GlobalOptions) {
     super()
-    this.logCommand = defaults(task.logCommand, global.logCommand, true)
+    this.logCommand = defaults(task.logger && task.logger.logCommand, global.logger && global.logger.logCommand, true)
   }
   get options() {
     return this.task.options || ({} as O)
@@ -108,11 +114,12 @@ export class TaskManager {
   private _tasks: { [k: string]: Task } = {}
   private _didMap: Map<string, Promise<any>> = new Map()
   public globalOptions: GlobalOptions = {
-    logLevel: 'debug',
     loading: true,
     options: {},
-    logCommand: true,
     indent: 3,
+    logger: {
+      logCommand: true,
+    }
   }
   getTasks() {
     return Object.keys(this._tasks).map(k => this._tasks[k])
@@ -249,7 +256,10 @@ export class TaskManager {
     }
   }
   async run(name: string | Task = 'default', props?: RunTaskOptions) {
-    logger._props.onLog = this.globalOptions.onLog
+    logger._props = {
+      ...logger._props,
+      ...this.globalOptions.logger,
+    }
     props = {
       options: null,
       parentCtx: null,

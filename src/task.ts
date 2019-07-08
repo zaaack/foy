@@ -6,8 +6,7 @@ import { fs } from './fs'
 import { logger } from './logger'
 import { CliLoading } from './cli-loading'
 import { DepBuilder } from './dep-builder'
-import { GlobalOptions, RunTaskOptions, getGlobalTaskManager, TaskContext } from './task-manager'
-import { Writable } from 'stream'
+import { GlobalOptions, RunTaskOptions, getGlobalTaskManager, TaskContext, LogOptions } from './task-manager'
 
 export type OptionDef = [string, string, OptionConfig | undefined]
 
@@ -58,12 +57,7 @@ export interface Task<O = any> extends TaskDep<O> {
    * @description whether log executed command
    * @default globalOptions.logCommand
    */
-  logCommand?: boolean
-  /**
-   * @description whether redirect all ctx.exec & ctx.spawn's output to file
-   * @default globalOptions.redirectLog
-   */
-  redirectLog?: boolean | string | Writable
+  logger?: LogOptions
 }
 
 /**

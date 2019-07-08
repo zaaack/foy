@@ -4,7 +4,7 @@ import { Is } from './utils'
 import chalk from 'chalk'
 import { DepsTree, TaskState } from './task-manager'
 import * as wcwidth from 'wcwidth'
-import stripAnsi = require('strip-ansi')
+import stripAnsi from 'strip-ansi'
 
 declare global {
   namespace NodeJS {
