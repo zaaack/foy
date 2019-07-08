@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Props | foy</title>
+	<title>ILogInfo | foy</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="props.html">Props</a>
+					<a href="iloginfo.html">ILogInfo</a>
 				</li>
 			</ul>
-			<h1>Interface Props</h1>
+			<h1>Interface ILogInfo</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Props</span>
+						<span class="target">ILogInfo</span>
 					</li>
 				</ul>
 			</section>
@@ -79,11 +79,10 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="props.html#depstree" class="tsd-kind-icon">deps<wbr>Tree</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="props.html#graystate" class="tsd-kind-icon">gray<wbr>State</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="props.html#indent" class="tsd-kind-icon">indent</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="props.html#stream" class="tsd-kind-icon">stream</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="props.html#symbolmap" class="tsd-kind-icon">symbol<wbr>Map</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iloginfo.html#args" class="tsd-kind-icon">args</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iloginfo.html#level" class="tsd-kind-icon">level</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iloginfo.html#levelnum" class="tsd-kind-icon">level<wbr>Num</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iloginfo.html#message" class="tsd-kind-icon">message</a></li>
 							</ul>
 						</section>
 					</div>
@@ -92,52 +91,42 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="depstree" class="tsd-anchor"></a>
-					<h3>deps<wbr>Tree</h3>
-					<div class="tsd-signature tsd-kind-icon">deps<wbr>Tree<span class="tsd-signature-symbol">:</span> <a href="depstree.html" class="tsd-signature-type">DepsTree</a></div>
+					<a name="args" class="tsd-anchor"></a>
+					<h3>args</h3>
+					<div class="tsd-signature tsd-kind-icon">args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/9212062/src/cli-loading.ts#L20">cli-loading.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/9212062/src/logger.ts#L36">logger.ts:36</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="graystate" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> gray<wbr>State</h3>
-					<div class="tsd-signature tsd-kind-icon">gray<wbr>State<span class="tsd-signature-symbol">:</span> <a href="../enums/taskstate.html" class="tsd-signature-type">TaskState</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<a name="level" class="tsd-anchor"></a>
+					<h3>level</h3>
+					<div class="tsd-signature tsd-kind-icon">level<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">keyof object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/9212062/src/cli-loading.ts#L23">cli-loading.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/9212062/src/logger.ts#L33">logger.ts:33</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="indent" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> indent</h3>
-					<div class="tsd-signature tsd-kind-icon">indent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<a name="levelnum" class="tsd-anchor"></a>
+					<h3>level<wbr>Num</h3>
+					<div class="tsd-signature tsd-kind-icon">level<wbr>Num<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/9212062/src/cli-loading.ts#L21">cli-loading.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/9212062/src/logger.ts#L35">logger.ts:35</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="stream" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> stream</h3>
-					<div class="tsd-signature tsd-kind-icon">stream<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">NodeJS.WriteStream</span></div>
+					<a name="message" class="tsd-anchor"></a>
+					<h3>message</h3>
+					<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/9212062/src/cli-loading.ts#L24">cli-loading.ts:24</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="symbolmap" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> symbol<wbr>Map</h3>
-					<div class="tsd-signature tsd-kind-icon">symbol<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/9212062/src/cli-loading.ts#L22">cli-loading.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/9212062/src/logger.ts#L34">logger.ts:34</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -156,22 +145,19 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-is-external">
-						<a href="props.html" class="tsd-kind-icon">Props</a>
+						<a href="iloginfo.html" class="tsd-kind-icon">ILog<wbr>Info</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="props.html#depstree" class="tsd-kind-icon">deps<wbr>Tree</a>
+								<a href="iloginfo.html#args" class="tsd-kind-icon">args</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="props.html#graystate" class="tsd-kind-icon">gray<wbr>State</a>
+								<a href="iloginfo.html#level" class="tsd-kind-icon">level</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="props.html#indent" class="tsd-kind-icon">indent</a>
+								<a href="iloginfo.html#levelnum" class="tsd-kind-icon">level<wbr>Num</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="props.html#stream" class="tsd-kind-icon">stream</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="props.html#symbolmap" class="tsd-kind-icon">symbol<wbr>Map</a>
+								<a href="iloginfo.html#message" class="tsd-kind-icon">message</a>
 							</li>
 						</ul>
 					</li>

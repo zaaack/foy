@@ -1,3 +1,13 @@
+#### 0.1.24 (2019-07-08)
+
+##### Bug Fixes
+
+*  move @types/execa to dependencies ([5c7730d6](https://github.com/zaaack/foy/commit/5c7730d64c976ff601752cafd4e2d08195f29599))
+
+##### Refactors
+
+*  logger ([92120620](https://github.com/zaaack/foy/commit/92120620974895ced1a53aaba291d84ee81d797e))
+
 #### 0.1.23 (2019-07-01)
 
 ##### Bug Fixes
