@@ -1,3 +1,9 @@
+#### 0.1.25 (2019-07-08)
+
+##### Refactors
+
+*  logger ([41a6b082](https://github.com/zaaack/foy/commit/41a6b082783c5eb0928663cafeed3bbab639299f))
+
 #### 0.1.24 (2019-07-08)
 
 ##### Bug Fixes
