@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 import { getGlobalTaskManager } from './task-manager'
 import * as util from 'util'
+import stripAnsi from 'strip-ansi'
 
 export const LogLevels = {
   debug: 0,
@@ -8,49 +9,76 @@ export const LogLevels = {
   warn: 2,
   error: 3,
 }
-function makeLogger(
-  level: keyof (typeof LogLevels),
-  color: (s: string) => string,
-  props: ILoggerProps
-) {
+export type LogLevels = keyof (typeof LogLevels)
+function makeLogger(level: LogLevels, logger: Logger) {
   return (...args: any[]) => {
+    const { _props: props } = logger
     let levelNum = LogLevels[level]
-    let taskManager = getGlobalTaskManager()
-    let curLevelNum = LogLevels[taskManager.globalOptions.logLevel || 'debug']
-    if (levelNum >= curLevelNum) {
-      console.log(color(`[${level}]`), ...args)
-      props.onLog && props.onLog({
+    let filterLevelNum =
+      LogLevels[props.level || 'debug']
+    let message = props.format!(level, props.levelColor![level], args)
+    if (levelNum >= filterLevelNum && !props.hideConsole) {
+      console.log(message)
+    }
+    props.onLog &&
+      props.onLog({
         level,
-        message: args.map(a => util.inspect(a, false, null)).join(' '),
+        message: stripAnsi(message),
         levelNum,
+        filter: filterLevelNum,
         args,
       })
-    }
   }
 }
 
 export interface ILogInfo {
-  level: keyof (typeof LogLevels)
+  level: LogLevels
   message: string
   levelNum: number
   args: any[]
+  filter: number
 }
 
 export interface ILoggerProps {
   onLog?(info: ILogInfo): void
+  hideConsole?: boolean
+  level?: string
+  format?(level: string, color: (v: string) => string, args: any[]): string
+  levelColor?: { [k in LogLevels]: (v: string) => string }
 }
 
 export class Logger {
-  constructor(
-    /** @internal */
-    public _props: ILoggerProps = {}
-  ) {
+  static get defaultProps(): ILoggerProps {
+    return {
+      levelColor: {
+        debug: chalk.blueBright,
+        info: chalk.green,
+        warn: chalk.yellow,
+        error: chalk.red,
+      },
+      format(level, color, args) {
+        return `${color(`[${level}]`)} ${args
+          .map(a => util.inspect(a, false, 5))
+          .join(' ')}`
+      },
+      level: 'debug',
+    }
   }
-  debug = makeLogger('debug', chalk.blueBright, this._props)
-  info = makeLogger('info', chalk.green, this._props)
-  log = makeLogger('info', chalk.green, this._props)
-  warn = makeLogger('warn', chalk.yellow, this._props)
-  error = makeLogger('error', chalk.red, this._props)
+  /** @internal */
+  _props: ILoggerProps
+  constructor(
+    _props: ILoggerProps = {},
+  ) {
+    this._props = {
+      ...Logger.defaultProps,
+      ..._props,
+    }
+  }
+  debug = makeLogger('debug', this)
+  info = makeLogger('info', this)
+  log = makeLogger('info', this)
+  warn = makeLogger('warn', this)
+  error = makeLogger('error', this)
 }
 
 export const logger = new Logger()

@@ -2,6 +2,6 @@ DependencyGraph for task [dd]:
 ─ dd
 
 Task: dd
-[info] $ pwd
-[debug] p.stdout.trim() === ctx.cwd() true
+[info] '$ pwd'
+[debug] 'p.stdout.trim() === ctx.cwd()' true
 [debug] true

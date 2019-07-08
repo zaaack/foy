@@ -55,6 +55,7 @@
     "tslint": "^5.11.0",
     "tslint-config-standard": "^8.0.1",
     "typedoc": "^0.13.0",
+    "@types/strip-ansi": "^3.0.0",
     "typescript": "^3.2.2"
   },
   "dependencies": {
@@ -65,6 +66,7 @@
     "execa": "^1.0.0",
     "figures": "^2.0.0",
     "tslib": "^1.8.1",
+    "strip-ansi": "^5.0.0",
     "wcwidth": "^1.0.1"
   },
   "peerDependencies": {}
