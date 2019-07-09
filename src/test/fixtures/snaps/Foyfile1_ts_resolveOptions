@@ -3,6 +3,6 @@ DependencyGraph for task [resolveOptions]:
    ─ logOptions
 
 Task: logOptions
-[debug] 'logOptions' { aa: 1, '--': [], c: 1, rawArgs: [] } { '--': [], c: 1 } []
+[debug] logOptions { aa: 1, '--': [], c: 1, rawArgs: [] } { '--': [], c: 1 } []
 Task: resolveOptions
 rawArgs []
