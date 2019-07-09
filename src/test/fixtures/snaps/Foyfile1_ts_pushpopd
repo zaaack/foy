@@ -2,10 +2,10 @@ DependencyGraph for task [pushpopd]:
 ─ pushpopd
 
 Task: pushpopd
-[info] '$ NODE_ENV=TEST SOME_ENV=SOME pwd'
-[info] 'pwd equals ctx.cwd' true
-[info] 'pushd works' true
-[info] 'pushd 2 works' true
-[info] 'cd works' true
-[info] 'popd works' true
-[info] 'popd 2 works' true
+[info] $ NODE_ENV=TEST SOME_ENV=SOME pwd
+[info] pwd equals ctx.cwd true
+[info] pushd works true
+[info] pushd 2 works true
+[info] cd works true
+[info] popd works true
+[info] popd 2 works true

@@ -58,7 +58,7 @@ export class Logger {
       },
       format(level, color, args) {
         return `${color(`[${level}]`)} ${args
-          .map(a => util.inspect(a, false, 5))
+          .map(a => typeof a === 'string' ? a : util.inspect(a, false, 5))
           .join(' ')}`
       },
       level: 'debug',
