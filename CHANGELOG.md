@@ -1,3 +1,9 @@
+#### 0.1.26 (2019-07-11)
+
+##### Bug Fixes
+
+*  logger inspect ([f60bc1a0](https://github.com/zaaack/foy/commit/f60bc1a0bf8fc344188bdc4502bb3b55e8e50e19))
+
 #### 0.1.25 (2019-07-08)
 
 ##### Refactors
