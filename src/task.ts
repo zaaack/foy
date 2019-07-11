@@ -94,12 +94,25 @@ namespace TaskOptions {
   }
 }
 
+/**
+ * Define task description
+ * @param desc
+ */
 export function desc(desc: string) {
   TaskOptions.last.desc = desc
 }
+/**
+ * Define a task cli option
+ * @param rawName
+ * @param description
+ * @param config
+ */
 export function option(rawName: string, description: string, config?: OptionConfig) {
   TaskOptions.last.optionDefs.push([rawName, description, config])
 }
+/**
+ * Define task cli options are strict, which means it will throw an error if you passed undefined options.
+ */
 export function strict() {
   TaskOptions.last.strict = true
 }
@@ -138,7 +151,7 @@ export function task<O>(
     dependencies: dependencies.map(d => {
       if (Is.str(d)) {
         return { name: d, options: {} } as Task
-      } else if (d instanceof DepBuilder) {
+      } else if (d._isDepBuilder) {
         return d.toTaskDep()
       }
       return d
