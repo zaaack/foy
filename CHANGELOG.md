@@ -1,3 +1,9 @@
+#### 0.1.27 (2019-07-11)
+
+##### Bug Fixes
+
+*  tell TaskDep & comments ([bb449a19](https://github.com/zaaack/foy/commit/bb449a19eacf1cc75afca946e30ae0b500e0bbe6))
+
 #### 0.1.26 (2019-07-11)
 
 ##### Bug Fixes
