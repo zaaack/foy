@@ -6,21 +6,22 @@ A simple, light-weight and modern task runner for general purpose.
 
 ## Contents
 
-- [Foy](#foy)
-  - [Contents](#contents)
-  - [Features](#features)
-  - [Install](#install)
-  - [Write a Foyfile](#write-a-foyfile)
-  - [Using with built-in promised-based API](#using-with-built-in-promised-based-api)
-  - [Using with other packages](#using-with-other-packages)
-  - [Using dependencies](#using-dependencies)
-  - [Using namespaces](#using-namespaces)
-  - [Using in CI servers](#using-in-ci-servers)
-  - [Using lifecycle hooks](#using-lifecycle-hooks)
-  - [Watch and build](#watch-and-build)
-  - [Using with custom compiler](#using-with-custom-compiler)
-  - [API documentation](#api-documentation)
-  - [License](#license)
+- [Foy](#Foy)
+  - [Contents](#Contents)
+  - [Features](#Features)
+  - [Install](#Install)
+  - [Write a Foyfile](#Write-a-Foyfile)
+  - [Using with built-in promised-based API](#Using-with-built-in-promised-based-API)
+  - [Using with other packages](#Using-with-other-packages)
+  - [Using dependencies](#Using-dependencies)
+  - [Using namespaces](#Using-namespaces)
+  - [Using in CI servers](#Using-in-CI-servers)
+  - [Using lifecycle hooks](#Using-lifecycle-hooks)
+  - [run task in task](#run-task-in-task)
+  - [Watch and build](#Watch-and-build)
+  - [Using with custom compiler](#Using-with-custom-compiler)
+  - [API documentation](#API-documentation)
+  - [License](#License)
 
 ## Features
 
@@ -145,6 +146,7 @@ task('build', async ctx => {
 
 ## Using dependencies
 
+
 ```ts
 
 import { task } from 'foy'
@@ -169,7 +171,9 @@ task(
 )
 ```
 
-Or, you can pass options to customize the execution of dependences:
+Dependencies are running serially by default, but you can specific them running concurrently.
+
+e.g. Passing running options to dependencies.
 
 ```ts
 task(
@@ -310,12 +314,29 @@ import { before, after, onerror } from 'foy'
 before(() => { // do something before all tasks tree start
   // ...
 })
-after(() => { // do something after all tasks tree start
+after(() => { // do something after all tasks tree finished
   // ...
 })
 onerror((err) => { // do something when error happens
   // ...
 })
+```
+
+## run task in task
+
+```ts
+
+task('task1', async ctx => { /* ... */ })
+task('task2', async ctx => {
+  // do things before task1
+
+  // run task1 manually, so we can
+  // do things before or after it
+  await ctx.run('task1')
+
+  // do things after task1
+})
+
 ```
 
 ## Watch and build

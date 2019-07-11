@@ -4,6 +4,7 @@ import { TaskContext } from './task-manager'
 
 export class DepBuilder<O = any> {
   private _dep: TaskDep<O>
+  readonly _isDepBuilder = true
   constructor(name: Dependency) {
     if (Is.str(name)) {
       name = { name }

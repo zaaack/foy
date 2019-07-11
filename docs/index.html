@@ -23,21 +23,22 @@
 <p>A simple, light-weight and modern task runner for general purpose.</p>
 <h2 id="contents">Contents</h2>
 <ul>
-<li><a href="#foy">Foy</a><ul>
-<li><a href="#contents">Contents</a></li>
-<li><a href="#features">Features</a></li>
-<li><a href="#install">Install</a></li>
-<li><a href="#write-a-foyfile">Write a Foyfile</a></li>
-<li><a href="#using-with-built-in-promised-based-api">Using with built-in promised-based API</a></li>
-<li><a href="#using-with-other-packages">Using with other packages</a></li>
-<li><a href="#using-dependencies">Using dependencies</a></li>
-<li><a href="#using-namespaces">Using namespaces</a></li>
-<li><a href="#using-in-ci-servers">Using in CI servers</a></li>
-<li><a href="#using-lifecycle-hooks">Using lifecycle hooks</a></li>
-<li><a href="#watch-and-build">Watch and build</a></li>
-<li><a href="#using-with-custom-compiler">Using with custom compiler</a></li>
-<li><a href="#api-documentation">API documentation</a></li>
-<li><a href="#license">License</a></li>
+<li><a href="#Foy">Foy</a><ul>
+<li><a href="#Contents">Contents</a></li>
+<li><a href="#Features">Features</a></li>
+<li><a href="#Install">Install</a></li>
+<li><a href="#Write-a-Foyfile">Write a Foyfile</a></li>
+<li><a href="#Using-with-built-in-promised-based-API">Using with built-in promised-based API</a></li>
+<li><a href="#Using-with-other-packages">Using with other packages</a></li>
+<li><a href="#Using-dependencies">Using dependencies</a></li>
+<li><a href="#Using-namespaces">Using namespaces</a></li>
+<li><a href="#Using-in-CI-servers">Using in CI servers</a></li>
+<li><a href="#Using-lifecycle-hooks">Using lifecycle hooks</a></li>
+<li><a href="#run-task-in-task">run task in task</a></li>
+<li><a href="#Watch-and-build">Watch and build</a></li>
+<li><a href="#Using-with-custom-compiler">Using with custom compiler</a></li>
+<li><a href="#API-documentation">API documentation</a></li>
+<li><a href="#License">License</a></li>
 </ul>
 </li>
 </ul>
@@ -140,7 +141,8 @@ task(
     await ctx.exec(&#39;npm publish&#39;)
   }
 )</code></pre>
-<p>Or, you can pass options to customize the execution of dependences:</p>
+<p>Dependencies are running serially by default, but you can specific them running concurrently.</p>
+<p>e.g. Passing running options to dependencies.</p>
 <pre><code class="language-ts">task(
   &#39;publish:patch&#39;,
   [{
@@ -260,12 +262,25 @@ Task: test
 before(() =&gt; { // do something before all tasks tree start
   // ...
 })
-after(() =&gt; { // do something after all tasks tree start
+after(() =&gt; { // do something after all tasks tree finished
   // ...
 })
 onerror((err) =&gt; { // do something when error happens
   // ...
 })</code></pre>
+<h2 id="run-task-in-task">run task in task</h2>
+<pre><code class="language-ts">
+task(&#39;task1&#39;, async ctx =&gt; { /* ... */ })
+task(&#39;task2&#39;, async ctx =&gt; {
+  // do things before task1
+
+  // run task1 manually, so we can
+  // do things before or after it
+  await ctx.run(&#39;task1&#39;)
+
+  // do things after task1
+})
+</code></pre>
 <h2 id="watch-and-build">Watch and build</h2>
 <pre><code class="language-ts">
 task(&#39;build&#39;, async ctx =&gt; { /* build your project */ })

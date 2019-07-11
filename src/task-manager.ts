@@ -97,10 +97,17 @@ export class TaskContext<O = any> extends ShellContext {
     super()
     this.logCommand = defaults(task.logger && task.logger.logCommand, global.logger && global.logger.logCommand, true)
   }
+  /**
+   * get task options
+   */
   get options() {
     return this.task.options || ({} as O)
   }
-
+  /**
+   * run a task manually
+   * @param task
+   * @param options
+   */
   run(task: string | Task, options?: RunTaskOptions) {
     return getGlobalTaskManager().run(task, {
       force: true,
