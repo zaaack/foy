@@ -1,6 +1,6 @@
-import * as _fs from 'fs'
-import * as util from 'util'
-import * as pathLib from 'path'
+import _fs from 'fs'
+import util from 'util'
+import pathLib from 'path'
 import { throttle, Is } from './utils'
 
 const ENOENT = 'ENOENT' // not found
