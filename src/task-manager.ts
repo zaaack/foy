@@ -314,7 +314,7 @@ export class TaskManager {
   }
 }
 
-const TMKey = '@foy/taskManager'
+const TMKey = `@foy${require('../package.json').version}/taskManager`
 /** @internal */
 export function getGlobalTaskManager() {
   let taskManager: TaskManager = (global[TMKey] = global[TMKey] || new TaskManager())
