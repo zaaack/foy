@@ -62,3 +62,9 @@ describe('task', function () {
   }, 60 * 1000)
   tests.forEach(t => t.it())
 })
+
+describe('loading', async () => {
+  it('loading', async () => {
+    await expectAsync(exec(`ts-node ./src/cli.ts --config ${fixturesDir}/Foyfile2.ts start`)).toBeResolved()
+  })
+})

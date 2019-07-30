@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { getGlobalTaskManager } from './task-manager'
-import * as util from 'util'
+import util from 'util'
 import stripAnsi from 'strip-ansi'
 
 export const LogLevels = {

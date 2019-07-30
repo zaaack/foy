@@ -6,7 +6,7 @@ import { Writable, Stream } from 'stream'
 import { fs } from './fs'
 import { ShellContext } from './exec'
 import { logger, ILogInfo, ILoggerProps, LogLevels } from './logger'
-import figures = require('figures')
+import figures from 'figures'
 
 export interface LogOptions {
   /**

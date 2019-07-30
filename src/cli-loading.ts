@@ -1,9 +1,9 @@
-import * as Spinners from 'cli-spinners'
-import * as logFigures from 'figures'
+import Spinners from 'cli-spinners'
+import logFigures from 'figures'
 import { Is } from './utils'
 import chalk from 'chalk'
 import { DepsTree, TaskState } from './task-manager'
-import * as wcwidth from 'wcwidth'
+import wcwidth from 'wcwidth'
 import stripAnsi from 'strip-ansi'
 
 declare global {

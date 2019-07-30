@@ -2,8 +2,8 @@
 
 import cac from 'cac'
 import { fs } from './fs'
-import * as pathLib from 'path'
-import * as os from 'os'
+import pathLib from 'path'
+import os from 'os'
 import { logger } from './logger'
 import { Is } from './utils'
 import { getGlobalTaskManager } from './task-manager'
