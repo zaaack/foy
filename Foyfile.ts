@@ -1,5 +1,5 @@
 import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespacify } from './src/'
-import * as marked from 'marked'
+import marked from 'marked'
 import * as ejs from 'ejs'
 import { namespace } from './src/utils';
 
