@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import * as cac from 'cac'
+import cac from 'cac'
 import { fs } from './fs'
 import * as pathLib from 'path'
 import * as os from 'os'

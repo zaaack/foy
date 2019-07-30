@@ -1,4 +1,4 @@
-import * as execa from 'execa'
+import execa from 'execa'
 import * as pathLib from 'path'
 import { logger as _logger } from './logger'
 import { sleep, Is, DefaultLogFile } from './utils'
