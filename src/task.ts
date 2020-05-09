@@ -6,7 +6,7 @@ import { fs } from './fs'
 import { logger } from './logger'
 import { CliLoading } from './cli-loading'
 import { DepBuilder } from './dep-builder'
-import { GlobalOptions, RunTaskOptions, getGlobalTaskManager, TaskContext, LogOptions } from './task-manager'
+import { GlobalOptions, RunTaskOptions, getGlobalTaskManager, TaskContext, LogOptions, ListenerNames } from './task-manager'
 
 export type OptionDef = [string, string, OptionConfig | undefined]
 
@@ -33,6 +33,7 @@ export interface TaskDep<O = any> {
 }
 export type Dependency = TaskDep | string | DepBuilder
 export interface Task<O = any> extends TaskDep<O> {
+  namespaces: string[]
   /** @internal */
   optionDefs?: OptionDef[]
   dependencies?: TaskDep[]
@@ -67,20 +68,16 @@ export interface Task<O = any> extends TaskDep<O> {
 export function setGlobalOptions(options: GlobalOptions) {
   Object.assign(getGlobalTaskManager().globalOptions, options)
 }
-function appendCallback<Fn extends ((...args) => void | Promise<void>)>(name: 'before' | 'after' | 'onerror', fn: Fn) {
-  let options = getGlobalTaskManager().globalOptions
-  let oldFn = options[name] as Fn
-  options[name] = async (...args: any[]) => {
-    if (oldFn) {
-      await oldFn(...args)
-    }
-    return fn()
-  }
-
+function appendCallback<Fn extends ((...args) => void | Promise<void>)>(name: ListenerNames, fn: Fn) {
+  let tm = getGlobalTaskManager()
+  tm.listeners[name].push({
+    namespaces: tm.namespaces,
+    fn,
+  })
 }
-export const before = (fn: () => void | Promise<void>) => appendCallback('before', fn)
-export const after = (fn: () => void | Promise<void>) => appendCallback('after', fn)
-export const onerror = (fn: () => void | Promise<void>) => appendCallback('onerror', fn)
+export const before = (fn: (t: Task) => void | Promise<void>) => appendCallback('before', fn)
+export const after = (fn: (t: Task) => void | Promise<void>) => appendCallback('after', fn)
+export const onerror = (fn: (err: Error, t: Task) => void | Promise<void>) => appendCallback('onerror', fn)
 
 namespace TaskOptions {
   export let last = empty()
@@ -140,8 +137,13 @@ export function task<O>(
     fn = dependencies
     dependencies = []
   }
+  const namespaces = getGlobalTaskManager().namespaces
+  if (namespaces.length) {
+    name = `${namespaces.join(':')}:${name}`
+  }
   const t: Task = {
     name,
+    namespaces,
     options: {},
     optionDefs: TaskOptions.last.optionDefs,
     desc: TaskOptions.last.desc,
@@ -161,4 +163,33 @@ export function task<O>(
   TaskOptions.last = TaskOptions.empty()
   getGlobalTaskManager().addTask(t)
   return t
+}
+
+/**
+ * Create namespace prefix for inner tasks
+ * @param ns namespace
+ * @param fn
+ * @example
+ * namespace('client', ns => {
+ *   task('run', async ctx => {
+ *     logger.log(ns) // 'client'
+ *     await ctx.exec('<run cmd>')
+ *   })
+ * })
+ * namespace('server', ns => {
+ *   task('run', async ctx => {
+ *     logger.log(ns) // 'server'
+ *     await ctx.exec('<run cmd>')
+ *   })
+ * })
+ *
+ * ==========
+ * $ yarn foy client:run
+ * $ yarn foy server:run
+ */
+export function namespace(ns: string, fn: (ns: string) => void) {
+  const tm = getGlobalTaskManager()
+  tm.namespaces = tm.namespaces.concat(ns)
+  fn(ns)
+  tm.namespaces = tm.namespaces.slice(0, -1)
 }

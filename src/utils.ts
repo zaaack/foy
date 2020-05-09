@@ -88,48 +88,4 @@ export function defaults<T>(...args: (T | undefined)[]): T {
   return (defaults as any)(...defaultVals)
 }
 
-export type Stringify<T> = {
-  [k in keyof T]: T[k] extends (string | null | undefined | 0 | false) ? string : Stringify<T[k]>
-}
-
-const nsSet = new Set()
-
-/**
- * Generate unique task names with namespaces via object tree.
- * @param obj
- * @param ns Namespace
- * @param sep Separator for namespaces
- * @example
- *  ```ts
- * /** N.aa.bb => 'aa:bb' *\/
- * const N = namespacify({
- *   aa: { bb: { cc: '' } },
- *   cc: '',
- *   ff: ''
- * })
- *
- * /* =>
- *    { aa: { bb: { cc: 'aa:bb:cc' } },
- *      cc: 'cc',
- *      ff: 'ff' } *\/
- *  ```
- */
-export function namespacify<T>(obj: T, ns = '', sep = ':'): Stringify<T> {
-  if (nsSet.has(obj)) return obj as any
-  for (const key in obj) {
-    const val = obj[key] || key
-    if (Is.str(val)) {
-      obj[key] = `${ns}${ns && sep}${val}` as any
-    } else if (Is.obj(val)) {
-      namespacify(val, `${ns}${ns && sep}${key}`, sep)
-    }
-  }
-  nsSet.add(obj)
-  return obj as any
-}
-
-export function namespace<T>(ns: T, fn: (ns: Stringify<T>) => void) {
-  fn(namespacify(ns))
-}
-
 export const DefaultLogFile = join(process.cwd(), 'foy.log')

@@ -1,0 +1,6 @@
+[info] beforeAll ns1:error
+[info] before ns1 ns1:error
+[info] onerror ns1 test error ns1:error
+[info] onerrorError test error ns1:error
+[info] after ns1 ns1:error
+[info] afterAll ns1:error✖ ns1:error
