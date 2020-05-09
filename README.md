@@ -6,22 +6,26 @@ A simple, light-weight and modern task runner for general purpose.
 
 ## Contents
 
-- [Foy](#Foy)
-  - [Contents](#Contents)
-  - [Features](#Features)
-  - [Install](#Install)
-  - [Write a Foyfile](#Write-a-Foyfile)
-  - [Using with built-in promised-based API](#Using-with-built-in-promised-based-API)
-  - [Using with other packages](#Using-with-other-packages)
-  - [Using dependencies](#Using-dependencies)
-  - [Using namespaces](#Using-namespaces)
-  - [Using in CI servers](#Using-in-CI-servers)
-  - [Using lifecycle hooks](#Using-lifecycle-hooks)
+- [Foy](#foy)
+  - [Contents](#contents)
+  - [Features](#features)
+  - [Install](#install)
+  - [Write a Foyfile](#write-a-foyfile)
+  - [Using with built-in promised-based API](#using-with-built-in-promised-based-api)
+  - [Using with other packages](#using-with-other-packages)
+  - [Using dependencies](#using-dependencies)
+  - [Using namespaces](#using-namespaces)
+  - [Useful utils](#useful-utils)
+    - [fs](#fs)
+    - [logger](#logger)
+    - [exec command](#exec-command)
+  - [Using in CI servers](#using-in-ci-servers)
+  - [Using lifecycle hooks](#using-lifecycle-hooks)
   - [run task in task](#run-task-in-task)
-  - [Watch and build](#Watch-and-build)
-  - [Using with custom compiler](#Using-with-custom-compiler)
-  - [API documentation](#API-documentation)
-  - [License](#License)
+  - [Watch and build](#watch-and-build)
+  - [Using with custom compiler](#using-with-custom-compiler)
+  - [API documentation](#api-documentation)
+  - [License](#license)
 
 ## Features
 
@@ -135,12 +139,12 @@ task('some task', async ctx => {
 ## Using with other packages
 
 ```ts
-import { task } from 'foy'
+import { task, logger } from 'foy'
 import * as axios from 'axios'
 
 task('build', async ctx => {
   let res = await axios.get('https://your.server/data.json')
-  console.log(res.data)
+  logger.info(res.data)
 })
 ```
 
@@ -283,6 +287,99 @@ task(ns.start, [ns.client.start.async(), ns.server.start.async()]) // start
 
 // foy start
 // foy client:build
+```
+
+
+## Useful utils
+
+### fs
+
+Foy wrap fs module with promises, so we can use it in async/await smoothly. Foy also implements some useful functions for build scripts which missing in nodejs built-in modules.
+
+```ts
+import { fs } from 'foy'
+
+
+task('build', async ctx => {
+  let f = await fs.readFileSync('./assets/someFile')
+
+  // copy file or directory
+  await fs.copy('./fromPath', './toPath')
+
+  // watch a directory
+  await fs.watchDir('./src', (event, filename) => {
+    logger.info(event, filename)
+  })
+
+  // mkdir directory with parent directories
+  await fs.mkdirp('./some/directory/with/parents/not/exists')
+
+  // write file will auto create missing parent directories
+  await fs.outputFile('./some/file/with/parents/not/exists', 'file data')
+
+  // write json file will auto create missing parent directories
+  await fs.outputJson('./some/file/with/parents/not/exists', {text: 'json data'})
+  let file = await fs.readJson('./some/jsonFile')
+
+  // iterate directory tree
+  await fs.iter('./src', async (path, stat) => {
+    if (stat.isDirectory()) {
+      logger.info('directory:', path)
+      // skip scan node_modules
+      if (path.endsWith('node_modules')) {
+        return true
+      }
+    } else if (stat.isFile()) {
+      logger.warn('file:', path)
+    }
+  })
+})
+```
+
+### logger
+
+Light weight built-in logger
+
+```ts
+import { logger } from 'foy'
+
+task('build', async ctx => {
+
+  logger.debug('debug', { aa: 1})
+  logger.info('info')
+  logger.warn('warn')
+  logger.error('error')
+
+})
+
+```
+
+### exec command
+
+A simple wrapper for sindresorhus' lovely module
+[execa](https://github.com/sindresorhus/execa)
+
+```ts
+import { logger } from 'foy'
+
+task('build', async ctx => {
+  await ctx.exec('tsc')
+
+  // run multiple commands synchronously
+  await ctx.exec([
+    'tsc --outDir ./lib',
+    'tsc --module es6 --outDir ./es',
+  ])
+
+  // run multiple commands concurrently
+  await Promise.all([
+    ctx.exec('eslint'),
+    ctx.exec('tsc'),
+    ctx.exec('typedoc'),
+  ])
+})
+
+
 ```
 
 ## Using in CI servers
