@@ -1,7 +1,6 @@
-import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespacify } from './src/'
+import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespace } from './src/'
 import marked from 'marked'
 import * as ejs from 'ejs'
-import { namespace } from './src/utils';
 
 setGlobalOptions({ loading: false, strict: true })
 
@@ -109,29 +108,17 @@ task('demo3', ['demo2', 'demodemodemodemodemodemodemo1'], async ctx => sleep(300
 
 task('demo', ['demodemodemodemodemodemodemo1','demo2'.async(), 'demo3'.async()])
 
-const ns = namespacify({
-  client: {
-    build: '',
-    start: '',
-    watch: '',
-  },
-  server: {
-    build: '',
-    start: '',
-    watch: '',
-  },
-  start: '',
+
+namespace('client', ns => {
+  task('build', async ctx => { /* ... */ }) // client:build
+  task('start', async ctx => { /* ... */ }) // client:start
+  task('watch', async ctx => { /* ... */ }) // client:watch
 })
 
-namespace(ns.client, ns => {
-  task(ns.build, async ctx => { /* ... */ }) // client:build
-  task(ns.start, async ctx => { /* ... */ }) // client:start
-  task(ns.watch, async ctx => { /* ... */ }) // client:watch
-})
-namespace(ns.server, ns => {
-  task(ns.build, async ctx => { /* ... */ }) // server:build
-  task(ns.start, async ctx => { /* ... */ }) // server:start
-  task(ns.watch, async ctx => { /* ... */ }) // server:watch
+namespace('server', ns => {
+  task('build', async ctx => { /* ... */ }) // server:build
+  task('start', async ctx => { /* ... */ }) // server:start
+  task('watch', async ctx => { /* ... */ }) // server:watch
 })
 
-task(ns.start, [ns.client.start.async(), ns.server.start.async()]) // start
+task('start', ['client:start'.async(), 'server:start'.async()])

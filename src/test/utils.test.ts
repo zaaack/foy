@@ -2,7 +2,7 @@ import { task } from '../task'
 import { fs } from '../fs'
 import { exec } from '../exec'
 import * as path from 'path'
-import { hashAny, namespacify } from '../utils'
+import { hashAny } from '../utils'
 
 describe('utils', function() {
   it('hashAny', () => {
@@ -21,31 +21,4 @@ describe('utils', function() {
     expect(hashAny({ aa: fn })).not.toEqual(hashAny({ aa: f => f }))
   })
 
-  it('namespacify', async () => {
-    let a = namespacify({
-      aa: { bb: { cc: '123', dd: null }, cc: '123', dd: null },
-      cc: 'dd',
-      ff: '123',
-      dd: null,
-    })
-
-    expect(a).toEqual({
-      aa: {
-        bb: {
-          cc: 'aa:bb:123',
-          dd: 'aa:bb:dd',
-        },
-        cc: 'aa:123',
-        dd: 'aa:dd',
-      },
-      cc: 'dd',
-      ff: '123',
-      dd: 'dd',
-    })
-
-    expect(namespacify({ aa: null, bb: { cc: null } }, 'prefix', '|')).toEqual({
-      aa: 'prefix|aa',
-      bb: { cc: 'prefix|bb|cc' },
-    })
-  })
 })

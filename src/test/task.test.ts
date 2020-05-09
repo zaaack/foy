@@ -52,6 +52,11 @@ describe('task', function () {
     test(`Foyfile1.ts resolveOptions -c 123`),
     test(`Foyfile1.ts resolveOptions`),
     test(`Foyfile1.ts pushpopd`),
+    test(`Foyfile2.ts start`),
+    test(`Foyfile2.ts error`),
+    test(`Foyfile2.ts ns1:t1`),
+    test(`Foyfile2.ts ns1:error`),
+    test(`Foyfile2.ts ns1:ns2:t2`),
   ]
   beforeAll(async () => {
     if (UpdateSnap) {

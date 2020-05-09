@@ -26,18 +26,6 @@ export interface LogOptions {
 
 export interface GlobalOptions {
   /**
-   * Before all tasks
-   */
-  before?: () => void | Promise<void>
-  /**
-   * After all tasks
-   */
-  after?: () => void | Promise<void>
-  /**
-   * Handle error
-   */
-  onerror?: (err: Error) => void | Promise<void>
-  /**
    * @default true
    */
   loading?: boolean
@@ -117,9 +105,20 @@ export class TaskContext<O = any> extends ShellContext {
   }
 }
 
+export type Callback = {
+  fn: (args?: any) => void | Promise<void>,
+  namespaces: string[]
+}
+export type ListenerNames = 'before' | 'after' | 'onerror'
 export class TaskManager {
   private _tasks: { [k: string]: Task } = {}
   private _didMap: Map<string, Promise<any>> = new Map()
+  public namespaces: string[] = []
+  public listeners = {
+    before: [] as Callback[],
+    after: [] as Callback[],
+    onerror: [] as Callback[],
+  }
   public globalOptions: GlobalOptions = {
     loading: true,
     options: {},
@@ -262,6 +261,23 @@ export class TaskManager {
       throw error
     }
   }
+  async runListner(name: ListenerNames, ns: string[], args: any[] = []) {
+    const listeners = this.listeners[name].slice()
+    if (name === 'before') {
+      listeners.sort((a, b) => a.namespaces.length - b .namespaces.length)
+    } else {
+      listeners.sort((a, b) => b.namespaces.length - a.namespaces.length)
+    }
+    for (const fn of listeners) {
+      if (ns.join(':').startsWith(fn.namespaces.join(':'))) {
+        try {
+          await fn.fn(...args)
+        } catch (error) {
+          logger.error(error)
+        }
+      }
+    }
+  }
   async run(name: string | Task = 'default', props?: RunTaskOptions) {
     logger._props = {
       ...logger._props,
@@ -303,10 +319,15 @@ export class TaskManager {
       console.log(chalk.yellow(`DependencyGraph for task [${t.name}]:`))
       console.log(cliLoading.renderDepsTree(depsTree).join('\n') + '\n')
     }
+    await this.runListner('before', t.namespaces, [t])
+
     try {
       let ret = await this.runDepsTree(depsTree, props)
       return ret
+    } catch (e) {
+      await this.runListner('onerror', t.namespaces, [e, t])
     } finally {
+      await this.runListner('after', t.namespaces, [t])
       if (loading) {
         cliLoading.stop()
       }

@@ -251,39 +251,40 @@ task('task2', [{
 
 ## Using namespaces
 
-If you have lots of tasks, naming might be a problem, what foy do is to making life easier, but more anxious. So we provide a `namespacify` function to generate task names with namespaces.
+If you have lots of tasks, naming might be a problem, what foy do is to making life easier, but more anxious. So we provide a `namespace` function to group tasks with namespaces.
 
 ```ts
-import { namespacify, task, namespace } from 'foy'
+import { task, namespace } from 'foy'
 
-// namespacify(names: object, ns = '', sep = ':')
-const ns = namespacify({
-  client: {
-    build: '',
-    start: '',
-    watch: '',
-  },
-  server: {
-    build: '',
-    start: '',
-    watch: '',
-  },
-  start: '',
+namespace('client', ns => {
+  before(() => {
+    logger.info('before')
+  })
+  after(() => {
+    logger.info('after')
+  })
+  onerror(() => {
+    logger.info('onerror')
+  })
+  task('start', async ctx => { /* ... */ }) // client:start
+  task('build', async ctx => { /* ... */ }) // client:build
+  task('watch', async ctx => { /* ... */ }) // client:watch
+  namespace('proj1', ns => { // nested namespace
+    onerror(() => {
+      logger.info('onerror', ns)
+    })
+    task('start', async ctx => { /* ... */ }) // client:proj1:start
+
+  })
 })
 
-namespace(ns.client, ns => {
-  task(ns.build, async ctx => { /* ... */ }) // client:build
-  task(ns.start, async ctx => { /* ... */ }) // client:start
-  task(ns.watch, async ctx => { /* ... */ }) // client:watch
+namespace('server', ns => {
+  task('build', async ctx => { /* ... */ }) // server:build
+  task('start', async ctx => { /* ... */ }) // server:start
+  task('watch', async ctx => { /* ... */ }) // server:watch
 })
 
-namespace(ns.server, ns => {
-  task(ns.build, async ctx => { /* ... */ }) // server:build
-  task(ns.start, async ctx => { /* ... */ }) // server:start
-  task(ns.watch, async ctx => { /* ... */ }) // server:watch
-})
-
-task(ns.start, [ns.client.start.async(), ns.server.start.async()]) // start
+task('start', ['client:start'.async(), 'server:start'.async()]) // start
 
 // foy start
 // foy client:build
@@ -311,7 +312,7 @@ task('build', async ctx => {
     logger.info(event, filename)
   })
 
-  // mkdir directory with parent directories
+  // make directory with parent directories
   await fs.mkdirp('./some/directory/with/parents/not/exists')
 
   // write file will auto create missing parent directories
