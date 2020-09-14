@@ -23,22 +23,28 @@
 <p>A simple, light-weight and modern task runner for general purpose.</p>
 <h2 id="contents">Contents</h2>
 <ul>
-<li><a href="#Foy">Foy</a><ul>
-<li><a href="#Contents">Contents</a></li>
-<li><a href="#Features">Features</a></li>
-<li><a href="#Install">Install</a></li>
-<li><a href="#Write-a-Foyfile">Write a Foyfile</a></li>
-<li><a href="#Using-with-built-in-promised-based-API">Using with built-in promised-based API</a></li>
-<li><a href="#Using-with-other-packages">Using with other packages</a></li>
-<li><a href="#Using-dependencies">Using dependencies</a></li>
-<li><a href="#Using-namespaces">Using namespaces</a></li>
-<li><a href="#Using-in-CI-servers">Using in CI servers</a></li>
-<li><a href="#Using-lifecycle-hooks">Using lifecycle hooks</a></li>
+<li><a href="#foy">Foy</a><ul>
+<li><a href="#contents">Contents</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#install">Install</a></li>
+<li><a href="#write-a-foyfile">Write a Foyfile</a></li>
+<li><a href="#using-with-built-in-promised-based-api">Using with built-in promised-based API</a></li>
+<li><a href="#using-with-other-packages">Using with other packages</a></li>
+<li><a href="#using-dependencies">Using dependencies</a></li>
+<li><a href="#using-namespaces">Using namespaces</a></li>
+<li><a href="#useful-utils">Useful utils</a><ul>
+<li><a href="#fs">fs</a></li>
+<li><a href="#logger">logger</a></li>
+<li><a href="#exec-command">exec command</a></li>
+</ul>
+</li>
+<li><a href="#using-in-ci-servers">Using in CI servers</a></li>
+<li><a href="#using-lifecycle-hooks">Using lifecycle hooks</a></li>
 <li><a href="#run-task-in-task">run task in task</a></li>
-<li><a href="#Watch-and-build">Watch and build</a></li>
-<li><a href="#Using-with-custom-compiler">Using with custom compiler</a></li>
-<li><a href="#API-documentation">API documentation</a></li>
-<li><a href="#License">License</a></li>
+<li><a href="#watch-and-build">Watch and build</a></li>
+<li><a href="#using-with-custom-compiler">Using with custom compiler</a></li>
+<li><a href="#api-documentation">API documentation</a></li>
+<li><a href="#license">License</a></li>
 </ul>
 </li>
 </ul>
@@ -112,12 +118,12 @@ task(&#39;some task&#39;, async ctx =&gt; {
   let { stdout } = await ctx.exec(&#39;ls&#39;, { stdio: &#39;pipe&#39; }) // Get the stdout, default is empty because it&#39;s redirected to current process via `stdio: &#39;inherit&#39;`.
 })</code></pre>
 <h2 id="using-with-other-packages">Using with other packages</h2>
-<pre><code class="language-ts">import { task } from &#39;foy&#39;
+<pre><code class="language-ts">import { task, logger } from &#39;foy&#39;
 import * as axios from &#39;axios&#39;
 
 task(&#39;build&#39;, async ctx =&gt; {
   let res = await axios.get(&#39;https://your.server/data.json&#39;)
-  console.log(res.data)
+  logger.info(res.data)
 })</code></pre>
 <h2 id="using-dependencies">Using dependencies</h2>
 <pre><code class="language-ts">
@@ -207,40 +213,117 @@ task(&#39;task2&#39;, [{
 
 // foy task2 -a 1</code></pre>
 <h2 id="using-namespaces">Using namespaces</h2>
-<p>If you have lots of tasks, naming might be a problem, what foy do is to making life easier, but more anxious. So we provide a <code>namespacify</code> function to generate task names with namespaces.</p>
-<pre><code class="language-ts">import { namespacify, task, namespace } from &#39;foy&#39;
+<p>If you have lots of tasks, naming might be a problem, what foy do is to making life easier, but more anxious. So we provide a <code>namespace</code> function to group tasks with namespaces.</p>
+<pre><code class="language-ts">import { task, namespace } from &#39;foy&#39;
 
-// namespacify(names: object, ns = &#39;&#39;, sep = &#39;:&#39;)
-const ns = namespacify({
-  client: {
-    build: &#39;&#39;,
-    start: &#39;&#39;,
-    watch: &#39;&#39;,
-  },
-  server: {
-    build: &#39;&#39;,
-    start: &#39;&#39;,
-    watch: &#39;&#39;,
-  },
-  start: &#39;&#39;,
+namespace(&#39;client&#39;, ns =&gt; {
+  before(() =&gt; {
+    logger.info(&#39;before&#39;)
+  })
+  after(() =&gt; {
+    logger.info(&#39;after&#39;)
+  })
+  onerror(() =&gt; {
+    logger.info(&#39;onerror&#39;)
+  })
+  task(&#39;start&#39;, async ctx =&gt; { /* ... */ }) // client:start
+  task(&#39;build&#39;, async ctx =&gt; { /* ... */ }) // client:build
+  task(&#39;watch&#39;, async ctx =&gt; { /* ... */ }) // client:watch
+  namespace(&#39;proj1&#39;, ns =&gt; { // nested namespace
+    onerror(() =&gt; {
+      logger.info(&#39;onerror&#39;, ns)
+    })
+    task(&#39;start&#39;, async ctx =&gt; { /* ... */ }) // client:proj1:start
+
+  })
 })
 
-namespace(ns.client, ns =&gt; {
-  task(ns.build, async ctx =&gt; { /* ... */ }) // client:build
-  task(ns.start, async ctx =&gt; { /* ... */ }) // client:start
-  task(ns.watch, async ctx =&gt; { /* ... */ }) // client:watch
+namespace(&#39;server&#39;, ns =&gt; {
+  task(&#39;build&#39;, async ctx =&gt; { /* ... */ }) // server:build
+  task(&#39;start&#39;, async ctx =&gt; { /* ... */ }) // server:start
+  task(&#39;watch&#39;, async ctx =&gt; { /* ... */ }) // server:watch
 })
 
-namespace(ns.server, ns =&gt; {
-  task(ns.build, async ctx =&gt; { /* ... */ }) // server:build
-  task(ns.start, async ctx =&gt; { /* ... */ }) // server:start
-  task(ns.watch, async ctx =&gt; { /* ... */ }) // server:watch
-})
-
-task(ns.start, [ns.client.start.async(), ns.server.start.async()]) // start
+task(&#39;start&#39;, [&#39;client:start&#39;.async(), &#39;server:start&#39;.async()]) // start
 
 // foy start
 // foy client:build</code></pre>
+<h2 id="useful-utils">Useful utils</h2>
+<h3 id="fs">fs</h3>
+<p>Foy wrap fs module with promises, so we can use it in async/await smoothly. Foy also implements some useful functions for build scripts which missing in nodejs built-in modules.</p>
+<pre><code class="language-ts">import { fs } from &#39;foy&#39;
+
+
+task(&#39;build&#39;, async ctx =&gt; {
+  let f = await fs.readFileSync(&#39;./assets/someFile&#39;)
+
+  // copy file or directory
+  await fs.copy(&#39;./fromPath&#39;, &#39;./toPath&#39;)
+
+  // watch a directory
+  await fs.watchDir(&#39;./src&#39;, (event, filename) =&gt; {
+    logger.info(event, filename)
+  })
+
+  // make directory with parent directories
+  await fs.mkdirp(&#39;./some/directory/with/parents/not/exists&#39;)
+
+  // write file will auto create missing parent directories
+  await fs.outputFile(&#39;./some/file/with/parents/not/exists&#39;, &#39;file data&#39;)
+
+  // write json file will auto create missing parent directories
+  await fs.outputJson(&#39;./some/file/with/parents/not/exists&#39;, {text: &#39;json data&#39;})
+  let file = await fs.readJson(&#39;./some/jsonFile&#39;)
+
+  // iterate directory tree
+  await fs.iter(&#39;./src&#39;, async (path, stat) =&gt; {
+    if (stat.isDirectory()) {
+      logger.info(&#39;directory:&#39;, path)
+      // skip scan node_modules
+      if (path.endsWith(&#39;node_modules&#39;)) {
+        return true
+      }
+    } else if (stat.isFile()) {
+      logger.warn(&#39;file:&#39;, path)
+    }
+  })
+})</code></pre>
+<h3 id="logger">logger</h3>
+<p>Light weight built-in logger</p>
+<pre><code class="language-ts">import { logger } from &#39;foy&#39;
+
+task(&#39;build&#39;, async ctx =&gt; {
+
+  logger.debug(&#39;debug&#39;, { aa: 1})
+  logger.info(&#39;info&#39;)
+  logger.warn(&#39;warn&#39;)
+  logger.error(&#39;error&#39;)
+
+})
+</code></pre>
+<h3 id="exec-command">exec command</h3>
+<p>A simple wrapper for sindresorhus&#39; lovely module
+<a href="https://github.com/sindresorhus/execa">execa</a></p>
+<pre><code class="language-ts">import { logger } from &#39;foy&#39;
+
+task(&#39;build&#39;, async ctx =&gt; {
+  await ctx.exec(&#39;tsc&#39;)
+
+  // run multiple commands synchronously
+  await ctx.exec([
+    &#39;tsc --outDir ./lib&#39;,
+    &#39;tsc --module es6 --outDir ./es&#39;,
+  ])
+
+  // run multiple commands concurrently
+  await Promise.all([
+    ctx.exec(&#39;eslint&#39;),
+    ctx.exec(&#39;tsc&#39;),
+    ctx.exec(&#39;typedoc&#39;),
+  ])
+})
+
+</code></pre>
 <h2 id="using-in-ci-servers">Using in CI servers</h2>
 <p>If you use Foy in CI servers, you might won&#39;t want the loading because most CI servers will log the stdout and stderr to files, the loading will be logged as frames. Luckily, Foy has already considered this use case, you can simple disable the loading behavior like this:</p>
 <pre><code class="language-ts">import { task, setGlobalOptions } from &#39;foy&#39;
