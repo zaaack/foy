@@ -1,3 +1,13 @@
+### 0.2.0 (2020-09-14)
+
+##### Chores
+
+*  add more docs ([06c9a0a4](https://github.com/zaaack/foy/commit/06c9a0a4bfb66f8e8c34f0ef68bfdc48f689d03e))
+
+##### Bug Fixes
+
+*  update namespaces ([e88bd8d0](https://github.com/zaaack/foy/commit/e88bd8d075ff878dd8a7290fe3fac18212ed2194))
+
 #### 0.1.29 (2019-07-30)
 
 #### 0.1.28 (2019-07-30)

@@ -67,22 +67,28 @@
 				<p>A simple, light-weight and modern task runner for general purpose.</p>
 				<h2 id="contents">Contents</h2>
 				<ul>
-					<li><a href="#Foy">Foy</a><ul>
-							<li><a href="#Contents">Contents</a></li>
-							<li><a href="#Features">Features</a></li>
-							<li><a href="#Install">Install</a></li>
-							<li><a href="#Write-a-Foyfile">Write a Foyfile</a></li>
-							<li><a href="#Using-with-built-in-promised-based-API">Using with built-in promised-based API</a></li>
-							<li><a href="#Using-with-other-packages">Using with other packages</a></li>
-							<li><a href="#Using-dependencies">Using dependencies</a></li>
-							<li><a href="#Using-namespaces">Using namespaces</a></li>
-							<li><a href="#Using-in-CI-servers">Using in CI servers</a></li>
-							<li><a href="#Using-lifecycle-hooks">Using lifecycle hooks</a></li>
+					<li><a href="#foy">Foy</a><ul>
+							<li><a href="#contents">Contents</a></li>
+							<li><a href="#features">Features</a></li>
+							<li><a href="#install">Install</a></li>
+							<li><a href="#write-a-foyfile">Write a Foyfile</a></li>
+							<li><a href="#using-with-built-in-promised-based-api">Using with built-in promised-based API</a></li>
+							<li><a href="#using-with-other-packages">Using with other packages</a></li>
+							<li><a href="#using-dependencies">Using dependencies</a></li>
+							<li><a href="#using-namespaces">Using namespaces</a></li>
+							<li><a href="#useful-utils">Useful utils</a><ul>
+									<li><a href="#fs">fs</a></li>
+									<li><a href="#logger">logger</a></li>
+									<li><a href="#exec-command">exec command</a></li>
+								</ul>
+							</li>
+							<li><a href="#using-in-ci-servers">Using in CI servers</a></li>
+							<li><a href="#using-lifecycle-hooks">Using lifecycle hooks</a></li>
 							<li><a href="#run-task-in-task">run task in task</a></li>
-							<li><a href="#Watch-and-build">Watch and build</a></li>
-							<li><a href="#Using-with-custom-compiler">Using with custom compiler</a></li>
-							<li><a href="#API-documentation">API documentation</a></li>
-							<li><a href="#License">License</a></li>
+							<li><a href="#watch-and-build">Watch and build</a></li>
+							<li><a href="#using-with-custom-compiler">Using with custom compiler</a></li>
+							<li><a href="#api-documentation">API documentation</a></li>
+							<li><a href="#license">License</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -156,12 +162,12 @@ task(<span class="hljs-string">'some task'</span>, <span class="hljs-keyword">as
   <span class="hljs-keyword">let</span> { stdout } = <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'ls'</span>, { stdio: <span class="hljs-string">'pipe'</span> }) <span class="hljs-comment">// Get the stdout, default is empty because it's redirected to current process via `stdio: 'inherit'`.</span>
 })</code></pre>
 				<h2 id="using-with-other-packages">Using with other packages</h2>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, logger } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">'axios'</span>
 
 task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
   <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> axios.get(<span class="hljs-string">'https://your.server/data.json'</span>)
-  <span class="hljs-built_in">console</span>.log(res.data)
+  logger.info(res.data)
 })</code></pre>
 				<h2 id="using-dependencies">Using dependencies</h2>
 				<pre><code class="language-ts">
@@ -251,40 +257,117 @@ task(<span class="hljs-string">'task2'</span>, [{
 
 <span class="hljs-comment">// foy task2 -a 1</span></code></pre>
 				<h2 id="using-namespaces">Using namespaces</h2>
-				<p>If you have lots of tasks, naming might be a problem, what foy do is to making life easier, but more anxious. So we provide a <code>namespacify</code> function to generate task names with namespaces.</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { namespacify, task, <span class="hljs-keyword">namespace</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+				<p>If you have lots of tasks, naming might be a problem, what foy do is to making life easier, but more anxious. So we provide a <code>namespace</code> function to group tasks with namespaces.</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, <span class="hljs-keyword">namespace</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
 
-<span class="hljs-comment">// namespacify(names: object, ns = '', sep = ':')</span>
-<span class="hljs-keyword">const</span> ns = namespacify({
-  client: {
-    build: <span class="hljs-string">''</span>,
-    start: <span class="hljs-string">''</span>,
-    watch: <span class="hljs-string">''</span>,
-  },
-  server: {
-    build: <span class="hljs-string">''</span>,
-    start: <span class="hljs-string">''</span>,
-    watch: <span class="hljs-string">''</span>,
-  },
-  start: <span class="hljs-string">''</span>,
+<span class="hljs-keyword">namespace</span>(<span class="hljs-string">'client'</span>, <span class="hljs-function"><span class="hljs-params">ns</span> =&gt;</span> {
+  before(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    logger.info(<span class="hljs-string">'before'</span>)
+  })
+  after(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    logger.info(<span class="hljs-string">'after'</span>)
+  })
+  onerror(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    logger.info(<span class="hljs-string">'onerror'</span>)
+  })
+  task(<span class="hljs-string">'start'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:start</span>
+  task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:build</span>
+  task(<span class="hljs-string">'watch'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:watch</span>
+  <span class="hljs-keyword">namespace</span>(<span class="hljs-string">'proj1'</span>, <span class="hljs-function"><span class="hljs-params">ns</span> =&gt;</span> { <span class="hljs-comment">// nested namespace</span>
+    onerror(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      logger.info(<span class="hljs-string">'onerror'</span>, ns)
+    })
+    task(<span class="hljs-string">'start'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:proj1:start</span>
+
+  })
 })
 
-<span class="hljs-keyword">namespace</span>(ns.client, <span class="hljs-function"><span class="hljs-params">ns</span> =&gt;</span> {
-  task(ns.build, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:build</span>
-  task(ns.start, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:start</span>
-  task(ns.watch, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:watch</span>
+<span class="hljs-keyword">namespace</span>(<span class="hljs-string">'server'</span>, <span class="hljs-function"><span class="hljs-params">ns</span> =&gt;</span> {
+  task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:build</span>
+  task(<span class="hljs-string">'start'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:start</span>
+  task(<span class="hljs-string">'watch'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:watch</span>
 })
 
-<span class="hljs-keyword">namespace</span>(ns.server, <span class="hljs-function"><span class="hljs-params">ns</span> =&gt;</span> {
-  task(ns.build, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:build</span>
-  task(ns.start, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:start</span>
-  task(ns.watch, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:watch</span>
-})
-
-task(ns.start, [ns.client.start.async(), ns.server.start.async()]) <span class="hljs-comment">// start</span>
+task(<span class="hljs-string">'start'</span>, [<span class="hljs-string">'client:start'</span>.async(), <span class="hljs-string">'server:start'</span>.async()]) <span class="hljs-comment">// start</span>
 
 <span class="hljs-comment">// foy start</span>
 <span class="hljs-comment">// foy client:build</span></code></pre>
+				<h2 id="useful-utils">Useful utils</h2>
+				<h3 id="fs">fs</h3>
+				<p>Foy wrap fs module with promises, so we can use it in async/await smoothly. Foy also implements some useful functions for build scripts which missing in nodejs built-in modules.</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { fs } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+
+
+task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-keyword">let</span> f = <span class="hljs-keyword">await</span> fs.readFileSync(<span class="hljs-string">'./assets/someFile'</span>)
+
+  <span class="hljs-comment">// copy file or directory</span>
+  <span class="hljs-keyword">await</span> fs.copy(<span class="hljs-string">'./fromPath'</span>, <span class="hljs-string">'./toPath'</span>)
+
+  <span class="hljs-comment">// watch a directory</span>
+  <span class="hljs-keyword">await</span> fs.watchDir(<span class="hljs-string">'./src'</span>, <span class="hljs-function">(<span class="hljs-params">event, filename</span>) =&gt;</span> {
+    logger.info(event, filename)
+  })
+
+  <span class="hljs-comment">// make directory with parent directories</span>
+  <span class="hljs-keyword">await</span> fs.mkdirp(<span class="hljs-string">'./some/directory/with/parents/not/exists'</span>)
+
+  <span class="hljs-comment">// write file will auto create missing parent directories</span>
+  <span class="hljs-keyword">await</span> fs.outputFile(<span class="hljs-string">'./some/file/with/parents/not/exists'</span>, <span class="hljs-string">'file data'</span>)
+
+  <span class="hljs-comment">// write json file will auto create missing parent directories</span>
+  <span class="hljs-keyword">await</span> fs.outputJson(<span class="hljs-string">'./some/file/with/parents/not/exists'</span>, {text: <span class="hljs-string">'json data'</span>})
+  <span class="hljs-keyword">let</span> file = <span class="hljs-keyword">await</span> fs.readJson(<span class="hljs-string">'./some/jsonFile'</span>)
+
+  <span class="hljs-comment">// iterate directory tree</span>
+  <span class="hljs-keyword">await</span> fs.iter(<span class="hljs-string">'./src'</span>, <span class="hljs-keyword">async</span> (path, stat) =&gt; {
+    <span class="hljs-keyword">if</span> (stat.isDirectory()) {
+      logger.info(<span class="hljs-string">'directory:'</span>, path)
+      <span class="hljs-comment">// skip scan node_modules</span>
+      <span class="hljs-keyword">if</span> (path.endsWith(<span class="hljs-string">'node_modules'</span>)) {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+      }
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (stat.isFile()) {
+      logger.warn(<span class="hljs-string">'file:'</span>, path)
+    }
+  })
+})</code></pre>
+				<h3 id="logger">logger</h3>
+				<p>Light weight built-in logger</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { logger } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+
+task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+
+  logger.debug(<span class="hljs-string">'debug'</span>, { aa: <span class="hljs-number">1</span>})
+  logger.info(<span class="hljs-string">'info'</span>)
+  logger.warn(<span class="hljs-string">'warn'</span>)
+  logger.error(<span class="hljs-string">'error'</span>)
+
+})
+</code></pre>
+				<h3 id="exec-command">exec command</h3>
+				<p>A simple wrapper for sindresorhus&#39; lovely module
+				<a href="https://github.com/sindresorhus/execa">execa</a></p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { logger } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+
+task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'tsc'</span>)
+
+  <span class="hljs-comment">// run multiple commands synchronously</span>
+  <span class="hljs-keyword">await</span> ctx.exec([
+    <span class="hljs-string">'tsc --outDir ./lib'</span>,
+    <span class="hljs-string">'tsc --module es6 --outDir ./es'</span>,
+  ])
+
+  <span class="hljs-comment">// run multiple commands concurrently</span>
+  <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([
+    ctx.exec(<span class="hljs-string">'eslint'</span>),
+    ctx.exec(<span class="hljs-string">'tsc'</span>),
+    ctx.exec(<span class="hljs-string">'typedoc'</span>),
+  ])
+})
+
+</code></pre>
 				<h2 id="using-in-ci-servers">Using in CI servers</h2>
 				<p>If you use Foy in CI servers, you might won&#39;t want the loading because most CI servers will log the stdout and stderr to files, the loading will be logged as frames. Luckily, Foy has already considered this use case, you can simple disable the loading behavior like this:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, setGlobalOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
@@ -414,13 +497,16 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 						<a href="interfaces/taskdep.html" class="tsd-kind-icon">Task<wbr>Dep</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#callback" class="tsd-kind-icon">Callback</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="globals.html#dependency" class="tsd-kind-icon">Dependency</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#optiondef" class="tsd-kind-icon">Option<wbr>Def</a>
+						<a href="globals.html#listenernames" class="tsd-kind-icon">Listener<wbr>Names</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#stringify" class="tsd-kind-icon">Stringify</a>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#optiondef" class="tsd-kind-icon">Option<wbr>Def</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#taskfn" class="tsd-kind-icon">Task<wbr>Fn</a>
@@ -467,11 +553,8 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#hashany" class="tsd-kind-icon">hash<wbr>Any</a>
 					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#namespace" class="tsd-kind-icon">namespace</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#namespacify" class="tsd-kind-icon">namespacify</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#onerror" class="tsd-kind-icon">onerror</a>
