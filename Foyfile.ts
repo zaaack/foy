@@ -1,4 +1,4 @@
-import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespace } from './src/'
+import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespace, exec } from './src/'
 import marked from 'marked'
 import * as ejs from 'ejs'
 
@@ -84,7 +84,7 @@ task('site:home', async ctx => {
     authorUrl: 'https://github.com/zaaack',
     apiUrl: 'http://zaaack.github.io/foy/api',
   }
-  let html = await ejs.renderFile<string>('./docs-src/index.html', data)
+  let html = await ejs.renderFile('./docs-src/index.html', data)
   await ctx.fs.outputFile('./docs/index.html', html)
 })
 task('site:watch', async ctx => {

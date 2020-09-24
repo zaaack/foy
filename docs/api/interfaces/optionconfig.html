@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>RunDepOptions | foy</title>
+	<title>OptionConfig | foy</title>
 	<meta name="description" content="Documentation for foy">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="rundepoptions.html">RunDepOptions</a>
+					<a href="optionconfig.html">OptionConfig</a>
 				</li>
 			</ul>
-			<h1>Interface RunDepOptions</h1>
+			<h1>Interface OptionConfig</h1>
 		</div>
 	</div>
 </header>
@@ -68,12 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">RunDepOptions</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<a href="runtaskoptions.html" class="tsd-signature-type">RunTaskOptions</a>
-							</li>
-						</ul>
+						<span class="target">OptionConfig</span>
 					</li>
 				</ul>
 			</section>
@@ -84,10 +79,8 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="rundepoptions.html#indent" class="tsd-kind-icon">indent</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="rundepoptions.html#loading" class="tsd-kind-icon">loading</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="rundepoptions.html#parentctx" class="tsd-kind-icon">parent<wbr>Ctx</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="rundepoptions.html#rawargs" class="tsd-kind-icon">raw<wbr>Args</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="optionconfig.html#default" class="tsd-kind-icon">default</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="optionconfig.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 					</div>
@@ -96,47 +89,22 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="indent" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> indent</h3>
-					<div class="tsd-signature tsd-kind-icon">indent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<a name="default" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> default</h3>
+					<div class="tsd-signature tsd-kind-icon">default<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/a41f8f2/src/task-manager.ts#L48">src/task-manager.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/a41f8f2/src/task.ts#L10">src/task.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="loading" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> loading</h3>
-					<div class="tsd-signature tsd-kind-icon">loading<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<a name="type" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> type</h3>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/a41f8f2/src/task-manager.ts#L47">src/task-manager.ts:47</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>default is false</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="parentctx" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> parent<wbr>Ctx</h3>
-					<div class="tsd-signature tsd-kind-icon">parent<wbr>Ctx<span class="tsd-signature-symbol">:</span> <a href="../classes/taskcontext.html" class="tsd-signature-type">TaskContext</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/a41f8f2/src/task-manager.ts#L45">src/task-manager.ts:45</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="rawargs" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> raw<wbr>Args</h3>
-					<div class="tsd-signature tsd-kind-icon">raw<wbr>Args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/a41f8f2/src/task-manager.ts#L44">src/task-manager.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/a41f8f2/src/task.ts#L11">src/task.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -155,19 +123,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-is-external">
-						<a href="rundepoptions.html" class="tsd-kind-icon">Run<wbr>Dep<wbr>Options</a>
+						<a href="optionconfig.html" class="tsd-kind-icon">Option<wbr>Config</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="rundepoptions.html#indent" class="tsd-kind-icon">indent</a>
+								<a href="optionconfig.html#default" class="tsd-kind-icon">default</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="rundepoptions.html#loading" class="tsd-kind-icon">loading</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="rundepoptions.html#parentctx" class="tsd-kind-icon">parent<wbr>Ctx</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="rundepoptions.html#rawargs" class="tsd-kind-icon">raw<wbr>Args</a>
+								<a href="optionconfig.html#type" class="tsd-kind-icon">type</a>
 							</li>
 						</ul>
 					</li>

@@ -64,7 +64,7 @@ describe('task', function () {
     }
     await Promise.all(tests.map(t => t.init()))
     console.log('init')
-  }, 60 * 1000)
+  }, 600 * 1000)
   tests.forEach(t => t.it())
 })
 

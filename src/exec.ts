@@ -4,18 +4,23 @@ import { logger as _logger } from './logger'
 import { sleep, Is, DefaultLogFile } from './utils'
 import { fs } from './fs'
 import { Stream, Writable } from 'stream'
+const shellParser = require('shell-parser')
 export { execa }
 
+function _exec(cmd: string, options?: execa.Options) {
+  let [file, ...args] = shellParser(cmd)
+  return execa(file, args, options)
+}
 export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess
-export function exec(commands: string[], options?: execa.Options): Promise<execa.ExecaReturns[]>
+export function exec(commands: string[], options?: execa.Options): Promise<execa.ExecaSyncReturnValue[]>
 export async function exec(commands: string | string[], options?: execa.Options) {
   if (Is.str(commands)) {
-    return execa.shell(commands, options)
+    return _exec(commands, options)
   }
 
-  let rets: execa.ExecaReturns[] = []
+  let rets: execa.ExecaSyncReturnValue[] = []
   for (let cmd of commands) {
-    rets.push(await execa.shell(cmd, options))
+    rets.push(await _exec(cmd, options))
   }
   return rets
 }
@@ -65,7 +70,7 @@ export class ShellContext {
    * @param options
    */
   exec(command: string, options?: execa.Options): execa.ExecaChildProcess
-  exec(commands: string[], options?: execa.Options): Promise<execa.ExecaReturns[]>
+  exec(commands: string[], options?: execa.Options): Promise<execa.ExecaSyncReturnValue[]>
   exec(commands: string | string[], options?: execa.Options): any {
     this._logCmd(commands)
     let p = exec(commands as any, {
