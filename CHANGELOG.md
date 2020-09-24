@@ -1,3 +1,9 @@
+#### 0.2.1 (2020-09-24)
+
+##### Chores
+
+*  upgrade deps & fix types ([ab13b7b5](https://github.com/zaaack/foy/commit/ab13b7b51d6709938e1e00a2fc215120b11f1eb9))
+
 ### 0.2.0 (2020-09-14)
 
 ##### Chores
