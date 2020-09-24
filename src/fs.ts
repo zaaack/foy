@@ -270,12 +270,12 @@ export const fs = {
       await fs.unlink(path)
     }
   },
-  async outputFile(path: string, data: any, options?: { encoding?: string | null, mode?: string | number, flag?: string } | string | null) {
+  async outputFile(path: string, data: any, options?: _fs.WriteFileOptions) {
     let dir = pathLib.dirname(path)
     await fs.mkdirp(dir)
     return fs.writeFile(path, data, options)
   },
-  outputFileSync(path: string, data: any, options?: { encoding?: string | null, mode?: string | number, flag?: string } | string | null) {
+  outputFileSync(path: string, data: any, options?: _fs.WriteFileOptions) {
     let dir = pathLib.dirname(path)
     fs.mkdirpSync(dir)
     return fs.writeFileSync(path, data, options)
@@ -284,12 +284,9 @@ export const fs = {
     path: string,
     data: object,
     options?: {
-      encoding?: string | null,
-      mode?: string | number,
-      flag?: string,
       space?: number,
       replacer?: (key: string, value: any) => any,
-    } | string | null
+    } & _fs.WriteFileOptions
   ) {
     const [replacer, space] = Is.obj(options)
       ? [options.replacer, options.space]
@@ -300,12 +297,9 @@ export const fs = {
     path: string,
     data: any,
     options?: {
-      encoding?: string | null,
-      mode?: string | number,
-      flag?: string
       space?: number,
       replacer?: (key: string, value: any) => any,
-    } | string | null,
+    } & _fs.WriteFileOptions,
   ) {
     const [replacer, space] = Is.obj(options)
       ? [options.replacer, options.space]

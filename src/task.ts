@@ -1,5 +1,4 @@
 import chalk from 'chalk'
-import { OptionConfig } from 'cac/types/Option'
 import { ShellContext } from './exec'
 import { hashAny, Is, defaults } from './utils'
 import { fs } from './fs'
@@ -7,7 +6,10 @@ import { logger } from './logger'
 import { CliLoading } from './cli-loading'
 import { DepBuilder } from './dep-builder'
 import { GlobalOptions, RunTaskOptions, getGlobalTaskManager, TaskContext, LogOptions, ListenerNames } from './task-manager'
-
+interface OptionConfig {
+  default?: any;
+  type?: any[];
+}
 export type OptionDef = [string, string, OptionConfig | undefined]
 
 export type TaskFn<O, T = any> = (ctx: TaskContext<O>) => T | Promise<T>

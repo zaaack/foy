@@ -1,1 +1,15 @@
-error: Unknown option `-b`
+
+/Users/z/Projects/Node/foy/node_modules/cac/dist/index.js:391
+          throw new CACError(`Unknown option \`${name.length > 1 ? `--${name}` : `-${name}`}\``);
+                ^
+CACError: Unknown option `-b`
+    at Command.checkUnknownOptions (/Users/z/Projects/Node/foy/node_modules/cac/dist/index.js:391:17)
+    at CAC.runMatchedCommand (/Users/z/Projects/Node/foy/node_modules/cac/dist/index.js:585:13)
+    at CAC.parse (/Users/z/Projects/Node/foy/node_modules/cac/dist/index.js:526:12)
+    at Object.<anonymous> (/Users/z/Projects/Node/foy/src/cli.ts:213:9)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Module.m._compile (/Users/z/Projects/Node/foy/node_modules/ts-node/src/index.ts:1043:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Object.require.extensions.(anonymous function) [as .ts] (/Users/z/Projects/Node/foy/node_modules/ts-node/src/index.ts:1046:12)
+    at Module.load (internal/modules/cjs/loader.js:599:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)

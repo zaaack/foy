@@ -6,16 +6,6 @@ import { DepsTree, TaskState } from './task-manager'
 import wcwidth from 'wcwidth'
 import stripAnsi from 'strip-ansi'
 
-declare global {
-  namespace NodeJS {
-    export interface WriteStream {
-      clearLine(dir?: number)
-      cursorTo(x: number, y?: number)
-      moveCursor(dx: number, dy: number)
-    }
-  }
-}
-
 export interface Props {
   depsTree: DepsTree
   indent?: number
@@ -47,7 +37,7 @@ export class CliLoading {
     let indent = Array(depsTree.depth * this.props.indent)
       .fill(' ')
       .join('')
-    let frames = Spinners.dots.frames as string[]
+    let frames = Spinners.dots.frames
     let symbol = {
       [TaskState.waiting]: chalk.gray(logFigures.ellipsis),
       [TaskState.pending]: chalk.blueBright(logFigures.arrowRight),
@@ -107,7 +97,7 @@ export class CliLoading {
       if (i > 0) {
         this.props.stream.moveCursor(0, -1)
       }
-      this.props.stream.clearLine()
+      this.props.stream.clearLine && (this.props.stream as any).clearLine()
       this.props.stream.cursorTo(0)
     }
     this.linesToClear = 0

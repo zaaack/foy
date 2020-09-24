@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>foy</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for foy">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -54,7 +54,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> foy</h1>
+			<h1>foy</h1>
 		</div>
 	</div>
 </header>
@@ -62,10 +62,14 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="foy">Foy</h1>
+				<a href="#foy" id="foy" style="color: inherit; text-decoration: none;">
+					<h1>Foy</h1>
+				</a>
 				<p><a href="https://travis-ci.org/zaaack/foy"><img src="https://travis-ci.org/zaaack/foy.svg?branch=master" alt="Build Status"></a> <a href="https://www.npmjs.com/package/foy"><img src="https://img.shields.io/npm/v/foy.svg" alt="npm"></a> <a href="https://www.npmjs.com/package/foy"><img src="https://img.shields.io/npm/dm/foy.svg" alt="npm"></a> <a href="https://packagephobia.now.sh/result?p=foy"><img src="https://packagephobia.now.sh/badge?p=foy" alt="install size"></a></p>
 				<p>A simple, light-weight and modern task runner for general purpose.</p>
-				<h2 id="contents">Contents</h2>
+				<a href="#contents" id="contents" style="color: inherit; text-decoration: none;">
+					<h2>Contents</h2>
+				</a>
 				<ul>
 					<li><a href="#foy">Foy</a><ul>
 							<li><a href="#contents">Contents</a></li>
@@ -92,7 +96,9 @@
 						</ul>
 					</li>
 				</ul>
-				<h2 id="features">Features</h2>
+				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+					<h2>Features</h2>
+				</a>
 				<ul>
 					<li>Promise-based tasks and built-in utilities.</li>
 					<li><a href="https://github.com/shelljs/shelljs" target="_blank">shelljs</a> like commands</li>
@@ -105,119 +111,129 @@
 					</li>
 				</ul>
 				<p><img src="https://github.com/zaaack/foy/blob/master/docs/capture.gif?raw=true" alt="GIF"></p>
-				<h2 id="install">Install</h2>
+				<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+					<h2>Install</h2>
+				</a>
 				<pre><code class="language-sh">yarn add -D foy <span class="hljs-comment"># or npm i -D foy</span></code></pre>
 				<p>Or Install globally with</p>
 				<pre><code class="language-sh">yarn add -g foy <span class="hljs-comment"># or npm i -g foy</span></code></pre>
-				<h2 id="write-a-foyfile">Write a Foyfile</h2>
+				<a href="#write-a-foyfile" id="write-a-foyfile" style="color: inherit; text-decoration: none;">
+					<h2>Write a Foyfile</h2>
+				</a>
 				<p>You need to add a Foyfile.js(or Foyfile.ts with <a href="https://github.com/TypeStrong/ts-node">ts-node</a> installed) in your project root.</p>
 				<p>Also, you can simply generate a Foyfile.js via:</p>
 				<pre><code class="language-sh">foy --init</code></pre>
 				<p>Then it will put a simple <code>Foyfile.js</code> in current folder:</p>
 				<pre><code class="language-js"><span class="hljs-comment">// Foyfile.js</span>
-<span class="hljs-keyword">const</span> { task } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'foy'</span>)
+<span class="hljs-keyword">const</span> { task } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;foy&#x27;</span>)
 
-task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
-  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'tsc'</span>)
+task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;tsc&#x27;</span>)
 })</code></pre>
 				<p>You can also generate a <code>Foyfile.ts</code> via</p>
 				<pre><code class="language-sh">foy --init ts</code></pre>
 				<p>Then we can run <code>foy build</code> to execute the <code>build</code> task.</p>
 				<pre><code class="language-sh">foy build</code></pre>
 				<p>You can also add some options and description to a single task:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, desc, option, strict } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, desc, option, strict } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
-desc(<span class="hljs-string">'Build ts files with tsc'</span>)
-option(<span class="hljs-string">'-w, --watch'</span>, <span class="hljs-string">'watch file changes'</span>)
-strict() <span class="hljs-comment">// This will throw an error if you passed some options that doesn't defined via `option()`</span>
-task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
-  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">`tsc <span class="hljs-subst">${ctx.options.watch ? '-w' : ''}</span>`</span>)
+desc(<span class="hljs-string">&#x27;Build ts files with tsc&#x27;</span>)
+option(<span class="hljs-string">&#x27;-w, --watch&#x27;</span>, <span class="hljs-string">&#x27;watch file changes&#x27;</span>)
+strict() <span class="hljs-comment">// This will throw an error if you passed some options that doesn&#x27;t defined via `option()`</span>
+task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">`tsc <span class="hljs-subst">${ctx.options.watch ? <span class="hljs-string">&#x27;-w&#x27;</span> : <span class="hljs-string">&#x27;&#x27;</span>}</span>`</span>)
 })</code></pre>
 				<pre><code class="language-sh">foy build -w</code></pre>
 				<p>Warning! If you want to set flags like strict to all tasks, please use <code>setGlobalOptions</code>, e.g.</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { setGlobalOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { setGlobalOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
-setGlobalOptions({ strict: <span class="hljs-literal">true</span> }) <span class="hljs-comment">// all tasks' options will be strict.</span>
+setGlobalOptions({ strict: <span class="hljs-literal">true</span> }) <span class="hljs-comment">// all tasks&#x27; options will be strict.</span>
 
-option(<span class="hljs-string">'-aa'</span>) <span class="hljs-comment">// strict via default</span>
-task(<span class="hljs-string">'dev'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+option(<span class="hljs-string">&#x27;-aa&#x27;</span>) <span class="hljs-comment">// strict via default</span>
+task(<span class="hljs-string">&#x27;dev&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
 
 })
-option(<span class="hljs-string">'-bb'</span>) <span class="hljs-comment">// strict via default</span>
-task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+option(<span class="hljs-string">&#x27;-bb&#x27;</span>) <span class="hljs-comment">// strict via default</span>
+task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
 
 })
 </code></pre>
-				<h2 id="using-with-built-in-promised-based-api">Using with built-in promised-based API</h2>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { fs, task } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+				<a href="#using-with-built-in-promised-based-api" id="using-with-built-in-promised-based-api" style="color: inherit; text-decoration: none;">
+					<h2>Using with built-in promised-based API</h2>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { fs, task } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
-task(<span class="hljs-string">'some task'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
-  <span class="hljs-keyword">await</span> fs.rmrf(<span class="hljs-string">'/some/dir/or/file'</span>) <span class="hljs-comment">// Remove directory or file</span>
-  <span class="hljs-keyword">await</span> fs.copy(<span class="hljs-string">'/src'</span>, <span class="hljs-string">'/dist'</span>) <span class="hljs-comment">// Copy folder or file</span>
-  <span class="hljs-keyword">let</span> json = <span class="hljs-keyword">await</span> fs.readJson(<span class="hljs-string">'./xx.json'</span>)
+task(<span class="hljs-string">&#x27;some task&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-keyword">await</span> fs.rmrf(<span class="hljs-string">&#x27;/some/dir/or/file&#x27;</span>) <span class="hljs-comment">// Remove directory or file</span>
+  <span class="hljs-keyword">await</span> fs.copy(<span class="hljs-string">&#x27;/src&#x27;</span>, <span class="hljs-string">&#x27;/dist&#x27;</span>) <span class="hljs-comment">// Copy folder or file</span>
+  <span class="hljs-keyword">let</span> json = <span class="hljs-keyword">await</span> fs.readJson(<span class="hljs-string">&#x27;./xx.json&#x27;</span>)
   <span class="hljs-keyword">await</span> ctx
-    .env(<span class="hljs-string">'NODE_ENV'</span>, <span class="hljs-string">'production'</span>)
-    .cd(<span class="hljs-string">'./src'</span>)
-    .exec(<span class="hljs-string">'some command'</span>) <span class="hljs-comment">// Execute an command</span>
-  <span class="hljs-keyword">let</span> { stdout } = <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'ls'</span>, { stdio: <span class="hljs-string">'pipe'</span> }) <span class="hljs-comment">// Get the stdout, default is empty because it's redirected to current process via `stdio: 'inherit'`.</span>
+    .env(<span class="hljs-string">&#x27;NODE_ENV&#x27;</span>, <span class="hljs-string">&#x27;production&#x27;</span>)
+    .cd(<span class="hljs-string">&#x27;./src&#x27;</span>)
+    .exec(<span class="hljs-string">&#x27;some command&#x27;</span>) <span class="hljs-comment">// Execute an command</span>
+  <span class="hljs-keyword">let</span> { stdout } = <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;ls&#x27;</span>, { stdio: <span class="hljs-string">&#x27;pipe&#x27;</span> }) <span class="hljs-comment">// Get the stdout, default is empty because it&#x27;s redirected to current process via `stdio: &#x27;inherit&#x27;`.</span>
 })</code></pre>
-				<h2 id="using-with-other-packages">Using with other packages</h2>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, logger } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">'axios'</span>
+				<a href="#using-with-other-packages" id="using-with-other-packages" style="color: inherit; text-decoration: none;">
+					<h2>Using with other packages</h2>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, logger } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;axios&#x27;</span>
 
-task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
-  <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> axios.get(<span class="hljs-string">'https://your.server/data.json'</span>)
+task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> axios.get(<span class="hljs-string">&#x27;https://your.server/data.json&#x27;</span>)
   logger.info(res.data)
 })</code></pre>
-				<h2 id="using-dependencies">Using dependencies</h2>
+				<a href="#using-dependencies" id="using-dependencies" style="color: inherit; text-decoration: none;">
+					<h2>Using dependencies</h2>
+				</a>
 				<pre><code class="language-ts">
-<span class="hljs-keyword">import</span> { task } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">'axios'</span>
+<span class="hljs-keyword">import</span> { task } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;axios&#x27;</span>
 
-task(<span class="hljs-string">'test'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
-  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'mocha'</span>)
+task(<span class="hljs-string">&#x27;test&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;mocha&#x27;</span>)
 })
 
-task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
-  <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> axios.get(<span class="hljs-string">'https://your.server/data.json'</span>)
+task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> axios.get(<span class="hljs-string">&#x27;https://your.server/data.json&#x27;</span>)
   <span class="hljs-built_in">console</span>.log(res.data)
-  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'build my awesome project'</span>)
+  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;build my awesome project&#x27;</span>)
 })
 task(
-  <span class="hljs-string">'publish:patch'</span>,
-  [<span class="hljs-string">'test'</span>, <span class="hljs-string">'build'</span>], <span class="hljs-comment">// Run test and build before publish</span>
+  <span class="hljs-string">&#x27;publish:patch&#x27;</span>,
+  [<span class="hljs-string">&#x27;test&#x27;</span>, <span class="hljs-string">&#x27;build&#x27;</span>], <span class="hljs-comment">// Run test and build before publish</span>
   <span class="hljs-keyword">async</span> ctx =&gt; {
-    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm version patch'</span>)
-    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm publish'</span>)
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;npm version patch&#x27;</span>)
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;npm publish&#x27;</span>)
   }
 )</code></pre>
 				<p>Dependencies are running serially by default, but you can specific them running concurrently.</p>
 				<p>e.g. Passing running options to dependencies.</p>
 				<pre><code class="language-ts">task(
-  <span class="hljs-string">'publish:patch'</span>,
+  <span class="hljs-string">&#x27;publish:patch&#x27;</span>,
   [{
-    name: <span class="hljs-string">'test'</span>,
+    name: <span class="hljs-string">&#x27;test&#x27;</span>,
     <span class="hljs-keyword">async</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// run test parallelly</span>
     force: <span class="hljs-literal">true</span>, <span class="hljs-comment">// force rerun test whether it is executed before or not,</span>
   }, {
-    name: <span class="hljs-string">'build'</span>,
+    name: <span class="hljs-string">&#x27;build&#x27;</span>,
     <span class="hljs-keyword">async</span>: <span class="hljs-literal">true</span>,
     force: <span class="hljs-literal">true</span>,
   },],
   <span class="hljs-keyword">async</span> ctx =&gt; {
-    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm version patch'</span>)
-    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm publish'</span>)
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;npm version patch&#x27;</span>)
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;npm publish&#x27;</span>)
   }
 )
 
 <span class="hljs-comment">/* Sugar version */</span>
 task(
-  <span class="hljs-string">'publish:patch'</span>,
-  [ <span class="hljs-string">'test'</span>.async().force(),
-    <span class="hljs-string">'build'</span>.async().force() ],
+  <span class="hljs-string">&#x27;publish:patch&#x27;</span>,
+  [ <span class="hljs-string">&#x27;test&#x27;</span>.async().force(),
+    <span class="hljs-string">&#x27;build&#x27;</span>.async().force() ],
   <span class="hljs-keyword">async</span> ctx =&gt; {
-    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm version patch'</span>)
-    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm publish'</span>)
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;npm version patch&#x27;</span>)
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;npm publish&#x27;</span>)
   }
 )
 
@@ -228,23 +244,23 @@ Default is 0, bigger is formmer, then we will run `build` before `test`.
 If you have multi async dependencies with same priority, they will be executed parallel.
 */</span>
 task(
-  <span class="hljs-string">'publish:patch'</span>,
-  [ <span class="hljs-string">'test'</span>.async(<span class="hljs-number">0</span>).force(),
-    <span class="hljs-string">'build'</span>.async(<span class="hljs-number">1</span>).force() ],
+  <span class="hljs-string">&#x27;publish:patch&#x27;</span>,
+  [ <span class="hljs-string">&#x27;test&#x27;</span>.async(<span class="hljs-number">0</span>).force(),
+    <span class="hljs-string">&#x27;build&#x27;</span>.async(<span class="hljs-number">1</span>).force() ],
   <span class="hljs-keyword">async</span> ctx =&gt; {
-    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm version patch'</span>)
-    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'npm publish'</span>)
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;npm version patch&#x27;</span>)
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;npm publish&#x27;</span>)
   }
 )</code></pre>
 				<p>You can also pass options to dependences:</p>
-				<pre><code class="language-ts">task(<span class="hljs-string">'task1'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
-  <span class="hljs-built_in">console</span>.log(ctx.options) <span class="hljs-comment">// "{ forceRebuild: true, lazyOptions: 1 }"</span>
-  <span class="hljs-built_in">console</span>.log(ctx.global.options) <span class="hljs-comment">// options from command line "{ a: 1 }"</span>
+				<pre><code class="language-ts">task(<span class="hljs-string">&#x27;task1&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-built_in">console</span>.log(ctx.options) <span class="hljs-comment">// &quot;{ forceRebuild: true, lazyOptions: 1 }&quot;</span>
+  <span class="hljs-built_in">console</span>.log(ctx.global.options) <span class="hljs-comment">// options from command line &quot;{ a: 1 }&quot;</span>
 })
 
 
-task(<span class="hljs-string">'task2'</span>, [{
-  name: <span class="hljs-string">'task1'</span>,
+task(<span class="hljs-string">&#x27;task2&#x27;</span>, [{
+  name: <span class="hljs-string">&#x27;task1&#x27;</span>,
   options: {
     forceRebuild: <span class="hljs-literal">true</span>,
   },
@@ -256,125 +272,137 @@ task(<span class="hljs-string">'task2'</span>, [{
 }])
 
 <span class="hljs-comment">// foy task2 -a 1</span></code></pre>
-				<h2 id="using-namespaces">Using namespaces</h2>
+				<a href="#using-namespaces" id="using-namespaces" style="color: inherit; text-decoration: none;">
+					<h2>Using namespaces</h2>
+				</a>
 				<p>If you have lots of tasks, naming might be a problem, what foy do is to making life easier, but more anxious. So we provide a <code>namespace</code> function to group tasks with namespaces.</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, <span class="hljs-keyword">namespace</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, <span class="hljs-keyword">namespace</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
-<span class="hljs-keyword">namespace</span>(<span class="hljs-string">'client'</span>, <span class="hljs-function"><span class="hljs-params">ns</span> =&gt;</span> {
-  before(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-    logger.info(<span class="hljs-string">'before'</span>)
+<span class="hljs-keyword">namespace</span>(<span class="hljs-string">&#x27;client&#x27;</span>, <span class="hljs-function"><span class="hljs-params">ns</span> =&gt;</span> {
+  before(<span class="hljs-function">() =&gt;</span> {
+    logger.info(<span class="hljs-string">&#x27;before&#x27;</span>)
   })
-  after(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-    logger.info(<span class="hljs-string">'after'</span>)
+  after(<span class="hljs-function">() =&gt;</span> {
+    logger.info(<span class="hljs-string">&#x27;after&#x27;</span>)
   })
-  onerror(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-    logger.info(<span class="hljs-string">'onerror'</span>)
+  onerror(<span class="hljs-function">() =&gt;</span> {
+    logger.info(<span class="hljs-string">&#x27;onerror&#x27;</span>)
   })
-  task(<span class="hljs-string">'start'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:start</span>
-  task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:build</span>
-  task(<span class="hljs-string">'watch'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:watch</span>
-  <span class="hljs-keyword">namespace</span>(<span class="hljs-string">'proj1'</span>, <span class="hljs-function"><span class="hljs-params">ns</span> =&gt;</span> { <span class="hljs-comment">// nested namespace</span>
-    onerror(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-      logger.info(<span class="hljs-string">'onerror'</span>, ns)
+  task(<span class="hljs-string">&#x27;start&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:start</span>
+  task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:build</span>
+  task(<span class="hljs-string">&#x27;watch&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:watch</span>
+  <span class="hljs-keyword">namespace</span>(<span class="hljs-string">&#x27;proj1&#x27;</span>, <span class="hljs-function"><span class="hljs-params">ns</span> =&gt;</span> { <span class="hljs-comment">// nested namespace</span>
+    onerror(<span class="hljs-function">() =&gt;</span> {
+      logger.info(<span class="hljs-string">&#x27;onerror&#x27;</span>, ns)
     })
-    task(<span class="hljs-string">'start'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:proj1:start</span>
+    task(<span class="hljs-string">&#x27;start&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// client:proj1:start</span>
 
   })
 })
 
-<span class="hljs-keyword">namespace</span>(<span class="hljs-string">'server'</span>, <span class="hljs-function"><span class="hljs-params">ns</span> =&gt;</span> {
-  task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:build</span>
-  task(<span class="hljs-string">'start'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:start</span>
-  task(<span class="hljs-string">'watch'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:watch</span>
+<span class="hljs-keyword">namespace</span>(<span class="hljs-string">&#x27;server&#x27;</span>, <span class="hljs-function"><span class="hljs-params">ns</span> =&gt;</span> {
+  task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:build</span>
+  task(<span class="hljs-string">&#x27;start&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:start</span>
+  task(<span class="hljs-string">&#x27;watch&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> }) <span class="hljs-comment">// server:watch</span>
 })
 
-task(<span class="hljs-string">'start'</span>, [<span class="hljs-string">'client:start'</span>.async(), <span class="hljs-string">'server:start'</span>.async()]) <span class="hljs-comment">// start</span>
+task(<span class="hljs-string">&#x27;start&#x27;</span>, [<span class="hljs-string">&#x27;client:start&#x27;</span>.async(), <span class="hljs-string">&#x27;server:start&#x27;</span>.async()]) <span class="hljs-comment">// start</span>
 
 <span class="hljs-comment">// foy start</span>
 <span class="hljs-comment">// foy client:build</span></code></pre>
-				<h2 id="useful-utils">Useful utils</h2>
-				<h3 id="fs">fs</h3>
+				<a href="#useful-utils" id="useful-utils" style="color: inherit; text-decoration: none;">
+					<h2>Useful utils</h2>
+				</a>
+				<a href="#fs" id="fs" style="color: inherit; text-decoration: none;">
+					<h3>fs</h3>
+				</a>
 				<p>Foy wrap fs module with promises, so we can use it in async/await smoothly. Foy also implements some useful functions for build scripts which missing in nodejs built-in modules.</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { fs } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { fs } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
 
-task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
-  <span class="hljs-keyword">let</span> f = <span class="hljs-keyword">await</span> fs.readFileSync(<span class="hljs-string">'./assets/someFile'</span>)
+task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-keyword">let</span> f = <span class="hljs-keyword">await</span> fs.readFileSync(<span class="hljs-string">&#x27;./assets/someFile&#x27;</span>)
 
   <span class="hljs-comment">// copy file or directory</span>
-  <span class="hljs-keyword">await</span> fs.copy(<span class="hljs-string">'./fromPath'</span>, <span class="hljs-string">'./toPath'</span>)
+  <span class="hljs-keyword">await</span> fs.copy(<span class="hljs-string">&#x27;./fromPath&#x27;</span>, <span class="hljs-string">&#x27;./toPath&#x27;</span>)
 
   <span class="hljs-comment">// watch a directory</span>
-  <span class="hljs-keyword">await</span> fs.watchDir(<span class="hljs-string">'./src'</span>, <span class="hljs-function">(<span class="hljs-params">event, filename</span>) =&gt;</span> {
+  <span class="hljs-keyword">await</span> fs.watchDir(<span class="hljs-string">&#x27;./src&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event, filename</span>) =&gt;</span> {
     logger.info(event, filename)
   })
 
   <span class="hljs-comment">// make directory with parent directories</span>
-  <span class="hljs-keyword">await</span> fs.mkdirp(<span class="hljs-string">'./some/directory/with/parents/not/exists'</span>)
+  <span class="hljs-keyword">await</span> fs.mkdirp(<span class="hljs-string">&#x27;./some/directory/with/parents/not/exists&#x27;</span>)
 
   <span class="hljs-comment">// write file will auto create missing parent directories</span>
-  <span class="hljs-keyword">await</span> fs.outputFile(<span class="hljs-string">'./some/file/with/parents/not/exists'</span>, <span class="hljs-string">'file data'</span>)
+  <span class="hljs-keyword">await</span> fs.outputFile(<span class="hljs-string">&#x27;./some/file/with/parents/not/exists&#x27;</span>, <span class="hljs-string">&#x27;file data&#x27;</span>)
 
   <span class="hljs-comment">// write json file will auto create missing parent directories</span>
-  <span class="hljs-keyword">await</span> fs.outputJson(<span class="hljs-string">'./some/file/with/parents/not/exists'</span>, {text: <span class="hljs-string">'json data'</span>})
-  <span class="hljs-keyword">let</span> file = <span class="hljs-keyword">await</span> fs.readJson(<span class="hljs-string">'./some/jsonFile'</span>)
+  <span class="hljs-keyword">await</span> fs.outputJson(<span class="hljs-string">&#x27;./some/file/with/parents/not/exists&#x27;</span>, {text: <span class="hljs-string">&#x27;json data&#x27;</span>})
+  <span class="hljs-keyword">let</span> file = <span class="hljs-keyword">await</span> fs.readJson(<span class="hljs-string">&#x27;./some/jsonFile&#x27;</span>)
 
   <span class="hljs-comment">// iterate directory tree</span>
-  <span class="hljs-keyword">await</span> fs.iter(<span class="hljs-string">'./src'</span>, <span class="hljs-keyword">async</span> (path, stat) =&gt; {
+  <span class="hljs-keyword">await</span> fs.iter(<span class="hljs-string">&#x27;./src&#x27;</span>, <span class="hljs-keyword">async</span> (path, stat) =&gt; {
     <span class="hljs-keyword">if</span> (stat.isDirectory()) {
-      logger.info(<span class="hljs-string">'directory:'</span>, path)
+      logger.info(<span class="hljs-string">&#x27;directory:&#x27;</span>, path)
       <span class="hljs-comment">// skip scan node_modules</span>
-      <span class="hljs-keyword">if</span> (path.endsWith(<span class="hljs-string">'node_modules'</span>)) {
+      <span class="hljs-keyword">if</span> (path.endsWith(<span class="hljs-string">&#x27;node_modules&#x27;</span>)) {
         <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
       }
     } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (stat.isFile()) {
-      logger.warn(<span class="hljs-string">'file:'</span>, path)
+      logger.warn(<span class="hljs-string">&#x27;file:&#x27;</span>, path)
     }
   })
 })</code></pre>
-				<h3 id="logger">logger</h3>
+				<a href="#logger" id="logger" style="color: inherit; text-decoration: none;">
+					<h3>logger</h3>
+				</a>
 				<p>Light weight built-in logger</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { logger } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { logger } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
-task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
 
-  logger.debug(<span class="hljs-string">'debug'</span>, { aa: <span class="hljs-number">1</span>})
-  logger.info(<span class="hljs-string">'info'</span>)
-  logger.warn(<span class="hljs-string">'warn'</span>)
-  logger.error(<span class="hljs-string">'error'</span>)
+  logger.debug(<span class="hljs-string">&#x27;debug&#x27;</span>, { aa: <span class="hljs-number">1</span>})
+  logger.info(<span class="hljs-string">&#x27;info&#x27;</span>)
+  logger.warn(<span class="hljs-string">&#x27;warn&#x27;</span>)
+  logger.error(<span class="hljs-string">&#x27;error&#x27;</span>)
 
 })
 </code></pre>
-				<h3 id="exec-command">exec command</h3>
+				<a href="#exec-command" id="exec-command" style="color: inherit; text-decoration: none;">
+					<h3>exec command</h3>
+				</a>
 				<p>A simple wrapper for sindresorhus&#39; lovely module
 				<a href="https://github.com/sindresorhus/execa">execa</a></p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { logger } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { logger } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
-task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
-  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">'tsc'</span>)
+task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;tsc&#x27;</span>)
 
   <span class="hljs-comment">// run multiple commands synchronously</span>
   <span class="hljs-keyword">await</span> ctx.exec([
-    <span class="hljs-string">'tsc --outDir ./lib'</span>,
-    <span class="hljs-string">'tsc --module es6 --outDir ./es'</span>,
+    <span class="hljs-string">&#x27;tsc --outDir ./lib&#x27;</span>,
+    <span class="hljs-string">&#x27;tsc --module es6 --outDir ./es&#x27;</span>,
   ])
 
   <span class="hljs-comment">// run multiple commands concurrently</span>
   <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([
-    ctx.exec(<span class="hljs-string">'eslint'</span>),
-    ctx.exec(<span class="hljs-string">'tsc'</span>),
-    ctx.exec(<span class="hljs-string">'typedoc'</span>),
+    ctx.exec(<span class="hljs-string">&#x27;eslint&#x27;</span>),
+    ctx.exec(<span class="hljs-string">&#x27;tsc&#x27;</span>),
+    ctx.exec(<span class="hljs-string">&#x27;typedoc&#x27;</span>),
   ])
 })
 
 </code></pre>
-				<h2 id="using-in-ci-servers">Using in CI servers</h2>
+				<a href="#using-in-ci-servers" id="using-in-ci-servers" style="color: inherit; text-decoration: none;">
+					<h2>Using in CI servers</h2>
+				</a>
 				<p>If you use Foy in CI servers, you might won&#39;t want the loading because most CI servers will log the stdout and stderr to files, the loading will be logged as frames. Luckily, Foy has already considered this use case, you can simple disable the loading behavior like this:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, setGlobalOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, setGlobalOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
 setGlobalOptions({ loading: <span class="hljs-literal">false</span> }) <span class="hljs-comment">// disable loading animations</span>
 
-task(<span class="hljs-string">'test'</span>, <span class="hljs-keyword">async</span> cyx =&gt; { <span class="hljs-comment">/* ... */</span> })
+task(<span class="hljs-string">&#x27;test&#x27;</span>, <span class="hljs-keyword">async</span> cyx =&gt; { <span class="hljs-comment">/* ... */</span> })
 <span class="hljs-comment">/*
 $ foy test
 DependencyGraph for task [test]:
@@ -383,45 +411,53 @@ DependencyGraph for task [test]:
 Task: test
 ...
 */</span></code></pre>
-				<h2 id="using-lifecycle-hooks">Using lifecycle hooks</h2>
+				<a href="#using-lifecycle-hooks" id="using-lifecycle-hooks" style="color: inherit; text-decoration: none;">
+					<h2>Using lifecycle hooks</h2>
+				</a>
 				<p>You can use before/after/onerror to do something in lifecycles.</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { before, after, onerror } <span class="hljs-keyword">from</span> <span class="hljs-string">'foy'</span>
-before(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> { <span class="hljs-comment">// do something before all tasks tree start</span>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { before, after, onerror } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
+before(<span class="hljs-function">() =&gt;</span> { <span class="hljs-comment">// do something before all tasks tree start</span>
   <span class="hljs-comment">// ...</span>
 })
-after(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> { <span class="hljs-comment">// do something after all tasks tree finished</span>
+after(<span class="hljs-function">() =&gt;</span> { <span class="hljs-comment">// do something after all tasks tree finished</span>
   <span class="hljs-comment">// ...</span>
 })
 onerror(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> { <span class="hljs-comment">// do something when error happens</span>
   <span class="hljs-comment">// ...</span>
 })</code></pre>
-				<h2 id="run-task-in-task">run task in task</h2>
+				<a href="#run-task-in-task" id="run-task-in-task" style="color: inherit; text-decoration: none;">
+					<h2>run task in task</h2>
+				</a>
 				<pre><code class="language-ts">
-task(<span class="hljs-string">'task1'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> })
-task(<span class="hljs-string">'task2'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+task(<span class="hljs-string">&#x27;task1&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* ... */</span> })
+task(<span class="hljs-string">&#x27;task2&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
   <span class="hljs-comment">// do things before task1</span>
 
   <span class="hljs-comment">// run task1 manually, so we can</span>
   <span class="hljs-comment">// do things before or after it</span>
-  <span class="hljs-keyword">await</span> ctx.run(<span class="hljs-string">'task1'</span>)
+  <span class="hljs-keyword">await</span> ctx.run(<span class="hljs-string">&#x27;task1&#x27;</span>)
 
   <span class="hljs-comment">// do things after task1</span>
 })
 </code></pre>
-				<h2 id="watch-and-build">Watch and build</h2>
+				<a href="#watch-and-build" id="watch-and-build" style="color: inherit; text-decoration: none;">
+					<h2>Watch and build</h2>
+				</a>
 				<pre><code class="language-ts">
-task(<span class="hljs-string">'build'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* build your project */</span> })
-task(<span class="hljs-string">'run'</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* start your project */</span> })
+task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* build your project */</span> })
+task(<span class="hljs-string">&#x27;run&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">/* start your project */</span> })
 
 <span class="hljs-keyword">let</span> p = <span class="hljs-literal">null</span>
-task(<span class="hljs-string">'watch'</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
-  ctx.fs.watchDir(<span class="hljs-string">'./src'</span>, <span class="hljs-keyword">async</span> (evt, file) =&gt; {
-    <span class="hljs-keyword">await</span> ctx.run(<span class="hljs-string">'build'</span>)
+task(<span class="hljs-string">&#x27;watch&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
+  ctx.fs.watchDir(<span class="hljs-string">&#x27;./src&#x27;</span>, <span class="hljs-keyword">async</span> (evt, file) =&gt; {
+    <span class="hljs-keyword">await</span> ctx.run(<span class="hljs-string">&#x27;build&#x27;</span>)
     p &amp;&amp; !p.killed &amp;&amp; p.kill()
-    p = <span class="hljs-keyword">await</span> ctx.run(<span class="hljs-string">'run'</span>)
+    p = <span class="hljs-keyword">await</span> ctx.run(<span class="hljs-string">&#x27;run&#x27;</span>)
   })
 })</code></pre>
-				<h2 id="using-with-custom-compiler">Using with custom compiler</h2>
+				<a href="#using-with-custom-compiler" id="using-with-custom-compiler" style="color: inherit; text-decoration: none;">
+					<h2>Using with custom compiler</h2>
+				</a>
 				<pre><code class="language-sh">
 <span class="hljs-comment"># Write Foyfile in ts, enabled by default</span>
 foy -r ts-node/register -c ./some/Foyfile.ts build
@@ -429,9 +465,13 @@ foy -r ts-node/register -c ./some/Foyfile.ts build
 <span class="hljs-comment"># Write Foyfile in coffee</span>
 foy -r coffeescript/register -c ./some/Foyfile.coffee build
 </code></pre>
-				<h2 id="api-documentation">API documentation</h2>
+				<a href="#api-documentation" id="api-documentation" style="color: inherit; text-decoration: none;">
+					<h2>API documentation</h2>
+				</a>
 				<p><a href="https://zaaack.github.io/foy/api">https://zaaack.github.io/foy/api</a></p>
-				<h2 id="license">License</h2>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h2>License</h2>
+				</a>
 				<p>MIT</p>
 			</div>
 		</div>
@@ -440,6 +480,15 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 				<ul>
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class="label tsd-is-external">
+						<span>Externals</span>
+					</li>
+					<li class=" tsd-kind-namespace tsd-is-external">
+						<a href="modules/taskoptions.html">Task<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-namespace tsd-is-external">
+						<a href="modules/__global.html">__global</a>
 					</li>
 				</ul>
 			</nav>
@@ -482,6 +531,9 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 						<a href="interfaces/logoptions.html" class="tsd-kind-icon">Log<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/optionconfig.html" class="tsd-kind-icon">Option<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/props.html" class="tsd-kind-icon">Props</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
@@ -506,6 +558,9 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 						<a href="globals.html#listenernames" class="tsd-kind-icon">Listener<wbr>Names</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#loglevels" class="tsd-kind-icon">Log<wbr>Levels</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="globals.html#optiondef" class="tsd-kind-icon">Option<wbr>Def</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
@@ -521,7 +576,22 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 						<a href="globals.html#defaultlogfile" class="tsd-kind-icon">Default<wbr>Log<wbr>File</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#eexist" class="tsd-kind-icon">EEXIST</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#enoent" class="tsd-kind-icon">ENOENT</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#tmkey" class="tsd-kind-icon">TMKey</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#logger" class="tsd-kind-icon">logger</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#objuid" class="tsd-kind-icon">obj<wbr>Uid</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#objuidmap" class="tsd-kind-icon">obj<wbr>Uid<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#spawn" class="tsd-kind-icon">spawn</a>
@@ -529,8 +599,14 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#after" class="tsd-kind-icon">after</a>
 					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#appendcallback" class="tsd-kind-icon">append<wbr>Callback</a>
+					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#before" class="tsd-kind-icon">before</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#copy" class="tsd-kind-icon">copy</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#defaults" class="tsd-kind-icon">defaults</a>
@@ -545,13 +621,7 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 						<a href="globals.html#exec" class="tsd-kind-icon">exec</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#getglobaltaskmanager" class="tsd-kind-icon">get<wbr>Global<wbr>Task<wbr>Manager</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#gettype" class="tsd-kind-icon">get<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#hashany" class="tsd-kind-icon">hash<wbr>Any</a>
+						<a href="globals.html#makelogger" class="tsd-kind-icon">make<wbr>Logger</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#namespace" class="tsd-kind-icon">namespace</a>
@@ -583,6 +653,9 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#throttle" class="tsd-kind-icon">throttle</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#watchdir" class="tsd-kind-icon">watch<wbr>Dir</a>
+					</li>
 					<li class=" tsd-kind-object-literal tsd-is-external">
 						<a href="globals.html#is" class="tsd-kind-icon">Is</a>
 					</li>
@@ -601,66 +674,13 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
-			</ul>
 		</div>
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
