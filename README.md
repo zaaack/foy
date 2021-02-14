@@ -30,7 +30,7 @@ A simple, light-weight and modern task runner for general purpose.
 ## Features
 
 - Promise-based tasks and built-in utilities.
-- <a href="https://github.com/shelljs/shelljs" target="_blank">shelljs</a> like commands
+- <a href="https://github.com/shelljs/shelljs" target="_blank">shelljs</a>-like commands
 - Easy to learn, stop spending hours for build tools.
 - Small install size
   - foy: [![install size](https://packagephobia.now.sh/badge?p=foy)](https://packagephobia.now.sh/result?p=foy)
@@ -45,7 +45,7 @@ A simple, light-weight and modern task runner for general purpose.
 yarn add -D foy # or npm i -D foy
 ```
 
-Or Install globally with
+Or install globally with
 
 ```sh
 yarn add -g foy # or npm i -g foy
@@ -53,7 +53,7 @@ yarn add -g foy # or npm i -g foy
 
 ## Write a Foyfile
 
-You need to add a Foyfile.js(or Foyfile.ts with [ts-node](https://github.com/TypeStrong/ts-node) installed) in your project root.
+You need to add a Foyfile.js(or Foyfile.ts with [ts-node](https://github.com/TypeStrong/ts-node) installed) to your project root.
 
 Also, you can simply generate a Foyfile.js via:
 
@@ -61,7 +61,7 @@ Also, you can simply generate a Foyfile.js via:
 foy --init
 ```
 
-Then it will put a simple `Foyfile.js` in current folder:
+which will create a simple `Foyfile.js` in the current folder:
 
 ```js
 // Foyfile.js
@@ -84,7 +84,7 @@ Then we can run `foy build` to execute the `build` task.
 foy build
 ```
 
-You can also add some options and description to a single task:
+You can also add some options and a description to your tasks:
 
 ```ts
 import { task, desc, option, strict } from 'foy'
@@ -101,7 +101,7 @@ task('build', async ctx => {
 foy build -w
 ```
 
-Warning! If you want to set flags like strict to all tasks, please use `setGlobalOptions`, e.g.
+Warning! If you want to set flags like strict for all tasks, please use `setGlobalOptions`:
 
 ```ts
 import { setGlobalOptions } from 'foy'
@@ -175,9 +175,9 @@ task(
 )
 ```
 
-Dependencies are running serially by default, but you can specific them running concurrently.
+Dependencies run serially by default but you can specify when a task should be run concurrently.
 
-e.g. Passing running options to dependencies.
+Example: Passing running options to dependencies:
 
 ```ts
 task(
@@ -185,7 +185,7 @@ task(
   [{
     name: 'test',
     async: true, // run test parallelly
-    force: true, // force rerun test whether it is executed before or not,
+    force: true, // force rerun test whether it has been executed before or not.
   }, {
     name: 'build',
     async: true,
@@ -211,8 +211,8 @@ task(
 /*
 Priority for async tasks
 
-Default is 0, bigger is formmer, then we will run `build` before `test`.
-If you have multi async dependencies with same priority, they will be executed parallel.
+Default is 0, higher values will be run earlier; so, in this next example, `build` will be run before `test`.
+(Note: If you have multiple async dependencies with same priority, they will be executed in parallel.)
 */
 task(
   'publish:patch',
@@ -225,7 +225,7 @@ task(
 )
 ```
 
-You can also pass options to dependences:
+You can also pass options to dependencies:
 
 ```ts
 task('task1', async ctx => {
@@ -251,7 +251,7 @@ task('task2', [{
 
 ## Using namespaces
 
-If you have lots of tasks, naming might be a problem, what foy do is to making life easier, but more anxious. So we provide a `namespace` function to group tasks with namespaces.
+To avoid name collisions, Foy provides namespaces to group tasks via the `namespace` function:
 
 ```ts
 import { task, namespace } from 'foy'
@@ -295,7 +295,7 @@ task('start', ['client:start'.async(), 'server:start'.async()]) // start
 
 ### fs
 
-Foy wrap fs module with promises, so we can use it in async/await smoothly. Foy also implements some useful functions for build scripts which missing in nodejs built-in modules.
+Foy wraps the NodeJS's `fs` (file system) module with a promise-based API, so you can easily use async/await patterns, if you prefer. Foy also implements some useful utility functions for build scripts not present in NodeJS's built-in modules.
 
 ```ts
 import { fs } from 'foy'
@@ -339,7 +339,7 @@ task('build', async ctx => {
 
 ### logger
 
-Light weight built-in logger
+Foy includes a light-weight built-in logger
 
 ```ts
 import { logger } from 'foy'
@@ -357,7 +357,7 @@ task('build', async ctx => {
 
 ### exec command
 
-A simple wrapper for sindresorhus' lovely module
+A simple wrapper for sindresorhus's lovely module
 [execa](https://github.com/sindresorhus/execa)
 
 ```ts
@@ -385,7 +385,7 @@ task('build', async ctx => {
 
 ## Using in CI servers
 
-If you use Foy in CI servers, you might won't want the loading because most CI servers will log the stdout and stderr to files, the loading will be logged as frames. Luckily, Foy has already considered this use case, you can simple disable the loading behavior like this:
+If you use Foy in CI servers, you won't want the [loading spinners](https://github.com/sindresorhus/cli-spinners) as most CI servers will log stdout and stderr in discreet frames not meant for continuous streaming animations. Luckily, Foy has already considered this! You can simply disable the loading animation like this:
 
 ```ts
 import { task, setGlobalOptions } from 'foy'
@@ -405,7 +405,7 @@ Task: test
 
 ## Using lifecycle hooks
 
-You can use before/after/onerror to do something in lifecycles.
+You can add lifecycle hooks via the `before`, `after`, and `onerror` functions.
 
 ```ts
 import { before, after, onerror } from 'foy'
