@@ -101,7 +101,7 @@
 				</a>
 				<ul>
 					<li>Promise-based tasks and built-in utilities.</li>
-					<li><a href="https://github.com/shelljs/shelljs" target="_blank">shelljs</a> like commands</li>
+					<li><a href="https://github.com/shelljs/shelljs" target="_blank">shelljs</a>-like commands</li>
 					<li>Easy to learn, stop spending hours for build tools.</li>
 					<li>Small install size<ul>
 							<li>foy: <a href="https://packagephobia.now.sh/result?p=foy"><img src="https://packagephobia.now.sh/badge?p=foy" alt="install size"></a></li>
@@ -115,15 +115,15 @@
 					<h2>Install</h2>
 				</a>
 				<pre><code class="language-sh">yarn add -D foy <span class="hljs-comment"># or npm i -D foy</span></code></pre>
-				<p>Or Install globally with</p>
+				<p>Or install globally with</p>
 				<pre><code class="language-sh">yarn add -g foy <span class="hljs-comment"># or npm i -g foy</span></code></pre>
 				<a href="#write-a-foyfile" id="write-a-foyfile" style="color: inherit; text-decoration: none;">
 					<h2>Write a Foyfile</h2>
 				</a>
-				<p>You need to add a Foyfile.js(or Foyfile.ts with <a href="https://github.com/TypeStrong/ts-node">ts-node</a> installed) in your project root.</p>
+				<p>You need to add a Foyfile.js(or Foyfile.ts with <a href="https://github.com/TypeStrong/ts-node">ts-node</a> installed) to your project root.</p>
 				<p>Also, you can simply generate a Foyfile.js via:</p>
 				<pre><code class="language-sh">foy --init</code></pre>
-				<p>Then it will put a simple <code>Foyfile.js</code> in current folder:</p>
+				<p>which will create a simple <code>Foyfile.js</code> in the current folder:</p>
 				<pre><code class="language-js"><span class="hljs-comment">// Foyfile.js</span>
 <span class="hljs-keyword">const</span> { task } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;foy&#x27;</span>)
 
@@ -134,7 +134,7 @@ task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keywo
 				<pre><code class="language-sh">foy --init ts</code></pre>
 				<p>Then we can run <code>foy build</code> to execute the <code>build</code> task.</p>
 				<pre><code class="language-sh">foy build</code></pre>
-				<p>You can also add some options and description to a single task:</p>
+				<p>You can also add some options and a description to your tasks:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, desc, option, strict } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
 desc(<span class="hljs-string">&#x27;Build ts files with tsc&#x27;</span>)
@@ -144,7 +144,7 @@ task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keywo
   <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">`tsc <span class="hljs-subst">${ctx.options.watch ? <span class="hljs-string">&#x27;-w&#x27;</span> : <span class="hljs-string">&#x27;&#x27;</span>}</span>`</span>)
 })</code></pre>
 				<pre><code class="language-sh">foy build -w</code></pre>
-				<p>Warning! If you want to set flags like strict to all tasks, please use <code>setGlobalOptions</code>, e.g.</p>
+				<p>Warning! If you want to set flags like strict for all tasks, please use <code>setGlobalOptions</code>:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { setGlobalOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
 setGlobalOptions({ strict: <span class="hljs-literal">true</span> }) <span class="hljs-comment">// all tasks&#x27; options will be strict.</span>
@@ -207,14 +207,14 @@ task(
     <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;npm publish&#x27;</span>)
   }
 )</code></pre>
-				<p>Dependencies are running serially by default, but you can specific them running concurrently.</p>
-				<p>e.g. Passing running options to dependencies.</p>
+				<p>Dependencies run serially by default but you can specify when a task should be run concurrently.</p>
+				<p>Example: Passing running options to dependencies:</p>
 				<pre><code class="language-ts">task(
   <span class="hljs-string">&#x27;publish:patch&#x27;</span>,
   [{
     name: <span class="hljs-string">&#x27;test&#x27;</span>,
     <span class="hljs-keyword">async</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// run test parallelly</span>
-    force: <span class="hljs-literal">true</span>, <span class="hljs-comment">// force rerun test whether it is executed before or not,</span>
+    force: <span class="hljs-literal">true</span>, <span class="hljs-comment">// force rerun test whether it has been executed before or not.</span>
   }, {
     name: <span class="hljs-string">&#x27;build&#x27;</span>,
     <span class="hljs-keyword">async</span>: <span class="hljs-literal">true</span>,
@@ -240,8 +240,8 @@ task(
 <span class="hljs-comment">/*
 Priority for async tasks
 
-Default is 0, bigger is formmer, then we will run `build` before `test`.
-If you have multi async dependencies with same priority, they will be executed parallel.
+Default is 0, higher values will be run earlier; so, in this next example, `build` will be run before `test`.
+(Note: If you have multiple async dependencies with same priority, they will be executed in parallel.)
 */</span>
 task(
   <span class="hljs-string">&#x27;publish:patch&#x27;</span>,
@@ -252,7 +252,7 @@ task(
     <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;npm publish&#x27;</span>)
   }
 )</code></pre>
-				<p>You can also pass options to dependences:</p>
+				<p>You can also pass options to dependencies:</p>
 				<pre><code class="language-ts">task(<span class="hljs-string">&#x27;task1&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
   <span class="hljs-built_in">console</span>.log(ctx.options) <span class="hljs-comment">// &quot;{ forceRebuild: true, lazyOptions: 1 }&quot;</span>
   <span class="hljs-built_in">console</span>.log(ctx.global.options) <span class="hljs-comment">// options from command line &quot;{ a: 1 }&quot;</span>
@@ -275,7 +275,7 @@ task(<span class="hljs-string">&#x27;task2&#x27;</span>, [{
 				<a href="#using-namespaces" id="using-namespaces" style="color: inherit; text-decoration: none;">
 					<h2>Using namespaces</h2>
 				</a>
-				<p>If you have lots of tasks, naming might be a problem, what foy do is to making life easier, but more anxious. So we provide a <code>namespace</code> function to group tasks with namespaces.</p>
+				<p>To avoid name collisions, Foy provides namespaces to group tasks via the <code>namespace</code> function:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, <span class="hljs-keyword">namespace</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
 <span class="hljs-keyword">namespace</span>(<span class="hljs-string">&#x27;client&#x27;</span>, <span class="hljs-function"><span class="hljs-params">ns</span> =&gt;</span> {
@@ -316,7 +316,7 @@ task(<span class="hljs-string">&#x27;start&#x27;</span>, [<span class="hljs-stri
 				<a href="#fs" id="fs" style="color: inherit; text-decoration: none;">
 					<h3>fs</h3>
 				</a>
-				<p>Foy wrap fs module with promises, so we can use it in async/await smoothly. Foy also implements some useful functions for build scripts which missing in nodejs built-in modules.</p>
+				<p>Foy wraps the NodeJS&#39;s <code>fs</code> (file system) module with a promise-based API, so you can easily use async/await patterns, if you prefer. Foy also implements some useful utility functions for build scripts not present in NodeJS&#39;s built-in modules.</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { fs } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
 
@@ -357,7 +357,7 @@ task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keywo
 				<a href="#logger" id="logger" style="color: inherit; text-decoration: none;">
 					<h3>logger</h3>
 				</a>
-				<p>Light weight built-in logger</p>
+				<p>Foy includes a light-weight built-in logger</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { logger } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
 task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
@@ -372,7 +372,7 @@ task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keywo
 				<a href="#exec-command" id="exec-command" style="color: inherit; text-decoration: none;">
 					<h3>exec command</h3>
 				</a>
-				<p>A simple wrapper for sindresorhus&#39; lovely module
+				<p>A simple wrapper for sindresorhus&#39;s lovely module
 				<a href="https://github.com/sindresorhus/execa">execa</a></p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { logger } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
@@ -397,7 +397,7 @@ task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keywo
 				<a href="#using-in-ci-servers" id="using-in-ci-servers" style="color: inherit; text-decoration: none;">
 					<h2>Using in CI servers</h2>
 				</a>
-				<p>If you use Foy in CI servers, you might won&#39;t want the loading because most CI servers will log the stdout and stderr to files, the loading will be logged as frames. Luckily, Foy has already considered this use case, you can simple disable the loading behavior like this:</p>
+				<p>If you use Foy in CI servers, you won&#39;t want the <a href="https://github.com/sindresorhus/cli-spinners">loading spinners</a> as most CI servers will log stdout and stderr in discreet frames not meant for continuous streaming animations. Luckily, Foy has already considered this! You can simply disable the loading animation like this:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, setGlobalOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 
 setGlobalOptions({ loading: <span class="hljs-literal">false</span> }) <span class="hljs-comment">// disable loading animations</span>
@@ -414,7 +414,7 @@ Task: test
 				<a href="#using-lifecycle-hooks" id="using-lifecycle-hooks" style="color: inherit; text-decoration: none;">
 					<h2>Using lifecycle hooks</h2>
 				</a>
-				<p>You can use before/after/onerror to do something in lifecycles.</p>
+				<p>You can add lifecycle hooks via the <code>before</code>, <code>after</code>, and <code>onerror</code> functions.</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { before, after, onerror } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
 before(<span class="hljs-function">() =&gt;</span> { <span class="hljs-comment">// do something before all tasks tree start</span>
   <span class="hljs-comment">// ...</span>
