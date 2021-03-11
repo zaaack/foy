@@ -1,3 +1,17 @@
+#### 0.2.2 (2021-03-11)
+
+##### Chores
+
+*  fix ci ([0e25e142](https://github.com/zaaack/foy/commit/0e25e1427c72bd41366eb699d3a17ee87d4192fe))
+
+##### Documentation Changes
+
+*  Corrected various typos, grammatical errors, and several pieces of awkward wording in the README. ([b76ce7af](https://github.com/zaaack/foy/commit/b76ce7afb05b71e9d70874a9a8bdd068aae2ab5e))
+
+##### Bug Fixes
+
+*  fs.watchDir throttle ([23c4a476](https://github.com/zaaack/foy/commit/23c4a476736cb8ff10cc57db05360ab0019e3231))
+
 #### 0.2.1 (2020-09-24)
 
 ##### Chores
