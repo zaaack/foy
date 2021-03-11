@@ -44,11 +44,17 @@ export const sleep = (ms: number) => {
   return new Promise<void>(res => setTimeout(res, ms))
 }
 
-export function throttle<T extends (...args: any[]) => void>(cb: T, ms: number): T {
-  let timer
+export function throttle<T extends (...args: any[]) => void>(cb: T, ms: number, getArgsKey: (args: any[]) => string = (args: any[])=> args.join('|')): T {
+  let timerMap = new Map<string, any>()
   let newCb = (...args) => {
+    if (timerMap.size > 20) {
+      timerMap = new Map()
+    }
+    const key = getArgsKey(args)
+    let timer = timerMap.get(key)
     timer && clearTimeout(timer)
     timer = setTimeout(cb, ms, ...args)
+    timerMap.set(key, timer)
   }
   return newCb as any
 }
