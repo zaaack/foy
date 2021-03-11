@@ -1,8 +1,12 @@
-import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespace, exec } from './src/'
+import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespace, exec, before } from './src/'
 import marked from 'marked'
 import * as ejs from 'ejs'
 
 setGlobalOptions({ loading: false, strict: true })
+
+before(() => {
+
+})
 
 desc('build whole project')
 task('build', async ctx => {
@@ -22,7 +26,8 @@ task('doc', async ctx => {
 const JasmineCli = `jasmine --require=tsconfig-paths/register --require=ts-node/register`
 
 task<{ args: string, env: NodeJS.ProcessEnv }>('test', async ctx => {
-  await ctx.exec(`${JasmineCli} "src/test/*.test.ts" ${ctx.options.args || ''} ${(ctx.task.rawArgs).map(a => `"${a}"`).join(' ')}`, { env: ctx.options.env || process.env })
+  await ctx.exec(`${JasmineCli} "src/test/*.test.ts" ${ctx.options.args || ''} ${(ctx.task.rawArgs).map(a => `"${a
+  }"`).join(' ')}`, { env: ctx.options.env || process.env })
 })
 
 task('test:update-snap', [{
