@@ -1,3 +1,9 @@
+#### 0.2.3 (2021-03-19)
+
+##### Bug Fixes
+
+*  task error log ([a99fb856](https://github.com/zaaack/foy/commit/a99fb85670f066c593489f27307a5c4f647c2a2d))
+
 #### 0.2.2 (2021-03-11)
 
 ##### Chores
