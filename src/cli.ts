@@ -178,6 +178,9 @@ taskManager.getTasks().forEach(t => {
     await taskManager.run(t.name, {
       options,
       rawArgs: taskCli.rawArgs.slice(3),
+    }).catch(err => {
+      logger.error(err)
+      throw err
     })
   })
 })
