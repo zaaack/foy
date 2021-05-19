@@ -198,7 +198,7 @@ export class TaskManager {
     let taskHash = hashAny(t)
     let loading = this.isLoading(t, props)
 
-    let didResolved = null as (() => void) | null
+    let didResolved = null as ((value?: any) => void) | null
     if (this._didMap.has(taskHash) && !t.force) {
       depsTree.state = TaskState.skipped
       await this._didMap.get(taskHash)
