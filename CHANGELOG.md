@@ -1,3 +1,9 @@
+#### 0.2.4 (2021-05-19)
+
+##### Bug Fixes
+
+*  faster ts-node ([7cb2e1da](https://github.com/zaaack/foy/commit/7cb2e1da24deec4f7aad144d89b6679c55893439))
+
 #### 0.2.3 (2021-03-19)
 
 ##### Bug Fixes
