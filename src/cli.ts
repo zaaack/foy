@@ -131,7 +131,7 @@ if (registers.length) {
 
 try {
   if (!require.extensions['.ts']) {
-    require('ts-node')({
+    require('ts-node').register({
       transpileOnly: true,
       compilerOptions: {
         module: 'commonjs',
