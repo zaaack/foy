@@ -1,0 +1,11 @@
+DependencyGraph for task [exec]:
+─ exec
+
+[info] beforeAll exec
+Task: exec
+[info] $ echo 1
+1
+[info] echo1 undefined
+[info] $ sleep 1
+[info] false function function
+[info] afterAll exec

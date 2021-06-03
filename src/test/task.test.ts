@@ -2,6 +2,9 @@ import { task } from '../task'
 import { fs } from '../fs'
 import { exec } from '../exec'
 import * as path from 'path'
+import { logger } from '../logger'
+
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 
 const fixturesDir = `${__dirname}/fixtures`
 const snapsDir = `${fixturesDir}/snaps`
@@ -57,12 +60,13 @@ describe('task', function () {
     test(`Foyfile2.ts ns1:t1`),
     test(`Foyfile2.ts ns1:error`),
     test(`Foyfile2.ts ns1:ns2:t2`),
+    test(`Foyfile2.ts exec`),
   ]
   beforeAll(async () => {
     if (UpdateSnap) {
       await fs.rmrf(snapsDir)
     }
-    await Promise.all(tests.map(t => t.init()))
+    await Promise.all(tests.map(t => t.init())).catch(logger.error)
     console.log('init')
   }, 600 * 1000)
   tests.forEach(t => t.it())

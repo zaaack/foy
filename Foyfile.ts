@@ -19,6 +19,7 @@ task('build', async ctx => {
 
 desc('generate doc')
 task('doc', async ctx => {
+  await fs.rmrf('./docs/api/')
   await ctx.exec(`typedoc --theme default --mode file --excludeNotExported --excludePrivate --out ./docs/api ./src/index.ts`)
   await ctx.exec(`touch ./docs/.nojekyll`)
 })
@@ -115,7 +116,8 @@ task('demo', ['demodemodemodemodemodemodemo1','demo2'.async(), 'demo3'.async()])
 
 
 namespace('client', ns => {
-  task('build', async ctx => { /* ... */ }) // client:build
+  task('build', async ctx => {
+  }) // client:build
   task('start', async ctx => { /* ... */ }) // client:start
   task('watch', async ctx => { /* ... */ }) // client:watch
 })

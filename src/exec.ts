@@ -12,17 +12,23 @@ function _exec(cmd: string, options?: execa.Options) {
   return execa(file, args, options)
 }
 export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess
-export function exec(commands: string[], options?: execa.Options): Promise<execa.ExecaSyncReturnValue[]>
-export async function exec(commands: string | string[], options?: execa.Options) {
+export function exec(commands: string[], options?: execa.Options): Promise<execa.ExecaSyncReturnValue<string>[]>
+export function exec(commands: string | string[], options?: execa.Options) {
   if (Is.str(commands)) {
     return _exec(commands, options)
   }
 
-  let rets: execa.ExecaSyncReturnValue[] = []
-  for (let cmd of commands) {
-    rets.push(await _exec(cmd, options))
+  const rets: execa.ExecaSyncReturnValue<string>[]  = []
+  let retsP: Promise<execa.ExecaSyncReturnValue<string>[]> = Promise.resolve(null as any)
+  for (const cmd of commands) {
+    retsP = retsP.then(() => {
+      return _exec(cmd, options).then(r => {
+        rets.push(r)
+        return rets
+      })
+    })
   }
-  return rets
+  return retsP
 }
 export const spawn = execa
 
