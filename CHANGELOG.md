@@ -1,3 +1,9 @@
+#### 0.2.7 (2021-06-03)
+
+##### Bug Fixes
+
+*  exec promise ([da91fb57](https://github.com/zaaack/foy/commit/da91fb573a4427b8653ede7eba71346737edb779))
+
 #### 0.2.4 (2021-05-19)
 
 ##### Bug Fixes
