@@ -1,7 +1,7 @@
-import { task, namespace, before, after, onerror } from "../../task";
+import { task, namespace, before, after, onerror, setGlobalOptions } from "../../task";
 import { sleep } from '../../utils';
 import { logger } from '../../logger';
-
+setGlobalOptions({strict: true, loading: false})
 before((t) => {
   logger.log('beforeAll', t.name)
 })
@@ -19,6 +19,12 @@ task('start', async () => {
 })
 task('error', async () => {
   logger.log('error')
+})
+task('exec', async ctx => {
+  let echo1 = await ctx.exec('echo 1')
+  logger.info(`echo1`, echo1.stdout)
+  let sleep = ctx.exec('sleep 1')
+  logger.info(sleep.killed, typeof sleep.then, typeof sleep.kill)
 })
 namespace('ns1', ns => {
   before(t => {

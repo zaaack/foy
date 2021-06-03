@@ -1,3 +1,7 @@
+DependencyGraph for task [start]:
+─ start
+
 [info] beforeAll start
+Task: start
 [info] start
-[info] afterAll start✔ start
+[info] afterAll start
