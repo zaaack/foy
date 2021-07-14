@@ -1,3 +1,9 @@
+#### 0.2.8 (2021-07-14)
+
+##### New Features
+
+*  log time ([d9d2262c](https://github.com/zaaack/foy/commit/d9d2262c181832a2224783e7f528ebdcdf21ba83))
+
 #### 0.2.7 (2021-06-03)
 
 ##### Bug Fixes

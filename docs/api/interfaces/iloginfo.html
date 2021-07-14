@@ -80,10 +80,12 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iloginfo.html#args" class="tsd-kind-icon">args</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iloginfo.html#filter" class="tsd-kind-icon">filter</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iloginfo.html#filterlevelnum" class="tsd-kind-icon">filter<wbr>Level<wbr>Num</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iloginfo.html#formatedtime" class="tsd-kind-icon">formated<wbr>Time</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iloginfo.html#level" class="tsd-kind-icon">level</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iloginfo.html#levelnum" class="tsd-kind-icon">level<wbr>Num</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iloginfo.html#message" class="tsd-kind-icon">message</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iloginfo.html#time" class="tsd-kind-icon">time</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,17 +99,27 @@
 					<div class="tsd-signature tsd-kind-icon">args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/7f324c1/src/logger.ts#L38">src/logger.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/d9d2262/src/logger.ts#L51">src/logger.ts:51</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="filter" class="tsd-anchor"></a>
-					<h3>filter</h3>
-					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="filterlevelnum" class="tsd-anchor"></a>
+					<h3>filter<wbr>Level<wbr>Num</h3>
+					<div class="tsd-signature tsd-kind-icon">filter<wbr>Level<wbr>Num<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/7f324c1/src/logger.ts#L39">src/logger.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/d9d2262/src/logger.ts#L52">src/logger.ts:52</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="formatedtime" class="tsd-anchor"></a>
+					<h3>formated<wbr>Time</h3>
+					<div class="tsd-signature tsd-kind-icon">formated<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/d9d2262/src/logger.ts#L48">src/logger.ts:48</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -117,7 +129,7 @@
 					<div class="tsd-signature tsd-kind-icon">level<span class="tsd-signature-symbol">:</span> <a href="../globals.html#loglevels" class="tsd-signature-type">LogLevels</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/7f324c1/src/logger.ts#L35">src/logger.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/d9d2262/src/logger.ts#L46">src/logger.ts:46</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -127,7 +139,7 @@
 					<div class="tsd-signature tsd-kind-icon">level<wbr>Num<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/7f324c1/src/logger.ts#L37">src/logger.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/d9d2262/src/logger.ts#L50">src/logger.ts:50</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -137,7 +149,17 @@
 					<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/zaaack/foy/blob/7f324c1/src/logger.ts#L36">src/logger.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/d9d2262/src/logger.ts#L49">src/logger.ts:49</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="time" class="tsd-anchor"></a>
+					<h3>time</h3>
+					<div class="tsd-signature tsd-kind-icon">time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/zaaack/foy/blob/d9d2262/src/logger.ts#L47">src/logger.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -162,7 +184,10 @@
 								<a href="iloginfo.html#args" class="tsd-kind-icon">args</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="iloginfo.html#filter" class="tsd-kind-icon">filter</a>
+								<a href="iloginfo.html#filterlevelnum" class="tsd-kind-icon">filter<wbr>Level<wbr>Num</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="iloginfo.html#formatedtime" class="tsd-kind-icon">formated<wbr>Time</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="iloginfo.html#level" class="tsd-kind-icon">level</a>
@@ -172,6 +197,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="iloginfo.html#message" class="tsd-kind-icon">message</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="iloginfo.html#time" class="tsd-kind-icon">time</a>
 							</li>
 						</ul>
 					</li>
