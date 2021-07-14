@@ -5,24 +5,9 @@ import { hashAny, defaults, Is, DefaultLogFile } from './utils'
 import { Writable, Stream } from 'stream'
 import { fs } from './fs'
 import { ShellContext } from './exec'
-import { logger, ILogInfo, ILoggerProps, LogLevels } from './logger'
+import { logger, ILogInfo, ILoggerProps, LogLevels, Logger } from './logger'
 import figures from 'figures'
 
-export interface LogOptions {
-  /**
-   * @description log level
-   * @default 'debug'
-   */
-  level?: LogLevels
-  /**
-   * @description whether log command when execute command
-   * @default true
-   */
-  logCommand?: boolean
-  onLog?: ILoggerProps['onLog']
-  format?: ILoggerProps['format']
-  hideConsole?: boolean
-}
 
 export interface GlobalOptions {
   /**
@@ -35,7 +20,8 @@ export interface GlobalOptions {
    * @default false
    */
   strict?: boolean
-  logger?: LogOptions
+  logger?: ILoggerProps
+  logCommand?: boolean
   options?: any
   rawArgs?: string[]
 }
@@ -76,14 +62,16 @@ export interface DepsTree {
 
 export class TaskContext<O = any> extends ShellContext {
   fs = fs
-  debug = logger.debug
-  info = logger.info
-  log = logger.log
-  warn = logger.warn
-  error = logger.error
+  protected _logger: Logger
+  get debug(){return this._logger.debug}
+  get info(){return this._logger.info}
+  get log(){return this._logger.log}
+  get warn(){return this._logger.warn}
+  get error(){return this._logger.error}
   constructor(public task: Task<O>, public global: GlobalOptions) {
     super()
-    this.logCommand = defaults(task.logger && task.logger.logCommand, global.logger && global.logger.logCommand, true)
+    this.logCommand = defaults(task.logger && task.logCommand, global.logCommand, true)
+    this._logger = new Logger(global.logger)
   }
   /**
    * get task options
@@ -123,8 +111,8 @@ export class TaskManager {
     loading: true,
     options: {},
     indent: 3,
+    logCommand: true,
     logger: {
-      logCommand: true,
     }
   }
   getTasks() {

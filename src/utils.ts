@@ -24,12 +24,15 @@ export function hashAny(key: any) {
       return '📝' + key
 
     case 'array':
-      return '🔗' + (key as any[]).map(k => hashAny(k)).join('⁞')
+      return '🔗' + (key as any[]).map((k) => hashAny(k)).join('⁞')
     case 'object':
-      return key.constructor.name + JSON.stringify(key, (k, v) => {
-        if (!k) return v
-        return hashAny(v)
-      })
+      return (
+        key.constructor.name +
+        JSON.stringify(key, (k, v) => {
+          if (!k) return v
+          return hashAny(v)
+        })
+      )
     default:
       let uid = objUidMap.get(key)
       if (!uid) {
@@ -41,10 +44,14 @@ export function hashAny(key: any) {
 }
 
 export const sleep = (ms: number) => {
-  return new Promise<void>(res => setTimeout(res, ms))
+  return new Promise<void>((res) => setTimeout(res, ms))
 }
 
-export function throttle<T extends (...args: any[]) => void>(cb: T, ms: number, getArgsKey: (args: any[]) => string = (args: any[])=> args.join('|')): T {
+export function throttle<T extends (...args: any[]) => void>(
+  cb: T,
+  ms: number,
+  getArgsKey: (args: any[]) => string = (args: any[]) => args.join('|'),
+): T {
   let timerMap = new Map<string, any>()
   let newCb = (...args) => {
     if (timerMap.size > 20) {
@@ -77,14 +84,32 @@ export const Is = {
   },
   num(v: any): v is number {
     return typeof v === 'number'
-  }
+  },
 }
 
 export function defaults<T>(val: T | undefined, defaultVal: T): T
 export function defaults<T>(val: T | undefined, val1: T | undefined, defaultVal: T): T
-export function defaults<T>(val: T | undefined, val1: T | undefined, val2: T | undefined, defaultVal: T): T
-export function defaults<T>(val: T | undefined, val1: T | undefined, val2: T | undefined, val3: T | undefined, defaultVal: T): T
-export function defaults<T>(val: T | undefined, val1: T | undefined, val2: T | undefined, val3: T | undefined, val4: T | undefined, defaultVal: T): T
+export function defaults<T>(
+  val: T | undefined,
+  val1: T | undefined,
+  val2: T | undefined,
+  defaultVal: T,
+): T
+export function defaults<T>(
+  val: T | undefined,
+  val1: T | undefined,
+  val2: T | undefined,
+  val3: T | undefined,
+  defaultVal: T,
+): T
+export function defaults<T>(
+  val: T | undefined,
+  val1: T | undefined,
+  val2: T | undefined,
+  val3: T | undefined,
+  val4: T | undefined,
+  defaultVal: T,
+): T
 export function defaults<T>(...args: (T | undefined)[]): T {
   let [val, ...defaultVals] = args
   if (Is.defed(val)) return val
@@ -95,3 +120,8 @@ export function defaults<T>(...args: (T | undefined)[]): T {
 }
 
 export const DefaultLogFile = join(process.cwd(), 'foy.log')
+
+export const formatDate = (d: Date) =>
+  `${d.getFullYear()}-${
+    d.getMonth() + 1
+  }-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
