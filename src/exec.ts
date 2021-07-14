@@ -1,6 +1,6 @@
 import execa from 'execa'
 import pathLib from 'path'
-import { logger as _logger } from './logger'
+import { logger, logger as _logger } from './logger'
 import { sleep, Is, DefaultLogFile } from './utils'
 import { fs } from './fs'
 import { Stream, Writable } from 'stream'
@@ -43,10 +43,7 @@ export class ShellContext {
   get cwd() {
     return this._cwdStack[this._cwdStack.length - 1]
   }
-  private get _logger() {
-    let logger: typeof _logger = require('./logger').logger
-    return logger
-  }
+  protected _logger = logger
   /**
    * change work directory
    * @param dir

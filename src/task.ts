@@ -2,10 +2,10 @@ import chalk from 'chalk'
 import { ShellContext } from './exec'
 import { hashAny, Is, defaults } from './utils'
 import { fs } from './fs'
-import { logger } from './logger'
+import { ILoggerProps, logger } from './logger'
 import { CliLoading } from './cli-loading'
 import { DepBuilder } from './dep-builder'
-import { GlobalOptions, RunTaskOptions, getGlobalTaskManager, TaskContext, LogOptions, ListenerNames } from './task-manager'
+import { GlobalOptions, RunTaskOptions, getGlobalTaskManager, TaskContext, ListenerNames } from './task-manager'
 interface OptionConfig {
   default?: any;
   type?: any[];
@@ -60,7 +60,8 @@ export interface Task<O = any> extends TaskDep<O> {
    * @description whether log executed command
    * @default globalOptions.logCommand
    */
-  logger?: LogOptions
+  logCommand?: boolean
+  logger?: ILoggerProps
 }
 
 /**
