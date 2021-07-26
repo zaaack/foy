@@ -391,6 +391,11 @@ task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keywo
     ctx.exec(<span class="hljs-string">&#x27;tsc&#x27;</span>),
     ctx.exec(<span class="hljs-string">&#x27;typedoc&#x27;</span>),
   ])
+  <span class="hljs-comment">// restart process when file changes</span>
+  ctx.monitor(<span class="hljs-string">&#x27;./src&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-keyword">await</span> ctx.run(<span class="hljs-string">&#x27;build:server&#x27;</span>)
+    <span class="hljs-keyword">return</span> ctx.exec(<span class="hljs-string">&#x27;node ./dist&#x27;</span>)
+  })
 })
 
 </code></pre>
