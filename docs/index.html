@@ -321,6 +321,11 @@ task(&#39;build&#39;, async ctx =&gt; {
     ctx.exec(&#39;tsc&#39;),
     ctx.exec(&#39;typedoc&#39;),
   ])
+  // restart process when file changes
+  ctx.monitor(&#39;./src&#39;, async () =&gt; {
+    await ctx.run(&#39;build:server&#39;)
+    return ctx.exec(&#39;node ./dist&#39;)
+  })
 })
 
 </code></pre>

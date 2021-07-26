@@ -1,3 +1,9 @@
+#### 0.2.9 (2021-07-26)
+
+##### New Features
+
+*  ctx.monitor ([fd3395c6](https://github.com/zaaack/foy/commit/fd3395c6fddcb51bc9da9f2f1958006f63a4d4d9))
+
 #### 0.2.8 (2021-07-14)
 
 ##### New Features
