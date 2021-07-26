@@ -138,6 +138,31 @@ export class ShellContext {
     return this
   }
   /**
+   * restart processes when file changes
+   */
+  monitor(dir: string, run: (ctx: ShellContext) => execa.ExecaChildProcess | Promise<execa.ExecaChildProcess>, {
+    throttle
+  }: {
+    throttle?: number
+  }) {
+    let p: execa.ExecaChildProcess | null = null
+    fs.watchDir(dir, { throttle }, async (event, file) => {
+      while (p && !p.killed) {
+        p && p.kill()
+        await sleep(500)
+      }
+      let ret = run(this)
+      if ('kill' in ret) {
+        p = ret
+      } else {
+        await ret.then(r => {
+          p=r
+          return
+        })
+      }
+    })
+  }
+  /**
    * reset env to default
    */
   resetEnv() {

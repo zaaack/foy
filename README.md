@@ -378,6 +378,11 @@ task('build', async ctx => {
     ctx.exec('tsc'),
     ctx.exec('typedoc'),
   ])
+  // restart process when file changes
+  ctx.monitor('./src', async () => {
+    await ctx.run('build:server')
+    return ctx.exec('node ./dist')
+  })
 })
 
 
