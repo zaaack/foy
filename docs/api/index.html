@@ -392,9 +392,15 @@ task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keywo
     ctx.exec(<span class="hljs-string">&#x27;typedoc&#x27;</span>),
   ])
   <span class="hljs-comment">// restart process when file changes</span>
+  ctx.monitor(<span class="hljs-string">&#x27;./src&#x27;</span>, <span class="hljs-string">&#x27;node ./dist&#x27;</span>)
+  ctx.monitor(<span class="hljs-string">&#x27;./src&#x27;</span>, [<span class="hljs-string">&#x27;rm -rf dist&#x27;</span>, <span class="hljs-string">&#x27;tsc&#x27;</span>, <span class="hljs-string">&#x27;node dist&#x27;</span>])
   ctx.monitor(<span class="hljs-string">&#x27;./src&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
     <span class="hljs-keyword">await</span> ctx.run(<span class="hljs-string">&#x27;build:server&#x27;</span>)
-    <span class="hljs-keyword">return</span> ctx.exec(<span class="hljs-string">&#x27;node ./dist&#x27;</span>)
+    <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">&#x27;node ./dist&#x27;</span>) <span class="hljs-comment">// auth detect long-running process when using ctx.exec</span>
+  })
+  ctx.monitor(<span class="hljs-string">&#x27;./src&#x27;</span>, <span class="hljs-keyword">async</span> (p) =&gt; {
+    <span class="hljs-comment">// manually point out the process need to be killed when restart</span>
+    p.current = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;child_process&#x27;</span>).exec(<span class="hljs-string">&#x27;node dist&#x27;</span>)
   })
 })
 
@@ -617,6 +623,9 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 						<a href="globals.html#copy" class="tsd-kind-icon">copy</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#debounce" class="tsd-kind-icon">debounce</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#defaults" class="tsd-kind-icon">defaults</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
@@ -643,6 +652,9 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#option" class="tsd-kind-icon">option</a>
 					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#promisequeue" class="tsd-kind-icon">promise<wbr>Queue</a>
+					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#setglobaloptions" class="tsd-kind-icon">set<wbr>Global<wbr>Options</a>
 					</li>
@@ -660,9 +672,6 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#task" class="tsd-kind-icon">task</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#throttle" class="tsd-kind-icon">throttle</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#watchdir" class="tsd-kind-icon">watch<wbr>Dir</a>

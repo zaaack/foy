@@ -322,9 +322,15 @@ task(&#39;build&#39;, async ctx =&gt; {
     ctx.exec(&#39;typedoc&#39;),
   ])
   // restart process when file changes
+  ctx.monitor(&#39;./src&#39;, &#39;node ./dist&#39;)
+  ctx.monitor(&#39;./src&#39;, [&#39;rm -rf dist&#39;, &#39;tsc&#39;, &#39;node dist&#39;])
   ctx.monitor(&#39;./src&#39;, async () =&gt; {
     await ctx.run(&#39;build:server&#39;)
-    return ctx.exec(&#39;node ./dist&#39;)
+    await ctx.exec(&#39;node ./dist&#39;) // auth detect long-running process when using ctx.exec
+  })
+  ctx.monitor(&#39;./src&#39;, async (p) =&gt; {
+    // manually point out the process need to be killed when restart
+    p.current = require(&#39;child_process&#39;).exec(&#39;node dist&#39;)
   })
 })
 
