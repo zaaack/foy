@@ -2,8 +2,9 @@ import execa from 'execa'
 import pathLib from 'path'
 import { logger, logger as _logger } from './logger'
 import { sleep, Is, DefaultLogFile } from './utils'
-import { fs } from './fs'
+import { fs, WatchDirOptions } from './fs'
 import { Stream, Writable } from 'stream'
+import { ChildProcess } from 'child_process'
 const shellParser = require('shell-parser')
 export { execa }
 
@@ -12,17 +13,20 @@ function _exec(cmd: string, options?: execa.Options) {
   return execa(file, args, options)
 }
 export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess
-export function exec(commands: string[], options?: execa.Options): Promise<execa.ExecaSyncReturnValue<string>[]>
-export function exec(commands: string | string[], options?: execa.Options) {
+export function exec(
+  commands: string[],
+  options?: execa.Options,
+): Promise<execa.ExecaSyncReturnValue<string>[]>
+export function exec(commands: string | string[], options?: execa.Options): any {
   if (Is.str(commands)) {
     return _exec(commands, options)
   }
 
-  const rets: execa.ExecaSyncReturnValue<string>[]  = []
+  const rets: execa.ExecaSyncReturnValue<string>[] = []
   let retsP: Promise<execa.ExecaSyncReturnValue<string>[]> = Promise.resolve(null as any)
   for (const cmd of commands) {
     retsP = retsP.then(() => {
-      return _exec(cmd, options).then(r => {
+      return _exec(cmd, options).then((r) => {
         rets.push(r)
         return rets
       })
@@ -34,7 +38,7 @@ export const spawn = execa
 
 export class ShellContext {
   private _cwdStack = [process.cwd()]
-  private _env: {[k: string]: string | undefined} = {}
+  private _env: { [k: string]: string | undefined } = {}
   logCommand = false
   sleep = sleep
   /**
@@ -44,12 +48,18 @@ export class ShellContext {
     return this._cwdStack[this._cwdStack.length - 1]
   }
   protected _logger = logger
+  private readonly _process: {
+    current: ChildProcess | null
+  } = {current: null}
   /**
    * change work directory
    * @param dir
    */
   cd(dir: string) {
-    this._cwdStack[this._cwdStack.length - 1] = pathLib.resolve(this._cwdStack[this._cwdStack.length - 1], dir)
+    this._cwdStack[this._cwdStack.length - 1] = pathLib.resolve(
+      this._cwdStack[this._cwdStack.length - 1],
+      dir,
+    )
     return this
   }
   /**
@@ -80,15 +90,19 @@ export class ShellContext {
       cwd: this.cwd,
       env: {
         ...process.env,
-        ...this._env
+        ...this._env,
       },
       stdio: 'inherit',
       ...options,
     })
     // tslint:disable-next-line:no-floating-promises
-    p.catch(err => {
+    p.catch((err) => {
       this._logger.error('Exec failed: ', commands)
       throw err
+    })
+    this._process.current = p
+    p.finally(() => {
+      this._process.current = null
     })
     return p
   }
@@ -99,7 +113,7 @@ export class ShellContext {
    * @param options
    */
   spawn(file: string, args: string[] = [], options?: execa.Options): execa.ExecaChildProcess {
-    const command = file + ' ' + args.map(a => `"${a.replace(/"/g, '\\"')}"`).join(' ')
+    const command = file + ' ' + args.map((a) => `"${a.replace(/"/g, '\\"')}"`).join(' ')
     this._logCmd(command)
     let p = spawn(file, args, {
       cwd: this.cwd,
@@ -111,9 +125,13 @@ export class ShellContext {
       ...options,
     })
     // tslint:disable-next-line:no-floating-promises
-    p.catch(err => {
+    p.catch((err) => {
       this._logger.error('Exec failed: ', command)
       throw err
+    })
+    this._process.current = p
+    p.finally(() => {
+      this._process.current = null
     })
     return p
   }
@@ -139,27 +157,46 @@ export class ShellContext {
   }
   /**
    * restart processes when file changes
+   * @example
+   *  ctx.monitor('./src', 'tsc')
+   *  ctx.monitor('./src', 'webpack')
+   *  ctx.monitor('./src', 'foy watch')
+   *  ctx.monitor('./src', ['rm -rf dist', 'foy watch'])
+   *  ctx.monitor('./src', async p => {
+   *    await fs.rmrf('dist')
+   *    p.current = ctx.exec('webpack serve')
+   *  })
    */
-  monitor(dir: string, run: (ctx: ShellContext) => execa.ExecaChildProcess | Promise<execa.ExecaChildProcess>, {
-    throttle
-  }: {
-    throttle?: number
-  }) {
-    let p: execa.ExecaChildProcess | null = null
-    fs.watchDir(dir, { throttle }, async (event, file) => {
-      while (p && !p.killed) {
-        p && p.kill()
-        await sleep(500)
+  monitor(
+    dir: string,
+    run: ((p: { current: ChildProcess | null }) => void) | string | string[],
+    options: WatchDirOptions & {
+      ignore?: (event: string, file: string) => boolean
+    } = {},
+  ) {
+    let p = this._process
+    fs.watchDir(dir, options, async (event, file) => {
+      if (options.ignore && options.ignore(event, file)) {
+        return
       }
-      let ret = run(this)
-      if ('kill' in ret) {
-        p = ret
-      } else {
-        await ret.then(r => {
-          p=r
-          return
-        })
+      while (p.current && !p.current.killed && p.current.exitCode === null) {
+        p.current.kill()
+        await sleep(1000)
       }
+      if (typeof run === 'string') {
+        let cmd = run
+        run = (p) => (p.current = this.exec(cmd))
+      }
+      if (Array.isArray(run)) {
+        let cmds = run
+        run = async (p) => {
+          for (const cmd of cmds.slice(0, -1)) {
+            await this.exec(cmd)
+          }
+          p.current = this.exec(cmds.slice(-1)[0])
+        }
+      }
+      run(p)
     })
   }
   /**
@@ -171,12 +208,14 @@ export class ShellContext {
   }
   private _logCmd(cmd: string | string[]) {
     if (this.logCommand) {
-      let env = Object.keys(this._env).map(k => `${k}=${this._env[k] || ''}`).join(' ')
+      let env = Object.keys(this._env)
+        .map((k) => `${k}=${this._env[k] || ''}`)
+        .join(' ')
       if (env) {
         env += ' '
       }
       cmd = Array.isArray(cmd) ? cmd : [cmd]
-      cmd.forEach(cmd => {
+      cmd.forEach((cmd) => {
         this._logger.info(`$ ${env}${cmd}`)
       })
     }
