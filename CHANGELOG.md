@@ -1,3 +1,9 @@
+#### 0.2.10 (2021-07-28)
+
+##### Bug Fixes
+
+*  monitor ([d0201871](https://github.com/zaaack/foy/commit/d0201871ad78fa86fcd5e0fc1277ac03c09dc787))
+
 #### 0.2.9 (2021-07-26)
 
 ##### New Features
