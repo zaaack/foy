@@ -1,6 +1,7 @@
-import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespace, exec, before } from './src/'
+import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespace, exec, before, execa } from './src/'
 import marked from 'marked'
 import * as ejs from 'ejs'
+import { ChildProcess } from 'child_process'
 
 setGlobalOptions({ loading: false, strict: true })
 
@@ -129,3 +130,13 @@ namespace('server', ns => {
 })
 
 task('start', ['client:start'.async(), 'server:start'.async()])
+
+task('w', async ctx => {
+  let inc = 1
+  // ctx.monitor('./src', 'sleep 5')
+  // ctx.monitor('./src', ['echo test', 'sleep 5'])
+  ctx.monitor('./src', async () => {
+    console.log('test')
+    ctx.exec('sleep 3')
+  })
+})

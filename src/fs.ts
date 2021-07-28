@@ -1,7 +1,7 @@
 import _fs from 'fs'
 import util from 'util'
 import pathLib from 'path'
-import { throttle, Is } from './utils'
+import { debounce, Is, promiseQueue } from './utils'
 
 const ENOENT = 'ENOENT' // not found
 const EEXIST = 'EEXIST'
@@ -66,7 +66,7 @@ export type WatchDirHandler = (event: string, filename: string) => void
 export type WatchDirOptions = {
   persistent?: boolean
   /** ms, default 300 */
-  throttle?: number
+  threshold?: number
 }
 
 function watchDir(
@@ -89,11 +89,12 @@ function watchDir(
   }
   options = {
     persistent: true,
-    throttle: 300,
+    threshold: 300,
     ...options,
   } as WatchDirOptions
-  if (options.throttle) {
-    cb = cb && throttle(cb, options.throttle)
+  cb = cb && promiseQueue(cb)
+  if (options.threshold) {
+    cb = cb && debounce(cb, options.threshold)
   }
   if (process.platform === 'linux') {
     // tslint:disable-next-line:no-floating-promises

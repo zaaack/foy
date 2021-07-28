@@ -47,7 +47,7 @@ export const sleep = (ms: number) => {
   return new Promise<void>((res) => setTimeout(res, ms))
 }
 
-export function throttle<T extends (...args: any[]) => void>(
+export function debounce<T extends (...args: any[]) => void>(
   cb: T,
   ms: number,
   getArgsKey: (args: any[]) => string = (args: any[]) => args.join('|'),
@@ -64,6 +64,14 @@ export function throttle<T extends (...args: any[]) => void>(
     timerMap.set(key, timer)
   }
   return newCb as any
+}
+
+export function promiseQueue<A extends any[], R>(cb: (...args: A) => Promise<R> | R) {
+  let promiseQueue = Promise.resolve(null as any)
+  return (...args: A) => {
+    promiseQueue = promiseQueue.then(() => cb(...args))
+    return promiseQueue
+  }
 }
 
 export const Is = {
