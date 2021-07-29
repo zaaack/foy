@@ -313,6 +313,7 @@ export class TaskManager {
       let ret = await this.runDepsTree(depsTree, props)
       return ret
     } catch (e) {
+      logger.error(e)
       await this.runListner('onerror', t.namespaces, [e, t])
     } finally {
       await this.runListner('after', t.namespaces, [t])
