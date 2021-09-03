@@ -1,3 +1,9 @@
+#### 0.2.12 (2021-09-03)
+
+##### New Features
+
+*  add exec_unix ([fd22c93a](https://github.com/zaaack/foy/commit/fd22c93a3faf7483e38d8691322aee62ca94c1f2))
+
 #### 0.2.11 (2021-07-29)
 
 ##### Bug Fixes
