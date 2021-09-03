@@ -107,6 +107,16 @@ export class ShellContext {
     return p
   }
   /**
+   * exec (multi-line) cmd in *unix platforms,
+   * via `this.spawn('$SHELL', ['-i','-c', cmd])`
+   * @param cmd
+   * @param options
+   * @returns
+   */
+  exec_unix(cmd: string, options?: execa.Options) {
+    return this.spawn('$SHELL', ['-i','-c', cmd])
+  }
+  /**
    * spawn file
    * @param file
    * @param args
