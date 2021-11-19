@@ -24,6 +24,8 @@ export interface GlobalOptions {
   logCommand?: boolean
   options?: any
   rawArgs?: string[]
+  /** @default true */
+  showTaskDuration?: boolean
 }
 
 export interface RunDepOptions {
@@ -113,7 +115,8 @@ export class TaskManager {
     indent: 3,
     logCommand: true,
     logger: {
-    }
+    },
+    showTaskDuration: true,
   }
   getTasks() {
     return Object.keys(this._tasks).map(k => this._tasks[k])
