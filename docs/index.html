@@ -43,6 +43,7 @@
 <li><a href="#run-task-in-task">run task in task</a></li>
 <li><a href="#watch-and-build">Watch and build</a></li>
 <li><a href="#using-with-custom-compiler">Using with custom compiler</a></li>
+<li><a href="#zshbash-auto-completion-new">zsh/bash auto completion (<strong>New!!!</strong>)</a></li>
 <li><a href="#api-documentation">API documentation</a></li>
 <li><a href="#license">License</a></li>
 </ul>
@@ -396,6 +397,13 @@ foy -r ts-node/register -c ./some/Foyfile.ts build
 # Write Foyfile in coffee
 foy -r coffeescript/register -c ./some/Foyfile.coffee build
 </code></pre>
+<h2 id="zshbash-auto-completion-new">zsh/bash auto completion (<strong>New!!!</strong>)</h2>
+<p>Add foy auto completion in zsh/bash:</p>
+<pre><code class="language-sh"># for bash
+foy --completion-profile &gt;&gt; ~/.bashrc
+
+# for zsh
+foy --completion-profile &gt;&gt; ~/.zshrc</code></pre>
 <h2 id="api-documentation">API documentation</h2>
 <p><a href="https://zaaack.github.io/foy/api">https://zaaack.github.io/foy/api</a></p>
 <h2 id="license">License</h2>
