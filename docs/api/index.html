@@ -91,6 +91,7 @@
 							<li><a href="#run-task-in-task">run task in task</a></li>
 							<li><a href="#watch-and-build">Watch and build</a></li>
 							<li><a href="#using-with-custom-compiler">Using with custom compiler</a></li>
+							<li><a href="#zshbash-auto-completion-new">zsh/bash auto completion (<strong>New!!!</strong>)</a></li>
 							<li><a href="#api-documentation">API documentation</a></li>
 							<li><a href="#license">License</a></li>
 						</ul>
@@ -476,6 +477,15 @@ foy -r ts-node/register -c ./some/Foyfile.ts build
 <span class="hljs-comment"># Write Foyfile in coffee</span>
 foy -r coffeescript/register -c ./some/Foyfile.coffee build
 </code></pre>
+				<a href="#zshbash-auto-completion-new" id="zshbash-auto-completion-new" style="color: inherit; text-decoration: none;">
+					<h2>zsh/bash auto completion (<strong>New!!!</strong>)</h2>
+				</a>
+				<p>Add foy auto completion in zsh/bash:</p>
+				<pre><code class="language-sh"><span class="hljs-comment"># for bash</span>
+foy --completion-profile &gt;&gt; ~/.bashrc
+
+<span class="hljs-comment"># for zsh</span>
+foy --completion-profile &gt;&gt; ~/.zshrc</code></pre>
 				<a href="#api-documentation" id="api-documentation" style="color: inherit; text-decoration: none;">
 					<h2>API documentation</h2>
 				</a>
