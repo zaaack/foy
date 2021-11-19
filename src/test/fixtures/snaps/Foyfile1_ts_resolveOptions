@@ -6,3 +6,4 @@ Task: logOptions
 [debug] logOptions { aa: 1, '--': [], c: 1, rawArgs: [] } { '--': [], c: 1 } []
 Task: resolveOptions
 rawArgs []
+[info] Done in 0.01s

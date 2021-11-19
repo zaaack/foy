@@ -8,3 +8,4 @@ wait 100
 Task: wait
 wait 1
 Task: async:priority
+[info] Done in 0.11s
