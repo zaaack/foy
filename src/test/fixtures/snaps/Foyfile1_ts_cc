@@ -14,3 +14,4 @@ Task: bb
 Skip task: aa
 Task: cc
 [debug] { '--': [], c: 123 }
+[info] Done in 0.01s

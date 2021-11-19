@@ -14,3 +14,4 @@ Task: aa
 [warn] { aa: 2 }
 [error] { aa: 2 }
 Task: ff
+[info] Done in 0.01s

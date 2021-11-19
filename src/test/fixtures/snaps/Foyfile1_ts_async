@@ -8,3 +8,4 @@ Task: wait
 wait 1
 wait 100
 Task: async
+[info] Done in 0.11s

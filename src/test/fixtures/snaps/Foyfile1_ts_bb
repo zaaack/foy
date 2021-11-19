@@ -9,3 +9,4 @@ Task: aa
 [error] {}
 Task: bb
 [debug] { '--': [] } { '--': [] }
+[info] Done in 0.02s

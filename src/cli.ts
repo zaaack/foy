@@ -34,7 +34,7 @@ taskManager.getTasks().forEach(t => {
     }).finally(() => {
       if (taskManager.globalOptions.showTaskDuration) {
         let duration = (Date.now() - startTime)/1000
-        logger.info(chalk.yellow(`Task ${t.name}`), `done in ${duration.toFixed(2)}s`)
+        logger.info(`Done in ${duration.toFixed(2)}s`)
       }
     })
   })

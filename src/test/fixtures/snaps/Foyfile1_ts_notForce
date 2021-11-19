@@ -10,3 +10,4 @@ Task: aa
 [error] { noop: [Function: noop] }
 Skip task: aa
 Task: notForce
+[info] Done in 0.01s

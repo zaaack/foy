@@ -9,3 +9,4 @@ Task: exec
 [info] $ sleep 1
 [info] false function function
 [info] afterAll exec
+[info] Done in 0.04s

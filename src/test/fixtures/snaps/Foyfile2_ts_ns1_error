@@ -4,7 +4,18 @@ DependencyGraph for task [ns1:error]:
 [info] beforeAll ns1:error
 [info] before ns1 ns1:error
 Task: ns1:error
+[error] Error: test error
+    at /home/z/Mine/foy/src/test/fixtures/Foyfile2.ts:45:11
+    at Generator.next (<anonymous>)
+    at /home/z/Mine/foy/node_modules/tslib/tslib.js:114:75
+    at new Promise (<anonymous>)
+    at Object.__awaiter (/home/z/Mine/foy/node_modules/tslib/tslib.js:110:16)
+    at Object.fn (/home/z/Mine/foy/src/test/fixtures/Foyfile2.ts:44:29)
+    at TaskManager.<anonymous> (/home/z/Mine/foy/src/task-manager.ts:240:34)
+    at Generator.next (<anonymous>)
+    at fulfilled (/home/z/Mine/foy/node_modules/tslib/tslib.js:111:62)
 [info] onerror ns1 test error ns1:error
 [info] onerrorError test error ns1:error
 [info] after ns1 ns1:error
 [info] afterAll ns1:error
+[info] Done in 0.02s
