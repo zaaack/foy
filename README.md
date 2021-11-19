@@ -24,6 +24,7 @@ A simple, light-weight and modern task runner for general purpose.
   - [run task in task](#run-task-in-task)
   - [Watch and build](#watch-and-build)
   - [Using with custom compiler](#using-with-custom-compiler)
+  - [zsh/bash auto completion (**New!!!**)](#zshbash-auto-completion-new)
   - [API documentation](#api-documentation)
   - [License](#license)
 
@@ -475,6 +476,18 @@ foy -r ts-node/register -c ./some/Foyfile.ts build
 # Write Foyfile in coffee
 foy -r coffeescript/register -c ./some/Foyfile.coffee build
 
+```
+
+## zsh/bash auto completion (**New!!!**)
+
+Add foy auto completion in zsh/bash:
+
+```sh
+# for bash
+foy --completion-profile >> ~/.bashrc
+
+# for zsh
+foy --completion-profile >> ~/.zshrc
 ```
 
 ## API documentation
