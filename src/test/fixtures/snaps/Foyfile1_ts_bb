@@ -7,7 +7,5 @@ Task: aa
 [info] {}
 [warn] {}
 [error] {}
-Task: aa done in 0s
 Task: bb
 [debug] { '--': [] } { '--': [] }
-Task: bb done in 0.01s

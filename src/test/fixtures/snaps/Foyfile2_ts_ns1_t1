@@ -5,6 +5,5 @@ DependencyGraph for task [ns1:t1]:
 [info] before ns1 ns1:t1
 Task: ns1:t1
 [info] t1 ns ns1
-Task: ns1:t1 done in 0s
 [info] after ns1 ns1:t1
 [info] afterAll ns1:t1

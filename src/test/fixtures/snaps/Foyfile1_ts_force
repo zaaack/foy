@@ -8,12 +8,9 @@ Task: aa
 [info] { noop: [Function: noop] }
 [warn] { noop: [Function: noop] }
 [error] { noop: [Function: noop] }
-Task: aa done in 0s
 Task: aa
 [debug] { noop: [Function: noop] }
 [info] { noop: [Function: noop] }
 [warn] { noop: [Function: noop] }
 [error] { noop: [Function: noop] }
-Task: aa done in 0s
 Task: force
-Task: force done in 0s

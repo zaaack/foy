@@ -5,9 +5,6 @@ DependencyGraph for task [async:priority]:
 
 Task: wait
 wait 100
-Task: wait done in 0.1s
 Task: wait
 wait 1
-Task: wait done in 0s
 Task: async:priority
-Task: async:priority done in 0.1s

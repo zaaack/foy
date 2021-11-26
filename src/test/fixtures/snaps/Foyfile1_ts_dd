@@ -5,4 +5,3 @@ Task: dd
 [info] $ pwd
 [debug] p.stdout.trim() === ctx.cwd() true
 [debug] true
-Task: dd done in 0.11s

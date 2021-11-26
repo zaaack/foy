@@ -4,7 +4,6 @@ DependencyGraph for task [ns1:error]:
 [info] beforeAll ns1:error
 [info] before ns1 ns1:error
 Task: ns1:error
-Task: ns1:error done in 0s
 [error] Error: test error
     at /home/z/Mine/foy/src/test/fixtures/Foyfile2.ts:45:11
     at Generator.next (<anonymous>)

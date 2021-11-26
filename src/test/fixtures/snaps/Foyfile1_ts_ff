@@ -8,12 +8,9 @@ Task: aa
 [info] { aa: 1 }
 [warn] { aa: 1 }
 [error] { aa: 1 }
-Task: aa done in 0s
 Task: aa
 [debug] { aa: 2 }
 [info] { aa: 2 }
 [warn] { aa: 2 }
 [error] { aa: 2 }
-Task: aa done in 0s
 Task: ff
-Task: ff done in 0.01s
