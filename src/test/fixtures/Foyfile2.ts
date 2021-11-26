@@ -1,7 +1,7 @@
 import { task, namespace, before, after, onerror, setGlobalOptions } from "../../task";
 import { sleep } from '../../utils';
 import { logger } from '../../logger';
-setGlobalOptions({strict: true, loading: false})
+setGlobalOptions({strict: true, loading: false, showTaskDuration: false})
 before((t) => {
   logger.log('beforeAll', t.name)
 })

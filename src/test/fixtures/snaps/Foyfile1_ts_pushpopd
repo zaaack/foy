@@ -9,4 +9,3 @@ Task: pushpopd
 [info] cd works true
 [info] popd works true
 [info] popd 2 works true
-Task: pushpopd done in 0.03s

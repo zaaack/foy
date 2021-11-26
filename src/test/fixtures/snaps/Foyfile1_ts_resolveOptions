@@ -4,7 +4,5 @@ DependencyGraph for task [resolveOptions]:
 
 Task: logOptions
 [debug] logOptions { aa: 1, '--': [], c: 1, rawArgs: [] } { '--': [], c: 1 } []
-Task: logOptions done in 0s
 Task: resolveOptions
 rawArgs []
-Task: resolveOptions done in 0s

@@ -8,5 +8,4 @@ Task: exec
 [info] echo1 undefined
 [info] $ sleep 1
 [info] false function function
-Task: exec done in 0.07s
 [info] afterAll exec

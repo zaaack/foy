@@ -2,7 +2,7 @@ import { task, desc, option, logger } from '../../'
 import { strict, setGlobalOptions } from '../../task'
 import { resolve } from 'path'
 
-setGlobalOptions({ strict: true, loading: false })
+setGlobalOptions({ strict: true, loading: false, showTaskDuration: false })
 
 desc('AA')
 option('-a <val>', 'aa', { default: 12 })
