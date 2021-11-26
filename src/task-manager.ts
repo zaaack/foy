@@ -1,13 +1,12 @@
 import { CliLoading } from './cli-loading'
 import { Task } from './task'
 import chalk from 'chalk'
-import { hashAny, defaults, Is, DefaultLogFile } from './utils'
+import { hashAny, defaults, Is, DefaultLogFile, formatDuration } from './utils'
 import { Writable, Stream } from 'stream'
 import { fs } from './fs'
 import { ShellContext } from './exec'
 import { logger, ILogInfo, ILoggerProps, LogLevels, Logger } from './logger'
 import figures from 'figures'
-
 
 export interface GlobalOptions {
   /**
@@ -60,16 +59,27 @@ export interface DepsTree {
   state: TaskState
   depth: number
   priority: number
+  duration: number
 }
 
 export class TaskContext<O = any> extends ShellContext {
   fs = fs
   protected _logger: Logger
-  get debug(){return this._logger.debug}
-  get info(){return this._logger.info}
-  get log(){return this._logger.log}
-  get warn(){return this._logger.warn}
-  get error(){return this._logger.error}
+  get debug() {
+    return this._logger.debug
+  }
+  get info() {
+    return this._logger.info
+  }
+  get log() {
+    return this._logger.log
+  }
+  get warn() {
+    return this._logger.warn
+  }
+  get error() {
+    return this._logger.error
+  }
   constructor(public task: Task<O>, public global: GlobalOptions) {
     super()
     this.logCommand = defaults(task.logger && task.logCommand, global.logCommand, true)
@@ -96,7 +106,7 @@ export class TaskContext<O = any> extends ShellContext {
 }
 
 export type Callback = {
-  fn: (args?: any) => void | Promise<void>,
+  fn: (args?: any) => void | Promise<void>
   namespaces: string[]
 }
 export type ListenerNames = 'before' | 'after' | 'onerror'
@@ -114,12 +124,11 @@ export class TaskManager {
     options: {},
     indent: 3,
     logCommand: true,
-    logger: {
-    },
+    logger: {},
     showTaskDuration: true,
   }
   getTasks() {
-    return Object.keys(this._tasks).map(k => this._tasks[k])
+    return Object.keys(this._tasks).map((k) => this._tasks[k])
   }
   addTask(task: Task) {
     if (this._tasks[task.name]) {
@@ -133,12 +142,12 @@ export class TaskManager {
   resolveDependencyTree(t: Task, depth = 0): DepsTree {
     let asyncDeps: DepsTree[][] = []
     let syncDeps: DepsTree[] = []
-    let asyncDepsMap: {[k: number]: DepsTree[]} = {}
+    let asyncDepsMap: { [k: number]: DepsTree[] } = {}
     if (t.async === true) {
       t.async = 0
     }
     if (t.dependencies) {
-      t.dependencies.forEach(taskDep => {
+      t.dependencies.forEach((taskDep) => {
         let fullTask = this._tasks[taskDep.name]
         if (!fullTask) {
           throw new TypeError(`Cannot find task with name [${taskDep.name}]`)
@@ -152,32 +161,30 @@ export class TaskManager {
           },
         }
         let depTask = this.resolveDependencyTree(t, depth + 1)
-        if (t.async === false || !Is.defed(t.async)) { // sync tasks
+        if (t.async === false || !Is.defed(t.async)) {
+          // sync tasks
           syncDeps.push(depTask)
         } else {
           let idx = t.async === true ? 0 : t.async
-          let deps = asyncDepsMap[idx] = asyncDepsMap[idx] || []
+          let deps = (asyncDepsMap[idx] = asyncDepsMap[idx] || [])
           deps.push(depTask)
         }
       })
       asyncDeps = []
-      Object.keys(asyncDepsMap)  // Sort async deps via priority, bigger is former
-      .map(Number)
-      .sort((a, b) => b - a)
-      .map(k => (asyncDeps.push(asyncDepsMap[k])))
+      Object.keys(asyncDepsMap) // Sort async deps via priority, bigger is former
+        .map(Number)
+        .sort((a, b) => b - a)
+        .map((k) => asyncDeps.push(asyncDepsMap[k]))
     }
     return {
-      uid:
-        Date.now().toString(36) +
-        Math.random()
-          .toString(36)
-          .slice(2),
+      uid: Date.now().toString(36) + Math.random().toString(36).slice(2),
       task: t,
       asyncDeps,
       syncDeps,
       state: TaskState.waiting,
       depth,
       priority: Is.num(t.async) ? t.async : 0,
+      duration: -1,
     }
   }
 
@@ -188,6 +195,7 @@ export class TaskManager {
     let t = depsTree.task
     let taskHash = hashAny(t)
     let loading = this.isLoading(t, props)
+    let startTime = Date.now()
 
     let didResolved = null as ((value?: any) => void) | null
     if (this._didMap.has(taskHash) && !t.force) {
@@ -198,7 +206,7 @@ export class TaskManager {
       }
       return
     }
-    this._didMap.set(taskHash, new Promise(res => (didResolved = res)))
+    this._didMap.set(taskHash, new Promise((res) => (didResolved = res)))
 
     t.rawArgs = props.rawArgs || []
     const ctx = new TaskContext(t, this.globalOptions)
@@ -218,9 +226,7 @@ export class TaskManager {
       })(),
       (async () => {
         for (const deps of depsTree.asyncDeps) {
-          await Promise.all(
-            deps.map(t => this.runDepsTree(t, { ...depProps, parentCtx: ctx })),
-          )
+          await Promise.all(deps.map((t) => this.runDepsTree(t, { ...depProps, parentCtx: ctx })))
         }
       })(),
     ])
@@ -237,9 +243,6 @@ export class TaskManager {
 
     if (!loading) {
       console.log(chalk.yellow('Task: ') + t.name)
-      let retPromise = t.fn && t.fn(ctx)
-      didResolved && didResolved()
-      return retPromise
     }
 
     try {
@@ -250,12 +253,21 @@ export class TaskManager {
     } catch (error) {
       depsTree.state = TaskState.failed
       throw error
+    } finally {
+      if (this.globalOptions.showTaskDuration) {
+        depsTree.duration = Date.now() - startTime
+        if (!loading) {
+          console.log(
+            chalk.yellow('Task: ') + t.name + ` done in ${formatDuration(depsTree.duration)}`,
+          )
+        }
+      }
     }
   }
   async runListner(name: ListenerNames, ns: string[], args: any[] = []) {
     const listeners = this.listeners[name].slice()
     if (name === 'before') {
-      listeners.sort((a, b) => a.namespaces.length - b .namespaces.length)
+      listeners.sort((a, b) => a.namespaces.length - b.namespaces.length)
     } else {
       listeners.sort((a, b) => b.namespaces.length - a.namespaces.length)
     }
@@ -282,7 +294,8 @@ export class TaskManager {
       ...props,
     }
     this._tasks.all =
-      this._tasks.all || (await import('./task').then(e => e.task('all', Object.keys(this._tasks))))
+      this._tasks.all ||
+      (await import('./task').then((e) => e.task('all', Object.keys(this._tasks))))
     this._tasks.default = this._tasks.default || this._tasks.all
 
     if (!this._tasks[Is.str(name) ? name : name.name]) {

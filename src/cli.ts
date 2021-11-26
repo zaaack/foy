@@ -24,18 +24,12 @@ taskManager.getTasks().forEach(t => {
     let { globalOptions } = taskManager
     globalOptions.rawArgs = taskCli.rawArgs
     globalOptions.options = options
-    let startTime = Date.now()
     await taskManager.run(t.name, {
       options,
       rawArgs: taskCli.rawArgs.slice(3),
     }).catch(err => {
       logger.error(err)
       throw err
-    }).finally(() => {
-      if (taskManager.globalOptions.showTaskDuration) {
-        let duration = (Date.now() - startTime)/1000
-        logger.info(`Done in ${duration.toFixed(2)}s`)
-      }
     })
   })
 })

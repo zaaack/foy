@@ -9,9 +9,11 @@ Task: aa
 [info] {}
 [warn] {}
 [error] {}
+Task: aa done in 0s
 Task: bb
 [debug] { test: 123 } { '--': [], c: 123 }
+Task: bb done in 0.01s
 Skip task: aa
 Task: cc
 [debug] { '--': [], c: 123 }
-[info] Done in 0.01s
+Task: cc done in 0.01s
