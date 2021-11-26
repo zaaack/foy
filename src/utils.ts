@@ -133,3 +133,7 @@ export const formatDate = (d: Date) =>
   `${d.getFullYear()}-${
     d.getMonth() + 1
   }-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+
+export function formatDuration(ms: number) {
+  return Number((ms / 1000).toFixed(2)) + 's'
+}

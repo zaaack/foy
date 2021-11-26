@@ -8,6 +8,7 @@ Task: aa
 [info] { noop: [Function: noop] }
 [warn] { noop: [Function: noop] }
 [error] { noop: [Function: noop] }
+Task: aa done in 0s
 Skip task: aa
 Task: notForce
-[info] Done in 0.01s
+Task: notForce done in 0.01s

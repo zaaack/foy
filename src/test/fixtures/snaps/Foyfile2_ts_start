@@ -4,5 +4,5 @@ DependencyGraph for task [start]:
 [info] beforeAll start
 Task: start
 [info] start
+Task: start done in 0s
 [info] afterAll start
-[info] Done in 0.01s

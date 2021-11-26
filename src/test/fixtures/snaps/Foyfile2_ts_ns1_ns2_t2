@@ -6,7 +6,7 @@ DependencyGraph for task [ns1:ns2:t2]:
 [info] before ns2 ns1:ns2:t2
 Task: ns1:ns2:t2
 [info] t2 ns ns1 ns2
+Task: ns1:ns2:t2 done in 0s
 [info] after ns2 ns1:ns2:t2
 [info] after ns1 ns1:ns2:t2
 [info] afterAll ns1:ns2:t2
-[info] Done in 0.01s

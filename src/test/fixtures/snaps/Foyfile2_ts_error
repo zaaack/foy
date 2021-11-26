@@ -4,5 +4,5 @@ DependencyGraph for task [error]:
 [info] beforeAll error
 Task: error
 [info] error
+Task: error done in 0s
 [info] afterAll error
-[info] Done in 0.00s

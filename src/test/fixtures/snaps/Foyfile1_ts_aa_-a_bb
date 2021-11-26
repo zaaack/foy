@@ -6,4 +6,4 @@ Task: aa
 [info] { '--': [], a: 'bb' }
 [warn] { '--': [], a: 'bb' }
 [error] { '--': [], a: 'bb' }
-[info] Done in 0.01s
+Task: aa done in 0s

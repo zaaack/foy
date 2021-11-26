@@ -5,7 +5,9 @@ DependencyGraph for task [sync]:
 
 Task: wait
 wait 100
+Task: wait done in 0.1s
 Task: wait
 wait 1
+Task: wait done in 0s
 Task: sync
-[info] Done in 0.11s
+Task: sync done in 0.12s

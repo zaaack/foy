@@ -1,6 +1,6 @@
 import Spinners from 'cli-spinners'
 import logFigures from 'figures'
-import { Is } from './utils'
+import { formatDuration, Is } from './utils'
 import chalk from 'chalk'
 import { DepsTree, TaskState } from './task-manager'
 import wcwidth from 'wcwidth'
@@ -53,7 +53,7 @@ export class CliLoading {
         : f => f
     let skipped = depsTree.state === TaskState.skipped
     output.push(
-      `${indent}${symbol} ${color(depsTree.task.name)}${skipped ? chalk.gray(` [skipped]`) : ''}${depsTree.priority ? chalk.gray(` [priority: ${depsTree.priority}]`) : ''}`,
+      `${indent}${symbol} ${color(depsTree.task.name)}${skipped ? chalk.gray(` [skipped]`) : ''}${depsTree.priority ? chalk.gray(` [priority: ${depsTree.priority}]`) : ''}${(depsTree.duration>=0) ? chalk.gray(` [duration: ${formatDuration(depsTree.duration)}]`) : ''}`,
     )
     let childDeps = ([] as DepsTree[])
       .concat(...depsTree.asyncDeps)
@@ -97,6 +97,7 @@ export class CliLoading {
       if (i > 0) {
         this.props.stream.moveCursor(0, -1)
       }
+      // @ts-ignore
       this.props.stream.clearLine && (this.props.stream as any).clearLine()
       this.props.stream.cursorTo(0)
     }
