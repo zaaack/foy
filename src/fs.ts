@@ -11,14 +11,14 @@ async function copy(
   dist: string,
   opts?: {
     /** return true will skip */
-    skip?: (file: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void,
-    /** override if exists, default is true */
-    override?: boolean,
+    skip?: (file: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void
+    /** overwrite if exists, default is true */
+    overwrite?: boolean
   },
 ) {
   opts = {
-    override: true,
-    ...opts
+    overwrite: true,
+    ...opts,
   }
   const srcStat = await fs.stat(src)
   const isSkiped = opts.skip ? await opts.skip(src, srcStat) : false
@@ -28,22 +28,14 @@ async function copy(
     await fs.mkdirp(dist)
     let childs = await fs.readdir(src)
     await Promise.all(
-      childs.map(
-        child => copy(
-          pathLib.join(src, child),
-          pathLib.join(dist, child),
-          opts
-        )
-      )
+      childs.map((child) => copy(pathLib.join(src, child), pathLib.join(dist, child), opts)),
     )
-  } else if (
-    srcStat.isFile() || srcStat.isSymbolicLink()
-  ) {
+  } else if (srcStat.isFile() || srcStat.isSymbolicLink()) {
     if (await fs.lexists(dist)) {
       let isDir = await fs.isDirectory(dist)
       if (isDir) {
         dist = pathLib.join(dist, pathLib.basename(src))
-      } else if (opts.override) {
+      } else if (opts.overwrite) {
         await fs.rmrf(dist)
       } else {
         return
@@ -69,15 +61,8 @@ export type WatchDirOptions = {
   threshold?: number
 }
 
-function watchDir(
-  dir: string,
-  cb: WatchDirHandler,
-): void
-function watchDir(
-  dir: string,
-  options: WatchDirOptions,
-  cb: WatchDirHandler,
-): void
+function watchDir(dir: string, cb: WatchDirHandler): void
+function watchDir(dir: string, options: WatchDirOptions, cb: WatchDirHandler): void
 function watchDir(
   dir: string,
   options?: WatchDirOptions | WatchDirHandler,
@@ -99,10 +84,14 @@ function watchDir(
   if (process.platform === 'linux') {
     // tslint:disable-next-line:no-floating-promises
     fs.iter(dir, (file) => {
-      fs.watch(file, {
-        recursive: false,
-        persistent: (options as WatchDirOptions).persistent,
-      }, cb)
+      fs.watch(
+        file,
+        {
+          recursive: false,
+          persistent: (options as WatchDirOptions).persistent,
+        },
+        cb,
+      )
     })
   } else {
     fs.watch(dir, { recursive: true, persistent: options.persistent }, cb)
@@ -195,28 +184,27 @@ export const fs = {
       }
     }
   },
-  copyFile: _fs.copyFile ? util.promisify(_fs.copyFile) : async (src: _fs.PathLike, dist: _fs.PathLike) => {
-    await fs.stat(src)
-    return new Promise(
-      (res, rej) => {
-        fs
-          .createReadStream(src, { highWaterMark: 2 * 1024 * 1024 })
-          .pipe(fs.createWriteStream(dist))
-          .on('error', rej)
-          .on('close', res)
-      }
-    )
-  },
+  copyFile: _fs.copyFile
+    ? util.promisify(_fs.copyFile)
+    : async (src: _fs.PathLike, dist: _fs.PathLike) => {
+        await fs.stat(src)
+        return new Promise((res, rej) => {
+          fs.createReadStream(src, { highWaterMark: 2 * 1024 * 1024 })
+            .pipe(fs.createWriteStream(dist))
+            .on('error', rej)
+            .on('close', res)
+        })
+      },
   /**
    * Make directory with parents, like `mkdir -p`
    * @param dir
    */
   async mkdirp(dir: string) {
     let parent = pathLib.dirname(dir)
-    if (!await fs.exists(parent)) {
+    if (!(await fs.exists(parent))) {
       await fs.mkdirp(parent)
     }
-    return fs.mkdir(dir).catch(error => {
+    return fs.mkdir(dir).catch((error) => {
       if (error.code !== EEXIST) {
         throw error
       }
@@ -247,9 +235,7 @@ export const fs = {
    * @param path The path to remove
    * @param opts Options
    */
-  async rmrf(
-    path: string,
-  ) {
+  async rmrf(path: string) {
     let stat: _fs.Stats
     try {
       stat = await fs.lstat(path)
@@ -261,11 +247,7 @@ export const fs = {
     }
     if (stat.isDirectory()) {
       const children = await fs.readdir(path)
-      await Promise.all(
-        children
-        .map(child => pathLib.join(path, child))
-        .map(fs.rmrf)
-      )
+      await Promise.all(children.map((child) => pathLib.join(path, child)).map(fs.rmrf))
       await fs.rmdir(path)
     } else {
       await fs.unlink(path)
@@ -285,36 +267,32 @@ export const fs = {
     path: string,
     data: object,
     options?: {
-      space?: number,
-      replacer?: (key: string, value: any) => any,
-    } & _fs.WriteFileOptions
+      space?: number
+      replacer?: (key: string, value: any) => any
+    } & _fs.WriteFileOptions,
   ) {
-    const [replacer, space] = Is.obj(options)
-      ? [options.replacer, options.space]
-      : [void 0, void 0]
+    const [replacer, space] = Is.obj(options) ? [options.replacer, options.space] : [void 0, void 0]
     return fs.outputFile(path, JSON.stringify(data, replacer, space), options)
   },
   outputJsonSync(
     path: string,
     data: any,
     options?: {
-      space?: number,
-      replacer?: (key: string, value: any) => any,
+      space?: number
+      replacer?: (key: string, value: any) => any
     } & _fs.WriteFileOptions,
   ) {
-    const [replacer, space] = Is.obj(options)
-      ? [options.replacer, options.space]
-      : [void 0, void 0]
+    const [replacer, space] = Is.obj(options) ? [options.replacer, options.space] : [void 0, void 0]
     return fs.outputFileSync(path, JSON.stringify(data, replacer, space), options)
   },
-  async readJson<T = any>(path: string, options?: { encoding?: null, flag?: string } | null) {
+  async readJson<T = any>(path: string, options?: { encoding?: null; flag?: string } | null) {
     let data: Buffer | string = await fs.readFile(path, options)
     if (!Is.str(data)) {
       data = data.toString('utf8')
     }
     return JSON.parse(data) as T
   },
-  readJsonSync<T = any>(path: string, options?: { encoding?: null, flag?: string } | null) {
+  readJsonSync<T = any>(path: string, options?: { encoding?: null; flag?: string } | null) {
     let data: Buffer | string = fs.readFileSync(path, options)
     if (!Is.str(data)) {
       data = data.toString('utf8')
@@ -328,17 +306,15 @@ export const fs = {
   ) {
     let children = await fs.readdir(dir)
     await Promise.all(
-      children.map(
-        async child => {
-          let path = pathLib.join(dir, child)
-          let stat = await fs.stat(path)
-          let isSkipped = await skip(path, stat)
-          if (isSkipped) return
-          if (stat.isDirectory()) {
-            await fs.iter(path, skip)
-          }
+      children.map(async (child) => {
+        let path = pathLib.join(dir, child)
+        let stat = await fs.stat(path)
+        let isSkipped = await skip(path, stat)
+        if (isSkipped) return
+        if (stat.isDirectory()) {
+          await fs.iter(path, skip)
         }
-      )
+      }),
     )
   },
 }
