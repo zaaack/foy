@@ -1,3 +1,11 @@
+#### 0.2.16 (2021-12-17)
+
+##### Bug Fixes
+
+*  doc ([1dc8e986](https://github.com/zaaack/foy/commit/1dc8e9866338e13030b12b87cb0992ab9b1819e1))
+*  fs copy overwrite ([a6be9faa](https://github.com/zaaack/foy/commit/a6be9faa8c8a54a272d565163931568f54521a62))
+*  ci ([85024bfe](https://github.com/zaaack/foy/commit/85024bfe0a3a7ed8abc3f28488e68e146e609bd9))
+
 #### 0.2.15 (2021-11-26)
 
 ##### Bug Fixes
