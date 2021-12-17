@@ -93,6 +93,7 @@ task('site:home', async ctx => {
   }
   let html = await ejs.renderFile('./docs-src/index.html', data)
   await ctx.fs.outputFile('./docs/index.html', html)
+  await ctx.fs.copy('./docs-src/css', './docs/css', { overwrite: true })
 })
 task('site:watch', async ctx => {
   ctx.fs.watchDir('./docs-src', async (evt, file) => {

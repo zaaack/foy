@@ -38,7 +38,7 @@ A simple, light-weight and modern task runner for general purpose.
   - gulp: [![install size](https://packagephobia.now.sh/badge?p=gulp)](https://packagephobia.now.sh/result?p=gulp)
   - grunt: [![install size](https://packagephobia.now.sh/badge?p=grunt)](https://packagephobia.now.sh/result?p=grunt)
 
-![GIF](https://github.com/zaaack/foy/blob/master/docs/capture.gif?raw=true)
+![GIF](https://github.com/zaaack/foy/blob/master/docs-src/capture.gif?raw=true)
 
 ## Install
 
