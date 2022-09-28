@@ -99,38 +99,14 @@ function watchDir(
 }
 export const fs = {
   ..._fs,
-  access: util.promisify(_fs.access),
-  open: util.promisify(_fs.open),
-  rename: util.promisify(_fs.rename),
-  truncate: util.promisify(_fs.truncate),
-  rmdir: util.promisify(_fs.rmdir),
-  mkdir: util.promisify(_fs.mkdir),
-  readdir: util.promisify(_fs.readdir),
-  readlink: util.promisify(_fs.readlink),
-  symlink: util.promisify(_fs.symlink),
-  lstat: util.promisify(_fs.lstat),
-  stat: util.promisify(_fs.stat),
-  link: util.promisify(_fs.link),
-  unlink: util.promisify(_fs.unlink),
-  chmod: util.promisify(_fs.chmod),
-  chown: util.promisify(_fs.chown),
-  utimes: util.promisify(_fs.utimes),
-  realpath: util.promisify(_fs.realpath),
-  mkdtemp: util.promisify(_fs.mkdtemp),
-  writeFile: util.promisify(_fs.writeFile),
-  appendFile: util.promisify(_fs.appendFile),
-  readFile: util.promisify(_fs.readFile),
-  existsSync: _fs.existsSync,
-  createReadString: _fs.createReadStream,
-  createWriteStream: _fs.createWriteStream,
-  constants: _fs.constants,
+  ..._fs.promises,
   watchDir,
   copy,
   async exists(path: _fs.PathLike) {
     try {
       await fs.stat(path)
     } catch (error) {
-      if (error.code === ENOENT) {
+      if ((<NodeJS.ErrnoException>error).code === ENOENT) {
         return false
       } else {
         throw error
@@ -143,7 +119,7 @@ export const fs = {
     try {
       await fs.lstat(path)
     } catch (error) {
-      if (error.code === ENOENT) {
+      if ((<NodeJS.ErrnoException>error).code === ENOENT) {
         return false
       } else {
         throw error
@@ -155,7 +131,7 @@ export const fs = {
     try {
       return (await fs.lstat(path)).isFile()
     } catch (error) {
-      if (error.code === ENOENT) {
+      if ((<NodeJS.ErrnoException>error).code === ENOENT) {
         return false
       } else {
         throw error
@@ -166,7 +142,7 @@ export const fs = {
     try {
       return (await fs.lstat(path)).isDirectory()
     } catch (error) {
-      if (error.code === ENOENT) {
+      if ((<NodeJS.ErrnoException>error).code === ENOENT) {
         return false
       } else {
         throw error
@@ -177,7 +153,7 @@ export const fs = {
     try {
       return (await fs.lstat(path)).isSymbolicLink()
     } catch (error) {
-      if (error.code === ENOENT) {
+      if ((<NodeJS.ErrnoException>error).code === ENOENT) {
         return false
       } else {
         throw error
@@ -224,7 +200,7 @@ export const fs = {
       try {
         fs.mkdirSync(dir)
       } catch (error) {
-        if (error.code !== EEXIST) {
+        if ((<NodeJS.ErrnoException>error).code !== EEXIST) {
           throw error
         }
       }
@@ -240,7 +216,7 @@ export const fs = {
     try {
       stat = await fs.lstat(path)
     } catch (error) {
-      if (error.code === ENOENT) {
+      if ((<NodeJS.ErrnoException>error).code === ENOENT) {
         return
       }
       throw error
@@ -253,12 +229,12 @@ export const fs = {
       await fs.unlink(path)
     }
   },
-  async outputFile(path: string, data: any, options?: _fs.WriteFileOptions) {
+  async outputFile(path: string, data: any, options?: Parameters<typeof _fs.promises.writeFile>[2]) {
     let dir = pathLib.dirname(path)
     await fs.mkdirp(dir)
     return fs.writeFile(path, data, options)
   },
-  outputFileSync(path: string, data: any, options?: _fs.WriteFileOptions) {
+  outputFileSync(path: string, data: any, options?: Parameters<typeof _fs.writeFileSync>[2]) {
     let dir = pathLib.dirname(path)
     fs.mkdirpSync(dir)
     return fs.writeFileSync(path, data, options)
@@ -269,7 +245,7 @@ export const fs = {
     options?: {
       space?: number
       replacer?: (key: string, value: any) => any
-    } & _fs.WriteFileOptions,
+    } & Parameters<typeof _fs.promises.writeFile>[2],
   ) {
     const [replacer, space] = Is.obj(options) ? [options.replacer, options.space] : [void 0, void 0]
     return fs.outputFile(path, JSON.stringify(data, replacer, space), options)
@@ -280,7 +256,7 @@ export const fs = {
     options?: {
       space?: number
       replacer?: (key: string, value: any) => any
-    } & _fs.WriteFileOptions,
+    } & Parameters<typeof _fs.writeFileSync>[2],
   ) {
     const [replacer, space] = Is.obj(options) ? [options.replacer, options.space] : [void 0, void 0]
     return fs.outputFileSync(path, JSON.stringify(data, replacer, space), options)
