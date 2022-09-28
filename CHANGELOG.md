@@ -1,3 +1,9 @@
+#### 0.2.17 (2022-09-28)
+
+##### Bug Fixes
+
+*  fs types ([91040eaa](https://github.com/zaaack/foy/commit/91040eaa879c850a745c671dc6e99c7abfcc88de))
+
 #### 0.2.16 (2021-12-17)
 
 ##### Bug Fixes
