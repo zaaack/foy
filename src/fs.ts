@@ -6,6 +6,10 @@ import { debounce, Is, promiseQueue } from './utils'
 const ENOENT = 'ENOENT' // not found
 const EEXIST = 'EEXIST'
 
+
+
+export type WriteOptions=  _fs.WriteFileOptions
+
 async function copy(
   src: string,
   dist: string,
@@ -84,7 +88,7 @@ function watchDir(
   if (process.platform === 'linux') {
     // tslint:disable-next-line:no-floating-promises
     fs.iter(dir, (file) => {
-      fs.watch(
+      _fs.watch(
         file,
         {
           recursive: false,
@@ -94,7 +98,7 @@ function watchDir(
       )
     })
   } else {
-    fs.watch(dir, { recursive: true, persistent: options.persistent }, cb)
+    _fs.watch(dir, { recursive: true, persistent: options.persistent }, cb)
   }
 }
 export const fs = {
@@ -229,12 +233,12 @@ export const fs = {
       await fs.unlink(path)
     }
   },
-  async outputFile(path: string, data: any, options?: Parameters<typeof _fs.promises.writeFile>[2]) {
+  async outputFile(path: string, data: any, options?: WriteOptions) {
     let dir = pathLib.dirname(path)
     await fs.mkdirp(dir)
     return fs.writeFile(path, data, options)
   },
-  outputFileSync(path: string, data: any, options?: Parameters<typeof _fs.writeFileSync>[2]) {
+  outputFileSync(path: string, data: any, options?: WriteOptions) {
     let dir = pathLib.dirname(path)
     fs.mkdirpSync(dir)
     return fs.writeFileSync(path, data, options)
@@ -245,7 +249,7 @@ export const fs = {
     options?: {
       space?: number
       replacer?: (key: string, value: any) => any
-    } & Parameters<typeof _fs.promises.writeFile>[2],
+    } & WriteOptions,
   ) {
     const [replacer, space] = Is.obj(options) ? [options.replacer, options.space] : [void 0, void 0]
     return fs.outputFile(path, JSON.stringify(data, replacer, space), options)
@@ -256,7 +260,7 @@ export const fs = {
     options?: {
       space?: number
       replacer?: (key: string, value: any) => any
-    } & Parameters<typeof _fs.writeFileSync>[2],
+    } & WriteOptions,
   ) {
     const [replacer, space] = Is.obj(options) ? [options.replacer, options.space] : [void 0, void 0]
     return fs.outputFileSync(path, JSON.stringify(data, replacer, space), options)
