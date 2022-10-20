@@ -1,3 +1,10 @@
+#### 0.2.18 (2022-10-20)
+
+##### Bug Fixes
+
+*  test ([2a8c6116](https://github.com/zaaack/foy/commit/2a8c6116be83bc4f6f9fe1411d496f2c39dd3749))
+*  types ([57d0f6f6](https://github.com/zaaack/foy/commit/57d0f6f63f58d384510725790dafd8f9443603e6))
+
 #### 0.2.17 (2022-09-28)
 
 ##### Bug Fixes
