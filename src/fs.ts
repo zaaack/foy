@@ -8,7 +8,11 @@ const EEXIST = 'EEXIST'
 
 
 
-export type WriteOptions=  _fs.WriteFileOptions
+export interface WriteOptions {
+  encoding?: BufferEncoding
+  mode?: string | number | undefined
+  flag?: string | undefined
+}
 
 async function copy(
   src: string,
