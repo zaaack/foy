@@ -1,3 +1,9 @@
+#### 0.2.19 (2022-10-20)
+
+##### Bug Fixes
+
+*  types ([e2c8bc8e](https://github.com/zaaack/foy/commit/e2c8bc8ea2118227945061ecbf758edb7c79ae69))
+
 #### 0.2.18 (2022-10-20)
 
 ##### Bug Fixes
