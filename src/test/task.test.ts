@@ -17,7 +17,12 @@ function test(cmd: string) {
     name: cmd,
     it() {
       it(cmd, () => {
-        expect(out.trim()).toBe(snap.trim())
+        function normal(s: string) {
+          s = s.replace(/[\/\\][\w\/\\]+foy/g, 'foy').trim()
+          s = s.replace(/\s*at[^\n]*?(\n|$)/g, '')
+          return s
+        }
+        expect(normal(out)).toBe(normal(snap))
       })
     },
     async init() {
