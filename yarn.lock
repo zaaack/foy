@@ -61,10 +61,10 @@
   resolved "https://registry.npm.taobao.org/@types/marked/download/@types/marked-1.1.0.tgz#53509b5f127e0c05c19176fcf1d743a41e00ff19"
   integrity sha1-U1CbXxJ+DAXBkXb88ddDpB4A/xk=
 
-"@types/node@^18.11.2":
-  version "18.11.2"
-  resolved "https://registry.npmmirror.com/@types/node/-/node-18.11.2.tgz#c59b7641832531264fda3f1ba610362dc9a7dfc8"
-  integrity sha512-BWN3M23gLO2jVG8g/XHIRFWiiV4/GckeFIqbU/C4V3xpoBBWSMk4OZomouN0wCkfQFPqgZikyLr7DOYDysIkkw==
+"@types/node@^14.11.2":
+  version "14.18.32"
+  resolved "https://registry.npmmirror.com/@types/node/-/node-14.18.32.tgz#8074f7106731f1a12ba993fe8bad86ee73905014"
+  integrity sha512-Y6S38pFr04yb13qqHf8uk1nHE3lXgQ30WZbv1mLliV9pt0NjvqdWttLcrOYLnXbOafknVYRHZGoMSpR9UwfYow==
 
 ansi-regex@^5.0.0:
   version "5.0.0"
