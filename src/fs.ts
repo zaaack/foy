@@ -28,37 +28,37 @@ async function copy(
     overwrite: true,
     ...opts,
   }
-  const srcStat = await fs.stat(src)
+  const srcStat = await _fs.promises.stat(src)
   const isSkiped = opts.skip ? await opts.skip(src, srcStat) : false
   if (isSkiped) return
   // auto merge for directory
   if (srcStat.isDirectory()) {
-    await fs.mkdirp(dist)
-    let childs = await fs.readdir(src)
+    await fsExtra.mkdirp(dist)
+    let childs = await _fs.promises.readdir(src)
     await Promise.all(
       childs.map((child) => copy(pathLib.join(src, child), pathLib.join(dist, child), opts)),
     )
   } else if (srcStat.isFile() || srcStat.isSymbolicLink()) {
-    if (await fs.lexists(dist)) {
-      let isDir = await fs.isDirectory(dist)
+    if (await fsExtra.lexists(dist)) {
+      let isDir = await fsExtra.isDirectory(dist)
       if (isDir) {
         dist = pathLib.join(dist, pathLib.basename(src))
       } else if (opts.overwrite) {
-        await fs.rmrf(dist)
+        await fsExtra.rmrf(dist)
       } else {
         return
       }
     } else {
       let lastChar = dist[dist.length - 1]
       if (lastChar === '/' || lastChar === '\\') {
-        await fs.mkdirp(dist)
+        await fsExtra.mkdirp(dist)
         dist = pathLib.join(dist, pathLib.basename(src))
       } else {
         let dir = pathLib.dirname(dist)
-        await fs.mkdirp(dir)
+        await fsExtra.mkdirp(dir)
       }
     }
-    await fs.copyFile(src, dist)
+    await fsExtra.copyFile(src, dist)
   }
 }
 
@@ -91,7 +91,7 @@ function watchDir(
   }
   if (process.platform === 'linux') {
     // tslint:disable-next-line:no-floating-promises
-    fs.iter(dir, (file) => {
+    fsExtra.iter(dir, (file) => {
       _fs.watch(
         file,
         {
@@ -105,14 +105,13 @@ function watchDir(
     _fs.watch(dir, { recursive: true, persistent: options.persistent }, cb)
   }
 }
-export const fs = {
-  ..._fs,
-  ..._fs.promises,
+
+const fsExtra = {
   watchDir,
   copy,
   async exists(path: _fs.PathLike) {
     try {
-      await fs.stat(path)
+      await _fs.promises.stat(path)
     } catch (error) {
       if ((<NodeJS.ErrnoException>error).code === ENOENT) {
         return false
@@ -125,7 +124,7 @@ export const fs = {
   /** exists via lstat, if a symbolic link's target file doesn't exists, `fs.exists` will return false, but `fs.lexists` will return true. */
   async lexists(path: _fs.PathLike) {
     try {
-      await fs.lstat(path)
+      await _fs.promises.lstat(path)
     } catch (error) {
       if ((<NodeJS.ErrnoException>error).code === ENOENT) {
         return false
@@ -137,7 +136,7 @@ export const fs = {
   },
   async isFile(path: _fs.PathLike) {
     try {
-      return (await fs.lstat(path)).isFile()
+      return (await _fs.promises.lstat(path)).isFile()
     } catch (error) {
       if ((<NodeJS.ErrnoException>error).code === ENOENT) {
         return false
@@ -148,7 +147,7 @@ export const fs = {
   },
   async isDirectory(path: _fs.PathLike) {
     try {
-      return (await fs.lstat(path)).isDirectory()
+      return (await _fs.promises.lstat(path)).isDirectory()
     } catch (error) {
       if ((<NodeJS.ErrnoException>error).code === ENOENT) {
         return false
@@ -159,7 +158,7 @@ export const fs = {
   },
   async isSymbolicLink(path: _fs.PathLike) {
     try {
-      return (await fs.lstat(path)).isSymbolicLink()
+      return (await _fs.promises.lstat(path)).isSymbolicLink()
     } catch (error) {
       if ((<NodeJS.ErrnoException>error).code === ENOENT) {
         return false
@@ -171,10 +170,10 @@ export const fs = {
   copyFile: _fs.copyFile
     ? util.promisify(_fs.copyFile)
     : async (src: _fs.PathLike, dist: _fs.PathLike) => {
-        await fs.stat(src)
+        await _fs.promises.stat(src)
         return new Promise((res, rej) => {
-          fs.createReadStream(src, { highWaterMark: 2 * 1024 * 1024 })
-            .pipe(fs.createWriteStream(dist))
+          _fs.createReadStream(src, { highWaterMark: 2 * 1024 * 1024 })
+            .pipe(_fs.createWriteStream(dist))
             .on('error', rej)
             .on('close', res)
         })
@@ -185,10 +184,10 @@ export const fs = {
    */
   async mkdirp(dir: string) {
     let parent = pathLib.dirname(dir)
-    if (!(await fs.exists(parent))) {
-      await fs.mkdirp(parent)
+    if (!(await fsExtra.exists(parent))) {
+      await fsExtra.mkdirp(parent)
     }
-    return fs.mkdir(dir).catch((error) => {
+    return _fs.promises.mkdir(dir).catch((error) => {
       if (error.code !== EEXIST) {
         throw error
       }
@@ -201,12 +200,12 @@ export const fs = {
   mkdirpSync(dir: string) {
     if (dir === '/') return
     let parent = pathLib.dirname(dir)
-    if (!fs.existsSync(parent)) {
-      fs.mkdirpSync(parent)
+    if (!_fs.existsSync(parent)) {
+      fsExtra.mkdirpSync(parent)
     }
-    if (!fs.existsSync(dir)) {
+    if (!_fs.existsSync(dir)) {
       try {
-        fs.mkdirSync(dir)
+        _fs.mkdirSync(dir)
       } catch (error) {
         if ((<NodeJS.ErrnoException>error).code !== EEXIST) {
           throw error
@@ -222,7 +221,7 @@ export const fs = {
   async rmrf(path: string) {
     let stat: _fs.Stats
     try {
-      stat = await fs.lstat(path)
+      stat = await _fs.promises.lstat(path)
     } catch (error) {
       if ((<NodeJS.ErrnoException>error).code === ENOENT) {
         return
@@ -230,22 +229,22 @@ export const fs = {
       throw error
     }
     if (stat.isDirectory()) {
-      const children = await fs.readdir(path)
-      await Promise.all(children.map((child) => pathLib.join(path, child)).map(fs.rmrf))
-      await fs.rmdir(path)
+      const children = await _fs.promises.readdir(path)
+      await Promise.all(children.map((child) => pathLib.join(path, child)).map(fsExtra.rmrf))
+      await _fs.promises.rmdir(path)
     } else {
-      await fs.unlink(path)
+      await _fs.promises.unlink(path)
     }
   },
   async outputFile(path: string, data: any, options?: WriteOptions) {
     let dir = pathLib.dirname(path)
-    await fs.mkdirp(dir)
-    return fs.writeFile(path, data, options)
+    await fsExtra.mkdirp(dir)
+    return _fs.promises.writeFile(path, data, options)
   },
   outputFileSync(path: string, data: any, options?: WriteOptions) {
     let dir = pathLib.dirname(path)
-    fs.mkdirpSync(dir)
-    return fs.writeFileSync(path, data, options)
+    fsExtra.mkdirpSync(dir)
+    return _fs.writeFileSync(path, data, options)
   },
   async outputJson(
     path: string,
@@ -256,7 +255,7 @@ export const fs = {
     } & WriteOptions,
   ) {
     const [replacer, space] = Is.obj(options) ? [options.replacer, options.space] : [void 0, void 0]
-    return fs.outputFile(path, JSON.stringify(data, replacer, space), options)
+    return fsExtra.outputFile(path, JSON.stringify(data, replacer, space), options)
   },
   outputJsonSync(
     path: string,
@@ -267,17 +266,17 @@ export const fs = {
     } & WriteOptions,
   ) {
     const [replacer, space] = Is.obj(options) ? [options.replacer, options.space] : [void 0, void 0]
-    return fs.outputFileSync(path, JSON.stringify(data, replacer, space), options)
+    return fsExtra.outputFileSync(path, JSON.stringify(data, replacer, space), options)
   },
   async readJson<T = any>(path: string, options?: { encoding?: null; flag?: string } | null) {
-    let data: Buffer | string = await fs.readFile(path, options)
+    let data: Buffer | string = await _fs.promises.readFile(path, options)
     if (!Is.str(data)) {
       data = data.toString('utf8')
     }
     return JSON.parse(data) as T
   },
   readJsonSync<T = any>(path: string, options?: { encoding?: null; flag?: string } | null) {
-    let data: Buffer | string = fs.readFileSync(path, options)
+    let data: Buffer | string = _fs.readFileSync(path, options)
     if (!Is.str(data)) {
       data = data.toString('utf8')
     }
@@ -288,17 +287,19 @@ export const fs = {
     /** return true will skip */
     skip: (path: string, stat: _fs.Stats) => Promise<boolean | void> | boolean | void,
   ) {
-    let children = await fs.readdir(dir)
+    let children = await _fs.promises.readdir(dir)
     await Promise.all(
       children.map(async (child) => {
         let path = pathLib.join(dir, child)
-        let stat = await fs.stat(path)
+        let stat = await _fs.promises.stat(path)
         let isSkipped = await skip(path, stat)
         if (isSkipped) return
         if (stat.isDirectory()) {
-          await fs.iter(path, skip)
+          await fsExtra.iter(path, skip)
         }
       }),
     )
   },
 }
+
+export const fs = Object.assign({}, _fs, _fs.promises, fsExtra)
