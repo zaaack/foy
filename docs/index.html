@@ -90,6 +90,19 @@ strict() // This will throw an error if you passed some options that doesn&#39;t
 task(&#39;build&#39;, async ctx =&gt; {
   await ctx.exec(`tsc ${ctx.options.watch ? &#39;-w&#39; : &#39;&#39;}`)
 })</code></pre>
+<p>And, if using TypeScript, add types to your options through the <code>task</code> generic:</p>
+<pre><code class="language-ts">import { task, desc, option, strict } from &#39;foy&#39;
+
+type BuildOptions = {
+  watch: boolean
+}
+
+desc(&#39;Build ts files with tsc&#39;)
+option(&#39;-w, --watch&#39;, &#39;watch file changes&#39;)
+strict() // This will throw an error if you passed some options that doesn&#39;t defined via `option()`
+task&lt;BuildOptions&gt;(&#39;build&#39;, async ctx =&gt; { // ctx.options now has type BuildOptions instead of unknown
+  await ctx.exec(`tsc ${ctx.options.watch ? &#39;-w&#39; : &#39;&#39;}`)
+})</code></pre>
 <pre><code class="language-sh">foy build -w</code></pre>
 <p>Warning! If you want to set flags like strict for all tasks, please use <code>setGlobalOptions</code>:</p>
 <pre><code class="language-ts">import { setGlobalOptions } from &#39;foy&#39;
