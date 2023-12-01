@@ -163,14 +163,26 @@ if (registers.length) {
 }
 
 // add ts-node registry for ts foyfile
+function isESM() {
+  try {
+    let pkg = fs.readJsonSync('./package.json')
+    return pkg.type === 'module'
+  } catch(e) {
+    return false
+  }
+}
 try {
   if (foyFiles.some((f) => f.endsWith('.ts')) && !require.extensions['.ts']) {
-    require('ts-node').register({
+    let options = {
       transpileOnly: true,
-      compilerOptions: {
-        module: 'commonjs',
-      },
-    })
+    }
+    /** if not ESM module override tsconfig module */
+    if (!isESM()) {
+      options['compilerOptions'] = {
+        module:  'commonjs',
+      }
+    }
+    require('ts-node').register(options)
   }
 } catch (error) {
   // ignore
