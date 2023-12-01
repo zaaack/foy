@@ -98,6 +98,23 @@ task('build', async ctx => {
 })
 ```
 
+And, if using TypeScript, add types to your options through the `task` generic:
+
+```ts
+import { task, desc, option, strict } from 'foy'
+
+type BuildOptions = {
+  watch: boolean
+}
+
+desc('Build ts files with tsc')
+option('-w, --watch', 'watch file changes')
+strict() // This will throw an error if you passed some options that doesn't defined via `option()`
+task<BuildOptions>('build', async ctx => { // ctx.options now has type BuildOptions instead of unknown
+  await ctx.exec(`tsc ${ctx.options.watch ? '-w' : ''}`)
+})
+```
+
 ```sh
 foy build -w
 ```
