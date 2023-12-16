@@ -144,6 +144,19 @@ strict() <span class="hljs-comment">// This will throw an error if you passed so
 task(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; {
   <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">`tsc <span class="hljs-subst">${ctx.options.watch ? <span class="hljs-string">&#x27;-w&#x27;</span> : <span class="hljs-string">&#x27;&#x27;</span>}</span>`</span>)
 })</code></pre>
+				<p>And, if using TypeScript, add types to your options through the <code>task</code> generic:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { task, desc, option, strict } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
+
+<span class="hljs-keyword">type</span> BuildOptions = {
+  watch: <span class="hljs-built_in">boolean</span>
+}
+
+desc(<span class="hljs-string">&#x27;Build ts files with tsc&#x27;</span>)
+option(<span class="hljs-string">&#x27;-w, --watch&#x27;</span>, <span class="hljs-string">&#x27;watch file changes&#x27;</span>)
+strict() <span class="hljs-comment">// This will throw an error if you passed some options that doesn&#x27;t defined via `option()`</span>
+task&lt;BuildOptions&gt;(<span class="hljs-string">&#x27;build&#x27;</span>, <span class="hljs-keyword">async</span> ctx =&gt; { <span class="hljs-comment">// ctx.options now has type BuildOptions instead of unknown</span>
+  <span class="hljs-keyword">await</span> ctx.exec(<span class="hljs-string">`tsc <span class="hljs-subst">${ctx.options.watch ? <span class="hljs-string">&#x27;-w&#x27;</span> : <span class="hljs-string">&#x27;&#x27;</span>}</span>`</span>)
+})</code></pre>
 				<pre><code class="language-sh">foy build -w</code></pre>
 				<p>Warning! If you want to set flags like strict for all tasks, please use <code>setGlobalOptions</code>:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { setGlobalOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;foy&#x27;</span>
