@@ -1,3 +1,9 @@
+#### 0.2.21 (2023-12-16)
+
+##### Bug Fixes
+
+*  esm modules ([89b0c478](https://github.com/zaaack/foy/commit/89b0c4781736421c1854dd8313c7cf38a75ea2e2))
+
 #### 0.2.20 (2023-04-08)
 
 ##### Bug Fixes
