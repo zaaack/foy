@@ -1,7 +1,6 @@
 import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespace, exec, before, execa } from './src/'
 import marked from 'marked'
 import * as ejs from 'ejs'
-import { ChildProcess } from 'child_process'
 
 setGlobalOptions({ loading: false, strict: true })
 
@@ -16,6 +15,11 @@ task('build', async ctx => {
     'tsc',
     'chmod +x ./lib/cli.js',
   ])
+  await fs.rmrf('./es')
+  await ctx.exec([
+    'tsc --module esnext --outDir es',
+    'chmod +x ./es/cli.js',
+  ])
 })
 
 desc('generate doc')
@@ -29,7 +33,7 @@ const JasmineCli = `jasmine --require=tsconfig-paths/register --require=ts-node/
 
 task<{ args: string, env: NodeJS.ProcessEnv }>('test', async ctx => {
   await ctx.exec(`${JasmineCli} "src/test/*.test.ts" ${ctx.options.args || ''} ${(ctx.task.rawArgs).map(a => `"${a
-  }"`).join(' ')}`, { env: ctx.options.env || process.env })
+    }"`).join(' ')}`, { env: ctx.options.env || process.env })
 })
 
 task('test:update-snap', [{
@@ -114,7 +118,7 @@ task('demodemodemodemodemodemodemo1', async ctx => {
 task('demo2', async ctx => sleep(3000))
 task('demo3', ['demo2', 'demodemodemodemodemodemodemo1'], async ctx => sleep(3000))
 
-task('demo', ['demodemodemodemodemodemodemo1','demo2'.async(), 'demo3'.async()])
+task('demo', ['demodemodemodemodemodemodemo1', 'demo2'.async(), 'demo3'.async()])
 
 
 namespace('client', ns => {
