@@ -1,9 +1,10 @@
 {
   "name": "foy",
-  "version": "0.2.22",
+  "version": "0.2.23",
   "description": "A simple, light-weight and modern task runner for general purpose.",
   "main": "./lib/index.js",
   "typings": "./lib/index",
+  "module": "./es/index",
   "types": "./lib/index",
   "sideEffects": false,
   "scripts": {
