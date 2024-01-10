@@ -1,3 +1,9 @@
+#### 0.2.23 (2024-01-10)
+
+##### New Features
+
+*  🎸 export esm module ([2f7b579f](https://github.com/zaaack/foy/commit/2f7b579fc7d0c63ff2fce5058cda7ee0c5870a9c))
+
 #### 0.2.22 (2023-12-16)
 
 #### 0.2.21 (2023-12-16)
