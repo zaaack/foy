@@ -295,7 +295,7 @@ export class TaskManager {
     }
     this._tasks.all =
       this._tasks.all ||
-      (await import('./task').then((e) => e.task('all', Object.keys(this._tasks))))
+      (require('./task').task('all', Object.keys(this._tasks)))
     this._tasks.default = this._tasks.default || this._tasks.all
 
     if (!this._tasks[Is.str(name) ? name : name.name]) {

@@ -2,8 +2,8 @@
   "compilerOptions": {
     /* Basic Options */
     "target": "ES2015",                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */
-    "module": "commonjs",                     /* Specify module code generation: 'commonjs', 'amd', 'system', 'umd' or 'es2015'. */
-    "moduleResolution": "node",
+    "module": "NodeNext",                     /* Specify module code generation: 'commonjs', 'amd', 'system', 'umd' or 'es2015'. */
+    "moduleResolution": "NodeNext",
     "lib": ["es2015"],                             /* Specify library files to be included in the compilation:  */
     "allowJs": false,                       /* Allow javascript files to be compiled. */
     "checkJs": false,                       /* Report errors in .js files. */

@@ -12,13 +12,8 @@ desc('build whole project')
 task('build', async ctx => {
   await fs.rmrf('./lib')
   await ctx.exec([
-    'tsc',
+    'tsc -p ./tsconfig.build.json',
     'chmod +x ./lib/cli.js',
-  ])
-  await fs.rmrf('./es')
-  await ctx.exec([
-    'tsc --module esnext --outDir es',
-    'chmod +x ./es/cli.js',
   ])
 })
 
