@@ -96,7 +96,7 @@ _foy_complete_func()
     local cur opts
     COMPREPLY=()
     cur="\${COMP_WORDS[COMP_CWORD]}"
-    opts="$(npx ts-node ./src/cli.ts --completion "\${COMP_WORDS[COMP_CWORD-1]}")"
+    opts="$(node ./lib/cli.ts --completion "\${COMP_WORDS[COMP_CWORD-1]}")"
 
     if [[ \${cur} == * ]] ; then
         COMPREPLY=( $(compgen -W "\${opts}" -- \${cur}) )
@@ -167,26 +167,26 @@ function isESM() {
   try {
     let pkg = fs.readJsonSync('./package.json')
     return pkg.type === 'module'
-  } catch(e) {
+  } catch (e) {
     return false
   }
 }
-try {
-  if (foyFiles.some((f) => f.endsWith('.ts')) && !require.extensions['.ts']) {
-    let options = {
-      transpileOnly: true,
-    }
-    /** if not ESM module override tsconfig module */
-    if (!isESM()) {
-      options['compilerOptions'] = {
-        module:  'commonjs',
-      }
-    }
-    require('ts-node').register(options)
-  }
-} catch (error) {
-  // ignore
-}
+// try {
+//   if (foyFiles.some((f) => f.endsWith('.ts')) && !require.extensions['.ts']) {
+//     let options = {
+//       transpileOnly: true,
+//     }
+//     /** if not ESM module override tsconfig module */
+//     if (!isESM()) {
+//       options['compilerOptions'] = {
+//         module:  'commonjs',
+//       }
+//     }
+//     require('ts-node').register(options)
+//   }
+// } catch (error) {
+//   // ignore
+// }
 
 {
   // Add global installed foy to module.paths if using global foy
@@ -203,10 +203,28 @@ try {
     }
   }
 }
-
 // load foyfiles
+let tsnode: any
 for (const file of foyFiles) {
-  require(file)
+  if (file.endsWith('.ts')) {
+    try {
+      tsnode ??= require('ts-node').create({
+        transpileOnly: true,
+        esm: false,
+        compilerOptions: {
+          module: 'commonjs',
+          target: 'es6',
+          moduleResolution: 'node',
+        },
+      })
+    } catch (error) {
+      logger.error(`Cannot load ts-node, please install it first: ${(error as Error).message}`)
+    }
+    let cjs=tsnode.compile(fs.readFileSync(file, 'utf8'), file)
+    fs.outputFileSync(file+'.cjs', cjs);
+    require(file+'.cjs');
+    fs.rmSync(file+'.cjs', { force: true })
+  }
 }
 
 export const defaultHelpMsg = defaultOptions
@@ -228,13 +246,11 @@ export function outputCompletion(taskCli: CAC) {
   function getOptionComplets(cmd: string) {
     return taskCli.commands
       .find((c) => c.name === cmd)
-      ?.options
-      ?.map((o) => '--'+o.name)
+      ?.options?.map((o) => '--' + o.name)
       .join(' ')
   }
-  const cmdComplets = taskCli.commands
-    .map((c) => c.name)
-    // .concat(defaultOptions.map((d) => d[0].split(/[,\s]/)[0]).filter(v => !v.includes('completion')))
+  const cmdComplets = taskCli.commands.map((c) => c.name)
+  // .concat(defaultOptions.map((d) => d[0].split(/[,\s]/)[0]).filter(v => !v.includes('completion')))
   if (completVal && cmdComplets.includes(completVal)) {
     console.log(getOptionComplets(completVal))
   } else {
