@@ -221,9 +221,17 @@ for (const file of foyFiles) {
       logger.error(`Cannot load ts-node, please install it first: ${(error as Error).message}`)
     }
     let cjs=tsnode.compile(fs.readFileSync(file, 'utf8'), file)
-    fs.outputFileSync(file+'.cjs', cjs);
-    require(file+'.cjs');
-    fs.rmSync(file+'.cjs', { force: true })
+    const cjsFile=  `${file}.${Math.random().toString().slice(2)}.cjs`
+    try {
+      fs.outputFileSync(cjsFile, cjs);
+      require(cjsFile);
+    } finally {
+      try {
+        fs.rmSync(cjsFile, { force: true })
+      } catch (error) {
+        // pass
+      }
+    }
   }
 }
 
