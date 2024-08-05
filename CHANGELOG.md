@@ -1,3 +1,9 @@
+#### 0.2.25 (2024-08-05)
+
+##### Bug Fixes
+
+*  require ([3c1efafd](https://github.com/zaaack/foy/commit/3c1efafd3db93d113ff402c3730ae57cb193bb8a))
+
 #### 0.2.24 (2024-08-05)
 
 ##### Bug Fixes
