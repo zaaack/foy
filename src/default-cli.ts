@@ -171,22 +171,19 @@ function isESM() {
     return false
   }
 }
-// try {
-//   if (foyFiles.some((f) => f.endsWith('.ts')) && !require.extensions['.ts']) {
-//     let options = {
-//       transpileOnly: true,
-//     }
-//     /** if not ESM module override tsconfig module */
-//     if (!isESM()) {
-//       options['compilerOptions'] = {
-//         module:  'commonjs',
-//       }
-//     }
-//     require('ts-node').register(options)
-//   }
-// } catch (error) {
-//   // ignore
-// }
+try {
+  if (foyFiles.some((f) => f.endsWith('.ts')) && !require.extensions['.ts']) {
+    let options = {
+      transpileOnly: true,
+      compilerOptions: {
+        module:  'commonjs',
+      },
+    }
+    require('ts-node').register(options)
+  }
+} catch (error) {
+  // ignore
+}
 
 {
   // Add global installed foy to module.paths if using global foy
@@ -203,35 +200,12 @@ function isESM() {
     }
   }
 }
+
+export const loadConfigPromises:Promise<any>[]=[]
 // load foyfiles
-let tsnode: any
 for (const file of foyFiles) {
-  if (file.endsWith('.ts')) {
-    try {
-      tsnode ??= require('ts-node').create({
-        transpileOnly: true,
-        esm: false,
-        compilerOptions: {
-          module: 'commonjs',
-          target: 'es6',
-          moduleResolution: 'node',
-        },
-      })
-    } catch (error) {
-      logger.error(`Cannot load ts-node, please install it first: ${(error as Error).message}`)
-    }
-    let cjs=tsnode.compile(fs.readFileSync(file, 'utf8'), file)
-    const cjsFile=  `${file}.${Math.random().toString().slice(2)}.cjs`
-    try {
-      fs.outputFileSync(cjsFile, cjs);
-      require(cjsFile);
-    } finally {
-      try {
-        fs.rmSync(cjsFile, { force: true })
-      } catch (error) {
-        // pass
-      }
-    }
+  if (isESM()) {
+    loadConfigPromises.push(import(file))
   } else {
     require(file)
   }

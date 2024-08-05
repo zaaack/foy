@@ -52,7 +52,7 @@
 <h2 id="features">Features</h2>
 <ul>
 <li>Promise-based tasks and built-in utilities.</li>
-<li><a href="https://github.com/shelljs/shelljs" target="_blank">shelljs</a>-like commands</li>
+<li><code>&lt;a href=&quot;https://github.com/shelljs/shelljs&quot; target=&quot;_blank&quot;&gt;</code>shelljs<code>&lt;/a&gt;</code>-like commands</li>
 <li>Easy to learn, stop spending hours for build tools.</li>
 <li>Small install size<ul>
 <li>foy: <a href="https://packagephobia.now.sh/result?p=foy"><img src="https://packagephobia.now.sh/badge?p=foy" alt="install size"></a></li>
@@ -392,14 +392,12 @@ task(&#39;task2&#39;, async ctx =&gt; {
 <h2 id="watch-and-build">Watch and build</h2>
 <pre><code class="language-ts">
 task(&#39;build&#39;, async ctx =&gt; { /* build your project */ })
-task(&#39;run&#39;, async ctx =&gt; { /* start your project */ })
+
 
 let p = null
 task(&#39;watch&#39;, async ctx =&gt; {
-  ctx.fs.watchDir(&#39;./src&#39;, async (evt, file) =&gt; {
-    await ctx.run(&#39;build&#39;)
-    p &amp;&amp; !p.killed &amp;&amp; p.kill()
-    p = await ctx.run(&#39;run&#39;)
+  ctx.monitor(&#39;./src&#39;, async ()=&gt; {
+    ctx.exec(&#39;node ./src/server.ts&#39;)
   })
 })</code></pre>
 <h2 id="using-with-custom-compiler">Using with custom compiler</h2>

@@ -74,9 +74,9 @@ option('-v, --version <version>', 'patch | minor | major', { default: 'patch' })
 task<{ version: string }>('publish', ['preversion'.options(ctx => ({ version: ctx.options.version }))], async ctx => {
   await ctx.exec([
     `npm version ${ctx.options.version}`,
-    `npm --registry https://registry.npmjs.org/ publish`,
     `git push origin master`,
     `git push origin master --tags -f`,
+    `npm --registry https://registry.npmjs.org/ publish`,
   ])
 })
 
