@@ -191,7 +191,7 @@ export class ShellContext {
       }
       while (p.current && !p.current.killed && p.current.exitCode === null) {
         p.current.kill()
-        await sleep(1000)
+        await sleep(100)
       }
       if (typeof run === 'string') {
         let cmd = run

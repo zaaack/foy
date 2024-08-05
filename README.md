@@ -31,7 +31,7 @@ A simple, light-weight and modern task runner for general purpose.
 ## Features
 
 - Promise-based tasks and built-in utilities.
-- <a href="https://github.com/shelljs/shelljs" target="_blank">shelljs</a>-like commands
+- `<a href="https://github.com/shelljs/shelljs" target="_blank">`shelljs`</a>`-like commands
 - Easy to learn, stop spending hours for build tools.
 - Small install size
   - foy: [![install size](https://packagephobia.now.sh/badge?p=foy)](https://packagephobia.now.sh/result?p=foy)
@@ -167,7 +167,6 @@ task('build', async ctx => {
 ```
 
 ## Using dependencies
-
 
 ```ts
 
@@ -307,7 +306,6 @@ task('start', ['client:start'.async(), 'server:start'.async()]) // start
 // foy start
 // foy client:build
 ```
-
 
 ## Useful utils
 
@@ -471,14 +469,12 @@ task('task2', async ctx => {
 ```ts
 
 task('build', async ctx => { /* build your project */ })
-task('run', async ctx => { /* start your project */ })
+
 
 let p = null
 task('watch', async ctx => {
-  ctx.fs.watchDir('./src', async (evt, file) => {
-    await ctx.run('build')
-    p && !p.killed && p.kill()
-    p = await ctx.run('run')
+  ctx.monitor('./src', async ()=> {
+    ctx.exec('node ./src/server.ts')
   })
 })
 ```
@@ -509,7 +505,7 @@ foy --completion-profile >> ~/.zshrc
 
 ## API documentation
 
-<https://zaaack.github.io/foy/api>
+[https://zaaack.github.io/foy/api](https://zaaack.github.io/foy/api)
 
 ## License
 
