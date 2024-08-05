@@ -1,3 +1,11 @@
+#### 0.2.24 (2024-08-05)
+
+##### Bug Fixes
+
+*  test ([299d2c8d](https://github.com/zaaack/foy/commit/299d2c8d93afa00be46f197efe7053fec2d02697))
+*  doc ([1f79d769](https://github.com/zaaack/foy/commit/1f79d769a533f95f10890d2933c47f73f235d8de))
+*  esm ([2f81b041](https://github.com/zaaack/foy/commit/2f81b04125727268f62f9a903f72f4ace2f8d4f4))
+
 #### 0.2.23 (2024-01-10)
 
 ##### New Features
