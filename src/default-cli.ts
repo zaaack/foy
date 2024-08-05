@@ -232,6 +232,8 @@ for (const file of foyFiles) {
         // pass
       }
     }
+  } else {
+    require(file)
   }
 }
 
