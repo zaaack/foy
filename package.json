@@ -59,6 +59,7 @@
     "cli-spinners": "^2.4.0",
     "execa": "^4.0.3",
     "figures": "^3.2.0",
+    "require-from-string": "^2.0.2",
     "shell-parser": "^1.0.0",
     "strip-ansi": "^6.0.0",
     "tslib": "^2.0.1",

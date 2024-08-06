@@ -5,6 +5,7 @@ import os from 'os'
 import { logger } from './logger'
 import { Is } from './utils'
 import { getGlobalTaskManager } from './task-manager'
+import requireStr from 'require-from-string'
 
 export const defaultCli = cac()
 // generate default argv because cac cannot handle `foy command` + `foy options`
@@ -171,15 +172,18 @@ function isESM() {
     return false
   }
 }
+const tsnodeOptions = {
+  transpileOnly: true,
+  compilerOptions: {
+    module: 'commonjs',
+    esModuleInterop: true,
+    moduleResolution: 'node',
+  },
+}
 try {
   if (foyFiles.some((f) => f.endsWith('.ts')) && !require.extensions['.ts']) {
-    let options = {
-      transpileOnly: true,
-      compilerOptions: {
-        module:  'commonjs',
-      },
-    }
-    require('ts-node').register(options)
+
+    require('ts-node').register(tsnodeOptions)
   }
 } catch (error) {
   // ignore
@@ -201,13 +205,19 @@ try {
   }
 }
 
-export const loadConfigPromises:Promise<any>[]=[]
 // load foyfiles
-for (const file of foyFiles) {
-  if (isESM()) {
-    loadConfigPromises.push(import(file))
-  } else {
-    require(file)
+{
+  let tsnode: any
+  for (const file of foyFiles) {
+    if (isESM()) {
+      // use tsnode to transpile ESM
+      if (!tsnode) {
+        tsnode = require('ts-node').create(tsnodeOptions)
+      }
+      requireStr(tsnode.compile(fs.readFileSync(file, 'utf-8'), file), file.replace('.ts', '.cjs'))
+    } else {
+      require(file)
+    }
   }
 }
 
