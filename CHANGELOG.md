@@ -1,3 +1,9 @@
+#### 0.2.29 (2024-08-06)
+
+##### Bug Fixes
+
+*  monitor & watch ([6aa1e659](https://github.com/zaaack/foy/commit/6aa1e65901f4132fc05bd6d6d5d58b7ba867fbc5))
+
 #### 0.2.28 (2024-08-06)
 
 ##### Bug Fixes
