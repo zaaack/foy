@@ -181,10 +181,23 @@ export class ShellContext {
     dir: string,
     run: ((p: { current: ChildProcess | null }) => void) | string | string[],
     options: WatchDirOptions & {
-      ignore?: (event: string, file: string) => boolean
+      ignore?: (event: string, file: string) => boolean,
     } = {},
   ) {
     let p = this._process
+    if (typeof run === 'string') {
+      let cmd = run
+      run = (p) => (p.current = this.exec(cmd))
+    }
+    if (Array.isArray(run)) {
+      let cmds = run
+      run = async (p) => {
+        for (const cmd of cmds.slice(0, -1)) {
+          await this.exec(cmd)
+        }
+        p.current = this.exec(cmds.slice(-1)[0])
+      }
+    }
     fs.watchDir(dir, options, async (event, file) => {
       if (options.ignore && options.ignore(event, file)) {
         return
@@ -193,21 +206,9 @@ export class ShellContext {
         p.current.kill()
         await sleep(100)
       }
-      if (typeof run === 'string') {
-        let cmd = run
-        run = (p) => (p.current = this.exec(cmd))
-      }
-      if (Array.isArray(run)) {
-        let cmds = run
-        run = async (p) => {
-          for (const cmd of cmds.slice(0, -1)) {
-            await this.exec(cmd)
-          }
-          p.current = this.exec(cmds.slice(-1)[0])
-        }
-      }
       run(p)
     })
+    run(p)
   }
   /**
    * reset env to default

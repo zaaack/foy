@@ -67,6 +67,8 @@ export type WatchDirOptions = {
   persistent?: boolean
   /** ms, default 300 */
   threshold?: number
+  /** using iter on linux, default false */
+  iterOnLinux?: boolean
 }
 
 function watchDir(dir: string, cb: WatchDirHandler): void
@@ -89,7 +91,7 @@ function watchDir(
   if (options.threshold) {
     cb = cb && debounce(cb, options.threshold)
   }
-  if (process.platform === 'linux') {
+  if (process.platform === 'linux' && options.iterOnLinux) {
     // tslint:disable-next-line:no-floating-promises
     fsExtra.iter(dir, (file) => {
       _fs.watch(
