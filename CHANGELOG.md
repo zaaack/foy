@@ -1,3 +1,9 @@
+#### 0.2.28 (2024-08-06)
+
+##### Bug Fixes
+
+*  esm ([579f12da](https://github.com/zaaack/foy/commit/579f12dab5dcd34f0164c9512f247b8629a7a9c0))
+
 #### 0.2.27 (2024-08-05)
 
 ##### Bug Fixes
