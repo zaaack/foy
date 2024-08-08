@@ -96,14 +96,7 @@ export class ShellContext {
       ...options,
     })
     // tslint:disable-next-line:no-floating-promises
-    p.catch((err) => {
-      this._logger.error('Exec failed: ', commands)
-      throw err
-    })
     this._process.current = p
-    p.finally(() => {
-      this._process.current = null
-    })
     return p
   }
   /**
