@@ -1,3 +1,9 @@
+#### 0.2.30 (2024-08-08)
+
+##### Bug Fixes
+
+*  monitor ([7dd9baa9](https://github.com/zaaack/foy/commit/7dd9baa9d200732429d4059ebb1f6c6158a0226a))
+
 #### 0.2.29 (2024-08-06)
 
 ##### Bug Fixes
