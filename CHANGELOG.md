@@ -1,3 +1,9 @@
+#### 0.2.31 (2024-08-23)
+
+##### Bug Fixes
+
+*  no command ([f283b14c](https://github.com/zaaack/foy/commit/f283b14c2fef8c1fd8a0af597400219b10b20c4c))
+
 #### 0.2.30 (2024-08-08)
 
 ##### Bug Fixes
