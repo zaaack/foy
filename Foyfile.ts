@@ -47,7 +47,7 @@ task('watch', [{
 }])
 // npm_package_version:
 task<{ version: string }>('preversion', async ctx => {
-  await ctx.exec('yarn')
+  await ctx.exec('pnpm i')
   await Promise.all([
     ctx.run('test'),
     ctx.run('build'),
@@ -114,6 +114,10 @@ task('demo2', async ctx => sleep(3000))
 task('demo3', ['demo2', 'demodemodemodemodemodemodemo1'], async ctx => sleep(3000))
 
 task('demo', ['demodemodemodemodemodemodemo1', 'demo2'.async(), 'demo3'.async()])
+
+task('error', async ctx=> {
+  throw new Error('aa')
+})
 
 
 namespace('client', ns => {

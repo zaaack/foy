@@ -52,7 +52,6 @@ taskCli.help((sections) => {
   )
   process.exit(0)
 })
-taskCli.parse(taskArgv)
 
 outputCompletion(taskCli)
 
@@ -60,6 +59,8 @@ taskCli.on('command:*', () => {
   console.error(`error: Unknown command \`${taskCli.args.join(' ')}\`\n\n`)
   process.exit(1)
 })
+
+taskCli.parse(taskArgv)
 
 if (process.argv.length === 2) {
   taskCli.outputHelp()

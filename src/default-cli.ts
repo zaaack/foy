@@ -178,15 +178,13 @@ const tsnodeOptions = {
     module: 'commonjs',
     esModuleInterop: true,
     moduleResolution: 'node',
+    sourceMap: true,
   },
 }
-try {
-  if (foyFiles.some((f) => f.endsWith('.ts')) && !require.extensions['.ts']) {
 
-    require('ts-node').register(tsnodeOptions)
-  }
-} catch (error) {
-  // ignore
+if (foyFiles.some((f) => f.endsWith('.ts')) && !require.extensions['.ts']) {
+  // make ts-node show errors if no register
+  require('ts-node').register(tsnodeOptions)
 }
 
 {
@@ -214,7 +212,8 @@ try {
       if (!tsnode) {
         tsnode = require('ts-node').create(tsnodeOptions)
       }
-      requireStr(tsnode.compile(fs.readFileSync(file, 'utf-8'), file), file.replace('.ts', '.cjs'))
+      const code = tsnode.compile(fs.readFileSync(file, 'utf-8'), file)
+      requireStr(code, file)
     } else {
       require(file)
     }
