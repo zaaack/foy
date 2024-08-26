@@ -1,7 +1,7 @@
-cli.ts
+foy
 
 Usage:
-  $ cli.ts <command> [options]
+  $ foy <command> [options]
 
 Commands:
   aa              AA
@@ -21,25 +21,23 @@ Commands:
   pushpopd        
 
 For more info, run any command with the `--help` flag:
-  $ cli.ts aa --help
-  $ cli.ts bb --help
-  $ cli.ts cc --help
-  $ cli.ts dd --help
-  $ cli.ts ee --help
-  $ cli.ts ff --help
-  $ cli.ts notForce --help
-  $ cli.ts force --help
-  $ cli.ts wait --help
-  $ cli.ts sync --help
-  $ cli.ts async --help
-  $ cli.ts async:priority --help
-  $ cli.ts logOptions --help
-  $ cli.ts resolveOptions --help
-  $ cli.ts pushpopd --help
+  $ foy aa --help
+  $ foy bb --help
+  $ foy cc --help
+  $ foy dd --help
+  $ foy ee --help
+  $ foy ff --help
+  $ foy notForce --help
+  $ foy force --help
+  $ foy wait --help
+  $ foy sync --help
+  $ foy async --help
+  $ foy async:priority --help
+  $ foy logOptions --help
+  $ foy resolveOptions --help
+  $ foy pushpopd --help
 
 Options:
   --config, -c <...files>:       The Foyfiles
   --require, -r <...names>:      Require the given modules
-  --init, -i [ext]:              Generate the Foyfile, [ext] can be "ts" | "js", default is "js"
-  --completion [val]:            Generate completion words
-  --completion-profile:          Generate completion shell profile
+  --init, -i [ext]:              Gener  --completion [val]:            Gener  --completion-profile:          Gener

@@ -1,15 +1,4 @@
-
-/home/z/Mine/foy/node_modules/cac/dist/index.js:391
+foy/node_modules//cac/dist/index.js:391
           throw new CACError(`Unknown option \`${name.length > 1 ? `--${name}` : `-${name}`}\``);
                 ^
 CACError: Unknown option `-b`
-    at Command.checkUnknownOptions (/home/z/Mine/foy/node_modules/cac/dist/index.js:391:17)
-    at CAC.runMatchedCommand (/home/z/Mine/foy/node_modules/cac/dist/index.js:585:13)
-    at CAC.parse (/home/z/Mine/foy/node_modules/cac/dist/index.js:526:12)
-    at Object.<anonymous> (/home/z/Mine/foy/src/cli.ts:53:9)
-    at Module._compile (internal/modules/cjs/loader.js:1085:14)
-    at Module.m._compile (/home/z/Mine/foy/node_modules/ts-node/src/index.ts:1056:23)
-    at Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-    at Object.require.extensions.<computed> [as .ts] (/home/z/Mine/foy/node_modules/ts-node/src/index.ts:1059:12)
-    at Module.load (internal/modules/cjs/loader.js:950:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:790:12)

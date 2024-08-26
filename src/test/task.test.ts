@@ -11,6 +11,13 @@ const fixturesDir = `${__dirname}/fixtures`
 const snapsDir = `${fixturesDir}/snaps`
 const UpdateSnap = process.env.UPDATE_SNAP === '1'
 
+function normal(s: string) {
+  s = s.replace(/[\/\\][\w\/\\]+foy/g, 'foy').trim()
+  s = s.replace(/\s*at[^\n]*?(\n|$)/g, '')
+  // simply hack
+  s = s.replace(/.pnpm\/[^\/]+\/node_modules/,'')
+  return s
+}
 function test(cmd: string) {
   let out = 'Not initialized'
   let snap = ''
@@ -18,19 +25,12 @@ function test(cmd: string) {
     name: cmd,
     it() {
       it(cmd, () => {
-        function normal(s: string) {
-          s = s.replace(/[\/\\][\w\/\\]+foy/g, 'foy').trim()
-          s = s.replace(/\s*at[^\n]*?(\n|$)/g, '')
-          // simply hack
-          s = s.replace('foy/node_modules/.pnpm/cac@6.6.1/node_modules/cac/dist/index.js','foy/node_modules/cac/dist/index.js')
-          return s
-        }
         expect(normal(out)).toBe(normal(snap))
       })
     },
     async init() {
       let p = await exec(`ts-node ./src/cli.ts --config ${fixturesDir}/${cmd}`).catch(er => er)
-      out = p.stdout + p.stderr
+      out = normal(p.stdout + p.stderr)
       let snapFile = snapsDir + '/' + cmd.replace(/[^\w-]/g, '_')
       if (UpdateSnap) {
         // tslint:disable-next-line:no-floating-promises

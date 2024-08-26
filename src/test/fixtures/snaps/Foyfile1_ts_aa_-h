@@ -1,8 +1,8 @@
-cli.ts
+foy
 
 Usage:
-  $ cli.ts aa
+  $ foy aa
 
 Options:
   -a <val>    aa (default: 12)
-  -h, --help  Display this message 
+  -h, --help  Display this message

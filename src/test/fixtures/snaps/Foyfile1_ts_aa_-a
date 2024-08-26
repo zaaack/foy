@@ -1,15 +1,4 @@
-
-/home/z/Mine/foy/node_modules/cac/dist/index.js:404
+foy/node_modules//cac/dist/index.js:404
           throw new CACError(`option \`${option.rawName}\` value is missing`);
                 ^
 CACError: option `-a <val>` value is missing
-    at Command.checkOptionValue (/home/z/Mine/foy/node_modules/cac/dist/index.js:404:17)
-    at CAC.runMatchedCommand (/home/z/Mine/foy/node_modules/cac/dist/index.js:586:13)
-    at CAC.parse (/home/z/Mine/foy/node_modules/cac/dist/index.js:526:12)
-    at Object.<anonymous> (/home/z/Mine/foy/src/cli.ts:53:9)
-    at Module._compile (internal/modules/cjs/loader.js:1085:14)
-    at Module.m._compile (/home/z/Mine/foy/node_modules/ts-node/src/index.ts:1056:23)
-    at Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
-    at Object.require.extensions.<computed> [as .ts] (/home/z/Mine/foy/node_modules/ts-node/src/index.ts:1059:12)
-    at Module.load (internal/modules/cjs/loader.js:950:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
