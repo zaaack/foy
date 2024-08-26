@@ -2,66 +2,51 @@
 
 import cac from 'cac'
 import { fs } from './fs'
-import pathLib from 'path'
+import pathLib, { extname } from 'path'
 import os from 'os'
 import { logger } from './logger'
 import { Is } from './utils'
 import { getGlobalTaskManager } from './task-manager'
 import chalk from 'chalk'
-import { defaultHelpMsg, taskArgv, defaultCli, outputCompletion } from './default-cli'
+import { initDefaultCli } from './default-cli'
+import { spawn } from 'child_process'
 
-const taskCli = cac()
-
-let taskManager = getGlobalTaskManager()
-taskManager.getTasks().forEach((t) => {
-  let strict = taskManager.globalOptions.strict || t.strict
-  let cmd = taskCli.command(t.name, t.desc, { allowUnknownOptions: !strict })
-  if (t.optionDefs) {
-    t.optionDefs.forEach((def) => cmd.option(...def))
+const { foyFiles, registers } = initDefaultCli()
+async function main() {
+  const pkg = await fs.readJson('./package.json')
+  const isESM = pkg.type === 'module'
+  const deps = { ...pkg.dependencies, ...pkg.devDependencies }
+  for (const foyFile of foyFiles) {
+    let env = 'node'
+    if (['.ts', '.cts', '.tsx', '.ctsx'].includes(extname(foyFile))) {
+      if ('ts-node' in deps) {
+        env = 'ts-node'
+      } else if ('tsx' in deps) {
+        env = 'tsx'
+      } else if ('@swc/register' in deps) {
+        if (isESM) {
+          registers.push('@swc-node/register/esm-register')
+        } else {
+          registers.push('@swc/register')
+        }
+      } else if ('swc-node' in deps) {
+        env = 'swc-node'
+      } else {
+        logger.error('no ts-node or tsx or swc-node found')
+        process.exit(1)
+      }
+    }
+    const args = [
+      foyFile,
+      ...registers.map((r) => `--${isESM ? 'import' : 'require'} ${r}`),
+      ...process.argv.slice(2),
+    ]
+    spawn(env, args, {
+      stdio: 'inherit'
+    })
   }
-  cmd.action(async (...args) => {
-    let options = args.pop()
-    let { globalOptions } = taskManager
-    globalOptions.rawArgs = taskCli.rawArgs
-    globalOptions.options = options
-    await taskManager
-      .run(t.name, {
-        options,
-        rawArgs: taskCli.rawArgs.slice(3),
-      })
-      .catch((err) => {
-        logger.error(err)
-        throw err
-      })
-  })
-})
-
-taskCli.help((sections) => {
-  if (!taskCli.matchedCommand) {
-    let last = sections[sections.length - 1]
-    let lines = last.body.split('\n')
-    lines.pop()
-    last.body = defaultHelpMsg
-  }
-  console.log(
-    sections
-      .map((section) => {
-        return section.title ? `${section.title}:\n${section.body}` : section.body
-      })
-      .join('\n\n'),
-  )
-  process.exit(0)
-})
-
-outputCompletion(taskCli)
-
-taskCli.on('command:*', () => {
-  console.error(`error: Unknown command \`${taskCli.args.join(' ')}\`\n\n`)
-  process.exit(1)
-})
-
-taskCli.parse(taskArgv)
-
-if (process.argv.length === 2) {
-  taskCli.outputHelp()
 }
+
+main().catch((err) => {
+  console.error(err)
+})

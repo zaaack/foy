@@ -6,6 +6,7 @@ import { ILoggerProps, logger } from './logger'
 import { CliLoading } from './cli-loading'
 import { DepBuilder } from './dep-builder'
 import { GlobalOptions, RunTaskOptions, getGlobalTaskManager, TaskContext, ListenerNames } from './task-manager'
+import { deferRunCli } from './run-cli'
 interface OptionConfig {
   default?: any;
   type?: any[];
@@ -165,6 +166,7 @@ export function task<O>(
   }
   TaskOptions.last = TaskOptions.empty()
   getGlobalTaskManager().addTask(t)
+  deferRunCli()
   return t
 }
 

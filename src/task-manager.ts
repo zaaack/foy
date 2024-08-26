@@ -1,5 +1,5 @@
 import { CliLoading } from './cli-loading'
-import { Task } from './task'
+import type { Task } from './task'
 import chalk from 'chalk'
 import { hashAny, defaults, Is, DefaultLogFile, formatDuration } from './utils'
 import { Writable, Stream } from 'stream'
@@ -161,7 +161,7 @@ export class TaskManager {
           },
         }
         let depTask = this.resolveDependencyTree(t, depth + 1)
-        if (t.async === false || !Is.defed(t.async)) {
+        if (t.async === false || !Is.defined(t.async)) {
           // sync tasks
           syncDeps.push(depTask)
         } else {

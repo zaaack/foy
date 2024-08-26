@@ -3,6 +3,7 @@ import { fs } from '../fs'
 import { exec } from '../exec'
 import * as path from 'path'
 import { logger } from '../logger'
+import { sleep } from '../utils'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 
@@ -20,6 +21,8 @@ function test(cmd: string) {
         function normal(s: string) {
           s = s.replace(/[\/\\][\w\/\\]+foy/g, 'foy').trim()
           s = s.replace(/\s*at[^\n]*?(\n|$)/g, '')
+          // simply hack
+          s = s.replace('foy/node_modules/.pnpm/cac@6.6.1/node_modules/cac/dist/index.js','foy/node_modules/cac/dist/index.js')
           return s
         }
         expect(normal(out)).toBe(normal(snap))

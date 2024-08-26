@@ -75,7 +75,7 @@ export function promiseQueue<A extends any[], R>(cb: (...args: A) => Promise<R> 
 }
 
 export const Is = {
-  defed<T>(v: T | null | undefined): v is T {
+  defined<T>(v: T | null | undefined): v is T {
     return typeof v !== 'undefined' && v !== null
   },
   str(v: any): v is string {
@@ -120,7 +120,7 @@ export function defaults<T>(
 ): T
 export function defaults<T>(...args: (T | undefined)[]): T {
   let [val, ...defaultVals] = args
-  if (Is.defed(val)) return val
+  if (Is.defined(val)) return val
   if (defaultVals.length === 0) {
     return val as any
   }
