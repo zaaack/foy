@@ -1,3 +1,9 @@
+#### 0.2.33 (2024-08-26)
+
+##### Bug Fixes
+
+*  register ([6ce87507](https://github.com/zaaack/foy/commit/6ce87507c2465b8aa85d76067a7b59d5a91e7983))
+
 #### 0.2.32 (2024-08-26)
 
 ##### Chores

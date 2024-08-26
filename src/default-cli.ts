@@ -8,7 +8,7 @@ import { getGlobalTaskManager } from './task-manager'
 import requireStr from 'require-from-string'
 
 export function initDefaultCli() {
-  const defaultCli = cac("foy")
+  const defaultCli = cac()
   // generate default argv because cac cannot handle `foy command` + `foy options`
   function generateArgv() {
     let defaultArgv: string[] = []
