@@ -1,3 +1,13 @@
+#### 0.2.32 (2024-08-26)
+
+##### Chores
+
+*  update test snaps ([fa6dc632](https://github.com/zaaack/foy/commit/fa6dc632c99e36f3a71c5fece1bf670c60a06b04))
+
+##### Bug Fixes
+
+*  esm ([65c302a0](https://github.com/zaaack/foy/commit/65c302a0b79d47afa332068dea5e4a75fad07af1))
+
 #### 0.2.31 (2024-08-23)
 
 ##### Bug Fixes
