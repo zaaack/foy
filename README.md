@@ -31,7 +31,7 @@ A simple, light-weight and modern task runner for general purpose.
 ## Features
 
 - Promise-based tasks and built-in utilities.
-- `<a href="https://github.com/shelljs/shelljs" target="_blank">`shelljs`</a>`-like commands
+- `<a href="https://github.com/shelljs/shelljs" target="_blank">`shelljs `</a>`-like commands
 - Easy to learn, stop spending hours for build tools.
 - Small install size
   - foy: [![install size](https://packagephobia.now.sh/badge?p=foy)](https://packagephobia.now.sh/result?p=foy)
@@ -54,7 +54,7 @@ yarn add -g foy # or npm i -g foy
 
 ## Write a Foyfile
 
-You need to add a Foyfile.js(or Foyfile.ts with [ts-node](https://github.com/TypeStrong/ts-node) installed) to your project root.
+You need to add a Foyfile.js(or Foyfile.ts with [tsx](https://github.com/privatenumber/tsx) or [@swc-node/register](https://github.com/swc-project/swc-node) or [ts-node](https://github.com/TypeStrong/ts-node) installed) to your project root.
 
 Also, you can simply generate a Foyfile.js via:
 

@@ -10,51 +10,22 @@ import requireStr from 'require-from-string'
 export function initDefaultCli() {
   const defaultCli = cac()
   // generate default argv because cac cannot handle `foy command` + `foy options`
-  function generateArgv() {
-    let defaultArgv: string[] = []
-    let taskArgv: string[] = []
-    const argv = process.argv.slice(2)
-    const defaultOptions = new Map<string, number>([
-      ['--config', 1],
-      ['-c', 1],
-      ['--require', 1],
-      ['-r', 1],
-      ['--init', 1],
-      ['-i', 1],
-      ['--completion', 1],
-      ['--completion-profile', 0],
-    ])
-    let i = 0
-    for (i = 0; i < argv.length; i++) {
-      const arg = argv[i]
-      let valLen = defaultOptions.get(arg)
-      if (Is.defined(valLen)) {
-        let end = i + valLen
-        defaultArgv.push(...argv.slice(i, end + 1))
-        i = end
-      } else {
-        break
-      }
-    }
-    taskArgv = argv.slice(i)
-    defaultArgv = process.argv.slice(0, 2).concat(defaultArgv)
-    taskArgv = process.argv.slice(0, 2).concat(taskArgv)
-    return [defaultArgv, taskArgv]
-  }
-  const [defaultArgv, taskArgv] = generateArgv()
 
   // parse default options
   const defaultOptions = [
     [`--config, -c <...files>`, 'The Foyfiles'],
     [`--require, -r <...names>`, 'Require the given modules'],
+    [`--executor, -e [name]`, 'Custom executor to replace node, e.g. tsx/ts-node'],
     [`--init, -i [ext]`, 'Generate the Foyfile, [ext] can be "ts" | "js", default is "js"'],
-    [`--completion [val]`, `Generate completion words`],
+    [`--completion [words]`, `Generate completion words`],
     [`--completion-profile`, `Generate completion shell profile`],
-  ]
+    [`--inspect`, `node inspect`],
+    [`--inspect-brk`, `node inspect`],
+  ] as const
   defaultOptions.forEach(([name, desc]) => {
     defaultCli.option(name, desc)
   })
-  defaultCli.parse(defaultArgv)
+  let parsedArgv =defaultCli.parse(process.argv)
 
   if (defaultCli.options.init) {
     let ext = defaultCli.options.init
@@ -99,7 +70,7 @@ _foy_complete_func()
     local cur opts
     COMPREPLY=()
     cur="\${COMP_WORDS[COMP_CWORD]}"
-    opts="$(node ./lib/cli.ts --completion "\${COMP_WORDS[COMP_CWORD-1]}")"
+    opts="$(foy --completion "\${COMP_WORDS[COMP_CWORD-1]}")"
 
     if [[ \${cur} == * ]] ; then
         COMPREPLY=( $(compgen -W "\${opts}" -- \${cur}) )
@@ -258,5 +229,6 @@ _foy_complete_func()
     }
     process.exit()
   }
-  return { taskArgv, defaultHelpMsg, defaultCli, outputCompletion, registers, foyFiles }
+  const taskArgs = process.argv.slice(0, 2).concat(process.argv.slice(process.argv.findIndex(a=> a===parsedArgv.args[0])))
+  return { defaultHelpMsg, defaultCli, outputCompletion, registers, foyFiles, taskArgs }
 }
