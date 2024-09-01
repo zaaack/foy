@@ -11,29 +11,33 @@ import chalk from 'chalk'
 import { initDefaultCli } from './default-cli'
 import { spawn } from 'child_process'
 
-const { foyFiles, registers } = initDefaultCli()
+const { foyFiles, registers, defaultCli } = initDefaultCli()
 async function main() {
   const pkg = await fs.readJson('./package.json')
   const isESM = pkg.type === 'module'
   const deps = { ...pkg.dependencies, ...pkg.devDependencies }
   for (const foyFile of foyFiles) {
-    let env = 'node'
-    if (['.ts', '.cts', '.tsx', '.ctsx'].includes(extname(foyFile))) {
-      if ('ts-node' in deps) {
-        env = 'ts-node'
-      } else if ('tsx' in deps) {
-        env = 'tsx'
-      } else if ('@swc-node/register' in deps) {
-        if (isESM) {
-          registers.push('@swc-node/register/esm-register')
+    let executor = defaultCli.options.executor
+    if (!executor) {
+      executor = 'node'
+
+      if (['.ts', '.cts', '.tsx', '.ctsx'].includes(extname(foyFile))) {
+        if ('ts-node' in deps) {
+          executor = isESM ? 'ts-node-esm' : 'ts-node'
+        } else if ('tsx' in deps) {
+          executor = 'tsx'
+        } else if ('@swc-node/register' in deps) {
+          if (isESM) {
+            registers.push('@swc-node/register/esm-register')
+          } else {
+            registers.push('@swc-node/register')
+          }
+        } else if ('swc-node' in deps) {
+          executor = 'swc-node'
         } else {
-          registers.push('@swc-node/register')
+          logger.error('no tsx/ts-node/swc-node or @swc-node/register found')
+          process.exit(1)
         }
-      } else if ('swc-node' in deps) {
-        env = 'swc-node'
-      } else {
-        logger.error('no ts-node/tsx/swc-node or @swc-node/register found')
-        process.exit(1)
       }
     }
     const args = [
@@ -41,8 +45,24 @@ async function main() {
       foyFile,
       ...process.argv.slice(2),
     ]
-    spawn(env, args, {
-      stdio: 'inherit'
+    let NODE_OPTIONS = process.env.NODE_OPTIONS ?? ''
+    ;[
+      ['--inspect',defaultCli.options.inspect],
+      ['--inspectBrk',defaultCli.options.inspectBrk]
+    ].map(([inspect, inspectVal]) => {
+      if (inspectVal) {
+        if (typeof inspectVal === 'string') {
+          inspect += '=' + inspectVal
+        }
+        NODE_OPTIONS += ' ' + inspect
+      }
+    })
+    spawn(executor, args, {
+      stdio: 'inherit',
+      env:{
+        ...process.env,
+        NODE_OPTIONS,
+      }
     })
   }
 }

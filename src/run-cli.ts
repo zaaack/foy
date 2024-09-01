@@ -11,7 +11,7 @@ import chalk from 'chalk'
 import { initDefaultCli } from './default-cli'
 
 export function runCli() {
-  const { defaultCli, defaultHelpMsg, outputCompletion, taskArgv } = initDefaultCli()
+  const { defaultCli, defaultHelpMsg, outputCompletion, taskArgs } = initDefaultCli()
   const taskCli = cac("foy")
 
   let taskManager = getGlobalTaskManager()
@@ -62,7 +62,7 @@ export function runCli() {
     process.exit(1)
   })
 
-  taskCli.parse(taskArgv)
+  taskCli.parse([...taskArgs])
 
   if (process.argv.length === 2) {
     taskCli.outputHelp()
