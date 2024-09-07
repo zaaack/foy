@@ -1,3 +1,9 @@
+#### 0.2.34 (2024-09-07)
+
+##### New Features
+
+*  add inspect ([8cee42ff](https://github.com/zaaack/foy/commit/8cee42ff36b09a35f7a2103c729d901228fe2b8b))
+
 #### 0.2.33 (2024-08-26)
 
 ##### Bug Fixes
