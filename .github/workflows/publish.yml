@@ -1,0 +1,22 @@
+name: publish
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: install
+        run: pnpm i
+      - name: test
+        run: pnpm test
