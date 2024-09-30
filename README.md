@@ -1,6 +1,6 @@
 # Foy
 
-[![Build Status](https://travis-ci.org/zaaack/foy.svg?branch=master)](https://travis-ci.org/zaaack/foy) [![npm](https://img.shields.io/npm/v/foy.svg)](https://www.npmjs.com/package/foy) [![npm](https://img.shields.io/npm/dm/foy.svg)](https://www.npmjs.com/package/foy) [![install size](https://packagephobia.now.sh/badge?p=foy)](https://packagephobia.now.sh/result?p=foy)
+[![publish](https://github.com/zaaack/foy/actions/workflows/publish.yml/badge.svg)](https://github.com/zaaack/foy/actions/workflows/publish.yml) [![npm](https://img.shields.io/npm/v/foy.svg)](https://www.npmjs.com/package/foy) [![npm](https://img.shields.io/npm/dm/foy.svg)](https://www.npmjs.com/package/foy) [![install size](https://packagephobia.now.sh/badge?p=foy)](https://packagephobia.now.sh/result?p=foy)
 
 A simple, light-weight and modern task runner for general purpose.
 
