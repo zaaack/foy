@@ -70,7 +70,7 @@ _foy_complete_func()
     local cur opts
     COMPREPLY=()
     cur="\${COMP_WORDS[COMP_CWORD]}"
-    opts="$(node ./lib/cli.ts --completion "\${COMP_WORDS[COMP_CWORD-1]}")"
+    opts="$(foy --completion "\${COMP_WORDS[COMP_CWORD-1]}")"
 
     if [[ \${cur} == * ]] ; then
         COMPREPLY=( $(compgen -W "\${opts}" -- \${cur}) )

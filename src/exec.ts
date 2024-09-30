@@ -10,7 +10,10 @@ export { execa }
 
 function _exec(cmd: string, options?: execa.Options) {
   let [file, ...args] = shellParser(cmd)
-  return execa(file, args, options)
+  return execa(file, args, {
+    stdio: 'inherit',
+    ...options
+  })
 }
 export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess
 export function exec(
