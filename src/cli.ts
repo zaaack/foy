@@ -9,13 +9,14 @@ import { Is } from './utils'
 import { getGlobalTaskManager } from './task-manager'
 import chalk from 'chalk'
 import { initDefaultCli } from './default-cli'
-import { spawn } from 'child_process'
+import { spawn, ChildProcess } from 'child_process'
 
 const { foyFiles, registers, defaultCli } = initDefaultCli()
 async function main() {
   const pkg = await fs.readJson('./package.json')
   const isESM = pkg.type === 'module'
   const deps = { ...pkg.dependencies, ...pkg.devDependencies }
+  const results: ChildProcess[] = [];
   for (const foyFile of foyFiles) {
     let executor = defaultCli.options.executor
     if (!executor) {
@@ -57,16 +58,23 @@ async function main() {
         NODE_OPTIONS += ' ' + inspect
       }
     })
-    spawn(executor, args, {
+    results.push(spawn(executor, args, {
       stdio: 'inherit',
       env:{
         ...process.env,
         NODE_OPTIONS,
       }
-    })
+    }));
+  }
+  for (const p of results) {
+    await new Promise<void>((resolve) => p.on('exit', () => resolve()))
+    if (p.exitCode !== 0 && p.exitCode !== null) {
+      process.exitCode = p.exitCode;
+    }
   }
 }
 
 main().catch((err) => {
   console.error(err)
+  process.exitCode = 1;
 })

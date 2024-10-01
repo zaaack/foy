@@ -109,3 +109,9 @@ task('pushpopd', async ctx => {
   ctx.popd()
   ctx.log(`popd 2 works`, ctx.cwd === resolve(pwd))
 })
+
+task('fails', async ctx => {
+  logger.info('Fail this task')
+  await ctx.exec('node -e "console.log(\\"start\\"); process.exit(1)"')
+  logger.info('This line not hit')
+});
