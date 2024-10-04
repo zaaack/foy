@@ -1,3 +1,14 @@
+#### 0.2.35 (2024-10-04)
+
+##### Chores
+
+*  add ci ([189a2756](https://github.com/zaaack/foy/commit/189a2756ed3fcc659e827eded45fc6edb0abe443))
+
+##### Bug Fixes
+
+*  win ([730d708f](https://github.com/zaaack/foy/commit/730d708ffbe5ef7af4f4b4c56a1180fc78579410))
+*  publish ([52f6e5f3](https://github.com/zaaack/foy/commit/52f6e5f36ebc1823939d9716bee4e83ebf5ba8ab))
+
 #### 0.2.37 (2024-09-30)
 
 #### 0.2.36 (2024-09-30)
