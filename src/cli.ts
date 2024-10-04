@@ -59,6 +59,8 @@ async function main() {
     })
     spawn(executor, args, {
       stdio: 'inherit',
+      shell: true,
+      cwd: process.cwd(),
       env:{
         ...process.env,
         NODE_OPTIONS,
