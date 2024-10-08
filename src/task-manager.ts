@@ -329,9 +329,8 @@ export class TaskManager {
       let ret = await this.runDepsTree(depsTree, props)
       return ret
     } catch (e) {
-      logger.error(e)
       await this.runListner('onerror', t.namespaces, [e, t])
-      throw Error('Task Failed', {cause: e})
+      throw e
     } finally {
       await this.runListner('after', t.namespaces, [t])
       if (loading) {

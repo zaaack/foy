@@ -1,5 +1,21 @@
 DependencyGraph for task [fails]:
-- fails
+─ fails
 
+Task: fails
 [info] Fail this task
-start
+[info] $ node -e "console.log(\"start\"); process.exit(1)"
+startfoy/node_modules//execa/lib/error.js:59
+		error = new Error(message);
+          ^
+Error: Command failed with exit code 1: node -e console.log("start"); process.exit(1)  shortMessage: 'Command failed with exit code 1: node -e console.log("start"); process.exit(1)',
+  command: 'node -e console.log("start"); process.exit(1)',
+  exitCode: 1,
+  signal: undefined,
+  signalDescription: undefined,
+  stdout: undefined,
+  stderr: undefined,
+  failed: true,
+  timedOut: false,
+  isCanceled: false,
+  killed: false
+}

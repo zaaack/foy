@@ -53,7 +53,7 @@ export class ShellContext {
   protected _logger = logger
   private readonly _process: {
     current: ChildProcess | null
-  } = {current: null}
+  } = { current: null }
   /**
    * change work directory
    * @param dir
@@ -110,7 +110,7 @@ export class ShellContext {
    * @returns
    */
   exec_unix(cmd: string, options?: execa.Options) {
-    return this.spawn('$SHELL', ['-i','-c', cmd])
+    return this.spawn('$SHELL', ['-i', '-c', cmd])
   }
   /**
    * spawn file
@@ -144,15 +144,15 @@ export class ShellContext {
   /**
    * set/get/delete env
    * set: ctx.env('key', 'val')
-   * get: ctx.env('key')
+   * set: ctx.env('key=val')
    * delete: ctx.env('key', void 0)
    * @param key
    */
-  env(key: string): string | undefined
+  env(key: string): this
   env(key: string, val: string | undefined): this
   env(key: string, val?: string): string | undefined | this {
     if (arguments.length === 1) {
-      return this._env[key]
+      [key, val] = key.split('=', 2)
     }
     if (Is.defined(val)) {
       this._env[key] = val
@@ -177,7 +177,7 @@ export class ShellContext {
     dir: string,
     run: ((p: { current: ChildProcess | null }) => void) | string | string[],
     options: WatchDirOptions & {
-      ignore?: (event: string, file: string) => boolean,
+      ignore?: (event: string, file: string | null) => boolean
     } = {},
   ) {
     let p = this._process

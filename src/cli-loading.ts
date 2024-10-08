@@ -17,7 +17,7 @@ export interface Props {
 export class CliLoading {
   props: Required<Props>
   _loadingFrameMap = new Map<string, number>()
-  id?: NodeJS.Timer
+  id?: NodeJS.Timeout
   linesToClear = 0
   constructor(props: Props) {
     this.props = {

@@ -3,22 +3,24 @@ import { fs } from '../fs'
 import { exec } from '../exec'
 import * as path from 'path'
 import { hashAny } from '../utils'
+import { describe, it, before, beforeEach } from 'node:test'
+import { equal, notEqual, strictEqual } from 'assert'
 
 describe('utils', function() {
   it('hashAny', () => {
-    expect(hashAny('aa')).toEqual('📝aa')
-    expect(hashAny(1)).toEqual('1')
-    expect(hashAny(null)).toEqual('null')
-    expect(hashAny(undefined)).toEqual('undefined')
+    equal(hashAny('aa'),'📝aa')
+    equal(hashAny(1), '1')
+    equal(hashAny(null), 'null')
+    equal(hashAny(undefined), 'undefined')
     let fn = f => f
-    expect(hashAny(fn)).toEqual(hashAny(fn))
-    expect(hashAny(fn)).toEqual('⭕️1')
-    expect(hashAny(fn)).not.toEqual(hashAny(f => f))
+    equal(hashAny(fn),hashAny(fn))
+    equal(hashAny(fn),'⭕️1')
+    notEqual(hashAny(fn), hashAny(f => f))
     class A {}
-    expect(hashAny({ aa: fn, bb: new A() })).toEqual('Object{"aa":"⭕️1","bb":"A{}"}')
-    expect(hashAny({ aa: fn })).toEqual('Object{"aa":"⭕️1"}')
-    expect(hashAny({ aa: fn })).toEqual(hashAny({ aa: fn }))
-    expect(hashAny({ aa: fn })).not.toEqual(hashAny({ aa: f => f }))
+    equal(hashAny({ aa: fn, bb: new A() }),'Object{"aa":"⭕️1","bb":"A{}"}')
+    equal(hashAny({ aa: fn }),'Object{"aa":"⭕️1"}')
+    equal(hashAny({ aa: fn }),hashAny({ aa: fn }))
+    notEqual(hashAny({ aa: fn }), hashAny({ aa: f => f }))
   })
 
 })

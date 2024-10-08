@@ -62,7 +62,7 @@ async function copy(
   }
 }
 
-export type WatchDirHandler = (event: string, filename: string) => void
+export type WatchDirHandler = (event: string, filename: string | null) => void
 export type WatchDirOptions = {
   persistent?: boolean
   /** ms, default 300 */
@@ -99,6 +99,7 @@ function watchDir(
         {
           recursive: false,
           persistent: (options as WatchDirOptions).persistent,
+          encoding: 'utf-8',
         },
         cb,
       )

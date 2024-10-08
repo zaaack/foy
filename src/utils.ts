@@ -79,7 +79,7 @@ export const Is = {
     return typeof v !== 'undefined' && v !== null
   },
   str(v: any): v is string {
-    return typeof v === 'string'
+    return typeof v === 'string' ||  v instanceof String
   },
   bool(v: any): v is boolean {
     return typeof v === 'boolean'

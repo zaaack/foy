@@ -31,10 +31,6 @@ export function runCli() {
           options,
           rawArgs: taskCli.rawArgs.slice(3),
         })
-        .catch((err) => {
-          logger.error(err)
-          throw err
-        })
     })
   })
 

@@ -4,7 +4,10 @@ DependencyGraph for task [ns1:error]:
 [info] beforeAll ns1:error
 [info] before ns1 ns1:error
 Task: ns1:error
-[error] Error: test error[info] onerror ns1 test error ns1:error
+[info] onerror ns1 test error ns1:error
 [info] onerrorError test error ns1:error
 [info] after ns1 ns1:error
-[info] afterAll ns1:error
+[info] afterAll ns1:errorfoy/node_modules//tslib/tslib.js:110
+        return new (P || (P = Promise))(function (resolve, reject) {
+               ^
+Error: test error

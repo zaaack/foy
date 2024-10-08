@@ -24,11 +24,15 @@ task('doc', async ctx => {
   await ctx.exec(`touch ./docs/.nojekyll`)
 })
 
-const JasmineCli = `jasmine --require=tsconfig-paths/register --require=ts-node/register`
 
 task<{ args: string, env: NodeJS.ProcessEnv }>('test', async ctx => {
-  await ctx.exec(`${JasmineCli} "src/test/*.test.ts" ${ctx.options.args || ''} ${(ctx.task.rawArgs).map(a => `"${a
-    }"`).join(' ')}`, { env: ctx.options.env || process.env })
+  // https://github.com/nodejs/node/issues/51555#issuecomment-2290742072
+  await ctx.env('DISABLE_V8_COMPILE_CACHE', '1').exec(
+    `tsx --test-concurrency=1 --test "./src/test/*.test.ts" ${ctx.options.args || ''} ${ctx.task.rawArgs
+      .map((a) => `"${a}"`)
+      .join(' ')}`,
+    { env: ctx.options.env || process.env },
+  )
 })
 
 task('test:update-snap', [{
