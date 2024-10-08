@@ -75,14 +75,9 @@ async function main() {
     }
   }
   // fix zombie process sometimes
-   process.on('SIGILL', () => {
-    results.forEach(p => {
-      p.kill(9)
-    })
-   })
-   process.on('beforeExit', () => {
-     results.forEach(p=> {
-      p.kill(9)
+   process.on('SIGINT', () => {
+     results.forEach((p) => {
+       p.kill(9)
      })
    })
 }
