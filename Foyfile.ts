@@ -28,7 +28,7 @@ task('doc', async ctx => {
 task<{ args: string, env: NodeJS.ProcessEnv }>('test', async ctx => {
   // https://github.com/nodejs/node/issues/51555#issuecomment-2290742072
   await ctx.env('DISABLE_V8_COMPILE_CACHE', '1').exec(
-    `tsx --test-concurrency=1 --test "./src/test/*.test.ts" ${ctx.options.args || ''} ${ctx.task.rawArgs
+    `tsx --test-concurrency=4 --test "./src/test/*.test.ts" ${ctx.options.args || ''} ${ctx.task.rawArgs
       .map((a) => `"${a}"`)
       .join(' ')}`,
     { env: ctx.options.env || process.env },

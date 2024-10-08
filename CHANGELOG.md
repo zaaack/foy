@@ -1,3 +1,10 @@
+#### 0.2.36 (2024-10-08)
+
+##### Bug Fixes
+
+*  tests ([0998d6ce](https://github.com/zaaack/foy/commit/0998d6ce6a57e0e6fa9665dd0966d53ceaa5a950))
+*  zombie process ([9b060c01](https://github.com/zaaack/foy/commit/9b060c0181e391eaa8fb6870e20ce66704c792c7))
+
 #### 0.2.35 (2024-10-04)
 
 ##### Chores

@@ -127,6 +127,7 @@ task(&#39;some task&#39;, async ctx =&gt; {
   let json = await fs.readJson(&#39;./xx.json&#39;)
   await ctx
     .env(&#39;NODE_ENV&#39;, &#39;production&#39;)
+    .env(&#39;NODE_ENV=production&#39;)
     .cd(&#39;./src&#39;)
     .exec(&#39;some command&#39;) // Execute an command
   let { stdout } = await ctx.exec(&#39;ls&#39;, { stdio: &#39;pipe&#39; }) // Get the stdout, default is empty because it&#39;s redirected to current process via `stdio: &#39;inherit&#39;`.
