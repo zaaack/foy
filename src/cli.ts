@@ -60,7 +60,7 @@ async function main() {
     })
     results.push(spawn(executor, args, {
       stdio: 'inherit',
-      shell: true,
+      shell: process.platform === 'win32',
       cwd: process.cwd(),
       env:{
         ...process.env,
@@ -74,6 +74,17 @@ async function main() {
       process.exitCode = p.exitCode;
     }
   }
+  // fix zombie process sometimes
+   process.on('SIGILL', () => {
+    results.forEach(p => {
+      p.kill(9)
+    })
+   })
+   process.on('beforeExit', () => {
+     results.forEach(p=> {
+      p.kill(9)
+     })
+   })
 }
 
 main().catch((err) => {
