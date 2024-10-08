@@ -18,19 +18,22 @@ function normal(s: string) {
   s = s.replace(/.pnpm\/[^\/]+\/node_modules/,'')
   return s
 }
-function test(cmd: string) {
+function test(cmd: string, expectedExitCode: number = 0) {
   let out = 'Not initialized'
   let snap = ''
+  let exitCode = 0;
   return {
     name: cmd,
     it() {
       it(cmd, () => {
         expect(normal(out)).toBe(normal(snap))
+        expect(exitCode).toEqual(expectedExitCode)
       })
     },
     async init() {
-      let p = await exec(`ts-node ./src/cli.ts --config ${fixturesDir}/${cmd}`).catch(er => er)
-      out = normal(p.stdout + p.stderr)
+      let p = await exec(`ts-node ./src/cli.ts --config ${fixturesDir}/${cmd}`, {all: true}).catch(er => er);
+      exitCode = p.exitCode;
+      out = normal(p.all ?? '')
       let snapFile = snapsDir + '/' + cmd.replace(/[^\w-]/g, '_')
       if (UpdateSnap) {
         // tslint:disable-next-line:no-floating-promises
@@ -62,9 +65,10 @@ describe('task', function () {
     test(`Foyfile1.ts async:priority`),
     test(`Foyfile1.ts resolveOptions -c 123`),
     test(`Foyfile1.ts resolveOptions`),
+    test(`Foyfile1.ts fails`, 1),
     test(`Foyfile1.ts pushpopd`),
     test(`Foyfile2.ts start`),
-    test(`Foyfile2.ts error`),
+    test(`Foyfile2.ts error`, 1),
     test(`Foyfile2.ts ns1:t1`),
     test(`Foyfile2.ts ns1:error`),
     test(`Foyfile2.ts ns1:ns2:t2`),
@@ -74,7 +78,7 @@ describe('task', function () {
     if (UpdateSnap) {
       await fs.rmrf(snapsDir)
     }
-    await Promise.all(tests.map(t => t.init())).catch(logger.error)
+    await Promise.allSettled(tests.map(t => t.init())).catch(logger.error)
     console.log('init')
   }, 600 * 1000)
   tests.forEach(t => t.it())
