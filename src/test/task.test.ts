@@ -35,7 +35,13 @@ function test(cmd: string, expectedExitCode?: number) {
       })
     },
     async init() {
-      let p = await exec(`tsx ./src/cli.ts --config ${fixturesDir}/${cmd}`, {stdio: void 0}).catch(er => er);
+      let p = await exec(`tsx ./src/cli.ts --config ${fixturesDir}/${cmd}`, {
+        stdio: void 0,
+        env: {
+          ...process.env,
+          DISABLE_V8_COMPILE_CACHE:'1',
+        },
+      }).catch((er) => er)
       exitCode = p.exitCode;
       out = normal(p.stdout + p.stderr)
       let snapFile = snapsDir + '/' + cmd.replace(/[^\w-]/g, '_')
