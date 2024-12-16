@@ -1,3 +1,10 @@
+#### 0.2.37 (2024-12-16)
+
+##### Bug Fixes
+
+*  logger ([ce838224](https://github.com/zaaack/foy/commit/ce8382246826b1ba0f7232156b59f68fcb9af1ef))
+*  ci ([2d73f2e5](https://github.com/zaaack/foy/commit/2d73f2e558e9bd7459b1f27a24afaddc291e53a7))
+
 #### 0.2.36 (2024-10-08)
 
 ##### Bug Fixes
