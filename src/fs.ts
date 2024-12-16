@@ -62,7 +62,7 @@ async function copy(
   }
 }
 
-export type WatchDirHandler = (event: string, filename: string | null) => void
+export type WatchDirHandler = _fs.WatchListener<string>
 export type WatchDirOptions = {
   persistent?: boolean
   /** ms, default 300 */

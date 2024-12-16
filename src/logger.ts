@@ -44,7 +44,7 @@ function makeLogger(level: LogLevels, logger: Logger) {
 
 export interface ILogInfo {
   level: LogLevels
-  time: Date,
+  time: Date
   formatedTime: string
   message: string
   levelNum: number
@@ -62,30 +62,25 @@ export interface ILoggerProps {
 }
 
 export class Logger {
-  static get defaultProps(): ILoggerProps {
-    return {
-      logTime: false,
-      levelColor: {
-        debug: chalk.blueBright,
-        info: chalk.green,
-        warn: chalk.yellow,
-        error: chalk.red,
-      },
-      format(level, time, color, args) {
-        return `${color(`[${level}]`)}${time ? ' ' + time : ''} ${args
-          .map((a) => (typeof a === 'string' ? a : util.inspect(a, false, 5)))
-          .join(' ')}`
-      },
-      level: 'debug',
-    }
+  static defaultProps: ILoggerProps = {
+    logTime: false,
+    levelColor: {
+      debug: chalk.blueBright,
+      info: chalk.green,
+      warn: chalk.yellow,
+      error: chalk.red,
+    },
+    format(level, time, color, args) {
+      return `${color(`[${level}]`)}${time ? ' ' + time : ''} ${args
+        .map((a) => (typeof a === 'string' ? a : util.inspect(a, false, 5)))
+        .join(' ')}`
+    },
+    level: 'debug',
   }
   /** @internal */
   _props: ILoggerProps
   constructor(_props: ILoggerProps = {}) {
-    this._props = {
-      ...Logger.defaultProps,
-      ..._props,
-    }
+    this._props = new Object(Logger.defaultProps)
   }
   debug = makeLogger('debug', this)
   info = makeLogger('info', this)
