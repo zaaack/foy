@@ -418,7 +418,7 @@ If you use Foy in CI servers, you won't want the [loading spinners](https://gith
 ```ts
 import { task, setGlobalOptions } from 'foy'
 
-setGlobalOptions({ loading: false }) // disable loading animations
+setGlobalOptions({ loading: false }) // disable loading animations, default is false
 
 task('test', async cyx => { /* ... */ })
 /*

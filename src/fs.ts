@@ -175,7 +175,7 @@ const fsExtra = {
     : async (src: _fs.PathLike, dist: _fs.PathLike) => {
         await _fs.promises.stat(src)
         return new Promise((res, rej) => {
-          _fs.createReadStream(src, { highWaterMark: 2 * 1024 * 1024 })
+          _fs.createReadStream(src, { highWaterMark: 5 * 1024 * 1024 })
             .pipe(_fs.createWriteStream(dist))
             .on('error', rej)
             .on('close', res)

@@ -47,18 +47,18 @@ export interface Task<O = any> extends TaskDep<O> {
    */
   rawArgs: string[]
   /**
-   * @description Whether task options only allow defined options, default false
+   * Whether task options only allow defined options, default false
    * @default false
    */
   strict?: boolean
   options: O
   /**
-   * @description whether show loading
+   * whether show loading
    * @default globalOptions.loading
    */
   loading?: boolean
   /**
-   * @description whether log executed command
+   * whether log executed command
    * @default globalOptions.logCommand
    */
   logCommand?: boolean

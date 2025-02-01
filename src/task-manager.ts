@@ -10,7 +10,8 @@ import figures from 'figures'
 
 export interface GlobalOptions {
   /**
-   * @default true
+   * spinner
+   * @default false
    */
   loading?: boolean
   indent?: number
@@ -120,7 +121,7 @@ export class TaskManager {
     onerror: [] as Callback[],
   }
   public globalOptions: GlobalOptions = {
-    loading: true,
+    loading: false,
     options: {},
     indent: 3,
     logCommand: true,
