@@ -1,3 +1,9 @@
+#### 0.2.39 (2025-02-01)
+
+##### Chores
+
+*  disable loading by default ([bebe5e0d](https://github.com/zaaack/foy/commit/bebe5e0d70da5829dbf60cb24b53cf46ad9acce8))
+
 #### 0.2.38 (2024-12-16)
 
 #### 0.2.37 (2024-12-16)
