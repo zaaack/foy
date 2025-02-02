@@ -2,7 +2,7 @@ import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sl
 import marked from 'marked'
 import * as ejs from 'ejs'
 
-setGlobalOptions({ loading: false, strict: true })
+setGlobalOptions({ spinner: false, strict: true })
 
 before(() => {
 

@@ -413,13 +413,14 @@ task('build', async ctx => {
 
 ## Using in CI servers
 
-If you use Foy in CI servers, you won't want the [loading spinners](https://github.com/sindresorhus/cli-spinners) as most CI servers will log stdout and stderr in discreet frames not meant for continuous streaming animations. Luckily, Foy has already considered this! You can simply disable the loading animation like this:
+If you use Foy in CI servers, you won't want the [cli spinners](https://github.com/sindresorhus/cli-spinners) as most CI servers will log stdout and stderr in discreet frames not meant for continuous streaming animations. Luckily, Foy has already considered this! You can simply disable the loading animation like this:
 
 ```ts
-import { task, setGlobalOptions } from 'foy'
+import { task, spinner, setGlobalOptions } from 'foy'
 
-setGlobalOptions({ loading: false }) // disable loading animations, default is false
+setGlobalOptions({ spinner: true }) // enable loading animations, default is false
 
+spinner(false)
 task('test', async cyx => { /* ... */ })
 /*
 $ foy test

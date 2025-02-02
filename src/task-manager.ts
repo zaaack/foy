@@ -13,6 +13,8 @@ export interface GlobalOptions {
    * spinner
    * @default false
    */
+  spinner?: boolean
+  /** @deprecated use spinner */
   loading?: boolean
   indent?: number
   /**
@@ -32,7 +34,7 @@ export interface RunDepOptions {
   rawArgs?: string[]
   parentCtx?: TaskContext | null
   /** default is false */
-  loading?: boolean
+  spinner?: boolean
   indent?: number
 }
 
@@ -100,7 +102,7 @@ export class TaskContext<O = any> extends ShellContext {
   run(task: string | Task, options?: RunTaskOptions) {
     return getGlobalTaskManager().run(task, {
       force: true,
-      loading: false,
+      spinner: false,
       ...options,
     })
   }
@@ -121,7 +123,7 @@ export class TaskManager {
     onerror: [] as Callback[],
   }
   public globalOptions: GlobalOptions = {
-    loading: false,
+    spinner: false,
     options: {},
     indent: 3,
     logCommand: true,
@@ -189,20 +191,20 @@ export class TaskManager {
     }
   }
 
-  isLoading(t: Task, props: RunTaskOptions) {
-    return defaults(props.loading, t.loading, this.globalOptions.loading, true)
+  hasSpinner(t: Task, props: RunTaskOptions) {
+    return defaults(props.spinner, t.spinner, this.globalOptions.spinner, true)
   }
   async runDepsTree(depsTree: DepsTree, props: RunTaskOptions) {
     let t = depsTree.task
     let taskHash = hashAny(t)
-    let loading = this.isLoading(t, props)
+    let hasSpinner = this.hasSpinner(t, props)
     let startTime = Date.now()
 
     let didResolved = null as ((value?: any) => void) | null
     if (this._didMap.has(taskHash) && !t.force) {
       depsTree.state = TaskState.skipped
       await this._didMap.get(taskHash)
-      if (!loading) {
+      if (!hasSpinner) {
         console.log(chalk.yellow(`Skip task: `) + t.name)
       }
       return
@@ -214,7 +216,7 @@ export class TaskManager {
     const depProps: RunDepOptions = {
       rawArgs: props.rawArgs,
       indent: props.indent,
-      loading: props.loading,
+      spinner: props.spinner,
       parentCtx: ctx,
     }
 
@@ -242,7 +244,7 @@ export class TaskManager {
       }
     }
 
-    if (!loading) {
+    if (!hasSpinner) {
       console.log(chalk.yellow('Task: ') + t.name)
     }
 
@@ -257,7 +259,7 @@ export class TaskManager {
     } finally {
       if (this.globalOptions.showTaskDuration) {
         depsTree.duration = Date.now() - startTime
-        if (!loading) {
+        if (!hasSpinner) {
           console.log(
             chalk.yellow('Task: ') + t.name + ` done in ${formatDuration(depsTree.duration)}`,
           )
@@ -311,7 +313,7 @@ export class TaskManager {
       ...(props.options || null),
     }
     let depsTree = this.resolveDependencyTree(t)
-    let loading = this.isLoading(t, props)
+    let loading = this.hasSpinner(t, props)
     let cliLoading = new CliLoading({
       depsTree,
       indent: defaults(props.indent, this.globalOptions.indent),

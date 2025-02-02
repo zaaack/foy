@@ -53,10 +53,10 @@ export interface Task<O = any> extends TaskDep<O> {
   strict?: boolean
   options: O
   /**
-   * whether show loading
-   * @default globalOptions.loading
+   * whether show spinner
+   * @default globalOptions.spinner
    */
-  loading?: boolean
+  spinner?: boolean
   /**
    * whether log executed command
    * @default globalOptions.logCommand
@@ -70,6 +70,7 @@ export interface Task<O = any> extends TaskDep<O> {
  * @param options
  */
 export function setGlobalOptions(options: GlobalOptions) {
+  options.spinner ??= options.loading
   Object.assign(getGlobalTaskManager().globalOptions, options)
 }
 function appendCallback<Fn extends ((...args) => void | Promise<void>)>(name: ListenerNames, fn: Fn) {
@@ -90,8 +91,8 @@ namespace TaskOptions {
       desc: undefined as undefined | string,
       optionDefs: [] as OptionDef[],
       strict: getGlobalTaskManager().globalOptions.strict,
-      loading: undefined as undefined | boolean,
-    }
+      spinner: undefined as undefined | boolean,
+    } satisfies Partial<Task>
   }
 }
 
@@ -116,6 +117,12 @@ export function option(rawName: string, description: string, config?: OptionConf
  */
 export function strict() {
   TaskOptions.last.strict = true
+}
+/**
+ * Define whether task show spinner, default is setGlobalOptions({loading: })
+ */
+export function spinner(enable: boolean) {
+  TaskOptions.last.spinner = enable
 }
 /**
  * Set options for next task.
@@ -152,7 +159,7 @@ export function task<O>(
     optionDefs: TaskOptions.last.optionDefs,
     desc: TaskOptions.last.desc,
     strict: TaskOptions.last.strict,
-    loading: TaskOptions.last.loading,
+    spinner: TaskOptions.last.spinner,
     rawArgs: [],
     dependencies: dependencies.map(d => {
       if (Is.str(d)) {
