@@ -421,7 +421,7 @@ import { task, spinner, setGlobalOptions } from 'foy'
 setGlobalOptions({ spinner: true }) // enable loading animations, default is false
 
 spinner(false) // disable spinner for current task
-task('test', async cyx => { /* ... */ })
+task('test', async ctx => { /* ... */ })
 /*
 $ foy test
 DependencyGraph for task [test]:
