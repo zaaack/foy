@@ -420,7 +420,7 @@ import { task, spinner, setGlobalOptions } from 'foy'
 
 setGlobalOptions({ spinner: true }) // enable loading animations, default is false
 
-spinner(false)
+spinner(false) // disable spinner for current task
 task('test', async cyx => { /* ... */ })
 /*
 $ foy test

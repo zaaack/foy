@@ -1,3 +1,9 @@
+#### 0.2.40 (2025-02-02)
+
+##### Chores
+
+*  add spinner for each task ([715f350b](https://github.com/zaaack/foy/commit/715f350b052de6424fd2032f84be3cd86c9e3f94))
+
 #### 0.2.39 (2025-02-01)
 
 ##### Chores
