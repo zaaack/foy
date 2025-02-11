@@ -356,8 +356,8 @@ task(&#39;build&#39;, async ctx =&gt; {
 
 setGlobalOptions({ spinner: true }) // enable loading animations, default is false
 
-spinner(false)
-task(&#39;test&#39;, async cyx =&gt; { /* ... */ })
+spinner(false) // disable spinner for current task
+task(&#39;test&#39;, async ctx =&gt; { /* ... */ })
 /*
 $ foy test
 DependencyGraph for task [test]:

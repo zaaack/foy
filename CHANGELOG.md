@@ -1,3 +1,13 @@
+#### 0.2.41 (2025-02-11)
+
+##### Documentation Changes
+
+* fix typo ([62494e2d](https://github.com/zaaack/foy/commit/62494e2d9e0f9e384a8c8c5a35561ae8d496acca))
+
+##### Bug Fixes
+
+*  logs ([a51ac15d](https://github.com/zaaack/foy/commit/a51ac15dff226c311962849c928d6dd3448a6d14))
+
 #### 0.2.40 (2025-02-02)
 
 ##### Chores
