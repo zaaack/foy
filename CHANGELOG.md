@@ -1,3 +1,9 @@
+#### 0.2.43 (2025-02-13)
+
+##### Bug Fixes
+
+*  logger ([a332cad5](https://github.com/zaaack/foy/commit/a332cad5db8dadd7e9f9a432ce3bc542135012f3))
+
 #### 0.2.42 (2025-02-13)
 
 ##### Bug Fixes

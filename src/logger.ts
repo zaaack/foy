@@ -12,7 +12,11 @@ export const LogLevels = {
 export type LogLevels = keyof typeof LogLevels
 function makeLogger(level: LogLevels, logger: Logger) {
   return (...args: any[]) => {
-    const { _props: props } = logger
+    let { _props: props } = logger
+    props = {
+      ...Logger.defaultProps,
+      ...props,
+    }
     let levelNum: number = LogLevels[level]
     let filterLevelNum: number = LogLevels[props.level || 'debug']
     const time = props.logTime
@@ -80,8 +84,7 @@ export class Logger {
   /** @internal */
   _props: ILoggerProps
   constructor(_props: ILoggerProps = {}) {
-    this._props = Object.create(Logger.defaultProps)
-    Object.assign(this._props, _props)
+    this._props = _props
   }
   debug = makeLogger('debug', this)
   info = makeLogger('info', this)
