@@ -62,7 +62,7 @@ export interface ILoggerProps {
 }
 
 export class Logger {
-  static defaultProps: ILoggerProps = {
+  static defaultProps = {
     logTime: false,
     levelColor: {
       debug: chalk.blueBright,
@@ -76,7 +76,7 @@ export class Logger {
         .join(' ')}`
     },
     level: 'debug',
-  }
+  } satisfies ILoggerProps
   /** @internal */
   _props: ILoggerProps
   constructor(_props: ILoggerProps = {}) {
