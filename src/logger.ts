@@ -80,7 +80,7 @@ export class Logger {
   /** @internal */
   _props: ILoggerProps
   constructor(_props: ILoggerProps = {}) {
-    this._props = new Object(Logger.defaultProps)
+    this._props = Object.create(Logger.defaultProps)
     Object.assign(this._props, _props)
   }
   debug = makeLogger('debug', this)
