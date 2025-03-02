@@ -1,3 +1,9 @@
+#### 0.2.44 (2025-03-02)
+
+##### Bug Fixes
+
+*  log ([7256cf8a](https://github.com/zaaack/foy/commit/7256cf8a49e437579a6f23ad4bf6ee509ad13736))
+
 #### 0.2.43 (2025-02-13)
 
 ##### Bug Fixes
