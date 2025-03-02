@@ -59,14 +59,14 @@ export interface ILogInfo {
 export interface ILoggerProps {
   onLog?(info: ILogInfo): void
   hideConsole?: boolean
-  level?: string
+  level?: LogLevels
   logTime?: boolean | (() => string)
-  format?(level: string, time: string, color: (v: string) => string, args: any[]): string
+  format?(level: LogLevels, time: string, color: (v: string) => string, args: any[]): string
   levelColor?: { [k in LogLevels]: (v: string) => string }
 }
 
 export class Logger {
-  static defaultProps = {
+  static defaultProps:ILoggerProps = {
     logTime: false,
     levelColor: {
       debug: chalk.blueBright,
