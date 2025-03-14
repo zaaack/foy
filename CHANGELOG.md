@@ -1,3 +1,9 @@
+### 0.3.0 (2025-03-14)
+
+##### New Features
+
+*  remove inject string prototype ([0d947970](https://github.com/zaaack/foy/commit/0d9479704feb16cfd268908d1d5f375a32efc284))
+
 #### 0.2.44 (2025-03-02)
 
 ##### Bug Fixes

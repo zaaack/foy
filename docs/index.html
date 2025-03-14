@@ -142,7 +142,7 @@ task(&#39;build&#39;, async ctx =&gt; {
 })</code></pre>
 <h2 id="using-dependencies">Using dependencies</h2>
 <pre><code class="language-ts">
-import { task } from &#39;foy&#39;
+import { task, dep } from &#39;foy&#39;
 import * as axios from &#39;axios&#39;
 
 task(&#39;test&#39;, async ctx =&gt; {
@@ -164,7 +164,8 @@ task(
 )</code></pre>
 <p>Dependencies run serially by default but you can specify when a task should be run concurrently.</p>
 <p>Example: Passing running options to dependencies:</p>
-<pre><code class="language-ts">task(
+<pre><code class="language-ts">import { task, dep } from &#39;foy&#39;
+task(
   &#39;publish:patch&#39;,
   [{
     name: &#39;test&#39;,
@@ -184,8 +185,8 @@ task(
 /* Sugar version */
 task(
   &#39;publish:patch&#39;,
-  [ &#39;test&#39;.async().force(),
-    &#39;build&#39;.async().force() ],
+  [ dep(&#39;test&#39;).async().force(),
+    dep(&#39;build&#39;).async().force() ],
   async ctx =&gt; {
     await ctx.exec(&#39;npm version patch&#39;)
     await ctx.exec(&#39;npm publish&#39;)
@@ -200,8 +201,8 @@ Default is 0, higher values will be run earlier; so, in this next example, `buil
 */
 task(
   &#39;publish:patch&#39;,
-  [ &#39;test&#39;.async(0).force(),
-    &#39;build&#39;.async(1).force() ],
+  [ dep(&#39;test&#39;).async(0).force(),
+    dep(&#39;build&#39;).async(1).force() ],
   async ctx =&gt; {
     await ctx.exec(&#39;npm version patch&#39;)
     await ctx.exec(&#39;npm publish&#39;)
@@ -259,7 +260,7 @@ namespace(&#39;server&#39;, ns =&gt; {
   task(&#39;watch&#39;, async ctx =&gt; { /* ... */ }) // server:watch
 })
 
-task(&#39;start&#39;, [&#39;client:start&#39;.async(), &#39;server:start&#39;.async()]) // start
+task(&#39;start&#39;, [dep(&#39;client:start&#39;).async(), dep(&#39;server:start&#39;).async()]) // start
 
 // foy start
 // foy client:build</code></pre>
