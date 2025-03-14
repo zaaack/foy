@@ -1,4 +1,4 @@
-import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespace, exec, before, execa } from './src/'
+import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespace, exec, before, execa, dep } from './src/'
 import marked from 'marked'
 import * as ejs from 'ejs'
 
@@ -70,7 +70,7 @@ task('postversion', async ctx => {
 })
 
 option('-v, --version <version>', 'patch | minor | major', { default: 'patch' })
-task<{ version: string }>('publish', ['preversion'.options(ctx => ({ version: ctx.options.version }))], async ctx => {
+task<{ version: string }>('publish', [dep('preversion').options(ctx => ({ version: ctx.options.version }))], async ctx => {
   await ctx.exec([
     `npm version ${ctx.options.version}`,
     `npm publish --registry=https://registry.npmjs.org/ --access public`,
@@ -105,7 +105,7 @@ task('site:watch', async ctx => {
   })
 })
 
-task('site', ['doc'.async(), 'site:home'.async()])
+task('site', [dep('doc').async(), dep('site:home').async()])
 
 task('demodemodemodemodemodemodemo1', async ctx => {
   console.log('demodemodemodemodemodemodemo1')
@@ -116,7 +116,7 @@ task('demodemodemodemodemodemodemo1', async ctx => {
 task('demo2', async ctx => sleep(3000))
 task('demo3', ['demo2', 'demodemodemodemodemodemodemo1'], async ctx => sleep(3000))
 
-task('demo', ['demodemodemodemodemodemodemo1', 'demo2'.async(), 'demo3'.async()])
+task('demo', ['demodemodemodemodemodemodemo1', dep('demo2').async(), dep('demo3').async()])
 
 task('error', async ctx=> {
   throw new Error('aa')
@@ -136,7 +136,7 @@ namespace('server', ns => {
   task('watch', async ctx => { /* ... */ }) // server:watch
 })
 
-task('start', ['client:start'.async(), 'server:start'.async()])
+task('start', [dep('client:start').async(), dep('server:start').async()])
 
 task('w', async ctx => {
   let inc = 1

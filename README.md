@@ -171,7 +171,7 @@ task('build', async ctx => {
 
 ```ts
 
-import { task } from 'foy'
+import { task, dep } from 'foy'
 import * as axios from 'axios'
 
 task('test', async ctx => {
@@ -198,6 +198,7 @@ Dependencies run serially by default but you can specify when a task should be r
 Example: Passing running options to dependencies:
 
 ```ts
+import { task, dep } from 'foy'
 task(
   'publish:patch',
   [{
@@ -218,8 +219,8 @@ task(
 /* Sugar version */
 task(
   'publish:patch',
-  [ 'test'.async().force(),
-    'build'.async().force() ],
+  [ dep('test').async().force(),
+    dep('build').async().force() ],
   async ctx => {
     await ctx.exec('npm version patch')
     await ctx.exec('npm publish')
@@ -234,8 +235,8 @@ Default is 0, higher values will be run earlier; so, in this next example, `buil
 */
 task(
   'publish:patch',
-  [ 'test'.async(0).force(),
-    'build'.async(1).force() ],
+  [ dep('test').async(0).force(),
+    dep('build').async(1).force() ],
   async ctx => {
     await ctx.exec('npm version patch')
     await ctx.exec('npm publish')
@@ -302,7 +303,7 @@ namespace('server', ns => {
   task('watch', async ctx => { /* ... */ }) // server:watch
 })
 
-task('start', ['client:start'.async(), 'server:start'.async()]) // start
+task('start', [dep('client:start').async(), dep('server:start').async()]) // start
 
 // foy start
 // foy client:build

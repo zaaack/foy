@@ -62,15 +62,3 @@ declare global {
     options<O>(opts: O | NonNullable<TaskDep['resolveOptions']>): DepBuilder
   }
 }
-
-String.prototype.async = function (priority?: number | boolean) {
-  return dep(this as string).async(priority)
-}
-
-String.prototype.force = function () {
-  return dep(this as string).force()
-}
-
-String.prototype.options = function (opts) {
-  return dep(this as string).options(opts)
-}

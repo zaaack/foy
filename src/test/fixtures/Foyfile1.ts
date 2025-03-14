@@ -1,4 +1,4 @@
-import { task, desc, option, logger } from '../../'
+import { task, desc, option, logger, dep } from '../../'
 import { strict, setGlobalOptions } from '../../task'
 import { resolve } from 'path'
 
@@ -43,18 +43,18 @@ task('ee', async ctx => {
 })
 
 task('ff', [
-  'aa'.options({ aa: 1 }),
-  'aa'.options({ aa: 2 }),
+  dep('aa').options({ aa: 1 }),
+  dep('aa').options({ aa: 2 }),
 ])
 
 const noop = f => f
 task('notForce', [
-  'aa'.options({ noop }),
-  'aa'.options({ noop }),
+  dep('aa').options({ noop }),
+  dep('aa').options({ noop }),
 ])
 task('force', [
-  'aa'.options({ noop }).force(),
-  'aa'.options({ noop }).force(),
+  dep('aa').options({ noop }).force(),
+  dep('aa').options({ noop }).force(),
 ])
 
 task<{ t: number }>('wait', async ctx => {
@@ -62,17 +62,17 @@ task<{ t: number }>('wait', async ctx => {
   console.log('wait', ctx.options.t)
 })
 task('sync', [
-  'wait'.options({ t: 100 }),
-  'wait'.options({ t: 1 }),
+  dep('wait').options({ t: 100 }),
+  dep('wait').options({ t: 1 }),
 ])
 
 task('async', [
-  'wait'.async().options({ t: 100 }),
-  'wait'.async().options({ t: 1 }),
+  dep('wait').async().options({ t: 100 }),
+  dep('wait').async().options({ t: 1 }),
 ])
 task('async:priority', [
-  'wait'.async().options({ t: 1 }),
-  'wait'.async(1).options({ t: 100 }),
+  dep('wait').async().options({ t: 1 }),
+  dep('wait').async(1).options({ t: 100 }),
 ])
 
 task('logOptions', async ctx => {
