@@ -71,13 +71,13 @@ export type WatchDirOptions = {
   iterOnLinux?: boolean
 }
 
-function watchDir(dir: string, cb: WatchDirHandler): void
-function watchDir(dir: string, options: WatchDirOptions, cb: WatchDirHandler): void
+function watchDir(dir: string, cb: WatchDirHandler): _fs.FSWatcher | _fs.FSWatcher[]
+function watchDir(dir: string, options: WatchDirOptions, cb: WatchDirHandler): _fs.FSWatcher | _fs.FSWatcher[]
 function watchDir(
   dir: string,
   options?: WatchDirOptions | WatchDirHandler,
   cb?: WatchDirHandler,
-): void {
+): _fs.FSWatcher | _fs.FSWatcher[] {
   if (Is.fn(options)) {
     cb = options as any
     options = void 0
@@ -92,9 +92,10 @@ function watchDir(
     cb = cb && debounce(cb, options.threshold)
   }
   if (process.platform === 'linux' && options.iterOnLinux) {
+    let watches:_fs.FSWatcher[]  = []
     // tslint:disable-next-line:no-floating-promises
     fsExtra.iter(dir, (file) => {
-      _fs.watch(
+      let w=_fs.watch(
         file,
         {
           recursive: false,
@@ -103,9 +104,11 @@ function watchDir(
         },
         cb,
       )
+      watches.push(w)
     })
+    return watches
   } else {
-    _fs.watch(dir, { recursive: true, persistent: options.persistent }, cb)
+    return _fs.watch(dir, { recursive: true, persistent: options.persistent }, cb)
   }
 }
 

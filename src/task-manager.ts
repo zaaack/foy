@@ -18,7 +18,7 @@ export interface GlobalOptions {
   loading?: boolean
   indent?: number
   /**
-   * @description Whether task options only allow defined options, default false
+   * Whether task options only allow defined options, default false
    * @default false
    */
   strict?: boolean

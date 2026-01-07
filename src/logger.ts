@@ -39,6 +39,7 @@ function makeLogger(level: LogLevels, logger: Logger) {
         time: new Date(),
         formatedTime: time,
         message: stripAnsi(message),
+        coloredMessage: message,
         levelNum,
         filterLevelNum,
         args,
@@ -51,6 +52,7 @@ export interface ILogInfo {
   time: Date
   formatedTime: string
   message: string
+  coloredMessage: string
   levelNum: number
   args: any[]
   filterLevelNum: number
