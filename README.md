@@ -378,12 +378,64 @@ task('build', async ctx => {
 A simple wrapper for sindresorhus's lovely module
 [execa](https://github.com/sindresorhus/execa)
 
+#### Using `ctx.$` (template literal syntax)
+
+`ctx.$` is a tagged template literal function that provides a shell-like syntax for executing commands. It's also available as a standalone export `$` from foy.
+
+```ts
+
+task('build', async ctx => {
+  // Using ctx.$ (same as standalone $)
+  await ctx.$`tsc`
+  await ctx.$`node ./test.js`
+
+  // Variable interpolation - values are automatically escaped
+  const file = 'my file.txt'  // note the space in filename
+  await ctx.$`cat ${file}`  // safely escapes to: cat 'my file.txt'
+
+  const count = 5
+  await ctx.$`echo ${count}`  // outputs: 5
+
+  // Using with options
+  const { stdout } = await ctx.$`ls -la`
+  console.log(stdout)
+
+  // Complex example with multiple variables
+  const src = './src'
+  const dest = './dist'
+  await ctx.$`cp -r ${src} ${dest}`
+})
+```
+
+**Key features of `ctx.$`:**
+- **Automatic escaping**: Variables are safely escaped for shell execution
+- **Template literal syntax**: More readable and familiar for shell commands
+- **Returns execa result**: Access `stdout`, `stderr`, `exitCode`, etc.
+- **Default options**: `stdio: 'inherit'` and `shell: true` are set by default
+
+**Differences from `ctx.exec`:**
+
+```ts
+// ctx.$ - template literal syntax, auto-escaping
+await ctx.$`echo ${userInput}`  // safely escapes special characters
+
+// ctx.exec - string syntax, no auto-escaping
+await ctx.exec(`echo ${userInput}`)  // be careful with special characters!
+
+// ctx.exec supports multiline commands
+await ctx.exec(`
+  echo "step 1"
+  echo "step 2"
+  echo "step 3"
+`)
+```
+
+#### Using `ctx.exec`
+
 ```ts
 import { logger, $ } from 'foy'
 
 task('build', async ctx => {
-  await $`tsc`
-  await $`node ./test.js`
   await ctx.exec('tsc')
 
   // run multiple commands synchronously

@@ -5,7 +5,10 @@ import {
   type Options,
   type ResultPromise,
   type Result,
+  type ExecaScriptMethod,
   execaNode,
+  TemplateExpression,
+  VerboseObject,
 } from 'execa'
 import pathLib from 'path'
 import { logger, logger as _logger } from './logger'
@@ -13,18 +16,40 @@ import { sleep, Is, DefaultLogFile } from './utils'
 import { fs, WatchDirOptions } from './fs'
 import { Stream, Writable } from 'stream'
 import { ChildProcess, ExecOptions, spawn } from 'child_process'
-import shellParser from 'shell-parser'
-import { stdin } from 'process'
-export { execa, _$ }
-export const $ = _$({
+import { createRequire } from 'module'
+
+function _logCmd(cmd: string, env?: object) {
+  let envStr = Object.keys(env || {})
+    .map((k) => `${k}=${env?.[k] || ''}`)
+    .join(' ')
+  if (envStr) {
+    envStr += ' '
+  }
+  logger.info(`$ ${envStr}${cmd}`)
+}
+
+function joinTag(strings: TemplateStringsArray, ...values: TemplateExpression[]): string {
+  return strings.reduce((acc, str, i) => acc + str + (values[i] ?? ''), '')
+}
+
+const verbose = (verboseLine: string, verboseObject: VerboseObject) => {
+  if (verboseObject.type === 'command') {
+    _logCmd(verboseObject.escapedCommand, verboseObject.options.env)
+  }
+}
+
+const DefaultExecaOptions: Options = {
   stdio: 'inherit',
   shell: true,
-})
+  verbose: verbose,
+  extendEnv: true,
+}
 
+export const $ = _$(DefaultExecaOptions)
 export function exec(cmd: string, options?: Options): ResultPromise<Options> {
+  // _logCmd(cmd, options?.env)
   return execaCommand(cmd, {
-    stdio: 'inherit',
-    shell: true,
+    ...DefaultExecaOptions,
     ...options,
   })
 }
@@ -33,6 +58,7 @@ export class ShellContext {
   private _cwdStack = [process.cwd()]
   private _env: { [k: string]: string | undefined } = {}
   logCommand = false
+  execaOptions: Options | undefined
   sleep = sleep
   /**
    * get current word directory
@@ -71,7 +97,14 @@ export class ShellContext {
     return this
   }
 
-  $ = $
+  get $() {
+    return $({
+      env: {
+        ...this._env,
+      },
+      verbose: this.logCommand ? verbose : undefined,
+    })
+  }
 
   /**
    * NOTE!!!: New multiple commands are written as a single string with multiple lines,
@@ -91,19 +124,13 @@ export class ShellContext {
    * ```
    */
   exec(command: string, options?: Options): ResultPromise<Options> {
-    // async exec(commands: string[], options?: Options): Promise<Result[]>
-    // async exec(
-    //   commands: string | string[],
-    //   options?: Options,
-    // ): Promise<Result[]> | ResultPromise<Options>
-    this._logCmd(command)
     let p = exec(command, {
       cwd: this.cwd,
       env: {
-        ...process.env,
         ...this._env,
       },
       stdio: 'inherit',
+      verbose: this.logCommand ? verbose : undefined,
       ...options,
     })
     // tslint:disable-next-line:no-floating-promises
@@ -181,20 +208,6 @@ export class ShellContext {
   resetEnv() {
     this._env = {}
     return this
-  }
-  private _logCmd(cmd: string | string[]) {
-    if (this.logCommand) {
-      let env = Object.keys(this._env)
-        .map((k) => `${k}=${this._env[k] || ''}`)
-        .join(' ')
-      if (env) {
-        env += ' '
-      }
-      cmd = Array.isArray(cmd) ? cmd : [cmd]
-      cmd.forEach((cmd) => {
-        this._logger.info(`$ ${env}${cmd}`)
-      })
-    }
   }
 }
 

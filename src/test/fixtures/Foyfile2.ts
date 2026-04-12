@@ -26,6 +26,11 @@ task('exec', async (ctx) => {
   let sleep = ctx.exec('sleep 1')
   logger.info(sleep.killed, typeof sleep.then, typeof sleep.kill)
 })
+task('$', async (ctx) => {
+  let echo1 = await ctx.$`echo 1`
+  logger.info(`echo1`, echo1.stdout)
+  await ctx.$`sleep 1`
+})
 namespace('ns1', (ns) => {
   before((t) => {
     logger.log(`before ${ns}`, t.name)

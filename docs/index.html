@@ -336,11 +336,56 @@ task(&#39;build&#39;, async ctx =&gt; {
 <h3 id="exec-command">exec command</h3>
 <p>A simple wrapper for sindresorhus&#39;s lovely module
 <a href="https://github.com/sindresorhus/execa">execa</a></p>
+<h4 id="using-ctx-template-literal-syntax">Using <code>ctx.$</code> (template literal syntax)</h4>
+<p><code>ctx.$</code> is a tagged template literal function that provides a shell-like syntax for executing commands. It&#39;s also available as a standalone export <code>$</code> from foy.</p>
+<pre><code class="language-ts">
+task(&#39;build&#39;, async ctx =&gt; {
+  // Using ctx.$ (same as standalone $)
+  await ctx.$`tsc`
+  await ctx.$`node ./test.js`
+
+  // Variable interpolation - values are automatically escaped
+  const file = &#39;my file.txt&#39;  // note the space in filename
+  await ctx.$`cat ${file}`  // safely escapes to: cat &#39;my file.txt&#39;
+
+  const count = 5
+  await ctx.$`echo ${count}`  // outputs: 5
+
+  // Using with options
+  const { stdout } = await ctx.$`ls -la`
+  console.log(stdout)
+
+  // Complex example with multiple variables
+  const src = &#39;./src&#39;
+  const dest = &#39;./dist&#39;
+  await ctx.$`cp -r ${src} ${dest}`
+})
+</code></pre>
+<p><strong>Key features of <code>ctx.$</code>:</strong></p>
+<ul>
+<li><strong>Automatic escaping</strong>: Variables are safely escaped for shell execution</li>
+<li><strong>Template literal syntax</strong>: More readable and familiar for shell commands</li>
+<li><strong>Returns execa result</strong>: Access <code>stdout</code>, <code>stderr</code>, <code>exitCode</code>, etc.</li>
+<li><strong>Default options</strong>: <code>stdio: &#39;inherit&#39;</code> and <code>shell: true</code> are set by default</li>
+</ul>
+<p><strong>Differences from <code>ctx.exec</code>:</strong></p>
+<pre><code class="language-ts">// ctx.$ - template literal syntax, auto-escaping
+await ctx.$`echo ${userInput}`  // safely escapes special characters
+
+// ctx.exec - string syntax, no auto-escaping
+await ctx.exec(`echo ${userInput}`)  // be careful with special characters!
+
+// ctx.exec supports multiline commands
+await ctx.exec(`
+  echo &quot;step 1&quot;
+  echo &quot;step 2&quot;
+  echo &quot;step 3&quot;
+`)
+</code></pre>
+<h4 id="using-ctxexec">Using <code>ctx.exec</code></h4>
 <pre><code class="language-ts">import { logger, $ } from &#39;foy&#39;
 
 task(&#39;build&#39;, async ctx =&gt; {
-  await $`tsc`
-  await $`node ./test.js`
   await ctx.exec(&#39;tsc&#39;)
 
   // run multiple commands synchronously

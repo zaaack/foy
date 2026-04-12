@@ -1,0 +1,7 @@
+DependencyGraph for task [$]:
+[info] beforeAll $
+Task: $
+[info] $ echo 1
+[info] echo1 undefined
+[info] $ sleep 1
+[info] afterAll $

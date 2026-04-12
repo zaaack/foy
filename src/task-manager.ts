@@ -2,16 +2,16 @@ import { CliLoading } from './cli-loading'
 import type { Task } from './task'
 import { task } from './task'
 import chalk from 'chalk'
-import { createRequire } from 'module'
-const require = createRequire(import.meta.url)
-const pkg = require('../package.json')
+// import { createRequire } from 'module'
+// const require = createRequire(import.meta.url)
 import { hashAny, defaults, Is, DefaultLogFile, formatDuration } from './utils'
 import { Writable, Stream } from 'stream'
 import { fs } from './fs'
 import { ShellContext } from './exec'
 import { logger, ILogInfo, ILoggerProps, LogLevels, Logger } from './logger'
 import figures from 'figures'
-
+import { type Options as ExecaOptions } from 'execa'
+import { resolve } from 'path'
 export interface GlobalOptions {
   /**
    * spinner
@@ -21,6 +21,7 @@ export interface GlobalOptions {
   /** @deprecated use spinner */
   loading?: boolean
   indent?: number
+  execa?: ExecaOptions
   /**
    * Whether task options only allow defined options, default false
    * @default false
@@ -87,9 +88,13 @@ export class TaskContext<O = any> extends ShellContext {
   get error() {
     return this._logger.error
   }
-  constructor(public task: Task<O>, public global: GlobalOptions) {
+  constructor(
+    public task: Task<O>,
+    public global: GlobalOptions,
+  ) {
     super()
     this.logCommand = defaults(task.logger && task.logCommand, global.logCommand, true)
+    this.execaOptions = defaults(task.execaOptions, global.execa)
     this._logger = new Logger(global.logger)
   }
   /**
@@ -300,9 +305,7 @@ export class TaskManager {
       force: false,
       ...props,
     }
-    this._tasks.all =
-      this._tasks.all ||
-      (task('all', Object.keys(this._tasks)))
+    this._tasks.all = this._tasks.all || task('all', Object.keys(this._tasks))
     this._tasks.default = this._tasks.default || this._tasks.all
 
     if (!this._tasks[Is.str(name) ? name : name.name]) {
@@ -347,9 +350,10 @@ export class TaskManager {
   }
 }
 
-const TMKey = `@foy${pkg.version}/taskManager`
 /** @internal */
 export function getGlobalTaskManager() {
-  let taskManager: TaskManager = (global[TMKey] = global[TMKey] || new TaskManager())
+  const pkg = fs.readJsonSync(resolve(import.meta.dirname, '../package.json'))
+  const TMKey = `@foy${pkg.version}/taskManager`
+  let taskManager: TaskManager = (globalThis[TMKey] = globalThis[TMKey] || new TaskManager())
   return taskManager
 }

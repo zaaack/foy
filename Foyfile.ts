@@ -24,22 +24,20 @@ desc('build whole project')
 task('build', async (ctx) => {
   await fs.rmrf('./lib')
   await ctx.exec(`tsc -p ./tsconfig.build.json
-    chmod +x ./lib/cli.js`)
+  chmod +x ./lib/cli.js`)
   // Fix ESM imports - add .js extension to relative imports
-  const files = await fs.readdir('./lib')
-  for (const file of files) {
+  await fs.iter('./lib', async (file) => {
     if (file.endsWith('.js')) {
-      const filePath = `./lib/${file}`
-      let content = await fs.readFile(filePath, 'utf8')
+      let content = await fs.readFile(file, 'utf8')
       content = content.replace(/from ['"](\.\.?\/[^'"]+)['"]/g, (match, path) => {
         if (!path.endsWith('.js')) {
           return match.replace(path, path + '.js')
         }
         return match
       })
-      await fs.writeFile(filePath, content)
+      await fs.writeFile(file, content)
     }
-  }
+  })
 })
 
 desc('generate doc')
@@ -145,7 +143,9 @@ task('demo2', async (ctx) => sleep(3000))
 task('demo3', ['demo2', 'demodemodemodemodemodemodemo1'], async (ctx) => sleep(3000))
 
 task('demo', ['demodemodemodemodemodemodemo1', dep('demo2').async(), dep('demo3').async()])
-
+task('$', async (ctx) => {
+  await ctx.env('aa', '1').$`echo test`
+})
 task('error', async (ctx) => {
   throw new Error('aa')
 })

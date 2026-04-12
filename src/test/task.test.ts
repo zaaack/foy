@@ -47,8 +47,8 @@ function test(cmd: string, expectedExitCode?: number) {
     async init() {
       let p = await exec(`tsx ./src/cli.ts --config ${fixturesDir}/${cmd}`, {
         stdio: void 0,
+        verbose: 'none',
         env: {
-          ...process.env,
           DISABLE_V8_COMPILE_CACHE: '1',
         },
       }).catch((er) => er)
@@ -93,6 +93,7 @@ describe('task', function () {
     test(`Foyfile2.ts ns1:error`),
     test(`Foyfile2.ts ns1:ns2:t2`),
     test(`Foyfile2.ts exec`),
+    test(`Foyfile2.ts $`),
   ]
   before(
     async () => {

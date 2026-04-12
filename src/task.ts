@@ -1,15 +1,20 @@
-import chalk from 'chalk'
 import { ShellContext } from './exec'
 import { hashAny, Is, defaults } from './utils'
 import { fs } from './fs'
 import { ILoggerProps, logger } from './logger'
 import { CliLoading } from './cli-loading'
 import { DepBuilder } from './dep-builder'
-import { GlobalOptions, RunTaskOptions, getGlobalTaskManager, TaskContext, ListenerNames } from './task-manager'
+import {
+  GlobalOptions,
+  RunTaskOptions,
+  getGlobalTaskManager,
+  TaskContext,
+  ListenerNames,
+} from './task-manager'
 import { deferRunCli } from './run-cli'
 interface OptionConfig {
-  default?: any;
-  type?: any[];
+  default?: any
+  type?: any[]
 }
 export type OptionDef = [string, string, OptionConfig | undefined]
 
@@ -73,7 +78,7 @@ export function setGlobalOptions(options: GlobalOptions) {
   options.spinner ??= options.loading
   Object.assign(getGlobalTaskManager().globalOptions, options)
 }
-function appendCallback<Fn extends ((...args) => void | Promise<void>)>(name: ListenerNames, fn: Fn) {
+function appendCallback<Fn extends (...args) => void | Promise<void>>(name: ListenerNames, fn: Fn) {
   let tm = getGlobalTaskManager()
   tm.listeners[name].push({
     namespaces: tm.namespaces,
@@ -82,7 +87,8 @@ function appendCallback<Fn extends ((...args) => void | Promise<void>)>(name: Li
 }
 export const before = (fn: (t: Task) => void | Promise<void>) => appendCallback('before', fn)
 export const after = (fn: (t: Task) => void | Promise<void>) => appendCallback('after', fn)
-export const onerror = (fn: (err: Error, t: Task) => void | Promise<void>) => appendCallback('onerror', fn)
+export const onerror = (fn: (err: Error, t: Task) => void | Promise<void>) =>
+  appendCallback('onerror', fn)
 
 namespace TaskOptions {
   export let last = empty()
@@ -161,7 +167,7 @@ export function task<O>(
     strict: TaskOptions.last.strict,
     spinner: TaskOptions.last.spinner,
     rawArgs: [],
-    dependencies: dependencies.map(d => {
+    dependencies: dependencies.map((d) => {
       if (Is.str(d)) {
         return { name: d, options: {} } as Task
       } else if (d._isDepBuilder) {

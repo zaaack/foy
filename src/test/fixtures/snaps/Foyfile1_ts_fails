@@ -1,4 +1,4 @@
 DependencyGraph for task [fails]:
 Task: fails
 [info] Fail this task
-[info] $ node -e "console.log(\"start\"); process.exit(1)"
+[info] $ node -e '"console.log(\"start\");' 'process.exit(1)"'
