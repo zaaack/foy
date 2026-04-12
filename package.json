@@ -11,6 +11,34 @@
     ".": {
       "import": "./lib/index.js",
       "types": "./lib/index.d.ts"
+    },
+    "./exec": {
+      "import": "./lib/exec.js",
+      "types": "./lib/exec.d.ts"
+    },
+    "./fs": {
+      "import": "./lib/fs.js",
+      "types": "./lib/fs.d.ts"
+    },
+    "./logger": {
+      "import": "./lib/logger.js",
+      "types": "./lib/logger.d.ts"
+    },
+    "./task": {
+      "import": "./lib/task.js",
+      "types": "./lib/task.d.ts"
+    },
+    "./task-manager": {
+      "import": "./lib/task-manager.js",
+      "types": "./lib/task-manager.d.ts"
+    },
+    "./dep-builder": {
+      "import": "./lib/dep-builder.js",
+      "types": "./lib/dep-builder.d.ts"
+    },
+    "./utils": {
+      "import": "./lib/utils.js",
+      "types": "./lib/utils.d.ts"
     }
   },
   "scripts": {

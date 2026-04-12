@@ -63,24 +63,30 @@
 </ul>
 <p><img src="https://github.com/zaaack/foy/blob/master/docs-src/capture.gif?raw=true" alt="GIF"></p>
 <h2 id="install">Install</h2>
-<pre><code class="language-sh">yarn add -D foy # or npm i -D foy</code></pre>
+<pre><code class="language-sh">yarn add -D foy # or npm i -D foy
+</code></pre>
 <p>Or install globally with</p>
-<pre><code class="language-sh">yarn add -g foy # or npm i -g foy</code></pre>
+<pre><code class="language-sh">yarn add -g foy # or npm i -g foy
+</code></pre>
 <h2 id="write-a-foyfile">Write a Foyfile</h2>
 <p>You need to add a Foyfile.js(or Foyfile.ts with <a href="https://github.com/privatenumber/tsx">tsx</a> or <a href="https://github.com/swc-project/swc-node">@swc-node/register</a> or <a href="https://github.com/TypeStrong/ts-node">ts-node</a> installed) to your project root.</p>
 <p>Also, you can simply generate a Foyfile.js via:</p>
-<pre><code class="language-sh">foy --init</code></pre>
+<pre><code class="language-sh">foy --init
+</code></pre>
 <p>which will create a simple <code>Foyfile.js</code> in the current folder:</p>
 <pre><code class="language-js">// Foyfile.js
 const { task } = require(&#39;foy&#39;)
 
 task(&#39;build&#39;, async ctx =&gt; {
   await ctx.exec(&#39;tsc&#39;)
-})</code></pre>
+})
+</code></pre>
 <p>You can also generate a <code>Foyfile.ts</code> via</p>
-<pre><code class="language-sh">foy --init ts</code></pre>
+<pre><code class="language-sh">foy --init ts
+</code></pre>
 <p>Then we can run <code>foy build</code> to execute the <code>build</code> task.</p>
-<pre><code class="language-sh">foy build</code></pre>
+<pre><code class="language-sh">foy build
+</code></pre>
 <p>You can also add some options and a description to your tasks:</p>
 <pre><code class="language-ts">import { task, desc, option, strict } from &#39;foy&#39;
 
@@ -89,7 +95,8 @@ option(&#39;-w, --watch&#39;, &#39;watch file changes&#39;)
 strict() // This will throw an error if you passed some options that doesn&#39;t defined via `option()`
 task(&#39;build&#39;, async ctx =&gt; {
   await ctx.exec(`tsc ${ctx.options.watch ? &#39;-w&#39; : &#39;&#39;}`)
-})</code></pre>
+})
+</code></pre>
 <p>And, if using TypeScript, add types to your options through the <code>task</code> generic:</p>
 <pre><code class="language-ts">import { task, desc, option, strict } from &#39;foy&#39;
 
@@ -102,8 +109,10 @@ option(&#39;-w, --watch&#39;, &#39;watch file changes&#39;)
 strict() // This will throw an error if you passed some options that doesn&#39;t defined via `option()`
 task&lt;BuildOptions&gt;(&#39;build&#39;, async ctx =&gt; { // ctx.options now has type BuildOptions instead of unknown
   await ctx.exec(`tsc ${ctx.options.watch ? &#39;-w&#39; : &#39;&#39;}`)
-})</code></pre>
-<pre><code class="language-sh">foy build -w</code></pre>
+})
+</code></pre>
+<pre><code class="language-sh">foy build -w
+</code></pre>
 <p>Warning! If you want to set flags like strict for all tasks, please use <code>setGlobalOptions</code>:</p>
 <pre><code class="language-ts">import { setGlobalOptions } from &#39;foy&#39;
 
@@ -131,7 +140,8 @@ task(&#39;some task&#39;, async ctx =&gt; {
     .cd(&#39;./src&#39;)
     .exec(&#39;some command&#39;) // Execute an command
   let { stdout } = await ctx.exec(&#39;ls&#39;, { stdio: &#39;pipe&#39; }) // Get the stdout, default is empty because it&#39;s redirected to current process via `stdio: &#39;inherit&#39;`.
-})</code></pre>
+})
+</code></pre>
 <h2 id="using-with-other-packages">Using with other packages</h2>
 <pre><code class="language-ts">import { task, logger } from &#39;foy&#39;
 import * as axios from &#39;axios&#39;
@@ -139,7 +149,8 @@ import * as axios from &#39;axios&#39;
 task(&#39;build&#39;, async ctx =&gt; {
   let res = await axios.get(&#39;https://your.server/data.json&#39;)
   logger.info(res.data)
-})</code></pre>
+})
+</code></pre>
 <h2 id="using-dependencies">Using dependencies</h2>
 <pre><code class="language-ts">
 import { task, dep } from &#39;foy&#39;
@@ -161,7 +172,8 @@ task(
     await ctx.exec(&#39;npm version patch&#39;)
     await ctx.exec(&#39;npm publish&#39;)
   }
-)</code></pre>
+)
+</code></pre>
 <p>Dependencies run serially by default but you can specify when a task should be run concurrently.</p>
 <p>Example: Passing running options to dependencies:</p>
 <pre><code class="language-ts">import { task, dep } from &#39;foy&#39;
@@ -207,7 +219,8 @@ task(
     await ctx.exec(&#39;npm version patch&#39;)
     await ctx.exec(&#39;npm publish&#39;)
   }
-)</code></pre>
+)
+</code></pre>
 <p>You can also pass options to dependencies:</p>
 <pre><code class="language-ts">task(&#39;task1&#39;, async ctx =&gt; {
   console.log(ctx.options) // &quot;{ forceRebuild: true, lazyOptions: 1 }&quot;
@@ -227,7 +240,8 @@ task(&#39;task2&#39;, [{
   }
 }])
 
-// foy task2 -a 1</code></pre>
+// foy task2 -a 1
+</code></pre>
 <h2 id="using-namespaces">Using namespaces</h2>
 <p>To avoid name collisions, Foy provides namespaces to group tasks via the <code>namespace</code> function:</p>
 <pre><code class="language-ts">import { task, namespace } from &#39;foy&#39;
@@ -263,7 +277,8 @@ namespace(&#39;server&#39;, ns =&gt; {
 task(&#39;start&#39;, [dep(&#39;client:start&#39;).async(), dep(&#39;server:start&#39;).async()]) // start
 
 // foy start
-// foy client:build</code></pre>
+// foy client:build
+</code></pre>
 <h2 id="useful-utils">Useful utils</h2>
 <h3 id="fs">fs</h3>
 <p>Foy wraps the NodeJS&#39;s <code>fs</code> (file system) module with a promise-based API, so you can easily use async/await patterns, if you prefer. Foy also implements some useful utility functions for build scripts not present in NodeJS&#39;s built-in modules.</p>
@@ -303,7 +318,8 @@ task(&#39;build&#39;, async ctx =&gt; {
       logger.warn(&#39;file:&#39;, path)
     }
   })
-})</code></pre>
+})
+</code></pre>
 <h3 id="logger">logger</h3>
 <p>Foy includes a light-weight built-in logger</p>
 <pre><code class="language-ts">import { logger } from &#39;foy&#39;
@@ -320,16 +336,18 @@ task(&#39;build&#39;, async ctx =&gt; {
 <h3 id="exec-command">exec command</h3>
 <p>A simple wrapper for sindresorhus&#39;s lovely module
 <a href="https://github.com/sindresorhus/execa">execa</a></p>
-<pre><code class="language-ts">import { logger } from &#39;foy&#39;
+<pre><code class="language-ts">import { logger, $ } from &#39;foy&#39;
 
 task(&#39;build&#39;, async ctx =&gt; {
+  await $`tsc`
+  await $`node ./test.js`
   await ctx.exec(&#39;tsc&#39;)
 
   // run multiple commands synchronously
-  await ctx.exec([
-    &#39;tsc --outDir ./lib&#39;,
-    &#39;tsc --module es6 --outDir ./es&#39;,
-  ])
+  await ctx.exec(`
+    tsc --outDir ./lib
+    tsc --module es6 --outDir ./es
+    `)
 
   // run multiple commands concurrently
   await Promise.all([
@@ -366,7 +384,8 @@ DependencyGraph for task [test]:
 
 Task: test
 ...
-*/</code></pre>
+*/
+</code></pre>
 <h2 id="using-lifecycle-hooks">Using lifecycle hooks</h2>
 <p>You can add lifecycle hooks via the <code>before</code>, <code>after</code>, and <code>onerror</code> functions.</p>
 <pre><code class="language-ts">import { before, after, onerror } from &#39;foy&#39;
@@ -378,7 +397,8 @@ after(() =&gt; { // do something after all tasks tree finished
 })
 onerror((err) =&gt; { // do something when error happens
   // ...
-})</code></pre>
+})
+</code></pre>
 <h2 id="run-task-in-task">run task in task</h2>
 <pre><code class="language-ts">
 task(&#39;task1&#39;, async ctx =&gt; { /* ... */ })
@@ -402,7 +422,8 @@ task(&#39;watch&#39;, async ctx =&gt; {
   ctx.monitor(&#39;./src&#39;, async ()=&gt; {
     ctx.exec(&#39;node ./src/server.ts&#39;)
   })
-})</code></pre>
+})
+</code></pre>
 <h2 id="using-with-custom-compiler">Using with custom compiler</h2>
 <pre><code class="language-sh">
 # Write Foyfile in ts, enabled by default
@@ -417,7 +438,8 @@ foy -r coffeescript/register -c ./some/Foyfile.coffee build
 foy --completion-profile &gt;&gt; ~/.bashrc
 
 # for zsh
-foy --completion-profile &gt;&gt; ~/.zshrc</code></pre>
+foy --completion-profile &gt;&gt; ~/.zshrc
+</code></pre>
 <h2 id="api-documentation">API documentation</h2>
 <p><a href="https://zaaack.github.io/foy/api">https://zaaack.github.io/foy/api</a></p>
 <h2 id="license">License</h2>

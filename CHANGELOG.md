@@ -1,3 +1,9 @@
+## 1.0.0 (2026-04-12)
+
+##### New Features
+
+*  upgrade to esm package ([1ad550c5](https://github.com/zaaack/foy/commit/1ad550c572480e2421693f7675f624b2c3ac3dbb))
+
 ### 0.3.0 (2025-03-14)
 
 ##### New Features
