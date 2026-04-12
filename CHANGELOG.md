@@ -1,3 +1,9 @@
+#### 1.0.1 (2026-04-12)
+
+##### Bug Fixes
+
+*  add default options for execa ([ee04f697](https://github.com/zaaack/foy/commit/ee04f697ed7e69bad5d64a05d7cd1bb1c9611874))
+
 ## 1.0.0 (2026-04-12)
 
 ##### New Features
