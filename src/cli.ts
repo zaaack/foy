@@ -23,10 +23,10 @@ async function main() {
       executor = 'node'
 
       if (['.ts', '.cts', '.tsx', '.ctsx'].includes(extname(foyFile))) {
-        if ('ts-node' in deps) {
-          executor = isESM ? 'ts-node-esm' : 'ts-node'
-        } else if ('tsx' in deps) {
+        if ('tsx' in deps) {
           executor = 'tsx'
+        } else if ('ts-node' in deps) {
+          executor = isESM ? 'ts-node-esm' : 'ts-node'
         } else if ('@swc-node/register' in deps) {
           if (isESM) {
             registers.push('@swc-node/register/esm-register')

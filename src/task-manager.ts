@@ -1,6 +1,10 @@
 import { CliLoading } from './cli-loading'
 import type { Task } from './task'
+import { task } from './task'
 import chalk from 'chalk'
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+const pkg = require('../package.json')
 import { hashAny, defaults, Is, DefaultLogFile, formatDuration } from './utils'
 import { Writable, Stream } from 'stream'
 import { fs } from './fs'
@@ -298,7 +302,7 @@ export class TaskManager {
     }
     this._tasks.all =
       this._tasks.all ||
-      (require('./task').task('all', Object.keys(this._tasks)))
+      (task('all', Object.keys(this._tasks)))
     this._tasks.default = this._tasks.default || this._tasks.all
 
     if (!this._tasks[Is.str(name) ? name : name.name]) {
@@ -343,7 +347,7 @@ export class TaskManager {
   }
 }
 
-const TMKey = `@foy${require('../package.json').version}/taskManager`
+const TMKey = `@foy${pkg.version}/taskManager`
 /** @internal */
 export function getGlobalTaskManager() {
   let taskManager: TaskManager = (global[TMKey] = global[TMKey] || new TaskManager())

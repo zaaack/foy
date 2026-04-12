@@ -2,7 +2,7 @@ import { Dependency, TaskDep } from './task'
 import { Is } from './utils'
 import { TaskContext } from './task-manager'
 
-export class DepBuilder<O = any> {
+export class DepBuilder<O = object> {
   private _dep: TaskDep<O>
   readonly _isDepBuilder = true
   constructor(name: Dependency) {

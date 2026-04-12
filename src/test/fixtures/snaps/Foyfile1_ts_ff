@@ -1,8 +1,4 @@
 DependencyGraph for task [ff]:
-─ ff
-   ─ aa
-   ─ aa
-
 Task: aa
 [debug] { aa: 1 }
 [info] { aa: 1 }

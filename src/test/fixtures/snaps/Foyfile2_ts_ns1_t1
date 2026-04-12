@@ -1,6 +1,4 @@
 DependencyGraph for task [ns1:t1]:
-─ ns1:t1
-
 [info] beforeAll ns1:t1
 [info] before ns1 ns1:t1
 Task: ns1:t1

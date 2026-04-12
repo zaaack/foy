@@ -1,43 +1,33 @@
-import execa from 'execa'
+import {
+  $ as _$,
+  execa,
+  execaCommand,
+  type Options,
+  type ResultPromise,
+  type Result,
+  execaNode,
+} from 'execa'
 import pathLib from 'path'
 import { logger, logger as _logger } from './logger'
 import { sleep, Is, DefaultLogFile } from './utils'
 import { fs, WatchDirOptions } from './fs'
 import { Stream, Writable } from 'stream'
-import { ChildProcess } from 'child_process'
-const shellParser = require('shell-parser')
-export { execa }
+import { ChildProcess, ExecOptions, spawn } from 'child_process'
+import shellParser from 'shell-parser'
+import { stdin } from 'process'
+export { execa, _$ }
+export const $ = _$({
+  stdio: 'inherit',
+  shell: true,
+})
 
-function _exec(cmd: string, options?: execa.Options) {
-  let [file, ...args] = shellParser(cmd)
-  return execa(file, args, {
+export function exec(cmd: string, options?: Options): ResultPromise<Options> {
+  return execaCommand(cmd, {
     stdio: 'inherit',
-    ...options
+    shell: true,
+    ...options,
   })
 }
-export function exec(command: string, options?: execa.Options): execa.ExecaChildProcess
-export function exec(
-  commands: string[],
-  options?: execa.Options,
-): Promise<execa.ExecaSyncReturnValue<string>[]>
-export function exec(commands: string | string[], options?: execa.Options): any {
-  if (Is.str(commands)) {
-    return _exec(commands, options)
-  }
-
-  const rets: execa.ExecaSyncReturnValue<string>[] = []
-  let retsP: Promise<execa.ExecaSyncReturnValue<string>[]> = Promise.resolve(null as any)
-  for (const cmd of commands) {
-    retsP = retsP.then(() => {
-      return _exec(cmd, options).then((r) => {
-        rets.push(r)
-        return rets
-      })
-    })
-  }
-  return retsP
-}
-export const spawn = execa
 
 export class ShellContext {
   private _cwdStack = [process.cwd()]
@@ -52,7 +42,7 @@ export class ShellContext {
   }
   protected _logger = logger
   private readonly _process: {
-    current: ChildProcess | null
+    current: ResultPromise<Options> | null
   } = { current: null }
   /**
    * change work directory
@@ -80,48 +70,34 @@ export class ShellContext {
     this._cwdStack.pop()
     return this
   }
+
+  $ = $
+
   /**
-   * execute command(s)
+   * NOTE!!!: New multiple commands are written as a single string with multiple lines,
+   * execute command,
+   *
    * @param command
    * @param options
+   * @example
+   * ```ts
+   * await ctx.exec('echo 1')
+   *
+   * await ctx.exec(`
+   *   echo 1
+   *   sleep 1
+   *   echo 2
+   * `)
+   * ```
    */
-  exec(command: string, options?: execa.Options): execa.ExecaChildProcess
-  exec(commands: string[], options?: execa.Options): Promise<execa.ExecaSyncReturnValue[]>
-  exec(commands: string | string[], options?: execa.Options): any {
-    this._logCmd(commands)
-    let p = exec(commands as any, {
-      cwd: this.cwd,
-      env: {
-        ...process.env,
-        ...this._env,
-      },
-      stdio: 'inherit',
-      ...options,
-    })
-    // tslint:disable-next-line:no-floating-promises
-    this._process.current = p
-    return p
-  }
-  /**
-   * exec (multi-line) cmd in *unix platforms,
-   * via `this.spawn('$SHELL', ['-i','-c', cmd])`
-   * @param cmd
-   * @param options
-   * @returns
-   */
-  exec_unix(cmd: string, options?: execa.Options) {
-    return this.spawn('$SHELL', ['-i', '-c', cmd])
-  }
-  /**
-   * spawn file
-   * @param file
-   * @param args
-   * @param options
-   */
-  spawn(file: string, args: string[] = [], options?: execa.Options): execa.ExecaChildProcess {
-    const command = file + ' ' + args.map((a) => `"${a.replace(/"/g, '\\"')}"`).join(' ')
+  exec(command: string, options?: Options): ResultPromise<Options> {
+    // async exec(commands: string[], options?: Options): Promise<Result[]>
+    // async exec(
+    //   commands: string | string[],
+    //   options?: Options,
+    // ): Promise<Result[]> | ResultPromise<Options>
     this._logCmd(command)
-    let p = spawn(file, args, {
+    let p = exec(command, {
       cwd: this.cwd,
       env: {
         ...process.env,
@@ -131,14 +107,7 @@ export class ShellContext {
       ...options,
     })
     // tslint:disable-next-line:no-floating-promises
-    p.catch((err) => {
-      this._logger.error('Exec failed: ', command)
-      throw err
-    })
     this._process.current = p
-    p.finally(() => {
-      this._process.current = null
-    })
     return p
   }
   /**
@@ -152,7 +121,7 @@ export class ShellContext {
   env(key: string, val: string | undefined): this
   env(key: string, val?: string): string | undefined | this {
     if (arguments.length === 1) {
-      [key, val] = key.split('=', 2)
+      ;[key, val] = key.split('=', 2)
     }
     if (Is.defined(val)) {
       this._env[key] = val
@@ -183,7 +152,7 @@ export class ShellContext {
     let p = this._process
     if (typeof run === 'string') {
       let cmd = run
-      run = (p) => (p.current = this.exec(cmd))
+      run = (p) => (p.current = this.exec(cmd) as ResultPromise)
     }
     if (Array.isArray(run)) {
       let cmds = run
@@ -191,7 +160,7 @@ export class ShellContext {
         for (const cmd of cmds.slice(0, -1)) {
           await this.exec(cmd)
         }
-        p.current = this.exec(cmds.slice(-1)[0])
+        p.current = this.exec(cmds.slice(-1)[0]) as ResultPromise
       }
     }
     fs.watchDir(dir, options, async (event, file) => {

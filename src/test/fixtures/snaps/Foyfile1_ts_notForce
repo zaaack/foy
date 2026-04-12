@@ -1,12 +1,7 @@
 DependencyGraph for task [notForce]:
-─ notForce
-   ─ aa
-   ─ aa
-
 Task: aa
 [debug] { noop: [Function: noop] }
 [info] { noop: [Function: noop] }
 [warn] { noop: [Function: noop] }
 [error] { noop: [Function: noop] }
-Skip task: aa
 Task: notForce

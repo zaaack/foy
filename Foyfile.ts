@@ -1,84 +1,112 @@
-import { task, desc, option, logger, fs, strict, setGlobalOptions, setOption, sleep, namespace, exec, before, execa, dep } from './src/'
+import {
+  task,
+  desc,
+  option,
+  logger,
+  fs,
+  strict,
+  setGlobalOptions,
+  setOption,
+  sleep,
+  namespace,
+  exec,
+  before,
+  dep,
+} from './src/'
 import marked from 'marked'
 import * as ejs from 'ejs'
 
 setGlobalOptions({ spinner: false, strict: true })
 
-before(() => {
-
-})
+before(() => {})
 
 desc('build whole project')
-task('build', async ctx => {
+task('build', async (ctx) => {
   await fs.rmrf('./lib')
-  await ctx.exec([
-    'tsc -p ./tsconfig.build.json',
-    'chmod +x ./lib/cli.js',
-  ])
+  await ctx.exec(`tsc -p ./tsconfig.build.json
+    chmod +x ./lib/cli.js`)
+  // Fix ESM imports - add .js extension to relative imports
+  const files = await fs.readdir('./lib')
+  for (const file of files) {
+    if (file.endsWith('.js')) {
+      const filePath = `./lib/${file}`
+      let content = await fs.readFile(filePath, 'utf8')
+      content = content.replace(/from ['"](\.\.?\/[^'"]+)['"]/g, (match, path) => {
+        if (!path.endsWith('.js')) {
+          return match.replace(path, path + '.js')
+        }
+        return match
+      })
+      await fs.writeFile(filePath, content)
+    }
+  }
 })
 
 desc('generate doc')
-task('doc', async ctx => {
+task('doc', async (ctx) => {
   await fs.rmrf('./docs/api/')
   await ctx.exec(`typedoc --theme default --excludePrivate  --out ./docs/api ./src/index.ts`)
   await ctx.exec(`touch ./docs/.nojekyll`)
 })
 
-
-task<{ args: string, env: NodeJS.ProcessEnv }>('test', async ctx => {
+task<{ args: string; env: NodeJS.ProcessEnv }>('test', async (ctx) => {
   // https://github.com/nodejs/node/issues/51555#issuecomment-2290742072
-  await ctx.env('DISABLE_V8_COMPILE_CACHE', '1').exec(
-    `tsx --test-concurrency=4 --test "./src/test/*.test.ts" ${ctx.options.args || ''} ${ctx.task.rawArgs
-      .map((a) => `"${a}"`)
-      .join(' ')}`,
-    { env: ctx.options.env || process.env },
-  )
+  await ctx
+    .env('DISABLE_V8_COMPILE_CACHE', '1')
+    .exec(
+      `tsx --test-concurrency=4 --test "./src/test/*.test.ts" ${ctx.options.args || ''} ${ctx.task.rawArgs
+        .map((a) => `"${a}"`)
+        .join(' ')}`,
+      { env: ctx.options.env || process.env },
+    )
 })
 
-task('test:update-snap', [{
-  name: 'test',
-  options: {
-    env: {
-      ...process.env,
-      UPDATE_SNAP: '1'
-    }
-  }
-}])
+task('test:update-snap', [
+  {
+    name: 'test',
+    options: {
+      env: {
+        ...process.env,
+        UPDATE_SNAP: '1',
+      },
+    },
+  },
+])
 
-task('watch', [{
-  name: 'test',
-  option: { args: `-w --watch-extensions ts,tsx` },
-}])
+task('watch', [
+  {
+    name: 'test',
+    option: { args: `-w --watch-extensions ts,tsx` },
+  },
+])
 // npm_package_version:
-task<{ version: string }>('preversion', async ctx => {
+task<{ version: string }>('preversion', async (ctx) => {
   await ctx.exec('pnpm i')
-  await Promise.all([
-    ctx.run('test'),
-    ctx.run('build'),
-    ctx.run('site'),
-  ])
+  await Promise.all([ctx.run('test'), ctx.run('build'), ctx.run('site')])
   await fs.rmrf('./lib/test')
-  await ctx.exec([
-    `changelog --${ctx.options.version}`,
-    `git add -A`,
-    `git commit -m 'Update CHANGELOG.md & doc'`,
-  ])
+  await ctx.exec(`changelog --${ctx.options.version}
+    git add -A
+    git commit -m 'Update CHANGELOG.md & doc'`)
 })
 
-task('postversion', async ctx => {
+task('postversion', async (ctx) => {
   await ctx.exec(`git push origin master --tags`)
 })
 
 option('-v, --version <version>', 'patch | minor | major', { default: 'patch' })
-task<{ version: string }>('publish', [dep('preversion').options(ctx => ({ version: ctx.options.version }))], async ctx => {
-  await ctx.exec([
-    `npm version ${ctx.options.version}`,
-    `npm publish --registry=https://registry.npmjs.org/ --access public`,
-    `git push origin master --tags`,
-  ])
-})
+task<{ version: string }>(
+  'publish',
+  [dep('preversion').options((ctx) => ({ version: ctx.options.version }))],
+  async (ctx) => {
+    await ctx.exec(
+      `npm version ${ctx.options.version}
+    npm publish --registry=https://registry.npmjs.org/ --access public
+    git push origin master --tags`,
+    )
+  },
+)
 
-task('site:home', async ctx => {
+task('site:home', async (ctx) => {
   let pkg = await ctx.fs.readJson('./package.json')
   let desc = pkg.description
   let md = await ctx.fs.readFile('./README.md', 'utf8')
@@ -97,7 +125,7 @@ task('site:home', async ctx => {
   await ctx.fs.outputFile('./docs/index.html', html)
   await ctx.fs.copy('./docs-src/css', './docs/css', { overwrite: true })
 })
-task('site:watch', async ctx => {
+task('site:watch', async (ctx) => {
   ctx.fs.watchDir('./docs-src', async (evt, file) => {
     console.log(evt, file)
     await ctx.run('site:home')
@@ -107,38 +135,46 @@ task('site:watch', async ctx => {
 
 task('site', [dep('doc').async(), dep('site:home').async()])
 
-task('demodemodemodemodemodemodemo1', async ctx => {
+task('demodemodemodemodemodemodemo1', async (ctx) => {
   console.log('demodemodemodemodemodemodemo1')
   ctx.log('demo1demo2')
   await ctx.exec('ls')
   await sleep(3000)
 })
-task('demo2', async ctx => sleep(3000))
-task('demo3', ['demo2', 'demodemodemodemodemodemodemo1'], async ctx => sleep(3000))
+task('demo2', async (ctx) => sleep(3000))
+task('demo3', ['demo2', 'demodemodemodemodemodemodemo1'], async (ctx) => sleep(3000))
 
 task('demo', ['demodemodemodemodemodemodemo1', dep('demo2').async(), dep('demo3').async()])
 
-task('error', async ctx=> {
+task('error', async (ctx) => {
   throw new Error('aa')
 })
 
-
-namespace('client', ns => {
-  task('build', async ctx => {
-  }) // client:build
-  task('start', async ctx => { /* ... */ }) // client:start
-  task('watch', async ctx => { /* ... */ }) // client:watch
+namespace('client', (ns) => {
+  task('build', async (ctx) => {}) // client:build
+  task('start', async (ctx) => {
+    /* ... */
+  }) // client:start
+  task('watch', async (ctx) => {
+    /* ... */
+  }) // client:watch
 })
 
-namespace('server', ns => {
-  task('build', async ctx => { /* ... */ }) // server:build
-  task('start', async ctx => { /* ... */ }) // server:start
-  task('watch', async ctx => { /* ... */ }) // server:watch
+namespace('server', (ns) => {
+  task('build', async (ctx) => {
+    /* ... */
+  }) // server:build
+  task('start', async (ctx) => {
+    /* ... */
+  }) // server:start
+  task('watch', async (ctx) => {
+    /* ... */
+  }) // server:watch
 })
 
 task('start', [dep('client:start').async(), dep('server:start').async()])
 
-task('w', async ctx => {
+task('w', async (ctx) => {
   let inc = 1
   // ctx.monitor('./src', 'sleep 5')
   // ctx.monitor('./src', ['echo test', 'sleep 5'])

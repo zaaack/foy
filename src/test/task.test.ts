@@ -2,33 +2,43 @@ import { task } from '../task'
 import { fs } from '../fs'
 import { exec } from '../exec'
 import * as path from 'path'
+import { fileURLToPath } from 'url'
 import { logger } from '../logger'
 import { Is, sleep } from '../utils'
 import { describe, it, before, beforeEach } from 'node:test'
 import assert, { equal } from 'assert'
 import stripAnsi from 'strip-ansi'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 const fixturesDir = `${__dirname}/fixtures`
 const snapsDir = `${fixturesDir}/snaps`
 const UpdateSnap = process.env.UPDATE_SNAP === '1'
 
 function normal(s: string) {
   s = stripAnsi(s)
-  s = s.replace(/[\/\\][\w\/\\]+foy/g, 'foy').trim()
-  s = s.replace(/\s*at[^\n]*?(\n|$)/g, '')
-  // simply hack
-  s = s.replace(/.pnpm\/[^\/]+\/node_modules/,'')
-  return s
+  let lines = s.split('\n')
+  lines = lines.map((l) => l.trim())
+  lines = lines.filter((l) => l !== '')
+  lines = lines.filter(
+    (l) =>
+      l.startsWith('Error:') ||
+      l.startsWith('[') ||
+      l.startsWith('-') ||
+      l.startsWith('DependencyGraph') ||
+      l.startsWith('Task:'),
+  )
+  return lines.join('\n')
 }
 function test(cmd: string, expectedExitCode?: number) {
   let out = 'Not initialized'
   let snap = ''
-  let exitCode = 0;
+  let exitCode = 0
   return {
     name: cmd,
     it() {
       it(cmd, () => {
-        equal(normal(out),normal(snap))
+        equal(normal(out), normal(snap))
         if (Is.defined(expectedExitCode)) {
           equal(exitCode, expectedExitCode)
         }
@@ -39,10 +49,10 @@ function test(cmd: string, expectedExitCode?: number) {
         stdio: void 0,
         env: {
           ...process.env,
-          DISABLE_V8_COMPILE_CACHE:'1',
+          DISABLE_V8_COMPILE_CACHE: '1',
         },
       }).catch((er) => er)
-      exitCode = p.exitCode;
+      exitCode = p.exitCode
       out = normal(p.stdout + p.stderr)
       let snapFile = snapsDir + '/' + cmd.replace(/[^\w-]/g, '_')
       if (UpdateSnap) {
@@ -52,7 +62,7 @@ function test(cmd: string, expectedExitCode?: number) {
         return null
       }
       snap = await fs.readFile(snapFile, 'utf8')
-    }
+    },
   }
 }
 
@@ -96,7 +106,7 @@ describe('task', function () {
       timeout: 600 * 1000,
     },
   )
-  tests.forEach(t => t.it())
+  tests.forEach((t) => t.it())
 })
 
 describe('loading', async () => {

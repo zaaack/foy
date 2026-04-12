@@ -1,8 +1,4 @@
 DependencyGraph for task [force]:
-─ force
-   ─ aa
-   ─ aa
-
 Task: aa
 [debug] { noop: [Function: noop] }
 [info] { noop: [Function: noop] }

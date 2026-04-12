@@ -1,6 +1,4 @@
 DependencyGraph for task [pushpopd]:
-─ pushpopd
-
 Task: pushpopd
 [info] $ NODE_ENV=TEST SOME_ENV=SOME pwd
 [info] pwd equals ctx.cwd true

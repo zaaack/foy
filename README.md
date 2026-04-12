@@ -379,16 +379,18 @@ A simple wrapper for sindresorhus's lovely module
 [execa](https://github.com/sindresorhus/execa)
 
 ```ts
-import { logger } from 'foy'
+import { logger, $ } from 'foy'
 
 task('build', async ctx => {
+  await $`tsc`
+  await $`node ./test.js`
   await ctx.exec('tsc')
 
   // run multiple commands synchronously
-  await ctx.exec([
-    'tsc --outDir ./lib',
-    'tsc --module es6 --outDir ./es',
-  ])
+  await ctx.exec(`
+    tsc --outDir ./lib
+    tsc --module es6 --outDir ./es
+    `)
 
   // run multiple commands concurrently
   await Promise.all([
