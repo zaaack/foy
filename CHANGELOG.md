@@ -1,3 +1,9 @@
+#### 1.0.2 (2026-05-16)
+
+##### Bug Fixes
+
+*  add require and default conditions to exports field for CJS compatibility ([c4dd6882](https://github.com/zaaack/foy/commit/c4dd6882eb817f63329120259ac861120d6c168e))
+
 #### 1.0.1 (2026-04-12)
 
 ##### Bug Fixes
