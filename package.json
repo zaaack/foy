@@ -10,34 +10,50 @@
   "exports": {
     ".": {
       "import": "./lib/index.js",
+      "require": "./lib/index.js",
+      "default": "./lib/index.js",
       "types": "./lib/index.d.ts"
     },
     "./exec": {
       "import": "./lib/exec.js",
+      "require": "./lib/exec.js",
+      "default": "./lib/exec.js",
       "types": "./lib/exec.d.ts"
     },
     "./fs": {
       "import": "./lib/fs.js",
+      "require": "./lib/fs.js",
+      "default": "./lib/fs.js",
       "types": "./lib/fs.d.ts"
     },
     "./logger": {
       "import": "./lib/logger.js",
+      "require": "./lib/logger.js",
+      "default": "./lib/logger.js",
       "types": "./lib/logger.d.ts"
     },
     "./task": {
       "import": "./lib/task.js",
+      "require": "./lib/task.js",
+      "default": "./lib/task.js",
       "types": "./lib/task.d.ts"
     },
     "./task-manager": {
       "import": "./lib/task-manager.js",
+      "require": "./lib/task-manager.js",
+      "default": "./lib/task-manager.js",
       "types": "./lib/task-manager.d.ts"
     },
     "./dep-builder": {
       "import": "./lib/dep-builder.js",
+      "require": "./lib/dep-builder.js",
+      "default": "./lib/dep-builder.js",
       "types": "./lib/dep-builder.d.ts"
     },
     "./utils": {
       "import": "./lib/utils.js",
+      "require": "./lib/utils.js",
+      "default": "./lib/utils.js",
       "types": "./lib/utils.d.ts"
     }
   },
