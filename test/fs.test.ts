@@ -1,7 +1,7 @@
 import * as os from 'os'
 import * as pathLib from 'path'
 import { describe, it, before, beforeEach } from 'node:test'
-import { fs } from '../fs'
+import { fs } from '../src/fs'
 import assert, { deepEqual, equal } from 'assert'
 
 const baseDir = os.tmpdir() + '/foy-fs-test'

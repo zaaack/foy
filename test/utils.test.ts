@@ -1,8 +1,8 @@
-import { task } from '../task'
-import { fs } from '../fs'
-import { exec } from '../exec'
+import { task } from '../src/task'
+import { fs } from '../src/fs'
+import { exec } from '../src/exec'
 import * as path from 'path'
-import { hashAny } from '../utils'
+import { hashAny } from '../src/utils'
 import { describe, it, before, beforeEach } from 'node:test'
 import { equal, notEqual, strictEqual } from 'assert'
 

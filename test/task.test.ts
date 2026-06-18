@@ -1,10 +1,10 @@
-import { task } from '../task'
-import { fs } from '../fs'
-import { exec } from '../exec'
+import { task } from '../src/task'
+import { fs } from '../src/fs'
+import { exec } from '../src/exec'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
-import { logger } from '../logger'
-import { Is, sleep } from '../utils'
+import { logger } from '../src/logger'
+import { Is, sleep } from '../src/utils'
 import { describe, it, before, beforeEach } from 'node:test'
 import assert, { equal } from 'assert'
 import stripAnsi from 'strip-ansi'
@@ -113,5 +113,21 @@ describe('task', function () {
 describe('loading', async () => {
   it('loading', async () => {
     await assert.doesNotReject(exec(`tsx ./src/cli.ts --config ${fixturesDir}/Foyfile2.ts start`))
+  })
+})
+
+describe('imported tasks visibility', () => {
+  it('should show both imported and local tasks in help output', async () => {
+    const p = await exec(`tsx ./src/cli.ts --config ${fixturesDir}/FoyfileImport.ts -h`, {
+      stdio: void 0,
+      verbose: 'none',
+      env: { DISABLE_V8_COMPILE_CACHE: '1' },
+    })
+    const out = stripAnsi(p.stdout + p.stderr)
+    // Check a sample of imported tasks (50 total) and both local tasks
+    const expectedTasks = ['imported-0', 'imported-25', 'imported-49', 'local-x', 'local-y']
+    for (const name of expectedTasks) {
+      assert.ok(out.includes(name), `expected task "${name}" in help output, got:\n${out}`)
+    }
   })
 })

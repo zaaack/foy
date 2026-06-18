@@ -34,7 +34,14 @@ function joinTag(strings: TemplateStringsArray, ...values: TemplateExpression[])
 
 const verbose = (verboseLine: string, verboseObject: VerboseObject) => {
   if (verboseObject.type === 'command') {
-    _logCmd(verboseObject.escapedCommand, verboseObject.options.env)
+    const env = verboseObject.options.env
+    const extraEnv: Record<string, string> = {}
+    for (const k of Object.keys(env || {})) {
+      if (!(k in process.env) || env![k] !== process.env[k]) {
+        extraEnv[k] = env![k] as string
+      }
+    }
+    _logCmd(verboseObject.escapedCommand, Object.keys(extraEnv).length ? extraEnv : undefined)
   }
 }
 

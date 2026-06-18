@@ -1,6 +1,6 @@
-import { task, namespace, before, after, onerror, setGlobalOptions } from '../../task'
-import { sleep } from '../../utils'
-import { logger } from '../../logger'
+import { task, namespace, before, after, onerror, setGlobalOptions } from '../../src/task'
+import { sleep } from '../../src/utils'
+import { logger } from '../../src/logger'
 setGlobalOptions({ strict: true, spinner: false, showTaskDuration: false })
 before((t) => {
   logger.log('beforeAll', t.name, '\n')

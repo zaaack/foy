@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 import cac from 'cac'
 import { fs } from './fs'
@@ -69,5 +68,5 @@ let timer:any
 export function deferRunCli() {
   if (timer) return
   timer && clearTimeout(timer)
-  timer= setTimeout(runCli)
+  timer= setTimeout(runCli, 10)
 }

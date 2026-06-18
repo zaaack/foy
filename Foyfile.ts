@@ -52,7 +52,7 @@ task<{ args: string; env: NodeJS.ProcessEnv }>('test', async (ctx) => {
   await ctx
     .env('DISABLE_V8_COMPILE_CACHE', '1')
     .exec(
-      `tsx --test-concurrency=4 --test "./src/test/*.test.ts" ${ctx.options.args || ''} ${ctx.task.rawArgs
+      `tsx --test-concurrency=4 --test "./test/*.test.ts" ${ctx.options.args || ''} ${ctx.task.rawArgs
         .map((a) => `"${a}"`)
         .join(' ')}`,
       { env: ctx.options.env || process.env },
@@ -81,7 +81,6 @@ task('watch', [
 task<{ version: string }>('preversion', async (ctx) => {
   await ctx.exec('pnpm i')
   await Promise.all([ctx.run('test'), ctx.run('build'), ctx.run('site')])
-  await fs.rmrf('./lib/test')
   await ctx.exec(`changelog --${ctx.options.version}
     git add -A
     git commit -m 'Update CHANGELOG.md & doc'`)

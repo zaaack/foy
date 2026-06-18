@@ -1,5 +1,5 @@
-import { task, desc, option, logger, dep } from '../../'
-import { strict, setGlobalOptions } from '../../task'
+import { task, desc, option, logger, dep } from '../../src/'
+import { strict, setGlobalOptions } from '../../src/task'
 import { resolve } from 'path'
 
 setGlobalOptions({ strict: true, spinner: false, showTaskDuration: false })

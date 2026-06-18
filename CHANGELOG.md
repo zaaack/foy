@@ -1,3 +1,13 @@
+#### 1.0.3 (2026-07-07)
+
+##### New Features
+
+*  add test for imported tasks visibility in CLI help ([59a4439f](https://github.com/zaaack/foy/commit/59a4439fa4dd18fcc9d70e3680c6f8912184bd48))
+
+##### Bug Fixes
+
+*  run-cli ([75594c06](https://github.com/zaaack/foy/commit/75594c06d4fafaf548ee70892ccd96907042988b))
+
 #### 1.0.2 (2026-05-16)
 
 ##### Bug Fixes
