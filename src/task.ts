@@ -29,7 +29,7 @@ export interface TaskDep<O = any> {
    */
   async?: boolean | number
   /**
-   * Whether rerun it when it occured in dependences tree more then once.
+   * Whether rerun it when it occurred in dependences tree more then once.
    */
   force?: boolean
   /**
