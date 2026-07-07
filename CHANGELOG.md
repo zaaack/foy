@@ -1,3 +1,9 @@
+#### 1.0.4 (2026-07-07)
+
+##### Bug Fixes
+
+*  runCli delay ([86719ccb](https://github.com/zaaack/foy/commit/86719ccb381e4a7b136d76d09e1528b6f4f4b445))
+
 #### 1.0.3 (2026-07-07)
 
 ##### New Features
