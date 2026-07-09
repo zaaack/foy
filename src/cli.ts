@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 import { fs } from './fs'
-import { extname, join } from 'path'
+import { extname, join, resolve } from 'path'
 import { logger } from './logger'
 import { initDefaultCli } from './default-cli'
 import { spawn, execSync, ChildProcess } from 'child_process'
+import { access, constants } from 'fs/promises'
 
 const { foyFiles, registers, defaultCli } = initDefaultCli()
 
@@ -52,22 +53,39 @@ function commandExists(cmd: string): boolean {
   }
 }
 
+async function localBin(name: string): Promise<string | null> {
+  const binPath = resolve(process.cwd(), 'node_modules', '.bin', name)
+  try {
+    await access(binPath, constants.X_OK)
+    return binPath
+  } catch {
+    return null
+  }
+}
+
 async function detectTsExecutor(pkg: any): Promise<TsCache> {
   const isESM = pkg.type === 'module'
   const deps = { ...pkg.dependencies, ...pkg.devDependencies }
 
-  // Priority: bun > tsx > ts-node > @swc-node/register > swc-node
+  // Priority: bun (global) > tsx (local) > tsx (global) > ts-node (local) > @swc-node/register (local) > swc-node (local)
   if (commandExists('bun')) {
     return { executor: 'bun' }
   }
 
-  if ('tsx' in deps) {
+  const localTsx = await localBin('tsx')
+  if (localTsx) {
+    return { executor: localTsx }
+  }
+
+  if (commandExists('tsx')) {
     return { executor: 'tsx' }
   }
 
-  if ('ts-node' in deps) {
+  const localTsNode = await localBin('ts-node')
+  if (localTsNode) {
+    const localTsNodeEsm = isESM ? await localBin('ts-node-esm') : null
     return {
-      executor: isESM ? 'ts-node-esm' : 'ts-node',
+      executor: localTsNodeEsm || localTsNode,
     }
   }
 
@@ -78,13 +96,9 @@ async function detectTsExecutor(pkg: any): Promise<TsCache> {
     return { executor: 'node', registers }
   }
 
-  if ('swc-node' in deps) {
-    return { executor: 'swc-node' }
-  }
-
-  // Check global tsx as fallback
-  if (commandExists('tsx')) {
-    return { executor: 'tsx' }
+  const localSwcNode = await localBin('swc-node')
+  if (localSwcNode) {
+    return { executor: localSwcNode }
   }
 
   logger.error('no bun/tsx/ts-node/swc-node or @swc-node/register found')
@@ -158,13 +172,18 @@ async function main() {
       const cached = await readCache()
       if (cached?.executor) {
         p.on('error', async () => {
-          logger.warn(`Executor "${cached.executor}" failed, clearing cache and retrying...`)
+          logger.warn(`Executor "${cached.executor}" failed to start, clearing cache and retrying...`)
           await deleteCache()
-          // Re-run main to retry with fresh detection
           main().catch((err) => {
             console.error(err)
             process.exitCode = 1
           })
+        })
+        p.on('exit', async (code) => {
+          if (code !== 0 && code !== null) {
+            logger.warn(`Executor "${cached.executor}" exited with code ${code}, clearing cache...`)
+            await deleteCache()
+          }
         })
       }
     }
