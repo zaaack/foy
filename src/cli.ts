@@ -67,11 +67,7 @@ async function detectTsExecutor(pkg: any): Promise<TsCache> {
   const isESM = pkg.type === 'module'
   const deps = { ...pkg.dependencies, ...pkg.devDependencies }
 
-  // Priority: bun (global) > tsx (local) > tsx (global) > ts-node (local) > @swc-node/register (local) > swc-node (local)
-  if (commandExists('bun')) {
-    return { executor: 'bun' }
-  }
-
+  // Priority: tsx (local) > tsx (global) > ts-node (local) > @swc-node/register (local) > swc-node (local) > bun (global)
   const localTsx = await localBin('tsx')
   if (localTsx) {
     return { executor: localTsx }
@@ -99,6 +95,14 @@ async function detectTsExecutor(pkg: any): Promise<TsCache> {
   const localSwcNode = await localBin('swc-node')
   if (localSwcNode) {
     return { executor: localSwcNode }
+  }
+
+  if (commandExists('bun')) {
+    return { executor: 'bun' }
+  }
+
+  if (commandExists('npx')) {
+    return { executor: 'npx' }
   }
 
   logger.error('no bun/tsx/ts-node/swc-node or @swc-node/register found')
@@ -138,11 +142,13 @@ async function main() {
       }
     }
 
-    const args = [
-      ...fileRegisters.map((r) => `--${pkg.type === 'module' ? 'import' : 'require'} ${r}`),
-      foyFile,
-      ...process.argv.slice(2),
-    ]
+    const args = executor === 'npx'
+      ? ['tsx', foyFile, ...process.argv.slice(2)]
+      : [
+          ...fileRegisters.map((r) => `--${pkg.type === 'module' ? 'import' : 'require'} ${r}`),
+          foyFile,
+          ...process.argv.slice(2),
+        ]
 
     let NODE_OPTIONS = process.env.NODE_OPTIONS ?? ''
     ;[
