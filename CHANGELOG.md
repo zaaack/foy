@@ -1,3 +1,28 @@
+### 1.1.0 (2026-07-09)
+
+##### Chores
+
+*  ts v7 ([d583b5ea](https://github.com/zaaack/foy/commit/d583b5ea219b72fdc5e2aa5e8f8e1d9db6fd3fcc))
+*  check point ([67d61743](https://github.com/zaaack/foy/commit/67d617434067e04f2dff5488296d152148d36631))
+*  check point ([4b6aaac6](https://github.com/zaaack/foy/commit/4b6aaac6c2fe644f023cc2a70153ade48a446836))
+*  check point ([bd02706b](https://github.com/zaaack/foy/commit/bd02706bd951459cc7f17c4e7bc9a3b3dfd568e1))
+
+##### Continuous Integration
+
+*  更新 Node.js 版本到 24 ([6711dc39](https://github.com/zaaack/foy/commit/6711dc39008ef48e13609b344bbf892edf21feea))
+
+##### New Features
+
+*  支持本地安装的tsx/ts-node执行器 ([35c70c03](https://github.com/zaaack/foy/commit/35c70c038d9239106e61786ec898e8f7d1bb001c))
+
+##### Other Changes
+
+* error 快照，Node.js 不再输出未捕获异常到 stderr ([8e73f5ba](https://github.com/zaaack/foy/commit/8e73f5ba2d0bc1e4efb475a252057e0d85317ceb))
+
+##### Refactors
+
+*  简化 logger format 参数为单个 props 对象 ([d8784858](https://github.com/zaaack/foy/commit/d8784858fef6021f90919a807f5c3bc9a4f5ddbc))
+
 #### 1.0.3 (2026-07-07)
 
 ##### Bug Fixes
