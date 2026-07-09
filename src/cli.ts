@@ -172,16 +172,10 @@ async function main() {
       const cached = await readCache()
       if (cached?.executor) {
         p.on('error', async () => {
-          logger.warn(`Executor "${cached.executor}" failed to start, clearing cache and retrying...`)
           await deleteCache()
-          main().catch((err) => {
-            console.error(err)
-            process.exitCode = 1
-          })
         })
         p.on('exit', async (code) => {
           if (code !== 0 && code !== null) {
-            logger.warn(`Executor "${cached.executor}" exited with code ${code}, clearing executor cache...`)
             await deleteCache()
           }
         })
