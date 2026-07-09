@@ -1,3 +1,9 @@
+#### 1.1.1 (2026-07-09)
+
+##### New Features
+
+*  tsx优先检测，bun降为备选 ([3b6b98ba](https://github.com/zaaack/foy/commit/3b6b98ba08950cac63912ec0387e718cde677c4f))
+
 ### 1.1.0 (2026-07-09)
 
 ##### Chores
