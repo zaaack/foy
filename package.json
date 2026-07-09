@@ -62,7 +62,8 @@
     "build": "npm run foy -- build",
     "test": "npm run foy -- test",
     "test:update-snap": "npm run foy -- test:update-snap",
-    "watch": "npm run foy -- watch"
+    "watch": "npm run foy -- watch",
+    "postinstall": "node scripts/patch-ts7-compat.mjs"
   },
   "bin": {
     "foy": "./lib/cli.js"
@@ -100,8 +101,8 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^3.9.0",
     "tsx": "^4.19.1",
-    "typedoc": "^0.26.5",
-    "typescript": "^5.5.4"
+    "typedoc": "^1.0.0-dev.4",
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "cac": "^6.6.1",

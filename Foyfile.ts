@@ -43,7 +43,7 @@ task('build', async (ctx) => {
 desc('generate doc')
 task('doc', async (ctx) => {
   await fs.rmrf('./docs/api/')
-  await ctx.exec(`typedoc --theme default --excludePrivate  --out ./docs/api ./src/index.ts`)
+  await ctx.exec(`typedoc --excludePrivate  --out ./docs/api ./src/index.ts`)
   await ctx.exec(`touch ./docs/.nojekyll`)
 })
 
