@@ -1,55 +1,139 @@
 #!/usr/bin/env node
 
-import cac from 'cac'
 import { fs } from './fs'
-import pathLib, { extname } from 'path'
-import os from 'os'
+import { extname, join } from 'path'
 import { logger } from './logger'
-import { Is } from './utils'
-import { getGlobalTaskManager } from './task-manager'
-import chalk from 'chalk'
 import { initDefaultCli } from './default-cli'
-import { spawn, ChildProcess } from 'child_process'
+import { spawn, execSync, ChildProcess } from 'child_process'
 
 const { foyFiles, registers, defaultCli } = initDefaultCli()
-async function main() {
-  const pkg = await fs.readJson('./package.json')
+
+const CACHE_DIR = join(process.cwd(), 'node_modules', '.cache')
+const CACHE_FILE = join(CACHE_DIR, 'foyCache.json')
+
+interface TsCache {
+  executor: string
+  registers?: string[]
+}
+
+function isTsFile(file: string) {
+  return ['.ts', '.cts', '.tsx', '.ctsx'].includes(extname(file))
+}
+
+function isJsFile(file: string) {
+  return ['.js', '.cjs', '.mjs', '.jsx'].includes(extname(file))
+}
+
+async function readCache(): Promise<TsCache | null> {
+  try {
+    const data = await fs.readJson<TsCache>(CACHE_FILE)
+    if (data?.executor) return data
+  } catch {}
+  return null
+}
+
+async function writeCache(data: TsCache) {
+  await fs.mkdirp(CACHE_DIR)
+  await fs.outputJson(CACHE_FILE, data, { space: 2 })
+}
+
+async function deleteCache() {
+  try {
+    await fs.promises.unlink(CACHE_FILE)
+  } catch {}
+}
+
+function commandExists(cmd: string): boolean {
+  try {
+    execSync(`which ${cmd} 2>/dev/null`, { stdio: 'pipe' })
+    return true
+  } catch {
+    return false
+  }
+}
+
+async function detectTsExecutor(pkg: any): Promise<TsCache> {
   const isESM = pkg.type === 'module'
   const deps = { ...pkg.dependencies, ...pkg.devDependencies }
-  const results: ChildProcess[] = [];
+
+  // Priority: bun > tsx > ts-node > @swc-node/register > swc-node
+  if (commandExists('bun')) {
+    return { executor: 'bun' }
+  }
+
+  if ('tsx' in deps) {
+    return { executor: 'tsx' }
+  }
+
+  if ('ts-node' in deps) {
+    return {
+      executor: isESM ? 'ts-node-esm' : 'ts-node',
+    }
+  }
+
+  if ('@swc-node/register' in deps) {
+    const registers = isESM
+      ? ['@swc-node/register/esm-register']
+      : ['@swc-node/register']
+    return { executor: 'node', registers }
+  }
+
+  if ('swc-node' in deps) {
+    return { executor: 'swc-node' }
+  }
+
+  // Check global tsx as fallback
+  if (commandExists('tsx')) {
+    return { executor: 'tsx' }
+  }
+
+  logger.error('no bun/tsx/ts-node/swc-node or @swc-node/register found')
+  process.exit(1)
+}
+
+async function main() {
+  const pkg = await fs.readJson('./package.json')
+  const results: ChildProcess[] = []
+
   for (const foyFile of foyFiles) {
     let executor = defaultCli.options.executor
-    if (!executor) {
-      executor = 'node'
+    let fileRegisters: string[] = [...registers]
 
-      if (['.ts', '.cts', '.tsx', '.ctsx'].includes(extname(foyFile))) {
-        if ('tsx' in deps) {
-          executor = 'tsx'
-        } else if ('ts-node' in deps) {
-          executor = isESM ? 'ts-node-esm' : 'ts-node'
-        } else if ('@swc-node/register' in deps) {
-          if (isESM) {
-            registers.push('@swc-node/register/esm-register')
-          } else {
-            registers.push('@swc-node/register')
+    if (!executor) {
+      if (isJsFile(foyFile)) {
+        executor = 'node'
+      } else if (isTsFile(foyFile)) {
+        // Try cache first
+        const cached = await readCache()
+        if (cached?.executor) {
+          executor = cached.executor
+          if (cached.registers) {
+            fileRegisters.push(...cached.registers)
           }
-        } else if ('swc-node' in deps) {
-          executor = 'swc-node'
         } else {
-          logger.error('no tsx/ts-node/swc-node or @swc-node/register found')
-          process.exit(1)
+          // Detect and cache
+          const detected = await detectTsExecutor(pkg)
+          executor = detected.executor
+          if (detected.registers) {
+            fileRegisters.push(...detected.registers)
+          }
+          await writeCache(detected)
         }
+      } else {
+        executor = 'node'
       }
     }
+
     const args = [
-      ...registers.map((r) => `--${isESM ? 'import' : 'require'} ${r}`),
+      ...fileRegisters.map((r) => `--${pkg.type === 'module' ? 'import' : 'require'} ${r}`),
       foyFile,
       ...process.argv.slice(2),
     ]
+
     let NODE_OPTIONS = process.env.NODE_OPTIONS ?? ''
     ;[
-      ['--inspect',defaultCli.options.inspect],
-      ['--inspectBrk',defaultCli.options.inspectBrk]
+      ['--inspect', defaultCli.options.inspect],
+      ['--inspectBrk', defaultCli.options.inspectBrk],
     ].map(([inspect, inspectVal]) => {
       if (inspectVal) {
         if (typeof inspectVal === 'string') {
@@ -58,31 +142,52 @@ async function main() {
         NODE_OPTIONS += ' ' + inspect
       }
     })
-    results.push(spawn(executor, args, {
+
+    const p = spawn(executor, args, {
       stdio: 'inherit',
       shell: process.platform === 'win32',
       cwd: process.cwd(),
-      env:{
+      env: {
         ...process.env,
         NODE_OPTIONS,
+      },
+    })
+
+    // Watch for errors - if cached executor fails, delete cache and retry
+    if (!defaultCli.options.executor && isTsFile(foyFile)) {
+      const cached = await readCache()
+      if (cached?.executor) {
+        p.on('error', async () => {
+          logger.warn(`Executor "${cached.executor}" failed, clearing cache and retrying...`)
+          await deleteCache()
+          // Re-run main to retry with fresh detection
+          main().catch((err) => {
+            console.error(err)
+            process.exitCode = 1
+          })
+        })
       }
-    }));
+    }
+
+    results.push(p)
   }
+
   for (const p of results) {
     await new Promise<void>((resolve) => p.on('exit', () => resolve()))
     if (p.exitCode !== 0 && p.exitCode !== null) {
-      process.exitCode = p.exitCode;
+      process.exitCode = p.exitCode
     }
   }
+
   // fix zombie process sometimes
-   process.on('SIGINT', () => {
-     results.forEach((p) => {
-       p.kill(9)
-     })
-   })
+  process.on('SIGINT', () => {
+    results.forEach((p) => {
+      p.kill(9)
+    })
+  })
 }
 
 main().catch((err) => {
   console.error(err)
-  process.exitCode = 1;
+  process.exitCode = 1
 })

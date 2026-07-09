@@ -68,5 +68,5 @@ let timer:any
 export function deferRunCli() {
   if (timer) return
   timer && clearTimeout(timer)
-  timer= setTimeout(runCli, 10)
+  timer= setTimeout(runCli, 60)
 }

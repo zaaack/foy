@@ -61,6 +61,7 @@ export interface ILogInfo {
 export interface ILoggerProps {
   onLog?(info: ILogInfo): void
   hideConsole?: boolean
+  label?: string
   level?: LogLevels
   logTime?: boolean | (() => string)
   format?(level: LogLevels, time: string, color: (v: string) => string, args: any[]): string
@@ -77,7 +78,7 @@ export class Logger {
       error: chalk.red,
     },
     format(level, time, color, args) {
-      return `${color(`[${level}]`)}${time ? ' ' + time : ''} ${args
+      return `${this.label ? color(`[${this.label}] `) : ''}${color(`[${level}]`)}${time ? ' ' + time : ''} ${args
         .map((a) => (typeof a === 'string' ? a : util.inspect(a, false, 5)))
         .join(' ')}`
     },
