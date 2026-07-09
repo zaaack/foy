@@ -173,15 +173,12 @@ async function main() {
       },
     })
 
-    // Watch for errors - if cached executor fails, delete cache and retry
+    // Watch for errors - if cached executor not found, delete cache
     if (!defaultCli.options.executor && isTsFile(foyFile)) {
       const cached = await readCache()
       if (cached?.executor) {
-        p.on('error', async () => {
-          await deleteCache()
-        })
-        p.on('exit', async (code) => {
-          if (code !== 0 && code !== null) {
+        p.on('error', async (err) => {
+          if (err.code === 'ENOENT') {
             await deleteCache()
           }
         })
