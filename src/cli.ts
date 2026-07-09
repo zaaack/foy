@@ -181,7 +181,7 @@ async function main() {
         })
         p.on('exit', async (code) => {
           if (code !== 0 && code !== null) {
-            logger.warn(`Executor "${cached.executor}" exited with code ${code}, clearing cache...`)
+            logger.warn(`Executor "${cached.executor}" exited with code ${code}, clearing executor cache...`)
             await deleteCache()
           }
         })

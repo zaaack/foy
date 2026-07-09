@@ -24,12 +24,13 @@ function makeLogger(level: LogLevels, logger: Logger) {
         ? props.logTime()
         : formatDate(new Date())
       : ''
-    let message = (props.format || Logger.defaultProps.format!)(
+    let message = (props.format || Logger.defaultProps.format!)({
       level,
       time,
-      props.levelColor![level],
+      color: props.levelColor![level],
       args,
-    )
+      label: props.label,
+    })
     if (levelNum >= filterLevelNum && !props.hideConsole) {
       console.log(message)
     }
@@ -58,13 +59,21 @@ export interface ILogInfo {
   filterLevelNum: number
 }
 
+export interface FormatProps {
+  level: LogLevels
+  time: string
+  color: (v: string) => string
+  args: any[]
+  label?: string
+}
+
 export interface ILoggerProps {
   onLog?(info: ILogInfo): void
   hideConsole?: boolean
   label?: string
   level?: LogLevels
   logTime?: boolean | (() => string)
-  format?(level: LogLevels, time: string, color: (v: string) => string, args: any[]): string
+  format?(props: FormatProps): string
   levelColor?: { [k in LogLevels]: (v: string) => string }
 }
 
@@ -77,8 +86,8 @@ export class Logger {
       warn: chalk.yellow,
       error: chalk.red,
     },
-    format(level, time, color, args) {
-      return `${this.label ? color(`[${this.label}] `) : ''}${color(`[${level}]`)}${time ? ' ' + time : ''} ${args
+    format({ level, time, color, args, label }) {
+      return `${label ? color(`[${label}] `) : ''}${color(`[${level}]`)}${time ? ' ' + time : ''} ${args
         .map((a) => (typeof a === 'string' ? a : util.inspect(a, false, 5)))
         .join(' ')}`
     },

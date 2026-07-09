@@ -52,16 +52,17 @@ export function runCli() {
 
   outputCompletion(taskCli)
 
+  if (process.argv.length === 2) {
+    taskCli.outputHelp()
+    process.exit(0)
+  }
+
   taskCli.on('command:*', () => {
     console.error(`error: Unknown command \`${taskCli.args.join(' ')}\`\n\n`)
     process.exit(1)
   })
 
   taskCli.parse([...taskArgs])
-
-  if (process.argv.length === 2) {
-    taskCli.outputHelp()
-  }
 }
 
 let timer:any
