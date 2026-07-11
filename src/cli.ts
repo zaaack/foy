@@ -163,12 +163,14 @@ async function main() {
       }
     })
 
+    const localBinDir = resolve(process.cwd(), 'node_modules', '.bin')
     const p = spawn(executor, args, {
       stdio: 'inherit',
       shell: process.platform === 'win32',
       cwd: process.cwd(),
       env: {
         ...process.env,
+        PATH: [localBinDir, process.env.PATH].filter(Boolean).join(':'),
         NODE_OPTIONS,
       },
     })
