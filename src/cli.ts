@@ -179,7 +179,7 @@ async function main() {
     if (!defaultCli.options.executor && isTsFile(foyFile)) {
       const cached = await readCache()
       if (cached?.executor) {
-        p.on('error', async (err) => {
+        p.on('error', async (err: NodeJS.ErrnoException) => {
           if (err.code === 'ENOENT') {
             await deleteCache()
           }
