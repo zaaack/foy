@@ -1,3 +1,19 @@
+#### 1.1.2 (2026-07-12)
+
+##### Chores
+
+*  check point ([3106efb4](https://github.com/zaaack/foy/commit/3106efb4103e59fada59d96a74fb637bf162e2fc))
+*  添加 distill 生成的技能和命令 ([91430779](https://github.com/zaaack/foy/commit/91430779125455dc9e15061440c2d2dfcf87af2d))
+
+##### New Features
+
+*  spawn 子进程时自动将 node_modules/.bin 添加到 PATH ([ff59e693](https://github.com/zaaack/foy/commit/ff59e6934fd97fb9377648a66012c7b760dbdaf1))
+
+##### Bug Fixes
+
+*  修复 NodeJS.ErrnoException 类型错误 ([eaf5417a](https://github.com/zaaack/foy/commit/eaf5417a80fc52256c0ea81412e66659b591dcf2))
+*  只在找不到可执行文件时删除tscache ([70640077](https://github.com/zaaack/foy/commit/706400771cce230872f942d16572f27b198cdf37))
+
 #### 1.1.1 (2026-07-09)
 
 ##### New Features
